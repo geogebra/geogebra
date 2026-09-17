@@ -212,7 +212,7 @@ public final class ComponentComboBox extends FlowPanel
 					setExpanded(false);
 				}
 				controller.onInputChange(inputTextField.getText());
-				inputTextField.setFocus(true);
+				Scheduler.get().scheduleDeferred(() -> inputTextField.setFocus(true));
 			} else if (event.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
 				inputTextField.setText(previousValue);
 				setExpanded(false);
