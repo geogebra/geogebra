@@ -762,7 +762,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceChildre
 				&& printBrackets
 				&& isAllLists
 				&& (valueMode || isExpressions())) {
-			return toMatrixString(tpl);
+			return toMatrixString(tpl, valueMode);
 		} else {
 			return toFlatString(tpl, valueMode, printBrackets);
 		}
@@ -800,7 +800,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceChildre
 		return sb.toString();
 	}
 
-	private String toMatrixString(StringTemplate tpl) {
+	private String toMatrixString(StringTemplate tpl, boolean valueMode) {
 		ExpressionValue e0 = listElements.get(0).unwrap();
 		final int cols = ((ListValue) e0).size();
 
@@ -816,7 +816,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceChildre
 			// we can assume elements are ListValues because of isMatrix check
 			final ListValue row = (ListValue) listElements.get(i).unwrap();
 			for (int j = 0; j < row.size(); j++) {
-				sb.append(ExpressionNode.toLaTeXString(row.get(j).unwrap(), true, tpl));
+				sb.append(ExpressionNode.toLaTeXString(row.get(j).unwrap(), !valueMode, tpl));
 				if (j < (row.size() - 1)) {
 					sb.append("&");
 				}

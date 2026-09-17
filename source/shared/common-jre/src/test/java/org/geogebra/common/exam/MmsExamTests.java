@@ -1005,6 +1005,22 @@ class MmsExamTests extends BaseExamTestSetup {
 		assertTrue(AlgebraItem.shouldShowBothRows(geoElement, getAlgebraSettings()));
 	}
 
+	@Test
+	@Issue("APPS-7930")
+	void testMatrixCalculationResults() {
+		evaluateGeoElement("m1={{1,2},{3,4}}");
+		GeoElement element = evaluateGeoElement("2*m1");
+		assertEquals(
+				"\\left(\\begin{array}{rr}2&4\\\\6&8\\\\ \\end{array}\\right)",
+				AlgebraItem.getOutputTextForGeoElement(element));
+		assertEquals(
+				List.of(),
+				AlgebraOutputFormat.getPossibleFormats(
+						element,
+						getAlgebraSettings().isEngineeringNotationEnabled(),
+						getAlgebraSettings().getAlgebraOutputFormatFilters()));
+	}
+
 	private TableValuesView setupTableValues() throws InvalidValuesException {
 		TableValuesView tableValuesView = new TableValuesView(getKernel());
 		tableValuesView.setValues(0, 5, 1);
