@@ -387,6 +387,14 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 	}
 
 	.scientific.tvTable {
+		.btnRow {
+			visibility: visible;
+			height: 48px;
+
+			.materialTextButton {
+				margin-left: 8px;
+			}
+		}
 		table {
 			width: 100%;
 		th:first-child {
@@ -419,10 +427,6 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 	}
 
 	.btnRow {
-		height: 48px;
-
-		.materialTextButton {
-			margin-left: 8px;
-		}
+		visibility: hidden;
 	}
 }

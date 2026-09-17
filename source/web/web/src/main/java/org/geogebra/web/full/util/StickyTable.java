@@ -29,6 +29,7 @@ import org.gwtproject.user.cellview.client.CellTable;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.view.client.ListDataProvider;
 
 import elemental2.dom.EventListener;
@@ -42,6 +43,7 @@ import jsinterop.base.Js;
  *
  */
 public abstract class StickyTable<T> extends FlowPanel {
+	private final SimplePanel buttonHolder;
 	private final CellTableWithBody cellTable;
 	private ListDataProvider<T> dataProvider;
 	private final ScrollPanel scroller;
@@ -61,6 +63,9 @@ public abstract class StickyTable<T> extends FlowPanel {
 		FlowPanel wrapper = new FlowPanel();
 		wrapper.add(cellTable);
 		scroller.setWidget(wrapper);
+		buttonHolder = new SimplePanel();
+		buttonHolder.addStyleName("btnRow");
+		add(buttonHolder);
 		add(scroller);
 		addStyleName("mainScrollPanel");
 		cellTable.setVisible(true);
@@ -200,6 +205,10 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 */
 	public CellTable<T> getTable() {
 		return cellTable;
+	}
+
+	public SimplePanel getButtonHolder() {
+		return buttonHolder;
 	}
 
 	/**

@@ -59,6 +59,8 @@ public enum AccessibilityGroup {
 	ALT_GEOTEXT,
 	GEO_ELEMENT,
 	EXTERNAL,
+	DEFINE_FUNCTIONS,
+	TABLE_OF_VALUES,
 	ALGEBRA_ITEM;
 
 	/**

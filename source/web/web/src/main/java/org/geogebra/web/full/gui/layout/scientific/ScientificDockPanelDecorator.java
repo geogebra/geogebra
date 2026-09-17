@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.layout.scientific;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.util.StickyTable;
@@ -23,12 +24,12 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Panel;
-import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
@@ -135,16 +136,20 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		tableTab = tab;
 		tab.addStyleName("panelScientificDefaults");
 		table.addStyleName("scientific");
-
-		SimplePanel btnHolder = new SimplePanel();
-		btnHolder.addStyleName("btnRow");
+		table.getElement().setTabIndex(0);
+		new FocusableWidget(AccessibilityGroup.TABLE_OF_VALUES, null, table) {
+			@Override
+			protected void focus(Widget btn) {
+				table.selectFirstCell();
+			}
+		}.attachTo(app);
 
 		defFuncBtn =
 				BaseWidgetFactory.INSTANCE.newTextButton(app.getLocalization().getMenu("DefineFunctions"));
-		btnHolder.add(defFuncBtn);
-		table.getElement().insertBefore(btnHolder.getElement(), table.getElement().getChild(0));
-
+		table.getButtonHolder().add(defFuncBtn);
+		defFuncBtn.setTabIndex(0);
 		defFuncBtn.addFastClickHandler((event) -> table.openDefineFunctions());
+		new FocusableWidget(AccessibilityGroup.DEFINE_FUNCTIONS, null, defFuncBtn).attachTo(app);
 	}
 
 	@Override
