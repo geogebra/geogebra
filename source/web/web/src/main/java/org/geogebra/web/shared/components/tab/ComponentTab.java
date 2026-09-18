@@ -31,7 +31,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.dom.style.shared.Visibility;
+import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.Widget;
@@ -185,8 +185,7 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 			StandardButton tabBtn = getTabBtn(i, loc.getMenu(tab.getTabTitle()));
 			tabButton.add(tabBtn);
 			tabList.add(tabBtn);
-			tab.getTabPanel().getElement().getStyle().setOpacity(0);
-			tab.getTabPanel().getElement().getStyle().setVisibility(Visibility.HIDDEN);
+			updateTabPanelVisibility(tab.getTabPanel(), false);
 			panelContainer.add(tab.getTabPanel());
 			i++;
 		}
@@ -216,12 +215,12 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 		}
 
 		int toHide = selectedTabIdx;
-		fadeTab(toHide, "fadeOut", 0, Visibility.HIDDEN);
+		fadeTab(toHide, "fadeOut", false);
 		selectedBtn = tabButton.get(tabIdx);
 		selectedBtn.getElement().scrollIntoView();
 		updateSelection(selectedBtn, true);
 		selectedTabIdx = tabIdx;
-		fadeTab(selectedTabIdx, "fadeIn", 1, Visibility.VISIBLE);
+		fadeTab(selectedTabIdx, "fadeIn", true);
 		tabChanged.notifyListeners(tabIdx);
 	}
 
@@ -229,14 +228,14 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 	 * Attach animation to tab with given tab index and remove style name after animation is ended.
 	 * @param tabIdx tab index
 	 * @param animationName animation class name
-	 * @param opacity final opacity after animation
+	 * @param visible whether it should be visible, or hidden
 	 */
-	private void fadeTab(int tabIdx, String animationName, int opacity, Visibility visibility) {
+	private void fadeTab(int tabIdx, String animationName, boolean visible) {
+		panelContainer.getWidget(tabIdx).getElement().getStyle().setDisplay(Display.INITIAL);
 		panelContainer.getWidget(tabIdx).addStyleName(animationName);
 		Dom.addEventListener(panelContainer.getWidget(tabIdx).getElement(), "animationend", e -> {
 			panelContainer.getWidget(tabIdx).removeStyleName(animationName);
-			panelContainer.getWidget(tabIdx).getElement().getStyle().setOpacity(opacity);
-			panelContainer.getWidget(tabIdx).getElement().getStyle().setVisibility(visibility);
+			updateTabPanelVisibility(panelContainer.getWidget(tabIdx), visible);
 		});
 	}
 
@@ -337,5 +336,10 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 	 */
 	public void addTabChangedListener(MulticastEvent.Listener<Integer> listener) {
 		tabChanged.addListener(listener);
+	}
+
+	private void updateTabPanelVisibility(Widget tabPanel, boolean visible) {
+		tabPanel.getElement().getStyle().setOpacity(visible ? 1 : 0);
+		tabPanel.getElement().getStyle().setDisplay(visible ? Display.BLOCK : Display.NONE);
 	}
 }
