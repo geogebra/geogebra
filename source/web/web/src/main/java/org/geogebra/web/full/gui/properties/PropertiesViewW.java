@@ -35,7 +35,6 @@ import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
 import org.geogebra.web.full.gui.components.sideSheet.SheetTitlePanel;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
@@ -441,10 +440,7 @@ public final class PropertiesViewW extends PropertiesView
 		if (!showObjectProperties) {
 			settingsTab.addTabChangedListener(idx -> {
 				if (optionType != OptionType.OBJECTS) {
-					OptionType byName = OptionType.getByName(tabs.get(idx).getTabTitle());
-					Log.warn("set " + optionType + "->" + byName);
-
-					optionType = byName;
+					optionType = OptionType.getByName(tabs.get(idx).getTabTitle());
 				}
 			});
 		}
