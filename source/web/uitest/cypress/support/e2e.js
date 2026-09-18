@@ -19,3 +19,7 @@ addGeoGebraCommands();
 
 beforeEach(cy.skipDialog)
 afterEach(cy.setSaved)
+
+Cypress.on('uncaught:exception', (err) => {
+    return !err.toString().includes('Failed to register a ServiceWorker');
+});

@@ -4,7 +4,8 @@ module.exports = defineConfig({
   watchForFileChanges: false,
   pageLoadTimeout: 200000,
   defaultCommandTimeout: 200000,
-  videoUploadOnPasses: false,
+  video: true,
+  videoCompression: true,
   reporter: 'junit',
   reporterOptions: {
     mochaFile: 'results/ui-tests.[hash].xml',
@@ -16,6 +17,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.js')(on, config)
     },
+    testIsolation: false, // allows keeping CAS running between CAS tests
     baseUrl: 'http://127.0.0.1:8888/',
   },
 })

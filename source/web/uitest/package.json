@@ -11,16 +11,17 @@
   ],
   "devDependencies": {
     "@geogebra/web-test-harness": "0.1.19",
-    "@simonsmith/cypress-image-snapshot": "^8.1.2",
-    "cypress": "^10.8.0",
+    "@simonsmith/cypress-image-snapshot": "^10.1.1",
+    "cypress": "^15.21.0",
     "del": "^6.0.0",
     "eslint": "^8.24.0",
+    "events": "^3.3.0",
     "http-server": "14.1.1",
     "jest-image-snapshot": "5.2.0",
     "wait-on": "^8.0.2"
   },
   "dependencies": {
-    "lighthouse": "^12.8.2",
+    "lighthouse": "^13.4.1",
     "xml2js": "^0.6.2"
   }
 }
