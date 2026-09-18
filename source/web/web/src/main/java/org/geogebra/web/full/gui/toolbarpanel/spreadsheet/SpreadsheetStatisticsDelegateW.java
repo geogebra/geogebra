@@ -38,6 +38,7 @@ import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.full.gui.dialog.ProcessInput;
 import org.geogebra.web.full.gui.toolbarpanel.StatsSideSheetTV;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
@@ -325,14 +326,16 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 	private void renderTabular(
 			List<String> headings, @NonNull List<List<String>> rows, FlowPanel outputPanel) {
 		Grid resultGrid = new Grid(rows.size() + 1, headings.size());
-		resultGrid.addStyleName("inspectorTable"); // TODO(APPS-7872)
+		resultGrid.addStyleName("frequencyTable");
 		for (int col = 0; col < headings.size(); col++) {
-			resultGrid.setWidget(0, col, new Label(headings.get(col)));
+			Label header = BaseWidgetFactory.INSTANCE.newPrimaryText(headings.get(col), "cell");
+			resultGrid.setWidget(0, col, header);
 		}
 		int rowIdx = 1;
 		for (List<String> row : rows) {
 			for (int col = 0; col < row.size(); col++) {
-				resultGrid.setWidget(rowIdx, col, new Label(row.get(col)));
+				Label cell = BaseWidgetFactory.INSTANCE.newPrimaryText(row.get(col), "cell");
+				resultGrid.setWidget(rowIdx, col, cell);
 			}
 			rowIdx++;
 		}

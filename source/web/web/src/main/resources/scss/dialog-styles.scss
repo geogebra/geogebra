@@ -1516,9 +1516,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 			}
 
-			.dropDown {
-				margin: 8px 0 20px 0;
+			.dropDown, .inputTextField, .checkboxPanel {
+				margin: 8px 0 16px 0;
 				width: 100%;
+
+				.checkbox {
+					margin-left: 0;
+				}
 			}
 
 			.subTitle {
@@ -1528,6 +1532,44 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			.sideSheetStats .infoErrorPanel {
 				margin-top: 48px;
+			}
+
+			.frequencyTable {
+				width: 100%;
+				table-layout: fixed;
+				border: 1px solid neutral(300);
+				border-radius: 12px;
+				border-spacing: 0;
+				overflow: hidden;
+
+				.cell {
+					height: 24px;
+					line-height: 24px;
+					padding: 8px 16px;
+					text-align: center;
+					font-weight: 400;
+				}
+
+				tbody > :first-child { // header
+					background-color: neutral(100);
+
+					.cell {
+						font-weight: 500;
+					}
+				}
+
+				td {
+					border-right: 1px solid neutral(300);
+					border-bottom: 1px solid neutral(300);
+				}
+
+				td:last-child {
+					border-right: 0;
+				}
+
+				tr:last-child td {
+					border-bottom: 0;
+				}
 			}
 		}
 	}
@@ -1886,9 +1928,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 					.gwt-Image {
 						width: 24px;
-                        height: 24px;
-                        padding: 4px 0;
-                        transition: transform 200ms ease-in-out;
+						height: 24px;
+						padding: 4px 0;
+						transition: transform 200ms ease-in-out;
 					}
 
 					.gwt-Label {
