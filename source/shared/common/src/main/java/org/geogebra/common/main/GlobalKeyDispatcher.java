@@ -866,24 +866,20 @@ public abstract class GlobalKeyDispatcher {
 			case SUBTRACT:
 			case MINUS:
 			case EQUALS:
-				// disable zooming in PEN mode
-				if (!EuclidianView.isPenMode(app.getActiveEuclidianView().getMode())) {
+				boolean spanish = app.getLocalization().languageIs("es");
 
-					boolean spanish = app.getLocalization().languageIs("es");
-
-					// AltGr+ on Spanish keyboard is ] so
-					// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
-					// from eg Input Bar
-					EuclidianController ec = app.getActiveEuclidianView().getEuclidianController();
-					if ((!spanish || fromEuclidianView) && ec.allowZoom()) {
-						double factor = key.equals(KeyCodes.MINUS) || key.equals(KeyCodes.SUBTRACT)
-								? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
-								: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
-						GPoint zoomPoint = getZoomPoint(ec);
-						ec.zoomInOut(factor, 15, zoomPoint.x, zoomPoint.y);
-						app.setUnsaved();
-						consumed = true;
-					}
+				// AltGr+ on Spanish keyboard is ] so
+				// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
+				// from eg Input Bar
+				EuclidianController ec = app.getActiveEuclidianView().getEuclidianController();
+				if ((!spanish || fromEuclidianView) && ec.allowZoom()) {
+					double factor = key.equals(KeyCodes.MINUS) || key.equals(KeyCodes.SUBTRACT)
+							? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
+							: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
+					GPoint zoomPoint = getZoomPoint(ec);
+					ec.zoomInOut(factor, 15, zoomPoint.x, zoomPoint.y);
+					app.setUnsaved();
+					consumed = true;
 				}
 				break;
 

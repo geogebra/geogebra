@@ -10785,7 +10785,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return whether event was handled
 	 */
 	public boolean wrapMouseWheelMoved(int x, int y, double delta, boolean shiftOrMeta, boolean alt) {
-		if (isTextfieldHasFocus() || penMode(mode)) {
+		if (isTextfieldHasFocus()) {
 			return false;
 		}
 
