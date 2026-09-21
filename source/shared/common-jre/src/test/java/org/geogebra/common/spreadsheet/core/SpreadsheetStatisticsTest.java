@@ -886,8 +886,7 @@ class SpreadsheetStatisticsTest {
 		kernelBackedController.select(new TabularRange(0, 0, 5, 1), false, false);
 		kernelBackedController.showFrequencyTable();
 		assertEquals(
-				new FrequencyTableInput(
-						parseReference("A1:A6"), parseReference("B1:B6"), Grouping.VALUES, false),
+				new FrequencyTableInput(parseReference("A1:B6"), null, Grouping.VALUES, false),
 				frequencyTableView().getInput());
 
 		frequencyTableView()

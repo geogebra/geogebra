@@ -217,11 +217,11 @@ public final class ContextMenuBuilder {
 		return NonNullList.of(
 				new ActionableItem(STATISTICS_ONE_VARIABLE, spreadsheetController::showOneVarStatistics),
 				new ActionableItem(STATISTICS_TWO_VARIABLES, spreadsheetController::showTwoVarStatistics),
-				new ActionableItem(STATISTICS_REGRESSION, spreadsheetController::showRegression),
 				PreviewFeature.isAvailable(PreviewFeature.FREQUENCY_TABLE_SPREADSHEET)
 						? new ActionableItem(
 								STATISTICS_FREQUENCY_TABLE, spreadsheetController::showFrequencyTable)
-						: null);
+						: null,
+				new ActionableItem(STATISTICS_REGRESSION, spreadsheetController::showRegression));
 	}
 
 	private @Nullable ContextMenuItem getChartMenuItem() {

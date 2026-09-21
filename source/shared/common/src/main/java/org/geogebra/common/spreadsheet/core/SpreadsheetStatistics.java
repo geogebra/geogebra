@@ -162,16 +162,11 @@ public interface SpreadsheetStatistics {
 				implements Input {
 			/**
 			 * Converting constructor, accepting a {@link TabularRange}.
-			 * @param range If finite (bounded in both directions), the result will be two
-			 * {@link SpreadsheetReference}s truncated to {@code range}'s first (X) and second (Y)
-			 * column, respectively.
+			 * @param range If finite (bounded in both directions), the result will be the
+			 * {@link SpreadsheetReference}s of the whole selection.
 			 */
 			public FrequencyTableInput(@NonNull TabularRange range) {
-				this(
-						SpreadsheetReference.fromRange(range.firstColumn()),
-						SpreadsheetReference.fromRange(range.secondColumn()),
-						Grouping.VALUES,
-						false);
+				this(SpreadsheetReference.fromRange(range), null, Grouping.VALUES, false);
 			}
 		}
 	}

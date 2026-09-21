@@ -114,8 +114,8 @@ public final class SpreadsheetMenuBuilder {
 					MAX,
 					STATISTICS_ONE_VARIABLE,
 					STATISTICS_TWO_VARIABLES,
-					STATISTICS_REGRESSION,
 					STATISTICS_FREQUENCY_TABLE,
+					STATISTICS_REGRESSION,
 					DIVIDER -> null;
 		};
 	}
