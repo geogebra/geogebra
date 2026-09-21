@@ -925,6 +925,19 @@ class MmsExamTests extends BaseExamTestSetup {
 	}
 
 	@Test
+	@Issue("APPS-7929")
+	void testShowsSolveContextMenu() {
+		GeoElement element = evaluateGeoElement("x^2=4");
+		List<AlgebraContextMenuItem> contextMenuItems = ContextMenuFactory.makeAlgebraContextMenu(
+				element,
+				getAlgebraProcessor(),
+				CAS_APPCODE,
+				getAlgebraSettings(),
+				restrictionsController.getContextMenuItemFilters());
+		assertTrue(contextMenuItems.contains(AlgebraContextMenuItem.Solve));
+	}
+
+	@Test
 	@MockedCasValues({
 		"Evaluate(x² - 2) 		-> x^2-2",
 		"Intersect(f, xAxis) 	-> {(√2,0),(-√2,0)}",
