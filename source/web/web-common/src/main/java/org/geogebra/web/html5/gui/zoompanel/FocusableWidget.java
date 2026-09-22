@@ -100,23 +100,30 @@ public class FocusableWidget implements FocusableComponent {
 				&& !"true".equals(btn.getElement().getAttribute("aria-disabled"));
 	}
 
-	private boolean isButtonNotHidden(Widget btn) {
-		return !btn.getElement().hasClassName("hideButton")
-				&& !btn.getElement().getStyle().getVisibility().equals("hidden")
-				&& !getComputedStyle(btn.getElement()).visibility.equals("hidden")
-				&& !btn.getElement().getStyle().getDisplay().equals("none")
-				&& !getComputedStyle(btn.getElement()).display.equals("none");
+	private boolean isElementNotHidden(Element element) {
+		return !element.hasClassName("hideButton")
+				&& !"true".equals(element.getAttribute("aria-hidden"))
+				&& !getComputedStyle(element).visibility.equals("hidden")
+				&& !element.getStyle().getDisplay().equals("none")
+				&& !getComputedStyle(element).display.equals("none");
 	}
 
-	private boolean isParentVisible(Widget btn) {
-		return btn.getParent() == null || isButtonNotHidden(btn.getParent());
+	private boolean areParentsVisible(Widget btn) {
+		Element parent = btn.getElement().getParentElement();
+		while (parent != null) {
+			if (!isElementNotHidden(parent)) {
+				return false;
+			}
+			parent = parent.getParentElement();
+		}
+		return true;
 	}
 
 	private boolean isVisibleAndFocusable(Widget btn) {
 		return Dom.isAttachedAndVisible(btn)
 				&& notAriaHiddenOrAriaDisabled(btn)
-				&& isButtonNotHidden(btn)
-				&& isParentVisible(btn)
+				&& isElementNotHidden(btn.getElement())
+				&& areParentsVisible(btn)
 				&& isFocusable(btn);
 	}
 

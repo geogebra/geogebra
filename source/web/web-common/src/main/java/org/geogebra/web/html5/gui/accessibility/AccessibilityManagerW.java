@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.main.AppW;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Web implementation of AccessibilityManager.
@@ -99,17 +100,21 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		for (FocusableComponent entry : components) {
 			if (entry.hasFocus()) {
 				if (!entry.focusNext()) {
-					focusFirstVisible(findNext(entry));
+					return focusFirstVisible(findNext(entry), entry);
 				}
 				return true;
 			}
 		}
-		return focusFirstVisible(components.first());
+		return focusFirstVisible(components.first(), null);
 	}
 
-	private boolean focusFirstVisible(@NonNull FocusableComponent entry) {
+	private boolean focusFirstVisible(
+			@NonNull FocusableComponent entry, @Nullable FocusableComponent origin) {
 		FocusableComponent nextEntry = entry;
 		do {
+			if (nextEntry == origin) {
+				return false;
+			}
 			if (nextEntry.focusIfVisible(false)) {
 				return true;
 			}
@@ -119,9 +124,13 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
-	private boolean focusLastVisible(@NonNull FocusableComponent entry) {
+	private boolean focusLastVisible(
+			@NonNull FocusableComponent entry, @Nullable FocusableComponent origin) {
 		FocusableComponent nextEntry = entry;
 		do {
+			if (nextEntry == origin) {
+				return false;
+			}
 			if (nextEntry.focusIfVisible(true)) {
 				return true;
 			}
@@ -153,13 +162,13 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		for (FocusableComponent entry : components) {
 			if (entry.hasFocus()) {
 				if (!entry.focusPrevious()) {
-					return focusLastVisible(findPrevious(entry));
+					return focusLastVisible(findPrevious(entry), entry);
 				}
 				return true;
 			}
 		}
 
-		return focusLastVisible(components.last());
+		return focusLastVisible(components.last(), null);
 	}
 
 	private void removeFocusFromInternals() {

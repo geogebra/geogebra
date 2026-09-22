@@ -1378,6 +1378,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Set
 		if (algebraView == null) {
 			return false;
 		}
+		ToolbarPanel toolbar = getUnbundledToolbar();
+		if (toolbar != null) {
+			return toolbar.isOpen() && toolbar.isAlgebraViewActive();
+		}
 		// get from model, not DOM because it may be hidden by tool panel
 		return showView(App.VIEW_ALGEBRA);
 	}
@@ -2155,7 +2159,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Set
 
 	@Override
 	public boolean isAlgebraViewActive() {
-		return getUnbundledToolbar().getTab(DockPanelData.TabIds.ALGEBRA).isActive();
+		ToolbarPanel toolbar = getUnbundledToolbar();
+		return toolbar != null && toolbar.isAlgebraViewActive();
 	}
 
 	@Override
