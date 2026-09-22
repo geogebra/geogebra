@@ -436,7 +436,7 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 
 	private TextObject buildTextField(String label) {
 		ComponentInputField textField =
-				new ComponentInputField((AppW) app, "", loc.getMenu(label), "", "");
+				new ComponentInputField((AppW) app, "", loc.getMenu(label), "", "", null);
 		textField.addDomHandler(this, KeyUpEvent.getType());
 		textField.addDomHandler(this, BlurEvent.getType());
 		addInsertHandler(textField.getTextWidget(), this::doTextFieldActionPerformed);

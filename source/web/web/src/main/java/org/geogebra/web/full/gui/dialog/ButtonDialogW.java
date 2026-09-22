@@ -97,7 +97,8 @@ public final class ButtonDialogW extends ComponentDialog implements HasKeyboardP
 
 	private void buildContent(boolean inputBox) {
 		String initString = model.getInitString();
-		captionInput = new ComponentInputField((AppW) app, "", "Button.Caption", "", initString, null);
+		captionInput =
+				new ComponentInputField((AppW) app, "", "Button.Caption", "", initString, null, null);
 		captionInput.getTextWidget().setAutoComplete(false);
 
 		Label scriptLabel =

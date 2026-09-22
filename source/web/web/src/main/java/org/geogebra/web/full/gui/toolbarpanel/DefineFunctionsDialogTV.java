@@ -82,7 +82,7 @@ public final class DefineFunctionsDialogTV extends ComponentDialog {
 
 	private ComponentInputField addFunctionRow(String functionLbl) {
 		ComponentInputField inputField =
-				new ComponentInputField((AppW) app, null, functionLbl, null, null, null, false, true);
+				new ComponentInputField((AppW) app, null, functionLbl, null, null, null, null, false, true);
 		addDialogContent(inputField);
 
 		return inputField;

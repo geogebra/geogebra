@@ -62,8 +62,8 @@ public abstract class CardRenameDialog extends ComponentDialog {
 
 	private void buildContent() {
 		FlowPanel contentPanel = new FlowPanel();
-		inputField =
-				new ComponentInputField((AppW) app, "", app.getLocalization().getMenu("Rename"), "", "");
+		inputField = new ComponentInputField(
+				(AppW) app, "", app.getLocalization().getMenu("Rename"), "", "", null);
 		contentPanel.add(inputField);
 		initInputFieldActions();
 		setPosBtnDisabled(true);

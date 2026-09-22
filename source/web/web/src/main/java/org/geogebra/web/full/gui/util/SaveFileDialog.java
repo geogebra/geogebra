@@ -57,7 +57,7 @@ public abstract class SaveFileDialog extends ComponentDialog
 	 */
 	public void buildContent() {
 		titleField = new ComponentInputField(
-				(AppW) app, "Untitled", app.getLocalization().getMenu("Title"), "", "");
+				(AppW) app, "Untitled", app.getLocalization().getMenu("Title"), "", "", null);
 
 		addDialogContent(titleField);
 	}

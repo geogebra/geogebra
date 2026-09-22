@@ -85,7 +85,7 @@ public final class InputDialogTableView extends ComponentDialog implements HasKe
 	}
 
 	private ComponentInputField createTextField(String labelText) {
-		return new ComponentInputField((AppW) app, null, labelText, null, "");
+		return new ComponentInputField((AppW) app, null, labelText, null, "", null);
 	}
 
 	@Override

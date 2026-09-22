@@ -48,8 +48,8 @@ public final class MediaInputPanel extends FlowPanel implements ProcessInput {
 		this.parentDialog = parentDialog;
 		this.required = required;
 
-		inputField =
-				new ComponentInputField(app, "", app.getLocalization().getMenu(labelTransKey), "", "");
+		inputField = new ComponentInputField(
+				app, "", app.getLocalization().getMenu(labelTransKey), "", "", null);
 		inputField.addInputHandler(this);
 		add(inputField);
 	}

@@ -187,7 +187,7 @@ public final class CheckboxCreationDialogW extends ComponentDialog
 		String initString =
 				geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
 
-		tfCaption = new ComponentInputField((AppW) app, null, "Button.Caption", null, initString);
+		tfCaption = new ComponentInputField((AppW) app, null, "Button.Caption", null, initString, null);
 		tfCaption.getTextWidget().setAutoComplete(false);
 
 		FlowPanel listPanel = new FlowPanel();

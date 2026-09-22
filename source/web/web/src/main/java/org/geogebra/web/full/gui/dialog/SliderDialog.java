@@ -103,7 +103,8 @@ public final class SliderDialog extends ComponentDialog implements HasKeyboardPo
 				app.getLocalization().getMenu("Name"),
 				"",
 				model.getLastValidField(sliderType, Field.NAME),
-				"");
+				"",
+				null);
 		nameTextField.addStyleName("nameField");
 		nameTextField.getTextWidget().addBlurHandler(event -> validateField(nameTextField, Field.NAME));
 	}
@@ -115,7 +116,8 @@ public final class SliderDialog extends ComponentDialog implements HasKeyboardPo
 				app.getLocalization().getMenu(labelKey),
 				"",
 				model.getLastValidField(sliderType, field),
-				"");
+				"",
+				null);
 		textField.getTextWidget().addBlurHandler(event -> validateField(textField, field));
 		textField.addInputHandler(() -> {
 			if (!isNumeric()) {

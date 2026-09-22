@@ -986,6 +986,10 @@ $keyboard_button_transition: opacity .3s ease;
 			input[type=text] {
 				color: neutral(900);
 			}
+
+			.supportLabel {
+				display: none;
+			}
 		}
 	}
 /* INPUT TEXT FIELD COMPONENT */
@@ -1070,6 +1074,18 @@ $keyboard_button_transition: opacity .3s ease;
 			height: 16px;
 			line-height: 100%;
 			margin: 4px 16px 0 16px;
+		}
+
+		.supportLabel {
+			font-size: 12px;
+			height: 16px;
+			line-height: 100%;
+			margin: 4px 16px 0 16px;
+			display: block;
+
+			&.hide {
+				display: none;
+			}
 		}
 	}
 

@@ -85,7 +85,7 @@ public final class Showcase implements EntryPoint {
 				app.getLocalization(), new InfoErrorData("404", "Content not found"));
 		ComponentSwitch componentSwitch = new ComponentSwitch(true, bool -> {});
 		ComponentInputField inputField =
-				new ComponentInputField(app, "Write here", "Name", null, null, null);
+				new ComponentInputField(app, "Write here", "Name", null, null, null, null);
 		inputField.addEnterHandler(
 				(text) -> inputField.setError(text.length() < 2 ? "Too short" : null), true);
 		ComponentProgressBar progressBar = new ComponentProgressBar(false, true);

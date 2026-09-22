@@ -279,7 +279,7 @@ public final class FileManagerW extends FileManager {
 		DialogData data = new DialogData(titleKey, "Cancel", "Export");
 		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
 		ComponentInputField inputTextField =
-				new ComponentInputField(app, "", null, "", filename + "." + extension, "");
+				new ComponentInputField(app, "", null, "", filename + "." + extension, "", null);
 		dialog.addDialogContent(inputTextField);
 		dialog.setOnPositiveAction(() -> {
 			exportImage(url, inputTextField.getText(), extension2);

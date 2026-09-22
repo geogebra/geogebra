@@ -59,11 +59,13 @@ public class ComponentInputField extends FlowPanel
 	private String labelTextKey;
 	private final String placeholderTextKey;
 	private final String suffixTextKey;
+	private String supportiveTextKey;
 	private FlowPanel contentPanel;
 	private Label labelText;
 	private InputAdapter adapter;
 	private Label errorLabel;
 	private Label suffixLabel;
+	private Label supportiveLabel;
 	private final MulticastEvent<BlurEvent> onBlur = new MulticastEvent<>();
 	private final MulticastEvent<FocusEvent> onFocus = new MulticastEvent<>();
 
@@ -299,6 +301,7 @@ public class ComponentInputField extends FlowPanel
 	 * @param errorTxt error label of input field
 	 * @param defaultValue default text of input text field
 	 * @param suffixTxt suffix at end of text field
+	 * @param supportiveTxt hint for the user bellow the text field
 	 */
 	public ComponentInputField(
 			AppW app,
@@ -306,8 +309,9 @@ public class ComponentInputField extends FlowPanel
 			String labelTxt,
 			String errorTxt,
 			String defaultValue,
-			String suffixTxt) {
-		this(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, true, false);
+			String suffixTxt,
+			String supportiveTxt) {
+		this(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, supportiveTxt, true, false);
 	}
 
 	/**
@@ -317,6 +321,7 @@ public class ComponentInputField extends FlowPanel
 	 * @param errorTxt error label of input field
 	 * @param defaultValue default text of input text field
 	 * @param suffixTxt suffix at end of text field
+	 * @param supportiveTxt hint for the user bellow the text field
 	 * @param hasKeyboardBtn whether to show keyboard button or not
 	 * (disabled in {@link org.geogebra.web.full.gui.dialog.Export3dDialog})
 	 * @param isMathMode whether it is math mode or not
@@ -328,6 +333,7 @@ public class ComponentInputField extends FlowPanel
 			String errorTxt,
 			String defaultValue,
 			String suffixTxt,
+			String supportiveTxt,
 			boolean hasKeyboardBtn,
 			boolean isMathMode) {
 		this.loc = app.getLocalization();
@@ -335,6 +341,7 @@ public class ComponentInputField extends FlowPanel
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = suffixTxt;
+		this.supportiveTextKey = supportiveTxt;
 		buildGui(app, hasKeyboardBtn, isMathMode);
 		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
@@ -350,10 +357,16 @@ public class ComponentInputField extends FlowPanel
 	 * @param labelTxt label of input field
 	 * @param errorTxt error label of input field
 	 * @param defaultValue default text of input text field
+	 * @param supportiveTxt hint for the user bellow the text field
 	 */
 	public ComponentInputField(
-			AppW app, String placeholder, String labelTxt, String errorTxt, String defaultValue) {
-		this(app, placeholder, labelTxt, errorTxt, defaultValue, null);
+			AppW app,
+			String placeholder,
+			String labelTxt,
+			String errorTxt,
+			String defaultValue,
+			String supportiveTxt) {
+		this(app, placeholder, labelTxt, errorTxt, defaultValue, null, supportiveTxt);
 	}
 
 	/**
@@ -415,6 +428,7 @@ public class ComponentInputField extends FlowPanel
 		contentPanel.add(optionHolder);
 		// add error label if there is any
 		addErrorLabel(contentPanel);
+		addSupportiveTextLabel(contentPanel);
 		add(contentPanel);
 		setLabels();
 	}
@@ -443,6 +457,18 @@ public class ComponentInputField extends FlowPanel
 		} else if (errorLabel != null) {
 			errorLabel.removeFromParent();
 		}
+	}
+
+	private void addSupportiveTextLabel(FlowPanel rootPanel) {
+		if (!StringUtil.empty(supportiveTextKey)) {
+			if (supportiveLabel == null) {
+				supportiveLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
+						loc.getMenu(supportiveTextKey), "supportLabel hide");
+			}
+			rootPanel.add(supportiveLabel);
+		}
+		addFocusHandler(ignore -> supportiveLabel.removeStyleName("hide"));
+		addBlurHandler(ignore -> supportiveLabel.addStyleName("hide"));
 	}
 
 	private void addSuffix() {
@@ -636,6 +662,9 @@ public class ComponentInputField extends FlowPanel
 		}
 		if (placeholderTextKey != null && !placeholderTextKey.isEmpty()) {
 			adapter.setPlaceholder(loc.getMenu(placeholderTextKey));
+		}
+		if (supportiveTextKey != null) {
+			supportiveLabel.setText(loc.getMenu(supportiveTextKey));
 		}
 	}
 

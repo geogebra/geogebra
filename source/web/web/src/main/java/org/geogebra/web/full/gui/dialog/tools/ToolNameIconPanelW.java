@@ -87,15 +87,16 @@ public final class ToolNameIconPanelW extends FlowPanel {
 		Localization loc = app.getLocalization();
 		int n = app.getKernel().getMacroNumber() + 1;
 
-		tfToolName = new ComponentInputField((AppW) app, null, loc.getMenu("ToolName"), null, "");
+		tfToolName = new ComponentInputField((AppW) app, null, loc.getMenu("ToolName"), null, "", null);
 		tfToolName.setInputText(loc.getMenu("Tool") + n);
 		addHandlers(tfToolName);
 
-		tfCmdName = new ComponentInputField((AppW) app, null, loc.getMenu("CommandName"), null, "");
+		tfCmdName =
+				new ComponentInputField((AppW) app, null, loc.getMenu("CommandName"), null, "", null);
 		tfCmdName.setInputText(tfToolName.getText());
 		addHandlers(tfCmdName);
 
-		tfToolHelp = new ComponentInputField((AppW) app, null, loc.getMenu("ToolHelp"), null, "");
+		tfToolHelp = new ComponentInputField((AppW) app, null, loc.getMenu("ToolHelp"), null, "", null);
 		addHandlers(tfToolHelp);
 
 		FlowPanel iconPanel = new FlowPanel();

@@ -97,7 +97,8 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 				null,
 				"Statistics.DataRange",
 				null,
-				rangeToString(statisticsView.getInput().cellRange()));
+				rangeToString(statisticsView.getInput().cellRange()),
+				"Statistics.SelectCellsOrEnterRange");
 		inputPanel.add(xRange);
 		ProcessInput update = () -> statisticsView.setInput(new SpreadsheetStatistics.Input.OneVarInput(
 				SpreadsheetReferenceParsing.parseReference(xRange.getText())));
@@ -115,14 +116,16 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 				null,
 				"Statistics.XDataRange",
 				null,
-				rangeToString(twoVarStatistics.getInput().cellRangeX()));
+				rangeToString(twoVarStatistics.getInput().cellRangeX()),
+				"Statistics.SelectCellsOrEnterRange");
 		inputPanel.add(xRange);
 		yRange = new ComponentInputField(
 				app,
 				null,
 				"Statistics.YDataRange",
 				null,
-				rangeToString(twoVarStatistics.getInput().cellRangeY()));
+				rangeToString(twoVarStatistics.getInput().cellRangeY()),
+				"Statistics.SelectCellsOrEnterRange");
 		inputPanel.add(yRange);
 		ProcessInput update =
 				() -> twoVarStatistics.setInput(new SpreadsheetStatistics.Input.TwoVarInput(
@@ -145,14 +148,16 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 				null,
 				"Statistics.XDataRange",
 				null,
-				rangeToString(regression.getInput().cellRangeX()));
+				rangeToString(regression.getInput().cellRangeX()),
+				"Statistics.SelectCellsOrEnterRange");
 		inputPanel.add(xRange);
 		yRange = new ComponentInputField(
 				app,
 				null,
 				"Statistics.YDataRange",
 				null,
-				rangeToString(regression.getInput().cellRangeY()));
+				rangeToString(regression.getInput().cellRangeY()),
+				"Statistics.SelectCellsOrEnterRange");
 		inputPanel.add(yRange);
 		List<RegressionSpecification> specs = regression.getRegressionSpecifications();
 		List<String> items = new ArrayList<>();
@@ -184,13 +189,19 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 	private void showTable(SpreadsheetStatisticsView.@NonNull FrequencyTable frequencyTable) {
 		inputPanel.clear();
 		xRange = new ComponentInputField(
-				app, null, "Data", null, rangeToString(frequencyTable.getInput().dataRange()));
+				app,
+				null,
+				"Data",
+				null,
+				rangeToString(frequencyTable.getInput().dataRange()),
+				"Statistics.SelectCellsOrEnterRange");
 		yRange = new ComponentInputField(
 				app,
 				null,
 				"ClassBoundaries",
 				null,
-				rangeToString(frequencyTable.getInput().classesRange()));
+				rangeToString(frequencyTable.getInput().classesRange()),
+				"Statistics.SelectCellsOrEnterRange");
 		Localization loc = app.getLocalization();
 		List<String> items = List.of(loc.getMenu("Values"), loc.getMenu("Intervals"));
 
