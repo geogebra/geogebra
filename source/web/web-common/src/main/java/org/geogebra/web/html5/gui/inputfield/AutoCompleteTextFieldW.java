@@ -530,6 +530,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return curWord.toString();
 	}
 
+	/**
+	 * @return available completions
+	 */
 	public List<MatchedString> getCompletions() {
 		return inputSuggestions.getCompletions();
 	}

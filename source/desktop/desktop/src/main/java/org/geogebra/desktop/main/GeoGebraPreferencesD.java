@@ -601,6 +601,9 @@ public class GeoGebraPreferencesD {
 		return GeoGebraPreferencesXML.getXML(app);
 	}
 
+	/**
+	 * @return the file used to store GeoGebra preferences
+	 */
 	public static File getFile() {
 		return new File(GeoGebraPreferencesD.PROPERTY_FILEPATH);
 	}

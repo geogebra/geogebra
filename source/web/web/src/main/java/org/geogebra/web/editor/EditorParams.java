@@ -81,6 +81,9 @@ public final class EditorParams {
 		return fallback;
 	}
 
+	/**
+	 * @return whether the editor should prevent focus on initialization.
+	 */
 	public boolean isPreventFocus() {
 		return isTrue("preventfocus");
 	}

@@ -114,6 +114,9 @@ public class ScaledIcon implements Icon {
 		return (int) (source.getIconHeight() / getRatio());
 	}
 
+	/**
+	 * @return source image
+	 */
 	public Image getImage() {
 		return source.getImage();
 	}

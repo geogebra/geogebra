@@ -740,6 +740,10 @@ public class EditorState {
 		return current instanceof SequenceNode sn ? sn : rootNode;
 	}
 
+	/**
+	 * @return the node immediately to the left of the cursor, or null if the cursor
+	 *     is at the start of the current node
+	 */
 	public Node getComponentLeftOfCursor() {
 		return currentOffset > 0 ? currentNode.getChild(currentOffset - 1) : null;
 	}

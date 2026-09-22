@@ -90,6 +90,9 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	GPoint lastEdit = null;
 	StatsSideSheetTV sideSheetTV;
 
+	/**
+	 * @return the keyboard listener of the editor used for cell editing.
+	 */
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
 	}

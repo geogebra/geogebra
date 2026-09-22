@@ -82,6 +82,9 @@ public class Animator {
 		return getAnimation().getAnimateOutStyle();
 	}
 
+	/**
+	 * @return the animation to use, depending on the screen size
+	 */
 	public Animation getAnimation() {
 		return frame.hasSmallWindowOrCompactHeader() ? smallScreenAnimation : largeScreenAnimation;
 	}

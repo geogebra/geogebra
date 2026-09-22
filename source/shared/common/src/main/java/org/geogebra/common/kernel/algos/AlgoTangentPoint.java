@@ -82,11 +82,17 @@ public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicPara
 	}
 
 	// Made public for LocusEqu
+	/**
+	 * @return the point the tangents are drawn from
+	 */
 	public GeoPoint getPoint() {
 		return (GeoPoint) P;
 	}
 
 	// Made public for LocusEqu
+	/**
+	 * @return the conic the tangents are drawn to
+	 */
 	public GeoConic getConic() {
 		return (GeoConic) c;
 	}

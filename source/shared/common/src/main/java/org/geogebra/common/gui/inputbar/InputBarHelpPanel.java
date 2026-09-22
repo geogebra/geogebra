@@ -250,10 +250,16 @@ public class InputBarHelpPanel {
 		return getCommands(category);
 	}
 
+	/**
+	 * @return title of the mathematical functions category
+	 */
 	public String getMathFunctionsTitle() {
 		return mApp.getLocalization().getMenu("MathematicalFunctions");
 	}
 
+	/**
+	 * @return title of the all commands category
+	 */
 	public String getAllCommandsTitle() {
 		return mApp.getLocalization().getMenu("AllCommands");
 	}

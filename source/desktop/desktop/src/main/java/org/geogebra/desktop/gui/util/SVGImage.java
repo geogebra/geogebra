@@ -84,6 +84,9 @@ public final class SVGImage {
 		return new SVGImage(model);
 	}
 
+	/**
+	 * @return SVG content
+	 */
 	public String getContent() {
 		return model.getContent();
 	}

@@ -193,6 +193,9 @@ public class EvaluatorAPI {
 		mathFieldInternal.parse(plainText);
 	}
 
+	/**
+	 * @return plain text content of the editor
+	 */
 	public String getText() {
 		return mathFieldInternal.getText();
 	}

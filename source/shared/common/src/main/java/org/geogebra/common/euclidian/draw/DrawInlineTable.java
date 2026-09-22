@@ -129,6 +129,9 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 		tableController.removeFromDom();
 	}
 
+	/**
+	 * @return whether the table is currently being edited
+	 */
 	public boolean isInEditMode() {
 		return tableController != null && tableController.isInEditMode();
 	}

@@ -62,6 +62,9 @@ public enum Statistic {
 		this.lhsPattern = lhsPattern;
 	}
 
+	/**
+	 * @return name of the command associated with this statistic
+	 */
 	public String getCommandName() {
 		return command.name();
 	}

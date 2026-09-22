@@ -40,6 +40,9 @@ public abstract class CASFactory {
 		return prototype;
 	}
 
+	/**
+	 * @return whether a real CAS prototype (not just the dummy) is set
+	 */
 	public static boolean isInitialized() {
 		return prototype != null && !(prototype instanceof CASFactoryDummy);
 	}

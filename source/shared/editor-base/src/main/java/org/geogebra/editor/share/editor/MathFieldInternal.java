@@ -1113,6 +1113,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		return getEditorState().getDescription(expressionReader, getEditorFeatures());
 	}
 
+	/**
+	 * @return a new serializer configured with this editor's features
+	 */
 	public GeoGebraSerializer getSerializer() {
 		return new GeoGebraSerializer(getEditorFeatures());
 	}

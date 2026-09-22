@@ -113,6 +113,9 @@ public class Path extends ArrayList<DoublePoint> {
 		return result;
 	}
 
+	/**
+	 * @return true if the path is oriented clockwise (non-negative signed area)
+	 */
 	public boolean orientation() {
 		return area() >= 0;
 	}

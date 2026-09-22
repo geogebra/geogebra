@@ -142,6 +142,9 @@ public final class PerspectivesPopup {
 		wrappedPopup.showAtPoint((int) (app.getWidth() - 280), (int) ((app.getHeight() - 426) / 2));
 	}
 
+	/**
+	 * @return whether the popup is currently showing.
+	 */
 	public boolean isShowing() {
 		return wrappedPopup.isMenuShown();
 	}

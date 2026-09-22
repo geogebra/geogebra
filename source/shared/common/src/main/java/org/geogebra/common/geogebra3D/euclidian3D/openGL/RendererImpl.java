@@ -211,6 +211,9 @@ public abstract class RendererImpl {
 
 	protected abstract boolean checkFramebufferStatus();
 
+	/**
+	 * @return the textures used by the associated renderer.
+	 */
 	public Textures getTextures() {
 		return renderer.getTextures();
 	}

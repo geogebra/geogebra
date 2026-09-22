@@ -2405,6 +2405,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		app.getActiveEuclidianView().invalidateDrawableList();
 	}
 
+	/**
+	 * @return comma separated list of labels in the current geo ordering
+	 */
 	public String getOrdering() {
 		return construction.getLayerManager().getOrder();
 	}

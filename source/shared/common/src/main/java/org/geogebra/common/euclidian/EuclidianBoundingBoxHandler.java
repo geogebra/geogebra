@@ -89,6 +89,9 @@ public enum EuclidianBoundingBoxHandler implements ShapeManipulationHandler {
 		this.dy = dy;
 	}
 
+	/**
+	 * @return whether this handler is at a corner (affects both x and y)
+	 */
 	public boolean isDiagonal() {
 		return dx != 0 && dy != 0;
 	}

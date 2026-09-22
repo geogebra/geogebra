@@ -76,6 +76,9 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		return list.isEmpty();
 	}
 
+	/**
+	 * @return whether the list has more than one non-empty tuple
+	 */
 	public boolean isValid() {
 		return countNotEmpty() > 1;
 	}

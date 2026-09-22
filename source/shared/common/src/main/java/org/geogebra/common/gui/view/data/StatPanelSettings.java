@@ -103,10 +103,16 @@ public class StatPanelSettings extends PlotSettings {
 		return dataSource.getGroupType();
 	}
 
+	/**
+	 * @return whether the data source holds numeric data
+	 */
 	public boolean isNumericData() {
 		return dataSource.isNumericData();
 	}
 
+	/**
+	 * @return whether the data source holds a list of points
+	 */
 	public boolean isPointList() {
 		return dataSource.isPointData();
 	}
@@ -146,6 +152,9 @@ public class StatPanelSettings extends PlotSettings {
 		this.hasOverlayNormal = hasOverlayNormal;
 	}
 
+	/**
+	 * @return whether the overlay is enabled
+	 */
 	public boolean isOverlayEnabled() {
 		return getFrequencyType() == TYPE_NORMALIZED && !isCumulative;
 	}

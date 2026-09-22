@@ -78,6 +78,9 @@ public final class FlattenNode implements Inspecting, Iterable<ExpressionValue> 
 		return flatten.get(index);
 	}
 
+	/**
+	 * @return the flattened terms recombined into a single reduced expression
+	 */
 	public ExpressionNode getReducedExpression() {
 		return utils.reduceExpressions(flatten);
 	}

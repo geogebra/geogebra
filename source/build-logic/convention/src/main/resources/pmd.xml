@@ -146,7 +146,7 @@
             <property name="classCommentRequirement" value="ignored" />
             <property name="fieldCommentRequirement" value="ignored" />
             <property name="protectedMethodCommentRequirement" value="ignored" />
-            <property name="violationSuppressXPath" value="./self::ConstructorDeclaration[count(Block/*)&lt;2]|.[@EffectiveVisibility='private' or @EffectiveVisibility='package']|.[not(FormalParameters/FormalParameter) and count(Block/*)=1 and Block/ReturnStatement]|.[pmd-java:hasAnnotation('org.geogebra.common.annotation.MissingDoc') or pmd-java:hasAnnotation('org.junit.Test') or pmd-java:hasAnnotation('org.junit.Before') or pmd-java:hasAnnotation('org.gwtproject.resources.client.ClientBundle.Source')]|.[pmd-java:modifiers() = 'native']|.[//PackageDeclaration[matches(@Name, '.*gui.dialog.options.*')]]"/>
+            <property name="violationSuppressXPath" value="./self::ConstructorDeclaration[count(Block/*)&lt;2]|.[@EffectiveVisibility='private' or @EffectiveVisibility='package']|.[not(FormalParameters/FormalParameter) and count(Block/*)=1 and Block/ReturnStatement[FieldAccess|VariableAccess]]|.[pmd-java:hasAnnotation('org.geogebra.common.annotation.MissingDoc') or pmd-java:hasAnnotation('org.junit.Test') or pmd-java:hasAnnotation('org.junit.Before') or pmd-java:hasAnnotation('org.gwtproject.resources.client.ClientBundle.Source')]|.[pmd-java:modifiers() = 'native']|.[//PackageDeclaration[matches(@Name, '.*gui.dialog.options.*')]]"/>
         </properties>
     </rule>
     <rule ref="category/java/errorprone.xml">

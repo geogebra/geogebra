@@ -276,6 +276,9 @@ public class GeoEmbed extends GeoWidget {
 		this.url = url;
 	}
 
+	/**
+	 * @return whether this is an embed of the GraspableMath applet
+	 */
 	public boolean isGraspableMath() {
 		return url != null && url.contains("graspablemath.com");
 	}

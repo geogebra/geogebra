@@ -404,10 +404,16 @@ public final class TableValuesKeyboardNavigationController {
 
 	// Test support
 
+	/**
+	 * @return whether the currently selected column is the placeholder column that was just added
+	 */
 	public boolean isEditingPlaceholderColumn() {
 		return addedPlaceholderColumn && selectedColumn == getMaxColumnIndex() - 1;
 	}
 
+	/**
+	 * @return whether the currently selected row is the placeholder row that was just added
+	 */
 	public boolean isEditingPlaceholderRow() {
 		return addedPlaceholderRow && selectedRow == getMaxRowIndex(selectedColumn) - 1;
 	}

@@ -168,7 +168,7 @@ public final class Header {
 		return sampleFrequency;
 	}
 
-	public int frequency() {
+	int frequency() {
 		return FREQUENCIES[version][sampleFrequency];
 	}
 
@@ -198,7 +198,7 @@ public final class Header {
 		}
 		// subtract header size
 		frameSize -= 4;
-		// side info size, crc size, header sidze
+		// side info size, crc size, header size
 		if (version == VERSION_MPEG1) {
 			slots = (mode == MODE_SINGLE_CHANNEL) ? 17 : 32;
 		} else {

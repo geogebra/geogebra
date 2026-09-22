@@ -4447,6 +4447,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 	}
 
+	/**
+	 * @return localization used by the application
+	 */
 	public Localization getLocalization() {
 		return getApplication().getLocalization();
 	}

@@ -362,6 +362,9 @@ public final class DataAnalysisViewW extends FlowPanel
 		return daCtrl;
 	}
 
+	/**
+	 * @return the regression model computed by the data analysis controller.
+	 */
 	public GeoElement getRegressionModel() {
 		return daCtrl.getRegressionModel();
 	}
@@ -481,6 +484,9 @@ public final class DataAnalysisViewW extends FlowPanel
 		kernel.detach(this);
 	}
 
+	/**
+	 * @return the titles of the data sets shown in this view.
+	 */
 	public String[] getDataTitles() {
 		return daCtrl.getDataTitles();
 	}
@@ -553,6 +559,9 @@ public final class DataAnalysisViewW extends FlowPanel
 		return false;
 	}
 
+	/**
+	 * @return whether the data analysis view is currently showing
+	 */
 	public boolean isShowing() {
 		return app.showView(App.VIEW_DATA_ANALYSIS);
 	}

@@ -291,6 +291,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 		return autoComplete && loc.isAutoCompletePossible();
 	}
 
+	/**
+	 * @return word at the current caret position
+	 */
 	public String getCurrentWord() {
 		return curWord.toString();
 	}

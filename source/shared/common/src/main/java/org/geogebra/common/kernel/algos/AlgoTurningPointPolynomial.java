@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
-import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Finds all inflection points of a polynomial
@@ -29,6 +28,11 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 
+	/**
+	 * @param cons construction
+	 * @param labels output labels
+	 * @param f polynomial function
+	 */
 	public AlgoTurningPointPolynomial(Construction cons, String[] labels, GeoFunctionable f) {
 		super(cons, labels, f, true);
 	}
@@ -36,10 +40,6 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 	@Override
 	public Commands getClassName() {
 		return Commands.TurningPoint;
-	}
-
-	public GeoPoint[] getInflectionPoints() {
-		return super.getRootPoints();
 	}
 
 	@Override

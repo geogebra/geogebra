@@ -84,18 +84,30 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW, S
 		add(statTable);
 	}
 
+	/**
+	 * @return the row names of the underlying stat table model.
+	 */
 	public String[] getRowNames() {
 		return getModel().getRowNames();
 	}
 
+	/**
+	 * @return the column names of the underlying stat table model.
+	 */
 	public String[] getColumnNames() {
 		return getModel().getColumnNames();
 	}
 
+	/**
+	 * @return the number of data rows, excluding the header row
+	 */
 	public int getRowCount() {
 		return getModel().getRowCount() - 1;
 	}
 
+	/**
+	 * @return the number of data columns.
+	 */
 	public int getColumnCount() {
 		return 2;
 	}

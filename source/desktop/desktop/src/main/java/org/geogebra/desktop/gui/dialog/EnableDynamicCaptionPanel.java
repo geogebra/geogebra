@@ -59,6 +59,9 @@ public class EnableDynamicCaptionPanel extends CheckboxPanel {
 		textField.setEnabled(enable);
 	}
 
+	/**
+	 * @return whether the checkbox is selected
+	 */
 	public boolean isSelected() {
 		return getCheckbox().isSelected();
 	}

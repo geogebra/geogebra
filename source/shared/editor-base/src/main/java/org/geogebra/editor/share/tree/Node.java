@@ -105,6 +105,9 @@ public abstract class Node implements Traversable, Inspectable, Serializable {
 		return getParent() instanceof SequenceNode seq ? seq : getParent().getParentSequence();
 	}
 
+	/**
+	 * @return the distance of this node from the root node
+	 */
 	public int getDepth() {
 		return parent == null ? 0 : parent.getDepth() + 1;
 	}

@@ -78,6 +78,9 @@ public final class NotesLayout implements SetLabels, ModeChangeListener {
 		}
 	}
 
+	/**
+	 * @return the height of the top bar, or 0 if there is no top bar
+	 */
 	public int getTopBarHeight() {
 		return topBar == null ? 0 : topBar.getHeight();
 	}

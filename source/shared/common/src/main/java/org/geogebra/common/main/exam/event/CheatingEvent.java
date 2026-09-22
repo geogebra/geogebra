@@ -40,6 +40,9 @@ public final class CheatingEvent {
 		return action;
 	}
 
+	/**
+	 * @return time of this cheating event in milliseconds since the epoch
+	 */
 	public long getTime() {
 		return date.getTime();
 	}

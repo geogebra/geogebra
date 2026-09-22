@@ -151,6 +151,9 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			setStyleName("splitPaneDragger");
 		}
 
+		/**
+		 * @return the current zoom factor of the applet
+		 */
 		public double getZoom() {
 			return 1 / this.splitPanel.appletElement.getScaleX();
 		}

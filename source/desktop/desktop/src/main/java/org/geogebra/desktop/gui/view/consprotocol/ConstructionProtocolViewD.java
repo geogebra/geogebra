@@ -209,6 +209,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		return scrollPane;
 	}
 
+	/**
+	 * @return application
+	 */
 	public AppD getApplication() {
 		return (AppD) app;
 	}

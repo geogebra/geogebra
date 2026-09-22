@@ -1421,6 +1421,9 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 		return size.getWidth();
 	}
 
+	/**
+	 * @return width, or -1 if no size has been set
+	 */
 	public int getRawWidth() {
 		return size != null ? size.getWidth() : -1;
 	}
@@ -1435,6 +1438,9 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 		return size.getHeight();
 	}
 
+	/**
+	 * @return height, or -1 if no size has been set
+	 */
 	public int getRawHeight() {
 		return size != null ? size.getHeight() : -1;
 	}
@@ -1491,6 +1497,9 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 		return enabledEB != ExtendedBoolean.FALSE;
 	}
 
+	/**
+	 * @return whether the enabled state has been explicitly set
+	 */
 	public boolean isEnabledSet() {
 		return enabledEB != ExtendedBoolean.UNKNOWN;
 	}

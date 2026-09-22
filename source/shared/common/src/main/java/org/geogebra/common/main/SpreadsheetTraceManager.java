@@ -527,6 +527,9 @@ public class SpreadsheetTraceManager {
 		}
 	}
 
+	/**
+	 * @return new default spreadsheet trace settings
+	 */
 	public SpreadsheetTraceSettings getDefaultTraceSettings() {
 		return new SpreadsheetTraceSettings();
 	}

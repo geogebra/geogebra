@@ -78,6 +78,9 @@ public abstract class ToolbarTab extends ScrollPanel
 	 */
 	protected abstract void onActive();
 
+	/**
+	 * @return whether this tab is currently active
+	 */
 	public boolean isActive() {
 		return getElement().hasClassName("tab");
 	}

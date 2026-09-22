@@ -807,6 +807,9 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			delay = -1;
 		}
 
+		/**
+		 * @return fraction of the long-press delay elapsed so far (0 to 1).
+		 */
 		public float getCompletingDelay() {
 			return delay / LONG_DELAY;
 		}

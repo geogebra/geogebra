@@ -2647,6 +2647,9 @@ public enum Operation {
 			StringTemplate tpl,
 			boolean holdsLaTeX);
 
+	/**
+	 * @return whether this is a plus, minus or invisible plus operation
+	 */
 	public boolean isPlusorMinus() {
 		return this.equals(PLUS) || this.equals(MINUS) || this.equals(INVISIBLE_PLUS);
 	}
@@ -2658,10 +2661,16 @@ public enum Operation {
 		return isInequalityLess() || isInequalityGreater();
 	}
 
+	/**
+	 * @return whether this is a less-than or less-than-or-equal operation
+	 */
 	public boolean isInequalityLess() {
 		return this.equals(LESS) || this.equals(LESS_EQUAL);
 	}
 
+	/**
+	 * @return whether this is a greater-than or greater-than-or-equal operation
+	 */
 	public boolean isInequalityGreater() {
 		return this.equals(GREATER) || this.equals(GREATER_EQUAL);
 	}
@@ -2811,6 +2820,9 @@ public enum Operation {
 		return false;
 	}
 
+	/**
+	 * @return whether this operation can map a real argument to a complex result
+	 */
 	public boolean isRealToComplex() {
 		return switch (this) {
 			case SQRT, SQRT_SHORT, NROOT, ARCSIN, ARCSIND, ARCCOS, ARCCOSD -> true;

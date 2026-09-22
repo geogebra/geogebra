@@ -100,6 +100,9 @@ public interface CurveEvaluable {
 	 */
 	GeoElement toGeoElement();
 
+	/**
+	 * @return minimum distance in x direction used for plotting resolution
+	 */
 	default double getMinDistX() {
 		return 0;
 	}

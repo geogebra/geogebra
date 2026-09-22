@@ -112,6 +112,9 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 		lastSelectedButton.setActive(true);
 	}
 
+	/**
+	 * @return the mode of the last selected tool button, or -1 if none is selected
+	 */
 	public int getLastSelectedMode() {
 		return lastSelectedButton != null ? lastSelectedButton.getMode() : -1;
 	}

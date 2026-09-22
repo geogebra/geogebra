@@ -66,14 +66,23 @@ public class SliderIntervalProperty extends AbstractPropertyCollection<StringPro
 		});
 	}
 
+	/**
+	 * @return the property controlling the slider's minimum value
+	 */
 	public StringProperty getMinProperty() {
 		return getProperties()[0];
 	}
 
+	/**
+	 * @return the property controlling the slider's maximum value
+	 */
 	public StringProperty getMaxProperty() {
 		return getProperties()[1];
 	}
 
+	/**
+	 * @return the property controlling the slider's animation step
+	 */
 	public StringProperty getStepProperty() {
 		return getProperties()[2];
 	}

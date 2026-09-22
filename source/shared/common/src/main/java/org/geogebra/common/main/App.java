@@ -1030,6 +1030,9 @@ public abstract class App
 		}
 	}
 
+	/**
+	 * @return the undo manager of the construction
+	 */
 	public UndoManager getUndoManager() {
 		return kernel.getConstruction().getUndoManager();
 	}
@@ -1903,6 +1906,9 @@ public abstract class App
 		// implemented per platform
 	}
 
+	/**
+	 * @return preferred size of the app, or null if not implemented for this platform
+	 */
 	public GDimension getPreferredSize() {
 		return null;
 	}
@@ -1988,6 +1994,9 @@ public abstract class App
 		return AwtFactory.getPrototype().newFont(serif ? "Serif" : "SansSerif", style, size);
 	}
 
+	/**
+	 * @return whether a graphics view export is currently in progress
+	 */
 	public boolean isExporting() {
 		return exportType != ExportType.NONE;
 	}
@@ -2409,6 +2418,9 @@ public abstract class App
 		return settings.getFontSettings().getAppFontSize();
 	}
 
+	/**
+	 * @return general font size (used for EV and GUI) as a double
+	 */
 	public double getFontSizeDouble() {
 		return settings.getFontSettings().getAppFontSize();
 	}
@@ -2779,6 +2791,9 @@ public abstract class App
 		}
 	}
 
+	/**
+	 * @return parser extension for functions, excluding input boxes
+	 */
 	public ParserFunctions getParserFunctions() {
 		return getParserFunctions(false);
 	}
@@ -3590,18 +3605,30 @@ public abstract class App
 		return false;
 	}
 
+	/**
+	 * @return whether this is an unbundled (single app code) version of GeoGebra
+	 */
 	public boolean isUnbundled() {
 		return false;
 	}
 
+	/**
+	 * @return whether this is the unbundled Graphing Calculator app
+	 */
 	public boolean isUnbundledGraphing() {
 		return false;
 	}
 
+	/**
+	 * @return whether this is the unbundled Geometry app
+	 */
 	public boolean isUnbundledGeometry() {
 		return false;
 	}
 
+	/**
+	 * @return whether the whiteboard (Notes) is currently active
+	 */
 	public boolean isWhiteboardActive() {
 		return false;
 	}
@@ -3622,6 +3649,9 @@ public abstract class App
 		return false;
 	}
 
+	/**
+	 * @return whether this is an unbundled app or the whiteboard is active
+	 */
 	public boolean isUnbundledOrWhiteboard() {
 		return isUnbundled() || isWhiteboardActive();
 	}
@@ -3671,6 +3701,9 @@ public abstract class App
 		return companion.hasEuclidianViewForPlaneVisible();
 	}
 
+	/**
+	 * @return the visible euclidian view for plane, if any
+	 */
 	public final EuclidianView getViewForPlaneVisible() {
 		return companion.getViewForPlaneVisible();
 	}
@@ -3908,6 +3941,9 @@ public abstract class App
 		return "";
 	}
 
+	/**
+	 * @return the layout, or {@code null} if there is no GUI manager
+	 */
 	public Layout getLayout() {
 		return getGuiManager() == null ? null : getGuiManager().getLayout();
 	}
@@ -3933,6 +3969,9 @@ public abstract class App
 		deleteSelectedObjects(false);
 	}
 
+	/**
+	 * @return manager for running asynchronous tasks; runs synchronously by default
+	 */
 	public AsyncManagerI getAsyncManager() {
 		return Runnable::run;
 	}
@@ -3951,6 +3990,9 @@ public abstract class App
 		return new SyntaxAdapterImpl(kernel);
 	}
 
+	/**
+	 * @return whether the spreadsheet view is available and not restricted (e.g. by an exam)
+	 */
 	public boolean isSpreadsheetEnabled() {
 		return getConfig().hasSpreadsheetView() && !spreadsheetRestricted;
 	}
@@ -4199,10 +4241,16 @@ public abstract class App
 		return url;
 	}
 
+	/**
+	 * @return handler used to report errors to the user
+	 */
 	public ErrorHandler getErrorHandler() {
 		return getDefaultErrorHandler();
 	}
 
+	/**
+	 * @return default error handler, which silently ignores errors
+	 */
 	public ErrorHandler getDefaultErrorHandler() {
 		return ErrorHelper.silent();
 	}
@@ -4542,6 +4590,9 @@ public abstract class App
 		companion.setExport3D(format, false);
 	}
 
+	/**
+	 * @return whether the app is in portrait orientation (height greater than width)
+	 */
 	public boolean isPortrait() {
 		return getHeight() > getWidth();
 	}
@@ -4741,6 +4792,9 @@ public abstract class App
 		return MD5Checksum.compute(s);
 	}
 
+	/**
+	 * @return manager for embedded applets/widgets, or null if not initialized
+	 */
 	public @Nullable EmbedManager getEmbedManager() {
 		return null;
 	}
@@ -4841,6 +4895,9 @@ public abstract class App
 		return settingsUpdater;
 	}
 
+	/**
+	 * @return updater for font related settings
+	 */
 	public FontSettingsUpdater getFontSettingsUpdater() {
 		return getSettingsUpdater().getFontSettingsUpdater();
 	}
@@ -4909,6 +4966,9 @@ public abstract class App
 		// no-op
 	}
 
+	/**
+	 * @return list of mask widgets, or null if not supported by this platform
+	 */
 	public MaskWidgetList getMaskWidgets() {
 		return null;
 	}
@@ -5008,6 +5068,9 @@ public abstract class App
 		}
 	}
 
+	/**
+	 * @return identifier of the thread the app is running on, used for logging
+	 */
 	public String getThreadId() {
 		return "[main thread]";
 	}

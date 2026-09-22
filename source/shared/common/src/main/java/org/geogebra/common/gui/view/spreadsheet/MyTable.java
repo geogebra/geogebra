@@ -65,6 +65,9 @@ public interface MyTable extends MyTableInterface {
 	 */
 	int getTableMode();
 
+	/**
+	 * @return first selected range, or null if nothing is selected
+	 */
 	default @Nullable TabularRange getFirstSelection() {
 		return getSelectedRanges().isEmpty() ? null : getSelectedRanges().get(0);
 	}

@@ -114,6 +114,10 @@ public class DnDState {
 		return region;
 	}
 
+	/**
+	 * @return whether the region is one of the "out" regions (outside the
+	 *         target panel, next to a split pane)
+	 */
 	public boolean isRegionOut() {
 		return region >= TOP_OUT;
 	}

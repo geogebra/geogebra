@@ -686,6 +686,9 @@ public class ComponentInputField extends FlowPanel
 		focusDeferred();
 	}
 
+	/**
+	 * @return the underlying text field widget
+	 */
 	public AutoCompleteTextFieldW getTextWidget() {
 		return adapter instanceof TextInputAdapter textInputAdapter
 				? textInputAdapter.inputTextField.getTextComponent()

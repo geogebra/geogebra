@@ -310,6 +310,9 @@ public class PointDt {
 		return new ComparePoint(flag);
 	}
 
+	/**
+	 * @return comparator for the default direction
+	 */
 	public static Comparator<PointDt> getComparator() {
 		return new ComparePoint(0);
 	}

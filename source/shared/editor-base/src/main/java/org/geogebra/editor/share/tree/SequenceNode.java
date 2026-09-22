@@ -122,6 +122,9 @@ public class SequenceNode extends InternalNode {
 		}
 	}
 
+	/**
+	 * @return number of child nodes
+	 */
 	public int getArgumentCount() {
 		return children.size();
 	}

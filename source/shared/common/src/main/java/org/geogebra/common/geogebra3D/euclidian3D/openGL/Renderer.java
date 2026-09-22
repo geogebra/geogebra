@@ -2201,6 +2201,9 @@ public abstract class Renderer {
 		// only needed for some platforms
 	}
 
+	/**
+	 * @return whether the renderer is ready to render.
+	 */
 	public boolean isReadyToRender() {
 		return true;
 	}

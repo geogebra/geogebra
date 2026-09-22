@@ -264,6 +264,9 @@ public class LayoutD extends Layout {
 		return dockManager;
 	}
 
+	/**
+	 * @return the root component of the docking layout, or null if there is no dock manager
+	 */
 	public JComponent getRootComponent() {
 		return dockManager == null ? null : dockManager.getRoot();
 	}

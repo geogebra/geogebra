@@ -222,6 +222,9 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return !isMobile();
 	}
 
+	/**
+	 * @return whether the current platform is offline
+	 */
 	public boolean isOffline() {
 		return platform == GeoGebraConstants.Platform.OFFLINE;
 	}

@@ -567,6 +567,9 @@ public final class DrawDropDownList extends CanvasDrawable
 		drawOptions.setKeyboardFocus(true);
 	}
 
+	/**
+	 * @return number of options in the dropdown list
+	 */
 	public int getOptionCount() {
 		return model.itemCount();
 	}

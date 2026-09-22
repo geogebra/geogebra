@@ -199,10 +199,16 @@ public final class Spreadsheet<T>
 		controller.getLayout().setHeightForRows(height, minRow, maxRow);
 	}
 
+	/**
+	 * @return the total width of all columns
+	 */
 	public double getTotalWidth() {
 		return controller.getLayout().getTotalWidth();
 	}
 
+	/**
+	 * @return the total height of all rows
+	 */
 	public double getTotalHeight() {
 		return controller.getLayout().getTotalHeight();
 	}
@@ -398,6 +404,9 @@ public final class Spreadsheet<T>
 
 	// Viewport & scrolling
 
+	/**
+	 * @return the viewport (visible rectangle) relative to the table, in points.
+	 */
 	public @NonNull Rectangle getViewport() {
 		return controller.getViewport();
 	}
@@ -553,6 +562,9 @@ public final class Spreadsheet<T>
 
 	// Editor
 
+	/**
+	 * @return whether the cell editor is currently active
+	 */
 	public boolean isEditorActive() {
 		return controller.isEditorActive();
 	}

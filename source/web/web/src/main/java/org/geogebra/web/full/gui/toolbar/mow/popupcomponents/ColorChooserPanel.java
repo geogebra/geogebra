@@ -196,6 +196,9 @@ public final class ColorChooserPanel extends FlowPanel
 		Dom.toggleClass(this, "disabled", disabled);
 	}
 
+	/**
+	 * @return whether the color chooser is disabled
+	 */
 	public boolean isDisabled() {
 		return getElement().hasClassName("disabled");
 	}

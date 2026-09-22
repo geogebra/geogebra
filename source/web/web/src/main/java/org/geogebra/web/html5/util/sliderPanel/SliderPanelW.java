@@ -65,6 +65,9 @@ public final class SliderPanelW extends FlowPanel implements HasDataTest {
 		setStyleName("optionsSlider");
 	}
 
+	/**
+	 * @return the current value of the slider.
+	 */
 	public Double getValue() {
 		return slider.getValue();
 	}

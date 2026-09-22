@@ -280,6 +280,9 @@ public class ModeToggleMenuD extends JPanel {
 		tbutton.repaint();
 	}
 
+	/**
+	 * @return whether the popup menu is currently showing
+	 */
 	public boolean isPopupShowing() {
 		return popMenu.isShowing();
 	}

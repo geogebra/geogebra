@@ -1175,6 +1175,9 @@ public enum Language {
 		return getLanguage(languageTag).currency;
 	}
 
+	/**
+	 * @return whether this language uses a comma as the decimal separator
+	 */
 	public boolean isUsingDecimalComma() {
 		return decimalSeparator == ',';
 	}

@@ -186,10 +186,16 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 		return textComponent;
 	}
 
+	/**
+	 * @return text content of the text component
+	 */
 	public String getText() {
 		return textComponent.getText();
 	}
 
+	/**
+	 * @return currently selected text, or null if there is no selection
+	 */
 	public String getSelectedText() {
 		return textComponent.getSelectedText();
 	}

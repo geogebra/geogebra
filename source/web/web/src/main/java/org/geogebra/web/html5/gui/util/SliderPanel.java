@@ -48,6 +48,9 @@ public final class SliderPanel extends FlowPanel implements SliderInputHandler {
 		slider.addInputHandler(this);
 	}
 
+	/**
+	 * @return the current value of the slider.
+	 */
 	public Integer getValue() {
 		return slider.getValue();
 	}

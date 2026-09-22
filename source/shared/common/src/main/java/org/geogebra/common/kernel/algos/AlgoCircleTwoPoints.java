@@ -72,6 +72,9 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 		return EuclidianConstants.MODE_CIRCLE_TWO_POINTS;
 	}
 
+	/**
+	 * @return the resulting circle
+	 */
 	public GeoConic getCircle() {
 		return (GeoConic) getSphereND();
 	}

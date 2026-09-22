@@ -75,6 +75,9 @@ public class IntervalFunctionDomainInfo {
 		return domainBefore.contains(domain.getLow()) || domain.contains(domainBefore.getLow());
 	}
 
+	/**
+	 * @return length of the former domain
+	 */
 	public double getLength() {
 		return domainBefore.getLength();
 	}

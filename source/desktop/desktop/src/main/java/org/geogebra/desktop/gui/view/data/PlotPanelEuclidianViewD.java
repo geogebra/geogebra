@@ -388,6 +388,9 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		}
 	}
 
+	/**
+	 * @return context menu popup for exporting GeoElements or an image of the view
+	 */
 	public JPopupMenu getContextMenu() {
 		return new ContextMenu();
 	}

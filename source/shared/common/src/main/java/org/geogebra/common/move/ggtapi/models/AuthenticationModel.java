@@ -240,6 +240,9 @@ public abstract class AuthenticationModel {
 		return loginStarted;
 	}
 
+	/**
+	 * @return encoded representation of the login token, if available
+	 */
 	public String getEncoded() {
 		return null;
 	}

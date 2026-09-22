@@ -27,6 +27,9 @@ public class AdjustViews {
 		this.app = app;
 	}
 
+	/**
+	 * @return whether the application window is in portrait orientation
+	 */
 	public boolean isPortrait() {
 		return app.getWidth() < app.getHeight();
 	}

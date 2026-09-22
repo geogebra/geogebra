@@ -71,6 +71,9 @@ public class AlgebraController {
 		return kernel;
 	}
 
+	/**
+	 * @return text of the current drag selection
+	 */
 	public String getDragText() {
 		return getDragText(new ArrayList<>());
 	}

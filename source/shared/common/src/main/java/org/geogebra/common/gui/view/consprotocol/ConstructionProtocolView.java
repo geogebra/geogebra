@@ -348,6 +348,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			return title;
 		}
 
+		/**
+		 * @return translated title of the column
+		 */
 		public String getTranslatedTitle() {
 			return app.getLocalization().getMenu(title);
 		}
@@ -654,6 +657,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			// mode does not affect CP
 		}
 
+		/**
+		 * @return the number of rows in the construction protocol table.
+		 */
 		public int getRowCount() {
 			return rowList.size();
 		}

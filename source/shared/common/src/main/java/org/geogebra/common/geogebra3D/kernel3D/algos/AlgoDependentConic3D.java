@@ -80,6 +80,9 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 		return conic;
 	}
 
+	/**
+	 * @return the expression node defining the conic.
+	 */
 	public ExpressionNode getExpressionNode() {
 		return conic.getDefinition();
 	}

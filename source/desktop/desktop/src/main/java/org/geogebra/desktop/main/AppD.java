@@ -1039,6 +1039,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return runtime.freeMemory();
 	}
 
+	/**
+	 * @return maximum amount of memory the JVM heap can use, in bytes
+	 */
 	public long getHeapSize() {
 		return runtime.maxMemory();
 	}
@@ -1112,6 +1115,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return null;
 	}
 
+	/**
+	 * @return number of files in the recent file list
+	 */
 	public static int getFileListSize() {
 		return fileList.size();
 	}
@@ -1598,6 +1604,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return px;
 	}
 
+	/**
+	 * @return icon size in pixels, scaled for the current font size
+	 */
 	public int getScaledIconSize() {
 		return ptToPx(getFontSize());
 	}
@@ -1693,6 +1702,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return imageManager.getImageIcon(res, border);
 	}
 
+	/**
+	 * @return an empty (blank) icon
+	 */
 	public ImageIcon getEmptyIcon() {
 		return new ImageIcon(imageManager.getImageIcon(GuiResourcesD.EMPTY));
 	}
@@ -2633,14 +2645,23 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// FONTS
 	// **************************************************************************
 
+	/**
+	 * @return the AWT bold font
+	 */
 	public final Font getBoldFont() {
 		return ((GFontD) fontManager.getBoldFont()).getAwtFont();
 	}
 
+	/**
+	 * @return the AWT italic font
+	 */
 	public final Font getItalicFont() {
 		return ((GFontD) fontManager.getItalicFont()).getAwtFont();
 	}
 
+	/**
+	 * @return the AWT plain font
+	 */
 	public final Font getPlainFont() {
 		return ((GFontD) fontManager.getPlainFont()).getAwtFont();
 	}
@@ -2650,6 +2671,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return fontManager.getPlainFont();
 	}
 
+	/**
+	 * @return the AWT small font
+	 */
 	public final Font getSmallFont() {
 		return ((GFontD) fontManager.getSmallFont()).getAwtFont();
 	}
@@ -3035,6 +3059,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	/**
+	 * @return all macros of this construction, serialized to a byte array
+	 */
 	public byte[] getMacroFileAsByteArray() {
 		return getMacroFileAsByteArray(kernel.getAllMacros());
 	}
@@ -3742,6 +3769,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return getFont(serif, style, size);
 	}
 
+	/**
+	 * @return bold font
+	 */
 	public GFont getBoldFontCommon() {
 		return fontManager.getBoldFont();
 	}

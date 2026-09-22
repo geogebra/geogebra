@@ -1552,6 +1552,9 @@ public abstract class PropertyView {
 					this.stringProperty = stringProperty;
 				}
 
+				/**
+				 * @return the accessible (aria) label for this input field
+				 */
 				public String getAriaLabel() {
 					return stringProperty.getAriaLabel();
 				}

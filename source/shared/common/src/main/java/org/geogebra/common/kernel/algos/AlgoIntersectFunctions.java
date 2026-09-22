@@ -31,6 +31,14 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoIntersectFunctions extends AlgoRoots {
 
+	/**
+	 * @param cons construction
+	 * @param labels output labels
+	 * @param f first function
+	 * @param g second function
+	 * @param left left bound of the interval to search in
+	 * @param right right bound of the interval to search in
+	 */
 	public AlgoIntersectFunctions(
 			Construction cons,
 			String[] labels,
@@ -46,6 +54,9 @@ public class AlgoIntersectFunctions extends AlgoRoots {
 		return Commands.Intersect;
 	}
 
+	/**
+	 * @return intersection points
+	 */
 	public GeoPoint[] getIntersectionPoints() {
 		return super.getRootPoints();
 	}

@@ -100,6 +100,9 @@ public class DrawStyledVector {
 		}
 	}
 
+	/**
+	 * @return bounds of the drawn shape, or null if it was not drawn yet
+	 */
 	public GRectangle getBounds() {
 		return area == null ? null : area.getBounds();
 	}

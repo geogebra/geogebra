@@ -339,6 +339,9 @@ public class DataAnalysisViewD extends JPanel
 		return daCtrl;
 	}
 
+	/**
+	 * @return data source
+	 */
 	public DataSource getDataSource() {
 		return model.getDataSource();
 	}
@@ -380,6 +383,9 @@ public class DataAnalysisViewD extends JPanel
 		return daCtrl;
 	}
 
+	/**
+	 * @return regression model geo
+	 */
 	public GeoElement getRegressionModel() {
 		return daCtrl.getRegressionModel();
 	}
@@ -658,6 +664,9 @@ public class DataAnalysisViewD extends JPanel
 		// kernel.notifyRemoveAll(this);
 	}
 
+	/**
+	 * @return data titles
+	 */
 	public String[] getDataTitles() {
 		return daCtrl.getDataTitles();
 	}
@@ -743,6 +752,9 @@ public class DataAnalysisViewD extends JPanel
 		return App.VIEW_DATA_ANALYSIS;
 	}
 
+	/**
+	 * @return export menu
+	 */
 	public JPopupMenu getExportMenu() {
 		return dataDisplayPanel1.getExportMenu();
 	}

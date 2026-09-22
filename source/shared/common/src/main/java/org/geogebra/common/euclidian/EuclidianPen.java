@@ -187,6 +187,9 @@ public class EuclidianPen implements GTimerListener {
 		return defaultPenLine.getObjectColor();
 	}
 
+	/**
+	 * @return pen color with opacity applied
+	 */
 	public GColor getPenColorWithOpacity() {
 		return getPenColor().deriveWithAlpha(defaultPenLine.getLineOpacity());
 	}

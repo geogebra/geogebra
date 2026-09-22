@@ -319,6 +319,9 @@ public class GeoText extends GeoElement
 		return str;
 	}
 
+	/**
+	 * @return the string wrapped in this text, or empty string if not set
+	 */
 	public final String getTextStringSafe() {
 		return str == null ? "" : str;
 	}

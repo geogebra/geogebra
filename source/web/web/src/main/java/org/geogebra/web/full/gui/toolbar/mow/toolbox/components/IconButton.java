@@ -200,6 +200,9 @@ public class IconButton extends StandardButton implements SetLabels {
 		setIcon(image.withFill(GColor.BLACK.toString()));
 	}
 
+	/**
+	 * @return whether this button is currently active
+	 */
 	public boolean isActive() {
 		return getElement().hasClassName("active");
 	}

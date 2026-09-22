@@ -77,6 +77,9 @@ public abstract class AbstractPropertyListFacade<P extends Property> implements 
 		return getFirstProperty().isAvailable();
 	}
 
+	/**
+	 * @return the first property in the list
+	 */
 	public P getFirstProperty() {
 		return properties.get(0);
 	}

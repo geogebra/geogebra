@@ -808,6 +808,9 @@ public class AppletParameters {
 		return getIntDataParam("maxImageSize", 0);
 	}
 
+	/**
+	 * @return multiplayer URL
+	 */
 	public String getParamMultiplayerUrl() {
 		return getStringDataParam("multiplayerUrl", "");
 	}

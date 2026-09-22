@@ -426,6 +426,9 @@ public class InputDialogD extends InputDialog
 		}
 	}
 
+	/**
+	 * @return current text of the input panel
+	 */
 	public String getText() {
 		return inputPanel.getText();
 	}

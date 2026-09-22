@@ -170,6 +170,9 @@ public final class AutoCompletePopup extends GPopupMenuW {
 		return popupTop;
 	}
 
+	/**
+	 * @return whether the autocomplete suggestion menu is currently shown.
+	 */
 	public boolean isSuggesting() {
 		return isMenuShown();
 	}

@@ -130,10 +130,16 @@ public class BernsteinBoundingBox implements Splittable<BernsteinBoundingBox> {
 		return y2;
 	}
 
+	/**
+	 * @return width of the box.
+	 */
 	public double getWidth() {
 		return x2 - x1;
 	}
 
+	/**
+	 * @return height of the box.
+	 */
 	public double getHeight() {
 		return y2 - y1;
 	}

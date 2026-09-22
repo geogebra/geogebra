@@ -336,6 +336,9 @@ public enum ValueType implements ExpressionValueType {
 		return arg.getValueType().getListDepth() > 0 ? ListValueType.of(fallback) : fallback;
 	}
 
+	/**
+	 * @return whether this is a vector type (2D, 3D or complex)
+	 */
 	public boolean isVector() {
 		return this == NONCOMPLEX2D || this == VECTOR3D || this == COMPLEX;
 	}

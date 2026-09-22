@@ -45,6 +45,9 @@ public class GCheckmarkMenuItemMock extends GCheckmarkMenuItem {
 		menuCheck.setChecked(checked);
 	}
 
+	/**
+	 * @return whether this is currently checked
+	 */
 	public boolean isChecked() {
 		return menuCheck.isChecked();
 	}

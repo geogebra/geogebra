@@ -2230,6 +2230,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @return space if needed (for operators), or empty string for editor parser
+	 */
 	public String getOptionalSpace() {
 		return !forEditorParser ? " " : "";
 	}
@@ -3668,6 +3671,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return Unicode.DEGREE_STRING;
 	}
 
+	/**
+	 * @return degree symbol, plural form for screen reader
+	 */
 	public String getDegrees() {
 		return stringType == StringType.SCREEN_READER_ASCII ? "degrees" : getDegree();
 	}
@@ -3726,6 +3732,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return stringType == StringType.LATEX ? "\\, = \\," : " = ";
 	}
 
+	/**
+	 * @return whether string type is LaTeX
+	 */
 	public boolean isLatex() {
 		return stringType.equals(StringType.LATEX);
 	}
@@ -3911,6 +3920,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return copy;
 	}
 
+	/**
+	 * @return colon used for assignment, with appropriate spacing
+	 */
 	public String getColonAssignment() {
 		return isLatex() ? "\\mathpunct{:}\\," : ": ";
 	}

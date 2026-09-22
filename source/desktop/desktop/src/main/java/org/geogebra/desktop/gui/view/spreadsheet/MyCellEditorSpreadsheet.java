@@ -192,6 +192,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 		return editing;
 	}
 
+	/**
+	 * @return caret position in the cell editor text field
+	 */
 	public int getCaretPosition() {
 		return textField.getCaretPosition();
 	}
@@ -216,6 +219,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 		delegate.setValue(text);
 	}
 
+	/**
+	 * @return the current value of the cell editor
+	 */
 	public String getEditingValue() {
 		return (String) delegate.getCellEditorValue();
 	}

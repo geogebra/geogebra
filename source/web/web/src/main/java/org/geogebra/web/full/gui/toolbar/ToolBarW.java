@@ -247,6 +247,9 @@ public final class ToolBarW extends FlowPanel
 		return toolbarVec;
 	}
 
+	/**
+	 * @return the number of items in the toolbar definition
+	 */
 	public int getToolbarVecSize() {
 		return this.getToolbarVec().size();
 	}

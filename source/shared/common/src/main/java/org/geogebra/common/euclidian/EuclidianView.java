@@ -3298,6 +3298,9 @@ public abstract class EuclidianView
 		return showAxes[axis];
 	}
 
+	/**
+	 * @return whether both axes are hidden
+	 */
 	public boolean isAxesHidden() {
 		return !showAxes[0] && !showAxes[1];
 	}
@@ -5048,10 +5051,16 @@ public abstract class EuclidianView
 		return (int) selectionRectangle.getHeight();
 	}
 
+	/**
+	 * @return width of selection rectangle in pixels
+	 */
 	public int getSelectedWidthInPixels() {
 		return getSelectedWidth();
 	}
 
+	/**
+	 * @return height of selection rectangle in pixels
+	 */
 	public int getSelectedHeightInPixels() {
 		return getSelectedHeight();
 	}
@@ -5609,10 +5618,16 @@ public abstract class EuclidianView
 		return 70;
 	}
 
+	/**
+	 * @return absolute top position of the view, -1 if unknown, overridden where available
+	 */
 	public int getAbsoluteTop() {
 		return -1;
 	}
 
+	/**
+	 * @return absolute left position of the view, -1 if unknown, overridden where available
+	 */
 	public int getAbsoluteLeft() {
 		return -1;
 	}
@@ -6047,6 +6062,9 @@ public abstract class EuclidianView
 		// ignore
 	}
 
+	/**
+	 * @return text field of this view, or null if it has none
+	 */
 	public AutoCompleteTextField getTextField() {
 		return viewTextField == null ? null : viewTextField.getTextField();
 	}

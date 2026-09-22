@@ -452,6 +452,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return activity;
 	}
 
+	/**
+	 * @return the sub-application of the current activity, or null if there is no activity
+	 */
 	public GeoGebraActivity getCurrentActivity() {
 		return activity == null ? null : activity.getSubapp();
 	}
@@ -2685,6 +2688,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return csvImportHandler;
 	}
 
+	/**
+	 * @return command that handles CSV import.
+	 */
 	public Command getCsvHandler() {
 		return getCsvImportHandler().getCsvHandler();
 	}

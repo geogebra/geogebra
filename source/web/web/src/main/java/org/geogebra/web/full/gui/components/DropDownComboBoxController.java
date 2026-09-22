@@ -175,6 +175,9 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 		return null;
 	}
 
+	/**
+	 * @return index of the selected option, or -1 if nothing is selected.
+	 */
 	public int getSelectedIndex() {
 		return dropDown.getSelectedIndex();
 	}
@@ -188,6 +191,9 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 		return dropDown;
 	}
 
+	/**
+	 * @return whether the drop-down popup is currently open.
+	 */
 	public boolean isOpened() {
 		return dropDown.isOpened();
 	}

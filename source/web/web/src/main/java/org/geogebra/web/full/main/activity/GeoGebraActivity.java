@@ -151,6 +151,9 @@ public interface GeoGebraActivity {
 		}
 	}
 
+	/**
+	 * @return the subapp activity, or this activity itself if it is not a suite.
+	 */
 	default GeoGebraActivity getSubapp() {
 		return this;
 	}

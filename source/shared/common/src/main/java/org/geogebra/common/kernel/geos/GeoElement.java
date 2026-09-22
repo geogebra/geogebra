@@ -5899,6 +5899,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return inverseFill;
 	}
 
+	/**
+	 * @return whether this element is a spotlight (overridden by GeoSpotlight)
+	 */
 	public boolean isSpotlight() {
 		return false;
 	}

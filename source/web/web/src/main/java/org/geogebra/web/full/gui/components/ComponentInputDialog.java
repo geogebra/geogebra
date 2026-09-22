@@ -100,6 +100,9 @@ public class ComponentInputDialog extends ComponentDialog
 		inputHandler.processInput(inputText, this, callback);
 	}
 
+	/**
+	 * @return the current text of the input field.
+	 */
 	public String getInputText() {
 		return inputTextField.getText();
 	}

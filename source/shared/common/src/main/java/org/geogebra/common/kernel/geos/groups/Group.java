@@ -50,10 +50,16 @@ public class Group {
 		updateLead();
 	}
 
+	/**
+	 * @return the geo with the lowest ordering in this group
+	 */
 	public GeoElement getMinByOrder() {
 		return Collections.min(geosGroup, orderComparator);
 	}
 
+	/**
+	 * @return the geo with the highest ordering in this group
+	 */
 	public GeoElement getMaxByOrder() {
 		return Collections.max(geosGroup, orderComparator);
 	}

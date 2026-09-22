@@ -140,6 +140,9 @@ public class IntervalFunctionData {
 		return tuples.isValid();
 	}
 
+	/**
+	 * @return the interval-arithmetic node function converted from the underlying geo function.
+	 */
 	public IntervalNodeFunction getFunction() {
 		return converter.convert(geoFunction);
 	}

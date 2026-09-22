@@ -265,6 +265,9 @@ public class SpreadsheetViewD
 		spreadsheet.getRowHeader().revalidate();
 	}
 
+	/**
+	 * @return the column header viewport
+	 */
 	public JViewport getColumnHeader() {
 		return spreadsheet.getColumnHeader();
 	}
@@ -519,6 +522,9 @@ public class SpreadsheetViewD
 		traceDialog.setVisible(true);
 	}
 
+	/**
+	 * @return whether the trace dialog is currently visible
+	 */
 	public boolean isTraceDialogVisible() {
 		return traceDialog != null && traceDialog.isVisible();
 	}
@@ -804,6 +810,9 @@ public class SpreadsheetViewD
 		getSpreadsheetStyleBar().updateStyleBar();
 	}
 
+	/**
+	 * @return whether tooltips are allowed
+	 */
 	public boolean getAllowToolTips() {
 		return settings().allowToolTips();
 	}
@@ -823,14 +832,23 @@ public class SpreadsheetViewD
 		getSpreadsheetStyleBar().updateStyleBar();
 	}
 
+	/**
+	 * @return whether the formula bar is shown
+	 */
 	public boolean getShowFormulaBar() {
 		return settings().showFormulaBar();
 	}
 
+	/**
+	 * @return whether the style bar is visible, or there is no style bar at all
+	 */
 	public boolean isVisibleStyleBar() {
 		return styleBar == null || styleBar.isVisible();
 	}
 
+	/**
+	 * @return whether column selection mode is enabled
+	 */
 	public boolean isColumnSelect() {
 		return settings().isColumnSelect();
 	}

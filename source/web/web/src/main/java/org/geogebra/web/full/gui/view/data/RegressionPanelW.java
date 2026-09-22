@@ -320,6 +320,9 @@ public final class RegressionPanelW extends FlowPanel implements StatPanelInterf
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * @return index of the selected regression model.
+	 */
 	public int getRegressionIdx() {
 		return lbRegression.getSelectedIndex();
 	}

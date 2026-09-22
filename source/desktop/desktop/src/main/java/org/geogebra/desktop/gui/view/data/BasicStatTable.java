@@ -90,10 +90,16 @@ public class BasicStatTable extends JPanel implements StatPanelInterface, StatTa
 		this.add(statTable, BorderLayout.CENTER);
 	}
 
+	/**
+	 * @return number of rows in the stat table
+	 */
 	public int getRowCount() {
 		return getModel().getRowCount();
 	}
 
+	/**
+	 * @return number of columns in the stat table
+	 */
 	public int getColumnCount() {
 		return getModel().getColumnCount();
 	}

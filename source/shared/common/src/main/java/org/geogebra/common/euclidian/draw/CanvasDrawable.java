@@ -297,6 +297,9 @@ public abstract class CanvasDrawable extends Drawable {
 		return hitDynCaption || hitLabelBounds(x, y) || hitWidgetBounds(x, y);
 	}
 
+	/**
+	 * @return y-coordinate of the bottom of the caption text
+	 */
 	public int getTextBottom() {
 		return (getPreferredHeight() / 2) + (int) (getLabelFontSize() * 0.4);
 	}

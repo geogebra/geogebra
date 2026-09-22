@@ -432,6 +432,10 @@ public final class CASTableW extends Grid implements CASTable {
 		return (CASTableCellW) widget;
 	}
 
+	/**
+	 * @return the text of the cell being edited before editing started,
+	 *     or {@code null} if no cell is being edited
+	 */
 	public String getTextBeforeEdit() {
 		return editing == null ? null : editing.getTextBeforeEdit();
 	}

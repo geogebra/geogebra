@@ -78,6 +78,9 @@ public enum ExtendedBoolean {
 		return negate().and(other.negate()).negate();
 	}
 
+	/**
+	 * @return whether this value is TRUE or FALSE (not UNKNOWN)
+	 */
 	public boolean isDefined() {
 		return this != UNKNOWN;
 	}

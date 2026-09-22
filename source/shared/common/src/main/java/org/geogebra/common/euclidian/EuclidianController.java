@@ -9366,6 +9366,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * @return whether the current mouse location hits the symbolic editor
+	 */
 	public boolean isSymbolicEditorSelected() {
 		return view.isSymbolicEditorClicked(mouseLoc);
 	}
@@ -11190,6 +11193,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return app.getDialogManager();
 	}
 
+	/**
+	 * @return currently selected geo elements
+	 */
 	public ArrayList<GeoElement> getAppSelectedGeos() {
 		return selection.getSelectedGeos();
 	}
@@ -12188,6 +12194,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * @return touch gesture listener for this controller, overridden where touch is supported
+	 */
 	public MouseTouchGestureController getEuclidianTouchGestureListener() {
 		return null;
 	}
@@ -12499,6 +12508,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		lastMousePressedTime = time;
 	}
 
+	/**
+	 * @return milliseconds elapsed since the last mouse press
+	 */
 	public long getElapsedTimeFromLastMousePressed() {
 		return System.currentTimeMillis() - lastMousePressedTime;
 	}
@@ -12566,6 +12578,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		measurementController.addListener(listener);
 	}
 
+	/**
+	 * @return image used for the bounding box rotation handle, overridden where available
+	 */
 	public MyImage getRotationImage() {
 		return null;
 	}

@@ -66,6 +66,9 @@ public abstract class FormatFactory {
 	 */
 	public abstract NumberFormatAdapter getNumberFormat(String pattern, int digits);
 
+	/**
+	 * @return default time format adapter.
+	 */
 	public TimeFormatAdapter getTimeFormat() {
 		return new DefaultTimeFormat();
 	}

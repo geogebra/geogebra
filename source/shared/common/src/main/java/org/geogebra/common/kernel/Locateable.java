@@ -60,6 +60,9 @@ public interface Locateable extends GeoElementND {
 	 */
 	void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException;
 
+	/**
+	 * @return number of start points (corners) this object has
+	 */
 	default int getStartPointCount() {
 		return 1;
 	}

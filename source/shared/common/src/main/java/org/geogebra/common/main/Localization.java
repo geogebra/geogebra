@@ -926,6 +926,9 @@ public abstract class Localization extends LocalizationI {
 	 */
 	protected abstract boolean isCommandNull();
 
+	/**
+	 * @return style used to draw right angle marks for the current language
+	 */
 	public int getRightAngleStyle() {
 		return getLanguage().getRightAngleStyle();
 	}
@@ -1135,6 +1138,9 @@ public abstract class Localization extends LocalizationI {
 		return areEnglishCommandsForced;
 	}
 
+	/**
+	 * @return whether the current language uses a comma as decimal separator
+	 */
 	public boolean isUsingDecimalComma() {
 		return getLanguage().isUsingDecimalComma();
 	}

@@ -353,6 +353,9 @@ public class DataAnalysisModel {
 		return ctrl;
 	}
 
+	/**
+	 * @return the data source used by this model
+	 */
 	public DataSource getDataSource() {
 		return ctrl.getDataSource();
 	}
@@ -413,6 +416,9 @@ public class DataAnalysisModel {
 		return ctrl;
 	}
 
+	/**
+	 * @return the geo holding the regression model
+	 */
 	public GeoElement getRegressionModel() {
 		return ctrl.getRegressionModel();
 	}
@@ -453,6 +459,9 @@ public class DataAnalysisModel {
 
 	}
 
+	/**
+	 * @return current regression mode
+	 */
 	public Regression getRegressionMode() {
 		return app.getSettings().getDataAnalysis().getRegression();
 	}
@@ -465,6 +474,9 @@ public class DataAnalysisModel {
 		return app;
 	}
 
+	/**
+	 * @return current data analysis mode
+	 */
 	public int getMode() {
 		return app.getSettings().getDataAnalysis().getMode();
 	}
@@ -569,6 +581,9 @@ public class DataAnalysisModel {
 		}
 	}
 
+	/**
+	 * @return titles of the data columns/variables
+	 */
 	public String[] getDataTitles() {
 		return ctrl.getDataTitles();
 	}
@@ -592,10 +607,16 @@ public class DataAnalysisModel {
 		this.isIniting = isIniting;
 	}
 
+	/**
+	 * @return whether the current mode is multi-variable analysis
+	 */
 	public boolean isMultiVar() {
 		return getMode() == MODE_MULTIVAR;
 	}
 
+	/**
+	 * @return whether the current mode is regression analysis
+	 */
 	public boolean isRegressionMode() {
 		return getMode() == MODE_REGRESSION;
 	}

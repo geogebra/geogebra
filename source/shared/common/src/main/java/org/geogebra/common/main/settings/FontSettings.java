@@ -87,6 +87,9 @@ public class FontSettings extends AbstractSettings<FontSettings> {
 		this.guiFontSize = guiFontSize;
 	}
 
+	/**
+	 * @return font size used in the algebra view
+	 */
 	public int getAlgebraFontSize() {
 		return getAppFontSize() + 2;
 	}

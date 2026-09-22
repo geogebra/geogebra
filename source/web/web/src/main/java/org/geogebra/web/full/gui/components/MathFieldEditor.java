@@ -352,6 +352,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		main.setVisible(visible);
 	}
 
+	/**
+	 * @return whether this editor is currently visible.
+	 */
 	public boolean isVisible() {
 		return main.isVisible();
 	}

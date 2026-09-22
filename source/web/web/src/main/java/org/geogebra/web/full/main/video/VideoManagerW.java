@@ -193,6 +193,9 @@ public final class VideoManagerW implements VideoManager {
 		players.clear();
 	}
 
+	/**
+	 * @return whether the network is currently online
+	 */
 	public boolean isOnline() {
 		return app.getNetworkOperation().isOnline();
 	}

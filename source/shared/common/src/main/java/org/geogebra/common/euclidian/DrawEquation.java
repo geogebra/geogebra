@@ -215,6 +215,9 @@ public abstract class DrawEquation implements DrawEquationI {
 		return AwtFactory.getPrototype().newDimension(width, height);
 	}
 
+	/**
+	 * @return device pixel ratio used for rendering LaTeX
+	 */
 	public double getPixelRatio() {
 		return 1;
 	}

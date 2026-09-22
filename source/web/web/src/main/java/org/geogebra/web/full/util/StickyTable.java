@@ -261,6 +261,9 @@ public abstract class StickyTable<T> extends FlowPanel {
 		refreshVisibleRange();
 	}
 
+	/**
+	 * @return the panel wrapping the table
+	 */
 	public Panel getTableWrapper() {
 		return (Panel) scroller.getWidget();
 	}

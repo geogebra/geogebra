@@ -72,6 +72,9 @@ public class AngleInputDialogW extends ComponentInputDialog {
 		});
 	}
 
+	/**
+	 * @return whether the clockwise orientation option is selected.
+	 */
 	public boolean isClockWise() {
 		return clockWiseRadioButtonPanel.getValue();
 	}

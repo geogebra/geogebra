@@ -785,10 +785,17 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
+	/**
+	 * @return whether the play button of the construction protocol navigation is visible
+	 */
 	public boolean isConsProtNavigationPlayButtonVisible() {
 		return getConstructionProtocolNavigation().isPlayButtonVisible();
 	}
 
+	/**
+	 * @return whether the construction protocol button of the construction
+	 *         protocol navigation is visible
+	 */
 	public boolean isConsProtNavigationProtButtonVisible() {
 		return getConstructionProtocolNavigation().isConsProtButtonVisible();
 	}
@@ -1321,6 +1328,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return getImageFromFile(null);
 	}
 
+	/**
+	 * @return localization of the application
+	 */
 	public Localization getLocalization() {
 		return getApp().getLocalization();
 	}
@@ -2308,6 +2318,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return showGridAction;
 	}
 
+	/**
+	 * @return the first (general) toolbar
+	 */
 	public ToolbarD getGeneralToolbar() {
 		return toolbarPanel.getFirstToolbar();
 	}

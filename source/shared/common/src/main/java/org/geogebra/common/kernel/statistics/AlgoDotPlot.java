@@ -197,10 +197,16 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 		return y;
 	}
 
+	/**
+	 * @return list of unique x values used for the dot plot
+	 */
 	public GeoList getUniqueXList() {
 		return algoFreq.getValue();
 	}
 
+	/**
+	 * @return list of frequencies corresponding to the unique x values
+	 */
 	public GeoList getFrequencyList() {
 		return algoFreq.getResult();
 	}

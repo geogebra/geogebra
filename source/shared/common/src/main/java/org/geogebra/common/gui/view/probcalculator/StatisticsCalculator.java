@@ -94,6 +94,9 @@ public abstract class StatisticsCalculator {
 		statHTML = new StatisticsCalculatorHTML(app, this, sc);
 	}
 
+	/**
+	 * @return the currently selected statistical procedure (test or interval)
+	 */
 	public Procedure getSelectedProcedure() {
 		return sc.getSelectedProcedure();
 	}

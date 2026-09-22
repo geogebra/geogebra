@@ -446,6 +446,9 @@ public class Perspective {
 		sb.closeTag("perspective");
 	}
 
+	/**
+	 * @return whether this perspective was defined by the user (as opposed to a default one)
+	 */
 	public boolean isUserDefined() {
 		return defaultID == 0;
 	}

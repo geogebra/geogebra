@@ -291,6 +291,9 @@ public abstract class FileManager extends MaterialsManager {
 		fileHandle = null;
 	}
 
+	/**
+	 * @return whether the app is running on the offline platform
+	 */
 	public boolean isOfflinePlatform() {
 		return app.getPlatform() == GeoGebraConstants.Platform.OFFLINE;
 	}

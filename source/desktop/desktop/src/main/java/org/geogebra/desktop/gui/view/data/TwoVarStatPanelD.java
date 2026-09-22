@@ -141,6 +141,9 @@ public class TwoVarStatPanelD extends StatTable implements ActionListener, TwoVa
 		return statDialog.getController().getDataSelected();
 	}
 
+	/**
+	 * @return indices of the selected data
+	 */
 	public Integer[] getSelectedDataIndex() {
 		return model.getSelectedDataIndex();
 	}

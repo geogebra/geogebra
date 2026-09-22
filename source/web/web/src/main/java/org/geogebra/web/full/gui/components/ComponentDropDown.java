@@ -239,6 +239,9 @@ public final class ComponentDropDown extends FlowPanel
 
 	// Helpers
 
+	/**
+	 * @return index of the selected option, or -1 if nothing is selected.
+	 */
 	public int getSelectedIndex() {
 		return controller.getSelectedIndex();
 	}

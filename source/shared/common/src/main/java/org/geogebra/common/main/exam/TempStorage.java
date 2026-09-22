@@ -87,6 +87,9 @@ public class TempStorage {
 		tempMaterials = new LinkedHashMap<>();
 	}
 
+	/**
+	 * @return whether there are no temporary materials stored
+	 */
 	public boolean isEmpty() {
 		return tempMaterials.isEmpty();
 	}

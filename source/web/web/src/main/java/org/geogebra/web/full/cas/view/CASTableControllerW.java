@@ -405,6 +405,9 @@ public final class CASTableControllerW extends CASTableCellController
 		return false;
 	}
 
+	/**
+	 * @return the text of the CAS input row before editing started
+	 */
 	public String getTextBeforeEdit() {
 		return view.getConsoleTable().getTextBeforeEdit();
 	}

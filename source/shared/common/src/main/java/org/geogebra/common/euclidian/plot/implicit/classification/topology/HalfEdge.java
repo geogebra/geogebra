@@ -103,10 +103,16 @@ public final class HalfEdge {
 		this.faceId = faceId;
 	}
 
+	/**
+	 * @return whether this edge belongs to a contour
+	 */
 	public boolean isContourEdge() {
 		return segmentKind == SegmentKind.CONTOUR;
 	}
 
+	/**
+	 * @return whether this edge belongs to the viewport boundary
+	 */
 	public boolean isViewportEdge() {
 		return segmentKind == SegmentKind.VIEWPORT;
 	}

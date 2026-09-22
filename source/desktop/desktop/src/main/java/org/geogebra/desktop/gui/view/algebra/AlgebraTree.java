@@ -663,10 +663,16 @@ public class AlgebraTree extends JTree {
 				> 0;
 	}
 
+	/**
+	 * @return the height of the icon shown for a visible geo
+	 */
 	public int getIconShownHeight() {
 		return renderer.getIconShown().getIconHeight();
 	}
 
+	/**
+	 * @return the height of the tree's open (expanded) icon
+	 */
 	public int getOpenIconHeight() {
 		return renderer.getOpenIcon().getIconHeight();
 	}

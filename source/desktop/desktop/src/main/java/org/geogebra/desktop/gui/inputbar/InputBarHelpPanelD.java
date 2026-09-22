@@ -165,6 +165,9 @@ public class InputBarHelpPanelD extends JPanel
 		updateFonts();
 	}
 
+	/**
+	 * @return the preferred width of this panel, based on the command tree's preferred size
+	 */
 	public int getPreferredWidth() {
 		return (int) (1.2 * cmdTree.getPreferredSize().width);
 	}

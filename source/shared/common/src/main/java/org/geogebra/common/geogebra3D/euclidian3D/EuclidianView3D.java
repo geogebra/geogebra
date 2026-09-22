@@ -834,6 +834,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		getSettings().setYAxisVertical(flag);
 	}
 
+	/**
+	 * @return whether lighting is enabled for this view.
+	 */
 	public boolean getUseLight() {
 		return getSettings().getUseLight();
 	}
@@ -1349,6 +1352,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		return getSettings().getXscale();
 	}
 
+	/**
+	 * @return the largest of the current x-, y- and z-axis scales.
+	 */
 	public double getMaxScale() {
 		return getSettings().getMaxScale();
 	}
@@ -3880,6 +3886,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		renderer.setWaitForUpdateClearColor();
 	}
 
+	/**
+	 * @return whether the shutter glasses should shut down on green
+	 */
 	public boolean isShutDownGreen() {
 		return projection == PROJECTION_GLASSES && isGlassesShutDownGreen();
 	}

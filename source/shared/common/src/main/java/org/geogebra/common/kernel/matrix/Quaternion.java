@@ -140,14 +140,26 @@ public class Quaternion {
 		return this.inverse().multiply(q);
 	}
 
+	/**
+	 *
+	 * @return rotation angle around x-axis
+	 */
 	public double getAngleX() {
 		return Math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y));
 	}
 
+	/**
+	 *
+	 * @return rotation angle around y-axis
+	 */
 	public double getAngleY() {
 		return Math.asin(2 * (w * y - z * x));
 	}
 
+	/**
+	 *
+	 * @return rotation angle around z-axis
+	 */
 	public double getAngleZ() {
 		return Math.atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z));
 	}

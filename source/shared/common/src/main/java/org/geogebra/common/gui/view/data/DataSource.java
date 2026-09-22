@@ -78,8 +78,11 @@ public class DataSource {
 	// Add/Remove
 	// ====================================
 
+	/**
+	 * @return whether there is no data
+	 */
 	public boolean isEmpty() {
-		return dataList.size() == 0;
+		return dataList.isEmpty();
 	}
 
 	/**
@@ -127,10 +130,16 @@ public class DataSource {
 		return getSelectedDataVariable().getGeoClass() == GeoClass.NUMERIC;
 	}
 
+	/**
+	 * @return geo class of the selected data variable
+	 */
 	public GeoClass getGeoClass() {
 		return getSelectedDataVariable().getGeoClass();
 	}
 
+	/**
+	 * @return whether the selected data variable holds points
+	 */
 	public boolean isPointData() {
 		return getSelectedDataVariable().getGeoClass() == GeoClass.POINT;
 	}
@@ -186,6 +195,9 @@ public class DataSource {
 		dataList.get(varIndex).setGroupType(groupType);
 	}
 
+	/**
+	 * @return the start value of the first class for the selected data variable
+	 */
 	public double getClassStart() {
 		return getSelectedDataVariable().getClassStart();
 	}
@@ -198,6 +210,9 @@ public class DataSource {
 		getSelectedDataVariable().setClassStart(classStart);
 	}
 
+	/**
+	 * @return the class width for the selected data variable
+	 */
 	public double getClassWidth() {
 		return getSelectedDataVariable().getClassWidth();
 	}

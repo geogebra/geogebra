@@ -79,6 +79,9 @@ public final class GridCard extends FlowPanel implements SetLabels {
 		Dom.toggleClass(this, "selected", selected);
 	}
 
+	/**
+	 * @return whether this card is currently selected
+	 */
 	public boolean isSelected() {
 		return getStyleName().contains("selected");
 	}

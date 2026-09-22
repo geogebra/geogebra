@@ -358,6 +358,9 @@ public final class InlineFormattingItems {
 		return hasTextFormat instanceof InlineTextController || isEditModeTable(hasTextFormat);
 	}
 
+	/**
+	 * @return whether the current selection is a table in edit mode
+	 */
 	public boolean isEditModeTable() {
 		return !inlines.isEmpty() && isEditModeTable(inlines.get(0));
 	}

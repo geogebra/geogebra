@@ -1495,6 +1495,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		return true;
 	}
 
+	/**
+	 * @return number of cached Giac results
+	 */
 	public int getCasGiacCacheSize() {
 		return casGiacCache.size();
 	}

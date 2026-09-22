@@ -407,10 +407,16 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	// Getters/Setters
 	// ==============================================
 
+	/**
+	 * @return selected index
+	 */
 	public int getSelectedIndex() {
 		return myTable.getSelectedIndex();
 	}
 
+	/**
+	 * @return selected value
+	 */
 	public Object getSelectedValue() {
 		return myTable.getSelectedValue();
 	}
@@ -430,6 +436,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		updateGUI();
 	}
 
+	/**
+	 * @return current slider value
+	 */
 	public int getSliderValue() {
 		return mySlider.getValue();
 	}

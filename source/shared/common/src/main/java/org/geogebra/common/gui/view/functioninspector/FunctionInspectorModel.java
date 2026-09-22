@@ -1217,6 +1217,10 @@ public class FunctionInspectorModel {
 		listener.changedNumberFormat();
 	}
 
+	/**
+	 * @return initial x-value to start inspecting the function from,
+	 *         based on the mouse location in the active view
+	 */
 	public double getInitialX() {
 		return getStartX();
 	}

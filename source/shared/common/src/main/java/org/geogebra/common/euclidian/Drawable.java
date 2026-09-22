@@ -923,6 +923,9 @@ public abstract class Drawable extends DrawableND {
 		return getBounds();
 	}
 
+	/**
+	 * @return bounds used for positioning a corner element
+	 */
 	public @Nullable GRectangle2D getBoundsForCorner() {
 		return getBounds();
 	}
@@ -1049,6 +1052,9 @@ public abstract class Drawable extends DrawableND {
 		}
 	}
 
+	/**
+	 * @return bounding box used for selection highlighting
+	 */
 	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
 		return new SingleBoundingBox(view.getApplication().getPrimaryColor());
 	}

@@ -114,6 +114,9 @@ public final class DnDState {
 		return region;
 	}
 
+	/**
+	 * @return whether the current region is one of the "out" regions.
+	 */
 	public boolean isRegionOut() {
 		return region >= TOP_OUT;
 	}

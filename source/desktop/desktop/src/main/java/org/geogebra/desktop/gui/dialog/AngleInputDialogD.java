@@ -87,6 +87,9 @@ public class AngleInputDialogD extends InputDialogD {
 		app.setComponentOrientation(wrappedDialog);
 	}
 
+	/**
+	 * @return whether the counter-clockwise orientation is selected
+	 */
 	public boolean isCounterClockWise() {
 		return rbCounterClockWise.isSelected();
 	}

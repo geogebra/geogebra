@@ -186,10 +186,16 @@ public class TwoVarStatModel {
 		listener.setValueAt(n1, 2, 3);
 	}
 
+	/**
+	 * @return index of the first selected data variable
+	 */
 	public int getSelectedDataIndex0() {
 		return selectedDataIndex[0];
 	}
 
+	/**
+	 * @return index of the second selected data variable
+	 */
 	public int getSelectedDataIndex1() {
 		return selectedDataIndex[1];
 	}

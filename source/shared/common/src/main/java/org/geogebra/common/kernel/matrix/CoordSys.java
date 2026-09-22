@@ -187,14 +187,23 @@ public class CoordSys {
 		return origin;
 	}
 
+	/**
+	 * @return first vector of this coordinate system
+	 */
 	public Coords getVx() {
 		return getV(0);
 	}
 
+	/**
+	 * @return second vector of this coordinate system
+	 */
 	public Coords getVy() {
 		return getV(1);
 	}
 
+	/**
+	 * @return third vector of this coordinate system
+	 */
 	public Coords getVz() {
 		return getV(2);
 	}
@@ -400,6 +409,9 @@ public class CoordSys {
 		return result;
 	}
 
+	/**
+	 * @return normal vector of this coordinate system's plane
+	 */
 	public Coords getNormal() {
 		return matrixOrthonormal.getVz();
 	}
@@ -837,6 +849,9 @@ public class CoordSys {
 		return false;
 	}
 
+	/**
+	 * @return whether this coordinate system has been set up
+	 */
 	public boolean isDefined() {
 		return isMadeCoordSys();
 	}

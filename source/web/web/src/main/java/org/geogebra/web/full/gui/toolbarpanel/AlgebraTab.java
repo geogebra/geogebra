@@ -134,6 +134,9 @@ public final class AlgebraTab extends ToolbarTab {
 		scrollToActiveItem();
 	}
 
+	/**
+	 * @return the height of the tab
+	 */
 	public int getTabHeight() {
 		return getDecorator().getTabHeight(toolbarPanel.getTabHeight());
 	}

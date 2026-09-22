@@ -232,10 +232,16 @@ public class TupleNeighbours {
 		return rightTopology().isInverted();
 	}
 
+	/**
+	 * @return whether the left y interval topology is whole.
+	 */
 	public boolean isLeftWhole() {
 		return leftTopology().isWhole();
 	}
 
+	/**
+	 * @return whether the right y interval topology is whole.
+	 */
 	public boolean isRightWhole() {
 		return rightTopology().isWhole();
 	}

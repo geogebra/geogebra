@@ -119,10 +119,16 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		compute();
 	}
 
+	/**
+	 * @return the first end section of the quadric.
+	 */
 	public GeoConic3D getSection1() {
 		return sections[0];
 	}
 
+	/**
+	 * @return the second end section of the quadric.
+	 */
 	public GeoConic3D getSection2() {
 		return sections[1];
 	}

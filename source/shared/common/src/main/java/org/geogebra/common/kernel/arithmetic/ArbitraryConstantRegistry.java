@@ -508,6 +508,9 @@ public class ArbitraryConstantRegistry {
 		return false;
 	}
 
+	/**
+	 * @return kernel of the associated construction element
+	 */
 	public Kernel getKernel() {
 		return ce.getKernel();
 	}

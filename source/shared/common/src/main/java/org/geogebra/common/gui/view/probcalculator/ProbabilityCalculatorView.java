@@ -468,6 +468,9 @@ public abstract class ProbabilityCalculatorView
 		return isCumulative;
 	}
 
+	/**
+	 * @return description of the probability expression being computed
+	 */
 	public @NonNull String getProbabilityExpression() {
 		return loc.getMenu("ProbabilityOf") + "X " + (isCumulative ? Unicode.LESS_EQUAL : "=") + " k"
 				+ loc.getMenu("EndProbabilityOf");
@@ -1852,6 +1855,9 @@ public abstract class ProbabilityCalculatorView
 		return false;
 	}
 
+	/**
+	 * @return whether the probability calculator view is showing
+	 */
 	public boolean isShowing() {
 		return app.showView(App.VIEW_PROBABILITY_CALCULATOR);
 	}

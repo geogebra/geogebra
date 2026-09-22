@@ -158,10 +158,16 @@ public final class PlanarGraph {
 		return Collections.unmodifiableList(faces);
 	}
 
+	/**
+	 * @return boundary cycles extracted by the last face-building pass.
+	 */
 	public List<BoundaryCycle> getLastExtractedBoundaryCycles() {
 		return faceBuilder.getLastExtractedBoundaryCycles();
 	}
 
+	/**
+	 * @return canonicalized boundary cycles produced by the last face-building pass.
+	 */
 	public List<BoundaryCycle> getLastCanonicalBoundaryCycles() {
 		return faceBuilder.getLastCanonicalBoundaryCycles();
 	}

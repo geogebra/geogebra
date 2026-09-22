@@ -295,6 +295,9 @@ public class Material implements Serializable {
 		return this.description;
 	}
 
+	/**
+	 * @return the display name of the creator, or an empty string if the creator is unknown
+	 */
 	public String getAuthor() {
 		return creator == null ? "" : this.creator.getDisplayName();
 	}
@@ -306,6 +309,9 @@ public class Material implements Serializable {
 		return this.url;
 	}
 
+	/**
+	 * @return the URL to edit this material
+	 */
 	public String getEditUrl() {
 		return GeoGebraConstants.EDIT_URL_BASE + getSharingKeySafe();
 	}

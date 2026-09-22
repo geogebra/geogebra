@@ -445,6 +445,9 @@ public class DataDisplayPanelD extends JPanel
 		manualClassesPanel.add(fldWidth);
 	}
 
+	/**
+	 * @return export menu
+	 */
 	public JPopupMenu getExportMenu() {
 		return plotPanel.getContextMenu();
 	}

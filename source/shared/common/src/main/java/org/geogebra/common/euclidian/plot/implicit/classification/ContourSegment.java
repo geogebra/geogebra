@@ -68,6 +68,9 @@ public final class ContourSegment {
 		return key;
 	}
 
+	/**
+	 * @return id of the contour this segment belongs to.
+	 */
 	public int getContourId() {
 		return key.getContourId();
 	}

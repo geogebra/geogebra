@@ -481,6 +481,9 @@ public class DialogManagerW extends DialogManager implements LoadingApplication 
 		return new SaveUnsavedChangesDialog((AppW) app, data, true);
 	}
 
+	/**
+	 * @return dialog data for the "do you want to save" dialog
+	 */
 	public DialogData getSaveDialogData() {
 		return new DialogData(getSaveDialogTitle(), "Cancel", "Save");
 	}

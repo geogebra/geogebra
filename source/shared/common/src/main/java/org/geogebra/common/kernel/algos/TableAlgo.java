@@ -20,6 +20,9 @@ package org.geogebra.common.kernel.algos;
  * Tagging interface for LaTeX tables
  */
 public interface TableAlgo {
+	/**
+	 * @return whether the table rows and columns should be swapped
+	 */
 	default boolean isTransposed() {
 		return false;
 	}

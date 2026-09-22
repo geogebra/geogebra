@@ -124,14 +124,23 @@ public class StatTableModel {
 		return rowNames;
 	}
 
+	/**
+	 * @return column names (none for this table)
+	 */
 	public String[] getColumnNames() {
 		return null;
 	}
 
+	/**
+	 * @return number of rows, i.e. the number of statistics shown
+	 */
 	public int getRowCount() {
 		return getStatList().size();
 	}
 
+	/**
+	 * @return number of columns, always 1
+	 */
 	public int getColumnCount() {
 		return 1;
 	}

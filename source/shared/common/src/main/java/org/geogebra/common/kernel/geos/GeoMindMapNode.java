@@ -58,6 +58,9 @@ public class GeoMindMapNode extends GeoInline
 			this.dy1 = dy1;
 		}
 
+		/**
+		 * @return whether this alignment is vertical (top or bottom)
+		 */
 		public boolean isVertical() {
 			return this == TOP || this == BOTTOM;
 		}

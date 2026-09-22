@@ -263,6 +263,9 @@ public class MySpecialDouble extends MyDouble {
 		return strToString.endsWith("%");
 	}
 
+	/**
+	 * @return whether this is an angle or the pi constant
+	 */
 	public boolean isAngleUnit() {
 		return isAngle() || Unicode.PI_STRING.equals(strToString);
 	}
@@ -301,6 +304,9 @@ public class MySpecialDouble extends MyDouble {
 		};
 	}
 
+	/**
+	 * @return whether this is a decimal number (not a fraction)
+	 */
 	public boolean isDecimal() {
 		return strToString != null && strToString.contains(".") && !isFraction();
 	}

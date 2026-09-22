@@ -483,10 +483,18 @@ public class Interval {
 		this.high = high;
 	}
 
+	/**
+	 *
+	 * @return true if interval is [0, +infinity).
+	 */
 	public boolean isHalfPositiveInfinity() {
 		return DoubleUtil.isEqual(0, low, 1E-5) && high == Double.POSITIVE_INFINITY;
 	}
 
+	/**
+	 *
+	 * @return true if interval is (-infinity, 0].
+	 */
 	public boolean isHalfNegativeInfinity() {
 		return low == Double.NEGATIVE_INFINITY && DoubleUtil.isEqual(high, 0, 1E-5);
 	}
@@ -531,6 +539,10 @@ public class Interval {
 		return DoubleUtil.isEqual(low, -1, precision) && DoubleUtil.isEqual(high, -1, precision);
 	}
 
+	/**
+	 *
+	 * @return true if both bounds are finite.
+	 */
 	public boolean isFinite() {
 		return Double.isFinite(low) && Double.isFinite(high);
 	}

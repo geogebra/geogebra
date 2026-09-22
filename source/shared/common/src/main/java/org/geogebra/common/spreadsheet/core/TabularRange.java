@@ -119,6 +119,10 @@ public final class TabularRange {
 		return maxColumn;
 	}
 
+	/**
+	 * @return whether this range has bounded rows and columns (no unbounded row or column
+	 * selection)
+	 */
 	public boolean isFinite() {
 		return minRow != -1 && maxRow != -1 && minColumn != -1 && maxColumn != -1;
 	}
@@ -146,10 +150,16 @@ public final class TabularRange {
 		return minRow == -1 && minColumn == -1;
 	}
 
+	/**
+	 * @return the number of columns spanned by this range
+	 */
 	public int getWidth() {
 		return maxColumn - minColumn + 1;
 	}
 
+	/**
+	 * @return the number of rows spanned by this range
+	 */
 	public int getHeight() {
 		return maxRow - minRow + 1;
 	}

@@ -52,6 +52,9 @@ public class DrawDynamicCaption {
 		drawCaption.setLabelMargin(0);
 	}
 
+	/**
+	 * @return whether the geo has a dynamic caption to draw
+	 */
 	public boolean isEnabled() {
 		return geo.hasDynamicCaption();
 	}
@@ -220,6 +223,9 @@ public class DrawDynamicCaption {
 		return drawCaption.hit(x, y, hitThreshold);
 	}
 
+	/**
+	 * @return text of the dynamic caption
+	 */
 	public String getDynCaptionText() {
 		return getDynamicCaption().getTextString();
 	}

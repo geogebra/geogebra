@@ -2205,6 +2205,9 @@ public class GeoImplicitCurve extends GeoElement
 		updatePath();
 	}
 
+	/**
+	 * @return whether the defining expression evaluates to a number
+	 */
 	public boolean isValidType() {
 		return expression.getExpression().evaluatesToNumber(true);
 	}

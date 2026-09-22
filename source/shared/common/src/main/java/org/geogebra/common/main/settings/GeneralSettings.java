@@ -41,6 +41,9 @@ public class GeneralSettings extends AbstractSettings<GeneralSettings> {
 		return coordFormat;
 	}
 
+	/**
+	 * @return the point editor template matching the current coordinate format
+	 */
 	public String getPointEditorTemplate() {
 		return coordFormat == Kernel.COORD_STYLE_AUSTRIAN ? "$pointAt" : "$point";
 	}

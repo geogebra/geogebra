@@ -1643,6 +1643,9 @@ public abstract class DockPanelD extends JPanel
 		setVisible(visible);
 	}
 
+	/**
+	 * @return whether this is a 3D Euclidian view dock panel
+	 */
 	public boolean isEuclidianDockPanel3D() {
 		return false;
 	}

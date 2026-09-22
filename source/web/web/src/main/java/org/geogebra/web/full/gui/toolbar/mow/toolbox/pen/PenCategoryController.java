@@ -51,6 +51,9 @@ public final class PenCategoryController {
 		getPen().updateMode();
 	}
 
+	/**
+	 * @return last pen color from the settings.
+	 */
 	public GColor getLastPenColor() {
 		return getPenSettings().getLastSelectedPenColor();
 	}
@@ -63,6 +66,9 @@ public final class PenCategoryController {
 		getPenSettings().setLastSelectedPenColor(lastPenColor);
 	}
 
+	/**
+	 * @return last highlighter color from the settings.
+	 */
 	public GColor getLastHighlighterColor() {
 		return getPenSettings().getLastSelectedHighlighterColor();
 	}

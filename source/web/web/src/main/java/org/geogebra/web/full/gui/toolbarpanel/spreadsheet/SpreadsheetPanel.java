@@ -397,6 +397,9 @@ public final class SpreadsheetPanel extends FlowPanel
 		return getWidth() - scrollOverlay.getElement().getClientWidth();
 	}
 
+	/**
+	 * @return the keyboard listener of the math field used for cell editing.
+	 */
 	public MathKeyboardListener getKeyboardListener() {
 		return mathField.getKeyboardListener();
 	}
@@ -439,6 +442,9 @@ public final class SpreadsheetPanel extends FlowPanel
 		}
 	}
 
+	/**
+	 * @return the style bar model of the spreadsheet.
+	 */
 	public SpreadsheetStyleBarModel getStyleBarModel() {
 		return spreadsheet.getStyleBarModel();
 	}

@@ -157,6 +157,10 @@ public final class TableEditor implements UnhandledKeyListener {
 		}
 	}
 
+	/**
+	 * @return the keyboard listener of the active math text field,
+	 *     or {@code null} if no cell is being edited
+	 */
 	public MathKeyboardListener getKeyboardListener() {
 		return mathTextField == null ? null : mathTextField.getKeyboardListener();
 	}
@@ -227,6 +231,9 @@ public final class TableEditor implements UnhandledKeyListener {
 		this.event = evt;
 	}
 
+	/**
+	 * @return whether the editor widget is currently attached to the DOM
+	 */
 	public boolean isAttached() {
 		return mathTextField != null && mathTextField.asWidget().isAttached();
 	}

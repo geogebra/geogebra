@@ -54,6 +54,9 @@ public class CheatingEvents {
 		return events;
 	}
 
+	/**
+	 * @return whether no cheating events have been recorded
+	 */
 	public boolean isEmpty() {
 		return events.isEmpty();
 	}

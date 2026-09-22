@@ -53,6 +53,9 @@ public class ObjectLabelHandler implements DocHandler {
 		// really do not care
 	}
 
+	/**
+	 * @return labels of all elements collected while parsing
+	 */
 	public String[] getObjectNames() {
 		return labels.toArray(new String[0]);
 	}

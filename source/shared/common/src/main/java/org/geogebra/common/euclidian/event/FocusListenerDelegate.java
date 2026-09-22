@@ -16,17 +16,19 @@
 
 package org.geogebra.common.euclidian.event;
 
-import org.geogebra.common.annotation.MissingDoc;
-
 /**
  * Focus listener for autocomplete text inputs.
  * Used as a delegate by platform-dependent focus listeners.
  */
 public interface FocusListenerDelegate {
 
-	@MissingDoc
+	/**
+	 * Handle blur event.
+	 */
 	void focusLost();
 
-	@MissingDoc
+	/**
+	 * Handle focus event.
+	 */
 	void focusGained();
 }

@@ -255,6 +255,9 @@ public final class PagePreviewCard extends FlowPanel implements SetLabels {
 		return MARGIN + index * TOTAL_HEIGHT;
 	}
 
+	/**
+	 * @return top offset computed from this card's page index.
+	 */
 	public int getComputedTop() {
 		return computeTop(getPageIndex());
 	}
@@ -296,6 +299,9 @@ public final class PagePreviewCard extends FlowPanel implements SetLabels {
 		infoPanel.setCardTitle(title);
 	}
 
+	/**
+	 * @return the title of this card.
+	 */
 	public String getCardTitle() {
 		return infoPanel.getCardTitle();
 	}
@@ -314,6 +320,9 @@ public final class PagePreviewCard extends FlowPanel implements SetLabels {
 		return setPreviewImage(getFile().get("geogebra_thumbnail.png"));
 	}
 
+	/**
+	 * @return the ID of the file associated with this card.
+	 */
 	public String getID() {
 		return file.getID();
 	}
