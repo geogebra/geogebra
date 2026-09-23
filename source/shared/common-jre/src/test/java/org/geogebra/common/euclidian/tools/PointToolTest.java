@@ -76,8 +76,7 @@ class PointToolTest extends BaseToolTest {
 
 	@Test
 	void pointToolDragNewPoint() {
-		dragStart(50, 50);
-		dragEnd(100, 100);
+		dragRW(1, -1, 2, -2);
 
 		checkContent("A = (2, -2)");
 	}

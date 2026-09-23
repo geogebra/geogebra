@@ -17,6 +17,8 @@
 package org.geogebra.common.euclidian.tools;
 
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.test.TestEvent;
 import org.junit.jupiter.api.BeforeEach;
 
 class BaseToolTest extends BaseEuclidianControllerTest {
@@ -24,5 +26,41 @@ class BaseToolTest extends BaseEuclidianControllerTest {
 	@BeforeEach
 	void setUp() {
 		setUpController();
+	}
+
+	/**
+	 * Click at the given real-world coordinates in the active Euclidian view.
+	 *
+	 * @param xRW real-world x-coordinate
+	 * @param yRW real-world y-coordinate
+	 */
+	protected void clickRW(double xRW, double yRW) {
+		EuclidianView view = getApp().getActiveEuclidianView();
+		click(view.toScreenCoordX(xRW), view.toScreenCoordY(yRW));
+	}
+
+	/**
+	 * Move the mouse to the given real-world coordinates in the active Euclidian view.
+	 *
+	 * @param xRW real-world x-coordinate
+	 * @param yRW real-world y-coordinate
+	 */
+	protected void moveMouseRW(double xRW, double yRW) {
+		EuclidianView view = getApp().getActiveEuclidianView();
+		ec.wrapMouseMoved(new TestEvent(view.toScreenCoordX(xRW), view.toScreenCoordY(yRW)));
+	}
+
+	/**
+	 * Drag between the given real-world coordinates in the active Euclidian view.
+	 *
+	 * @param startXRW real-world x-coordinate where the drag starts
+	 * @param startYRW real-world y-coordinate where the drag starts
+	 * @param endXRW real-world x-coordinate where the drag ends
+	 * @param endYRW real-world y-coordinate where the drag ends
+	 */
+	protected void dragRW(double startXRW, double startYRW, double endXRW, double endYRW) {
+		EuclidianView view = getApp().getActiveEuclidianView();
+		dragStart(view.toScreenCoordX(startXRW), view.toScreenCoordY(startYRW));
+		dragEnd(view.toScreenCoordX(endXRW), view.toScreenCoordY(endYRW));
 	}
 }

@@ -47,8 +47,7 @@ class FitLineToolTest extends BaseToolTest {
 		add("A = (2, -2)");
 		add("B = (3, -5)");
 		add("C = (4, -8)");
-		dragStart(50, 50);
-		dragEnd(500, 500);
+		dragRW(1, -1, 10, -10);
 
 		checkContent("A = (2, -2)", "B = (3, -5)", "C = (4, -8)", "f: y = -3x + 4");
 	}
@@ -71,10 +70,7 @@ class FitLineToolTest extends BaseToolTest {
 		add("A = (1, -1)");
 		add("B = (2, -3)");
 
-		List<GeoElement> lines = applyFitLineTool(() -> {
-			dragStart(25, 25);
-			dragEnd(125, 175);
-		});
+		List<GeoElement> lines = applyFitLineTool(() -> dragRW(0.5, -0.5, 2.5, -3.5));
 
 		assertFitLine(lines, "f: y = -2x + 1");
 	}
@@ -102,10 +98,7 @@ class FitLineToolTest extends BaseToolTest {
 	void fitLineToolSinglePointSelectionRectangleDoesNotCreateLine() {
 		add("A = (1, -1)");
 
-		List<GeoElement> lines = applyFitLineTool(() -> {
-			dragStart(25, 25);
-			dragEnd(75, 75);
-		});
+		List<GeoElement> lines = applyFitLineTool(() -> dragRW(0.5, -0.5, 1.5, -1.5));
 
 		assertTrue(lines.isEmpty());
 	}
@@ -127,10 +120,7 @@ class FitLineToolTest extends BaseToolTest {
 		add("C = (3, -5)");
 		add("c: (x - 2)^2 + (y + 3)^2 = 0.25");
 
-		List<GeoElement> lines = applyFitLineTool(() -> {
-			dragStart(25, 25);
-			dragEnd(175, 275);
-		});
+		List<GeoElement> lines = applyFitLineTool(() -> dragRW(0.5, -0.5, 3.5, -5.5));
 
 		assertFitLine(lines, "f: y = -2x + 1");
 	}

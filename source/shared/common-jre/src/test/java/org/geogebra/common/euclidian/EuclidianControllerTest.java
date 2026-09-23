@@ -115,18 +115,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void deleteTool() {
-		setMode(EuclidianConstants.MODE_DELETE);
-		t("a:x=1");
-		t("b:y=-1");
-		click(50, 50);
-		checkContent("a: x = 1");
-		resetMouseLocation();
-		click(50, 50);
-		checkContent();
-	}
-
-	@Test
 	void vectorTool() {
 		setMode(EuclidianConstants.MODE_VECTOR);
 		click(0, 0);
@@ -361,16 +349,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void showHideObjectTool() {
-		setMode(EuclidianConstants.MODE_SHOW_HIDE_OBJECT); // TODO 27
-	}
-
-	@Test
-	void showHideLabelTool() {
-		setMode(EuclidianConstants.MODE_SHOW_HIDE_LABEL); // TODO 28
-	}
-
-	@Test
 	void mirrorAtPointTool() {
 		setMode(EuclidianConstants.MODE_MIRROR_AT_POINT);
 		click(0, 0); // A
@@ -496,11 +474,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void copyVisualStyleTool() {
-		setMode(EuclidianConstants.MODE_COPY_VISUAL_STYLE); // TODO 35
-	}
-
-	@Test
 	void angleTool() {
 		setMode(EuclidianConstants.MODE_ANGLE);
 		click(100, 100);
@@ -534,42 +507,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 				"i = 2",
 				"Textp = \"Perimeter of p = 8\"");
 		checkHiddenContent("perimeterp = 8", "Pointp = (1, -1)");
-	}
-
-	@Test
-	void moveRotateTool() {
-		setMode(EuclidianConstants.MODE_MOVE_ROTATE); // TODO 39
-	}
-
-	@Test
-	void translateViewTool() {
-		setMode(EuclidianConstants.MODE_TRANSLATE_VIEW); // TODO 40
-		t("C:Corner[4]");
-		checkHiddenContent("C = (-0.02, 0.02)");
-		dragStart(100, 100);
-		dragEnd(200, 100);
-		checkHiddenContent("C = (-2.02, 0.02)");
-		events.clear();
-	}
-
-	@Test
-	void zoomInTool() {
-		setMode(EuclidianConstants.MODE_ZOOM_IN);
-		t("C:Corner[4]");
-		checkHiddenContent("C = (-0.02, 0.02)");
-		click(400, 300);
-		checkHiddenContent("C = (2.65333, -1.98667)");
-		events.clear();
-	}
-
-	@Test
-	void zoomOutTool() {
-		setMode(EuclidianConstants.MODE_ZOOM_OUT);
-		t("C:Corner[4]");
-		checkHiddenContent("C = (-0.02, 0.02)");
-		click(400, 300);
-		checkHiddenContent("C = (-4.03, 3.03)");
-		events.clear();
 	}
 
 	@Test

@@ -76,12 +76,10 @@ class MoveToolTest extends BaseToolTest {
 		};
 		getApp().getEventDispatcher().addEventListener(accumulator);
 
-		dragStart(0, 0);
-		dragEnd(40, 40);
+		dragRW(0, 0, 0.8, -0.8);
 		assertEquals(Collections.emptyList(), updates);
 
-		dragStart(0, 0);
-		dragEnd(100, 100);
+		dragRW(0, 0, 2, -2);
 		checkContent("A = (2, -2)");
 		assertEquals(Collections.singletonList("A"), updates);
 	}
@@ -94,8 +92,7 @@ class MoveToolTest extends BaseToolTest {
 		line.setEuclidianVisible(true);
 		line.updateRepaint();
 
-		dragStart(200, 50);
-		dragEnd(200, 100);
+		dragRW(4, -1, 4, -2);
 
 		checkContent("g: y = -2");
 	}
@@ -106,8 +103,7 @@ class MoveToolTest extends BaseToolTest {
 		GeoElement pointB = add("B = (3, -1)");
 		getApp().getSelectionManager().setSelectedGeos(Arrays.asList(pointA, pointB));
 
-		dragStart(50, 50);
-		dragEnd(100, 100);
+		dragRW(1, -1, 2, -2);
 
 		checkContent("A = (2, -2)", "B = (4, -2)");
 	}
@@ -128,8 +124,7 @@ class MoveToolTest extends BaseToolTest {
 		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
 		numeric.setFixed(false);
 
-		dragStart(50, 50);
-		dragEnd(50, 200);
+		dragRW(1, -1, 1, -4);
 
 		assertEquals(
 				"BoxPlot(-4, 1, {1, 2, 3, 4})", numeric.getDefinition(StringTemplate.defaultTemplate));
@@ -140,8 +135,7 @@ class MoveToolTest extends BaseToolTest {
 		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
 		numeric.setFixed(true);
 
-		dragStart(50, 50);
-		dragEnd(50, 200);
+		dragRW(1, -1, 1, -4);
 
 		assertEquals(
 				"BoxPlot(0, 1, {1, 2, 3, 4})", numeric.getDefinition(StringTemplate.defaultTemplate));
@@ -154,8 +148,7 @@ class MoveToolTest extends BaseToolTest {
 		GeoNumeric numeric = add("BoxPlot(0, 1, {1, 2, 3, 4})");
 		numeric.setFixed(false);
 
-		dragStart(50, 50);
-		dragEnd(50, 200);
+		dragRW(1, -1, 1, -4);
 		getApp().getKernel().undo();
 
 		assertEquals(
@@ -190,8 +183,7 @@ class MoveToolTest extends BaseToolTest {
 		add("y_2={0,2,3}");
 		GeoElement element = add("(y_1, y_2)");
 
-		dragStart(0, 0);
-		dragEnd(50, 50);
+		dragRW(0, 0, 1, -1);
 
 		assertEquals("(y_1, y_2)", element.getDefinition(StringTemplate.defaultTemplate));
 		assertEquals("{(0, 0), (1, 2), (2, 3)}", element.toValueString(StringTemplate.defaultTemplate));
@@ -201,24 +193,21 @@ class MoveToolTest extends BaseToolTest {
 	void moveWithMouseShouldChangeSegment1() {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
-		dragStart(50, 50);
-		dragEnd(100, 150);
+		dragRW(1, -1, 2, -3);
 		checkContent("A = (1, -2)", "f = 1.41421");
 	}
 
 	@Test
 	void moveWithMouseShouldChangeVector1() {
 		add("v = Vector((1,-1))");
-		dragStart(50, 50);
-		dragEnd(100, 150);
+		dragRW(1, -1, 2, -3);
 		checkContent("v = (2, -3)");
 	}
 
 	@Test
 	void moveWithMouseShouldChangeVector2() {
 		add("list = {Vector((1,-1))}");
-		dragStart(50, 50);
-		dragEnd(100, 150);
+		dragRW(1, -1, 2, -3);
 		checkContent("list = {(2, -3)}");
 	}
 
@@ -246,8 +235,7 @@ class MoveToolTest extends BaseToolTest {
 		list.updateRepaint();
 		EventAccumulator accumulator = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(accumulator);
-		dragStart(50, 50);
-		dragEnd(100, 50);
+		dragRW(1, -1, 2, -1);
 		assertThat(list, hasValue("{(2, -1), (2, 1)}"));
 		assertTrue(accumulator.getEvents().contains("UPDATE l1"), "List should have been updated");
 	}
@@ -263,8 +251,7 @@ class MoveToolTest extends BaseToolTest {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
 		add("SetVisibleInView(B,1,false)");
-		dragStart(50, 50);
-		dragEnd(100, 150);
+		dragRW(1, -1, 2, -3);
 		checkContent(
 				"A = (1, -2)", "q = 1", "f = 1", "g = 1", "B = (2, -3)", "C = (2, -2)", "h = 1", "i = 1");
 	}
@@ -273,8 +260,7 @@ class MoveToolTest extends BaseToolTest {
 	void moveWithMouseShouldChangePolygon2() {
 		GeoElement A = add("A = (0,0)");
 		GeoElement q = add("q = Polygon((x(A), y(A)), (2, 0), (2, -2), (0, -2))");
-		dragStart(50, 50);
-		dragEnd(100, 100);
+		dragRW(1, -1, 2, -2);
 		assertThat(A, hasValue("(0, 0)"));
 		assertThat(q, hasValue("6"));
 	}
@@ -283,8 +269,7 @@ class MoveToolTest extends BaseToolTest {
 	void moveWithMouseShouldChangePolygon3() {
 		GeoElement A = add("A = (0,0)");
 		GeoElement q = add("q = Polygon(A, A + (2, 0), A + (2, -2), A + (0, -2))");
-		dragStart(50, 50);
-		dragEnd(100, 100);
+		dragRW(1, -1, 2, -2);
 		assertThat(A, hasValue("(1, -1)"));
 		assertThat(q, hasValue("4"));
 	}
@@ -294,8 +279,7 @@ class MoveToolTest extends BaseToolTest {
 		add("A = (0,0)");
 		add("f = Segment(A, (1,-1))");
 		add("SetFixed(f,true)");
-		dragStart(50, 50);
-		dragEnd(100, 150);
+		dragRW(1, -1, 2, -3);
 		checkContent("A = (0, 0)", "f = 1.41421");
 	}
 
@@ -304,8 +288,7 @@ class MoveToolTest extends BaseToolTest {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
 		add("SetFixed(q,true)");
-		dragStart(50, 50);
-		dragEnd(100, 150);
+		dragRW(1, -1, 2, -3);
 		checkContent(
 				"A = (0, 0)", "q = 1", "f = 1", "g = 1", "B = (1, -1)", "C = (1, 0)", "h = 1", "i = 1");
 	}
@@ -317,8 +300,7 @@ class MoveToolTest extends BaseToolTest {
 		add("C=(3,-3)");
 		GeoElement circle = add("Circle(A,B,C)");
 		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
-		dragStart(0, 0);
-		dragEnd(50, 50);
+		dragRW(0, 0, 1, -1);
 		assertThat(circle, hasValue("(-0.71x - 0.71y) (∞) = 0"));
 	}
 
@@ -326,16 +308,14 @@ class MoveToolTest extends BaseToolTest {
 	void moveWithMouseShouldChangeCircle1() {
 		add("A=(1, -1)");
 		GeoElement circle = add("Circle(A, 2)");
-		dragStart(50, 150);
-		dragEnd(100, 200);
+		dragRW(1, -3, 2, -4);
 		assertThat(circle, hasValue("(x - 2)² + (y + 2)² = 4"));
 	}
 
 	@Test
 	void moveWithMouseShouldChangeCircle2() {
 		add("c = Circle((1, -1), 2)");
-		dragStart(50, 150);
-		dragEnd(100, 200);
+		dragRW(1, -3, 2, -4);
 		checkContent("c: (x - 2)² + (y + 2)² = 4");
 	}
 
@@ -343,8 +323,7 @@ class MoveToolTest extends BaseToolTest {
 	void moveWithMouseShouldChangeEllipse() {
 		add("e = Ellipse((1, 1), (2, 2), (3, 3))");
 		checkContent("e: 17x² - 2x y + 17y² - 48x - 48y = 0");
-		dragStart(0, 0);
-		dragEnd(50, 50);
+		dragRW(0, 0, 1, -1);
 		checkContent("e: 17x² - 2x y + 17y² - 84x - 12y = -36");
 	}
 
@@ -352,16 +331,14 @@ class MoveToolTest extends BaseToolTest {
 	void moveWithMouseShouldNotChangeEllipse() {
 		add("e = Ellipse((2, 2), (1, 0.6), 2)");
 		checkContent("e: 60x² - 11.2x y + 56.16y² - 165.44x - 129.216y = 0.5696");
-		dragStart(0, 0);
-		dragEnd(50, 50);
+		dragRW(0, 0, 1, -1);
 		checkContent("e: 60x² - 11.2x y + 56.16y² - 165.44x - 129.216y = 0.5696");
 	}
 
 	@Test
 	void moveWithMouseShouldChangeRay() {
 		add("r = Ray((0, 0), (1, -1))");
-		dragStart(0, 0);
-		dragEnd(100, 50);
+		dragRW(0, 0, 2, -1);
 		checkContent("r: x + y = 1");
 	}
 
@@ -370,8 +347,7 @@ class MoveToolTest extends BaseToolTest {
 		add("a = 1");
 		add("b = -1");
 		add("A = (a, b)");
-		dragStart(50, 50);
-		dragEnd(100, 100);
+		dragRW(1, -1, 2, -2);
 		checkContent("A = (2, -2)");
 	}
 
@@ -380,8 +356,7 @@ class MoveToolTest extends BaseToolTest {
 		add("A = (2, 2)");
 		add("v = Vector((-1, -3))");
 		GeoElement point = add("Translate(A, v)");
-		dragStart(50, 50);
-		dragEnd(100, 100);
+		dragRW(1, -1, 2, -2);
 		assertThat(point, hasValue("(2, -2)"));
 	}
 
@@ -390,8 +365,7 @@ class MoveToolTest extends BaseToolTest {
 		add("A = (2, 2)");
 		add("v = Vector((-1, -3))");
 		GeoElement list = add("{Translate(A, v)}");
-		dragStart(50, 50);
-		dragEnd(100, 100);
+		dragRW(1, -1, 2, -2);
 		assertThat(list, hasValue("{(2, -2)}"));
 	}
 
@@ -400,8 +374,7 @@ class MoveToolTest extends BaseToolTest {
 		ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
 		((EuclidianViewNoGui) getApp().getActiveEuclidianView()).setScreenReader(screenReader);
 		add("A = (1, -1)");
-		dragStart(50, 50);
-		dragEnd(50, 50);
+		dragRW(1, -1, 1, -1);
 		verify(screenReader).readText(anyString());
 	}
 
@@ -410,8 +383,7 @@ class MoveToolTest extends BaseToolTest {
 		add("a=1");
 		add("b=-1");
 		add("A=(a,b)");
-		dragStart(50, 50);
-		dragEnd(100, 150);
+		dragRW(1, -1, 2, -3);
 		checkContentWithVisibility(false, "a = 2", "b = -3");
 		checkContent("A = (2, -3)");
 	}
@@ -420,8 +392,7 @@ class MoveToolTest extends BaseToolTest {
 	void drag3dPointWithDependencies() {
 		add("A=(1,-1,0)");
 		add("B=2A");
-		dragStart(50, 50);
-		dragEnd(100, 150);
+		dragRW(1, -1, 2, -3);
 		checkContent("A = (2, -3, 0)", "B = (4, -6, 0)");
 	}
 
@@ -484,8 +455,7 @@ class MoveToolTest extends BaseToolTest {
 	void undoMoving() {
 		getApp().setUndoActive(true);
 		add("A = (1, -1)");
-		dragStart(50, 50);
-		dragEnd(100, 150);
+		dragRW(1, -1, 2, -3);
 		checkContent("A = (2, -3)");
 		getApp().getKernel().undo();
 		checkContent("A = (1, -1)");
@@ -501,13 +471,11 @@ class MoveToolTest extends BaseToolTest {
 		GeoElement cornerV = add("Vertex(trV,1)");
 		// first drag poly translated by point
 		assertThat(corner, hasValue("(1, -2)"));
-		dragStart(75, 75);
-		dragEnd(75, 125);
+		dragRW(1.5, -1.5, 1.5, -2.5);
 		assertThat(corner, hasValue("(1, -3)"));
 		// now drag poly translated by vector
 		assertThat(cornerV, hasValue("(1, -2)"));
-		dragStart(75, 75);
-		dragEnd(75, 125);
+		dragRW(1.5, -1.5, 1.5, -2.5);
 		assertThat(cornerV, hasValue("(1, -3)"));
 	}
 
@@ -519,8 +487,7 @@ class MoveToolTest extends BaseToolTest {
 		add("tr=Translate(quad,Vector((1,a)))");
 		GeoElement corner = add("Vertex(tr,1)");
 		assertThat(corner, hasValue("(1, -2)"));
-		dragStart(75, 75);
-		dragEnd(75, 125);
+		dragRW(1.5, -1.5, 1.5, -2.5);
 		assertThat(corner, hasValue("(1, -2)"));
 	}
 
