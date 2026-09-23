@@ -55,11 +55,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.statistics.Statistic;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Divider;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.SubMenuItem;
-import org.geogebra.common.util.NonNullList;
 import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
@@ -214,13 +212,10 @@ public final class ContextMenuBuilder {
 		if (statisticsViewDelegate == null) {
 			return Collections.emptyList();
 		}
-		return NonNullList.of(
+		return List.of(
 				new ActionableItem(STATISTICS_ONE_VARIABLE, spreadsheetController::showOneVarStatistics),
 				new ActionableItem(STATISTICS_TWO_VARIABLES, spreadsheetController::showTwoVarStatistics),
-				PreviewFeature.isAvailable(PreviewFeature.FREQUENCY_TABLE_SPREADSHEET)
-						? new ActionableItem(
-								STATISTICS_FREQUENCY_TABLE, spreadsheetController::showFrequencyTable)
-						: null,
+				new ActionableItem(STATISTICS_FREQUENCY_TABLE, spreadsheetController::showFrequencyTable),
 				new ActionableItem(STATISTICS_REGRESSION, spreadsheetController::showRegression));
 	}
 

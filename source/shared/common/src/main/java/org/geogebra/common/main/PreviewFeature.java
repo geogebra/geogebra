@@ -34,8 +34,6 @@ public enum PreviewFeature {
 	MOB_PREVIEW_WHEN_EDITING,
 	/** SolveQuartic in CAS GGB-1635 */
 	SOLVE_QUARTIC,
-	/** APPS-7872 / APPS-7873 / APPS-7874 */
-	FREQUENCY_TABLE_SPREADSHEET,
 	/** TRAC-4845 */
 	LOG_AXES,
 	/** GGB-2255 */

@@ -29,6 +29,11 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.IN
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PASTE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS_FREQUENCY_TABLE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS_ONE_VARIABLE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS_REGRESSION;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS_TWO_VARIABLES;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -101,6 +106,43 @@ final class ContextMenuBuilderTest {
 						DIVIDER,
 						DELETE_ROW,
 						DELETE_COLUMN));
+	}
+
+	@Test
+	void testCellMenuOrderWithStatistics() {
+		builder.setSpreadsheetStatisticsDelegate(() -> {});
+		testMenuOrder(
+				1,
+				1,
+				List.of(
+						CUT,
+						COPY,
+						PASTE,
+						DIVIDER,
+						CALCULATE,
+						STATISTICS,
+						CREATE_CHART,
+						DIVIDER,
+						INSERT_ROW_ABOVE,
+						INSERT_ROW_BELOW,
+						INSERT_COLUMN_LEFT,
+						INSERT_COLUMN_RIGHT,
+						DIVIDER,
+						DELETE_ROW,
+						DELETE_COLUMN));
+	}
+
+	@Test
+	void testStatisticsMenuOrder() {
+		builder.setSpreadsheetStatisticsDelegate(() -> {});
+
+		assertEquals(
+				List.of(
+						STATISTICS_ONE_VARIABLE,
+						STATISTICS_TWO_VARIABLES,
+						STATISTICS_FREQUENCY_TABLE,
+						STATISTICS_REGRESSION),
+				getIdentifiers(builder.getStatisticsItems()));
 	}
 
 	private void testMenuOrder(int row, int column, List<Identifier> expected) {
