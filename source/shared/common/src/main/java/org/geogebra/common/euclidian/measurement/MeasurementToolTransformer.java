@@ -138,7 +138,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 		Coords intersect = line.crossProduct(normal);
 		double xn = x / Math.hypot(x, y);
 		double yn = y / Math.hypot(x, y);
-		double thickness = view.getEuclidianController().getPen().getPenSize() / 2.0;
+		double thickness = view.getEuclidianController().getPen().getScaledPenSize() / 2.0;
 		double transformedX =
 				view.toScreenCoordXd(intersect.getX() / intersect.getZ()) - xn * thickness;
 		double transformedY =

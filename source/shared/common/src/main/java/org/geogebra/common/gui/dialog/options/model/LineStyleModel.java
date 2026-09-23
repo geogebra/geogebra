@@ -22,9 +22,12 @@ import java.util.List;
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 
 public class LineStyleModel extends OptionsModel {
 	private boolean lineTypeEnabled;
@@ -86,8 +89,10 @@ public class LineStyleModel extends OptionsModel {
 		return lineStyleArray.size();
 	}
 
+	/**
+	 * @return the highest minimal thickness, in half-pixels
+	 */
 	public int maxMinimumThickness() {
-
 		if (!hasGeos()) {
 			return 1;
 		}
@@ -98,8 +103,25 @@ public class LineStyleModel extends OptionsModel {
 				return 1;
 			}
 		}
-
 		return 0;
+	}
+
+	/**
+	 * @return the lowest maximal thickness, in half-pixels
+	 */
+	public int minMaximumThickness() {
+		if (!hasGeos()) {
+			return ThicknessProperty.DEFAULT_MAX_THICKNESS;
+		}
+
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement testGeo = getGeoAt(i).getGeoElementForPropertiesDialog();
+			if (!(testGeo instanceof GeoLocusStroke
+					|| testGeo instanceof GeoPolyLine && !testGeo.isLabelSet())) {
+				return ThicknessProperty.DEFAULT_MAX_THICKNESS;
+			}
+		}
+		return ThicknessProperty.MAX_PEN_HIGHLIGHTER_SIZE;
 	}
 
 	@Override

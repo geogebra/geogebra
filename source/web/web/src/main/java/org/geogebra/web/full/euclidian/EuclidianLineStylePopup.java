@@ -56,6 +56,7 @@ public final class EuclidianLineStylePopup extends LineStylePopup {
 			if (hasSlider()) {
 				setSliderValue(geo0.getLineThickness());
 				getSlider().setMinimum(model.maxMinimumThickness());
+				getSlider().setMaximum(model.minMaximumThickness());
 			}
 			selectLineType(geo0.getLineType());
 		}

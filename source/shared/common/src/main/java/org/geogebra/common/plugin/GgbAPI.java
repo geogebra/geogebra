@@ -1492,12 +1492,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public final void setPenSize(int size) {
-		app.getActiveEuclidianView().getEuclidianController().getPen().setPenSize(size);
+		app.getActiveEuclidianView().getEuclidianController().getPen().setPenSize(size * 2);
 	}
 
 	@Override
-	public int getPenSize() {
-		return app.getActiveEuclidianView().getEuclidianController().getPen().getPenSize();
+	public double getPenSize() {
+		return app.getActiveEuclidianView().getEuclidianController().getPen().getPenSize() / 2.0;
 	}
 
 	@Override

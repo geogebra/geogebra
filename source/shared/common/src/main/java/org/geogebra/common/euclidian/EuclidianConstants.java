@@ -461,8 +461,8 @@ public final class EuclidianConstants {
 	public static final long DRAGGING_DELAY_FOR_MOVING_POINT_ALONG_Z = 200;
 	/** default size of delete tool rectangle in pixels */
 	public static final int DEFAULT_ERASER_SIZE = 20;
-	/** line thickness for pen (mow) */
-	public static final int DEFAULT_PEN_SIZE = 3;
+	/** line thickness for pen (notes) in half-pixels */
+	public static final int DEFAULT_PEN_SIZE = 6;
 	/** min length of input box that allows display of symbol button */
 	public static final int SHOW_SYMBOLBUTTON_MINLENGTH = 8;
 
@@ -470,25 +470,13 @@ public final class EuclidianConstants {
 	public static final int DEFAULT_CHECKBOX_SIZE = 26;
 
 	/**
-	 * min line thickness of highlighter
-	 */
-	public static final int MIN_PEN_HIGHLIGHTER_SIZE = 1;
-	/**
-	 * default step size to increase line thickness of pen/highlighter
-	 */
-	public static final int DEFAULT_PEN_STEP = 1;
-	/**
 	 * default opacity of highlighter (0.3)
 	 */
 	public static final int DEFAULT_HIGHLIGHTER_OPACITY = 77;
 	/**
-	 * default line thickness of highlighter
+	 * default line thickness of highlighter in half-pixels
 	 */
-	public static final int DEFAULT_HIGHLIGHTER_SIZE = 20;
-	/**
-	 * max line thickness of highlighter
-	 */
-	public static final int MAX_PEN_HIGHLIGHTER_SIZE = 30;
+	public static final int DEFAULT_HIGHLIGHTER_SIZE = 40;
 
 	/**
 	 * @param mode mode

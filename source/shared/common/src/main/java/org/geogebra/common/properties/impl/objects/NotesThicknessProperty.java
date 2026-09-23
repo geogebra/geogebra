@@ -31,6 +31,9 @@ public class NotesThicknessProperty extends ThicknessProperty {
 	 */
 	public NotesThicknessProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, 60, new ThicknessPropertyDelegate(element));
+		super(
+				localization,
+				ThicknessProperty.MAX_PEN_HIGHLIGHTER_SIZE,
+				new ThicknessPropertyDelegate(element));
 	}
 }

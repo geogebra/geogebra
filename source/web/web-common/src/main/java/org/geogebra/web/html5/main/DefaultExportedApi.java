@@ -293,7 +293,7 @@ public class DefaultExportedApi implements ExportedApi {
 		return getGgbAPI().getPenColor();
 	}
 
-	public int getPenSize() {
+	public double getPenSize() {
 		return getGgbAPI().getPenSize();
 	}
 

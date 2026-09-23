@@ -1420,8 +1420,8 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private static boolean handlePenSize(PenToolsSettings penTools, Map<String, String> attrs) {
-		int penSize = Integer.parseInt(attrs.get("val"));
-		penTools.setLastPenThickness(penSize);
+		double penSize = Double.parseDouble(attrs.get("val"));
+		penTools.setLastPenThickness((int) penSize * 2);
 		return true;
 	}
 
@@ -1436,8 +1436,8 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleHighlighterSize(
 			PenToolsSettings penTools, Map<String, String> attrs) {
-		int highlighterSize = Integer.parseInt(attrs.get("val"));
-		penTools.setLastHighlighterThickness(highlighterSize);
+		double highlighterSize = Double.parseDouble(attrs.get("val"));
+		penTools.setLastHighlighterThickness((int) (2 * highlighterSize));
 		return true;
 	}
 

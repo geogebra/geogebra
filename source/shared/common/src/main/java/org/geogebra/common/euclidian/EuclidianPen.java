@@ -66,9 +66,6 @@ public class EuclidianPen implements GTimerListener {
 	private AlgoLocusStroke lastAlgo = null;
 	/** points created by pen */
 	protected ArrayList<GPoint2D> penPoints = new ArrayList<>();
-
-	// segment
-	private static final int PEN_SIZE_FACTOR = 2;
 	/** skip intermediate points on segments longer than this */
 	private static final double MAX_POINT_DIST = 30;
 	/** ignore consecutive pen points closer than this */
@@ -115,20 +112,21 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
-	 * @return pen size as saved in file
+	 * @return pen size as saved in file, in half-pixels
 	 */
 	public int getPenSize() {
 		return defaultPenLine.getLineThickness();
 	}
 
 	/**
-	 * @return pen size as drawn on screen
+	 * @return pen size as drawn on screen, in pixels
 	 */
 	public double getScaledPenSize() {
 		double zoom = view.getXscale() / EuclidianView.SCALE_STANDARD;
-		return view.getSettings().getLineThicknessScaled()
+		double scaledThickness = view.getSettings().getLineThicknessScaled()
 				? defaultPenLine.getLineThickness() * zoom
 				: defaultPenLine.getLineThickness();
+		return scaledThickness / 2;
 	}
 
 	/**
@@ -146,7 +144,7 @@ public class EuclidianPen implements GTimerListener {
 
 	/**
 	 * @param penSize
-	 *            pen size
+	 *            pen size in half-pixels
 	 */
 	public void setPenSize(int penSize) {
 		defaultPenLine.setLineThickness(penSize);
@@ -453,7 +451,7 @@ public class EuclidianPen implements GTimerListener {
 		lastAlgo = new AlgoLocusStroke(cons, newPts);
 		lastAlgo.getPenStroke().appendPointArray(penPoints, view);
 		GeoElement stroke = lastAlgo.getOutput(0);
-		stroke.setLineThickness(getPenSize() * PEN_SIZE_FACTOR);
+		stroke.setLineThickness(getPenSize());
 		stroke.setLineType(getPenLineStyle());
 		stroke.setLineOpacity(defaultPenLine.getLineOpacity());
 		stroke.setObjColor(getPenColor());

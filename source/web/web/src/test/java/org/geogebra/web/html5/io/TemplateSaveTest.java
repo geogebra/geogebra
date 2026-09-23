@@ -44,9 +44,9 @@ public class TemplateSaveTest {
 		AppWFull app = AppMocker.mockApplet(articleElement);
 		app.getSaveController().setSaveType(Material.MaterialType.ggsTemplate);
 		PenToolsSettings settings = app.getSettings().getPenTools();
-		settings.setLastPenThickness(30);
+		settings.setLastPenThickness(60);
 		settings.setLastSelectedPenColor(GColor.newColor(204, 0, 153));
-		settings.setLastHighlighterThickness(1);
+		settings.setLastHighlighterThickness(2);
 		settings.setLastSelectedHighlighterColor(GColor.newColor(219, 97, 20));
 		settings.setDeleteToolSize(61);
 		String pathString = "src/test/resources/org/geogebra/web/html5/io/templateXML.txt";

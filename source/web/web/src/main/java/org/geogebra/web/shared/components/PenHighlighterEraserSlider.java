@@ -20,8 +20,8 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ERASER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_HIGHLIGHTER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.settings.PenToolsSettings;
+import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
@@ -32,6 +32,9 @@ public final class PenHighlighterEraserSlider extends FlowPanel {
 	private static final int MAX_ERASER_SIZE = 200;
 	private static final int MIN_ERASER_SIZE = 10;
 	private static final int ERASER_STEP = 10;
+	/** default step size to increase line thickness of pen/highlighter */
+	private static final int DEFAULT_PEN_STEP = 1;
+
 	private final AppW appW;
 	private SliderW slider;
 	private Label sliderLabel;
@@ -64,7 +67,7 @@ public final class PenHighlighterEraserSlider extends FlowPanel {
 	}
 
 	private void buildSlider() {
-		slider = new SliderW(0, 20);
+		slider = new SliderW(0, 60);
 		slider.addStyleName("slider");
 		slider.addInputHandler(() -> sliderValueChanged(slider.getValue()));
 	}
@@ -89,38 +92,27 @@ public final class PenHighlighterEraserSlider extends FlowPanel {
 			appW.getActiveEuclidianView().getEuclidianController().getPen().setPenSize((int) value);
 			update(lastSelectedMode);
 		}
-		updateDisplayValue(lastSelectedMode, (int) value);
+		displayValue.setText(String.valueOf(value));
 	}
 
 	private void updateSliderValue(int mode) {
 		PenToolsSettings settings = appW.getSettings().getPenTools();
-		int sliderValue = 0;
-		switch (mode) {
-			case MODE_ERASER:
-				sliderValue = settings.getDeleteToolSize();
-				break;
-			case MODE_HIGHLIGHTER:
-				sliderValue = settings.getLastHighlighterThickness();
-				break;
-			case MODE_PEN:
-			default:
-				sliderValue = settings.getLastPenThickness();
-				break;
-		}
+		int sliderValue =
+				switch (mode) {
+					case MODE_ERASER -> settings.getDeleteToolSize();
+					case MODE_HIGHLIGHTER -> settings.getLastHighlighterThickness();
+					default -> settings.getLastPenThickness();
+				};
 
 		slider.setValue((double) sliderValue);
-		updateDisplayValue(mode, sliderValue);
+		displayValue.setText(String.valueOf(sliderValue));
 	}
 
 	private void setSliderRange(boolean isPenOrHighlighter) {
 		slider.setMinimum(
-				isPenOrHighlighter ? EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE : MIN_ERASER_SIZE);
+				isPenOrHighlighter ? ThicknessProperty.DEFAULT_MIN_THICKNESS : MIN_ERASER_SIZE);
 		slider.setMaximum(
-				isPenOrHighlighter ? EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE : MAX_ERASER_SIZE);
-		slider.setStep(isPenOrHighlighter ? EuclidianConstants.DEFAULT_PEN_STEP : ERASER_STEP);
-	}
-
-	private void updateDisplayValue(int mode, int sliderValue) {
-		displayValue.setText(String.valueOf(MODE_ERASER == mode ? sliderValue : sliderValue * 2));
+				isPenOrHighlighter ? ThicknessProperty.MAX_PEN_HIGHLIGHTER_SIZE : MAX_ERASER_SIZE);
+		slider.setStep(isPenOrHighlighter ? DEFAULT_PEN_STEP : ERASER_STEP);
 	}
 }

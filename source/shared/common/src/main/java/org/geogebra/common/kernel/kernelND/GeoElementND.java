@@ -363,7 +363,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	int getLineType();
 
 	/**
-	 * @return line thickness
+	 * @return line thickness in half-pixels
 	 */
 	int getLineThickness();
 

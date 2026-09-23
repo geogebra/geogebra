@@ -44,41 +44,56 @@ public class TemplateLoadTest {
 	public void init() {
 		AppletParameters articleElement = new AppletParameters("notes");
 		app = AppMocker.mockApplet(articleElement);
-		app.setXML(
-				"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<geogebra format=\"5.0\" "
-						+ "version=\"5.0.570.0\" app=\"notes\" platform=\"w\" "
-						+ "id=\"F3D7E07C-758A-4337-A238-9A7EC72361E1\"  "
-						+ "xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/ggb.xsd\" xmlns=\"\" "
-						+ "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n<gui>\n\t<window "
-						+ "width=\"953\" height=\"787\" />\n\t<labelingStyle  val=\"0\"/>\n\t<font  "
-						+ "size=\"16\"/>\n</gui>\n<euclidianView>\n\t<viewNumber viewNo=\"1\"/>\n\t<size  "
-						+ "width=\"953\" height=\"787\"/>\n\t<coordSystem xZero=\"476.4999999999999\" "
-						+ "yZero=\"393.5\" scale=\"49.99999999999999\" yscale=\"50\"/>\n\t"
-						+ "<evSettings axes=\"false\" grid=\"false\" gridIsBold=\"false\""
-						+ " pointCapturing=\"3\" rightAngleStyle=\"1\" checkboxSize=\"26\" gridType=\"3\"/>"
-						+ "\n\t<bgColor r=\"255\" g=\"255\" b=\"255\"/>\n"
-						+ "\t<axesColor r=\"0\" g=\"0\" b=\"0\"/>\n"
-						+ "\t<gridColor r=\"192\" g=\"192\" b=\"192\"/>\n"
-						+ "\t<rulerType val=\"2\" bold=\"true\"/>\n"
-						+ "\t<rulerColor r=\"128\" g=\"0\" b=\"128\"/>\n\t<penSize val=\"30\"/>\n"
-						+ "\t<penColor r=\"204\" g=\"0\" b=\"153\"/>\n\t<highlighterSize val=\"1\"/>\n"
-						+ "\t<highlighterColor r=\"219\" g=\"97\" b=\"20\"/>\n\t<eraserSize val=\"61\"/>\n"
-						+ "\t<language val=\"hu\"/>\n</euclidianView>\n<kernel>\n"
-						+ "\t<continuous val=\"false\"/>\n\t<usePathAndRegionParameters val=\"true\"/>\n"
-						+ "\t<decimals val=\"2\"/>\n\t<angleUnit val=\"degree\"/>\n"
-						+ "\t<algebraStyle val=\"0\" spreadsheet=\"0\"/>\n"
-						+ "\t<coordStyle val=\"0\"/>\n</kernel>\n"
-						+ "<tableview min=\"-2\" max=\"2\" step=\"1\"/>\n"
-						+ "<scripting blocked=\"false\" disabled=\"false\"/>\n"
-						+ "<construction title=\"templateTest\" author=\"\" date=\"\">\n</construction>\n"
-						+ "</geogebra>",
-				false);
+		app.setXML("""
+						<?xml version="1.0" encoding="utf-8"?>
+						<geogebra format="5.0" \
+						version="5.0.570.0" app="notes" platform="w" \
+						id="F3D7E07C-758A-4337-A238-9A7EC72361E1"  \
+						xsi:noNamespaceSchemaLocation="http://www.geogebra.org/ggb.xsd" xmlns="" \
+						xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+						<gui>
+						\t<window width="953" height="787" />
+						\t<labelingStyle  val="0"/>
+						\t<font size="16"/>
+						</gui>
+						<euclidianView>
+						\t<viewNumber viewNo="1"/>
+						\t<size width="953" height="787"/>
+						\t<coordSystem xZero="476.4999999999999" \
+						yZero="393.5" scale="49.99999999999999" yscale="50"/>
+						\t<evSettings axes="false" grid="false" gridIsBold="false"\
+						pointCapturing="3" rightAngleStyle="1" checkboxSize="26" gridType="3"/>
+						\t<bgColor r="255" g="255" b="255"/>
+						\t<axesColor r="0" g="0" b="0"/>
+						\t<gridColor r="192" g="192" b="192"/>
+						\t<rulerType val="2" bold="true"/>
+						\t<rulerColor r="128" g="0" b="128"/>
+						\t<penSize val="30"/>
+						\t<penColor r="204" g="0" b="153"/>
+						\t<highlighterSize val="1"/>
+						\t<highlighterColor r="219" g="97" b="20"/>
+						\t<eraserSize val="61"/>
+						\t<language val="hu"/>
+						</euclidianView>
+						<kernel>
+						\t<continuous val="false"/>
+						\t<usePathAndRegionParameters val="true"/>
+						\t<decimals val="2"/>
+						\t<angleUnit val="degree"/>
+						\t<algebraStyle val="0" spreadsheet="0"/>
+						\t<coordStyle val="0"/>
+						</kernel>
+						<tableview min="-2" max="2" step="1"/>
+						<scripting blocked="false" disabled="false"/>
+						<construction title="templateTest" author="" date="">
+						</construction>
+						</geogebra>""", false);
 		settings = app.getSettings().getPenTools();
 	}
 
 	@Test
 	public void testLoadTemplatePenThickness() {
-		assertEquals(30, settings.getLastPenThickness());
+		assertEquals(60, settings.getLastPenThickness());
 	}
 
 	@Test
@@ -91,7 +106,7 @@ public class TemplateLoadTest {
 
 	@Test
 	public void testLoadTemplateHighlighterThickness() {
-		assertEquals(1, settings.getLastHighlighterThickness());
+		assertEquals(2, settings.getLastHighlighterThickness());
 	}
 
 	@Test

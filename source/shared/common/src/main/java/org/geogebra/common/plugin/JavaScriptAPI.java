@@ -435,7 +435,7 @@ public interface JavaScriptAPI {
 	 *
 	 * @return pen size in pixels
 	 */
-	int getPenSize();
+	double getPenSize();
 
 	/**
 	 *
