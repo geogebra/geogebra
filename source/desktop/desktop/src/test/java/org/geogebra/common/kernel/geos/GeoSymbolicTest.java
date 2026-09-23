@@ -50,6 +50,7 @@ import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
@@ -1324,6 +1325,28 @@ class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(element, is(CoreMatchers.instanceOf(GeoNumeric.class)));
 		GeoNumeric numeric = (GeoNumeric) element;
 		assertThat(numeric.getValue(), is(closeTo(10, 0.001)));
+	}
+
+	@Test
+	@Issue("APPS-4281")
+	void editingArbitraryConstantShouldKeepSlider() {
+		GeoSymbolic integral = add("Integral(sin(x))");
+		GeoNumeric slider = (GeoNumeric) lookup("c_1");
+		// selecting the function computes special points, which serializes c_1 for Giac
+		app.getSpecialPointsManager().updateSpecialPoints(integral);
+		assertThat(slider.getSendValueToCas(), is(false));
+		assertThat(AlgebraItem.shouldShowSlider(slider), is(true));
+		ap.changeGeoElementNoExceptionHandling(
+				slider,
+				"c_{1}=0.1",
+				EvalInfoFactory.getEvalInfoForRedefinition(kernel, slider, true),
+				true,
+				null,
+				TestErrorHandler.INSTANCE);
+		GeoElement edited = lookup("c_1");
+		assertThat(edited, is(slider));
+		assertThat(slider.getValue(), is(closeTo(0.1, 1E-8)));
+		assertThat(AlgebraItem.shouldShowSlider(slider), is(true));
 	}
 
 	@Test

@@ -665,9 +665,10 @@ public class GeoNumeric extends GeoElement
 			if (this.label != null && (this.label.startsWith("c_") || this.label.startsWith("k_"))) {
 				// needed for GGB-903
 				// if label starts with c_
-				// look up if it is stored as constant
+				// look up if it is stored as constant;
+				// arbitrary constants of symbolic AV items are not in the lookup table
 				GeoNumeric geo = this.cons.lookupConstantLabel(label);
-				this.setSendValueToCas(geo == null);
+				this.setSendValueToCas(geo == null && !isDependentConst());
 			}
 			if (!sendValueToCas) {
 				return "(" + Kernel.TMP_VARIABLE_PREFIX + label + ")";
