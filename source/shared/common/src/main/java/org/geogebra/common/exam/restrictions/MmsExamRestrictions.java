@@ -226,7 +226,7 @@ public class MmsExamRestrictions extends Restrictions {
 	private static Set<FeatureRestriction> createFeatureRestrictions() {
 		return Set.of(
 				FeatureRestriction.HIDE_CALCULATED_EQUATION,
-				FeatureRestriction.HIDE_SPECIAL_POINTS,
+				FeatureRestriction.SPECIAL_POINTS_ONLY_ON_GRAPHICS_VIEW_SELECTION,
 				FeatureRestriction.SPREADSHEET,
 				FeatureRestriction.SURD,
 				FeatureRestriction.RATIONALIZATION,

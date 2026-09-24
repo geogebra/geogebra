@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -109,6 +110,19 @@ class SpecialPointsTest extends BaseUnitTest {
 		updateSpecialPoints("eq2");
 		assertTrue(element.getAlgorithmList().isEmpty());
 		assertTrue(element.getAlgoUpdateSet().isEmpty());
+	}
+
+	@Test
+	@Issue("APPS-7931")
+	void restrictedSpecialPointsNeedGraphicsViewSelection() {
+		add("f(x)=x^2-2");
+		getApp().getSpecialPointsManager().setRestrictedToGraphicsViewSelection(true);
+		updateSpecialPoints("f");
+		assertEquals(0, numberOfSpecialPoints());
+
+		getApp().getSpecialPointsManager().setGraphicsViewSelectedGeo(lookup("f"));
+		updateSpecialPoints("f");
+		assertTrue(numberOfSpecialPoints() > 0);
 	}
 
 	private int numberOfSpecialPoints() {

@@ -190,8 +190,8 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 
 		assertAll(
 				// feature restrictions
-				() -> assertTrue(
-						restrictionsController.isFeatureRestricted(FeatureRestriction.HIDE_SPECIAL_POINTS)),
+				() -> assertTrue(restrictionsController.isFeatureRestricted(
+						FeatureRestriction.SPECIAL_POINTS_ONLY_ON_GRAPHICS_VIEW_SELECTION)),
 				// command restrictions
 				() -> assertFalse(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative)),
 				// TODO commandArgumentFilters
@@ -207,7 +207,8 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 		assertFalse(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative));
 		examController.exitExam();
 		assertTrue(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative));
-		assertFalse(restrictionsController.isFeatureRestricted(FeatureRestriction.HIDE_SPECIAL_POINTS));
+		assertFalse(restrictionsController.isFeatureRestricted(
+				FeatureRestriction.SPECIAL_POINTS_ONLY_ON_GRAPHICS_VIEW_SELECTION));
 	}
 
 	@Test

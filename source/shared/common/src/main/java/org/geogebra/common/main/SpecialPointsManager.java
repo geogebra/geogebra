@@ -57,6 +57,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -73,7 +74,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
 	private GeoPoint defaultPoint;
 	private boolean isUpdating = false;
-	boolean isEnabled = true;
+	private boolean restrictedToGraphicsViewSelection = false;
+	private @Nullable GeoElement graphicsViewSelectedGeo;
 	/**
 	 * storing the special points parent algos: needed for iOS as GeoElement as only weak
 	 * reference to its parent algo
@@ -105,19 +107,51 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	 */
 	public void updateSpecialPoints(GeoElement geo) {
 		App application = kernel.getApplication();
-		if (!application.getConfig().hasPreviewPoints() || !isEnabled || isUpdating) {
+		if (!application.getConfig().hasPreviewPoints() || isUpdating) {
 			return;
 		}
 		// Prevent calling update special points recursively
 		isUpdating = true;
 
 		clearSpecPoints();
-		if (EuclidianConstants.isMoveOrSelectionMode(application.getMode())) {
+		if (EuclidianConstants.isMoveOrSelectionMode(application.getMode())
+				&& isAllowedForGeo(getGeoForSpecialPoints(geo))) {
 			updateSpecialPointsInternal(geo);
+		} else {
+			// the selection changed outside of the Graphics View
+			graphicsViewSelectedGeo = null;
 		}
 		fireSpecialPointsChangedEvent();
 
 		isUpdating = false;
+	}
+
+	/**
+	 * Restricts the special points to those of the geo that the user selected in the
+	 * Graphics View: special points are never shown automatically (APPS-7931).
+	 *
+	 * @param restricted whether to apply the restriction
+	 */
+	public void setRestrictedToGraphicsViewSelection(boolean restricted) {
+		restrictedToGraphicsViewSelection = restricted;
+		graphicsViewSelectedGeo = null;
+	}
+
+	/**
+	 * Notifies the manager that the user selected a geo by clicking or tapping on it in
+	 * the Graphics View. Call this before the selection itself is updated.
+	 *
+	 * @param geo geo hit in the Graphics View, or null if none was hit
+	 */
+	public void setGraphicsViewSelectedGeo(@Nullable GeoElement geo) {
+		graphicsViewSelectedGeo = geo;
+	}
+
+	private boolean isAllowedForGeo(@Nullable GeoElement geo) {
+		if (!restrictedToGraphicsViewSelection) {
+			return true;
+		}
+		return geo != null && geo == graphicsViewSelectedGeo;
 	}
 
 	private void updateSpecialPointsInternal(GeoElement geo0) {

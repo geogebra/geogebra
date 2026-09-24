@@ -60,7 +60,7 @@ final class TestExamRestrictions extends Restrictions {
 		super(
 				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
-				Set.of(FeatureRestriction.HIDE_SPECIAL_POINTS),
+				Set.of(FeatureRestriction.SPECIAL_POINTS_ONLY_ON_GRAPHICS_VIEW_SELECTION),
 				createExpressionFilters(),
 				null,
 				createCommandFilters(),

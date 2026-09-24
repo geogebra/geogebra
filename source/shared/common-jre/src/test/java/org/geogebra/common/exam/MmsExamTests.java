@@ -41,6 +41,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
 import org.geogebra.common.exam.restrictions.mms.MmsAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
@@ -62,6 +63,7 @@ import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.MockedCasValues;
 import org.geogebra.common.util.MockedCasValuesExtension;
+import org.geogebra.test.TestEvent;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -300,6 +302,46 @@ class MmsExamTests extends BaseExamTestSetup {
 		GeoElement f = evaluateGeoElement("xx");
 		getApp().getSpecialPointsManager().updateSpecialPoints(f);
 		assertNull(getApp().getSpecialPointsManager().getSelectedPreviewPoints());
+	}
+
+	@Test
+	@Issue("APPS-7931")
+	@MockedCasValues({"Evaluate(x² - 2) -> x^2-2"})
+	void testSpecialPointsNotShownAutomatically() {
+		evaluateGeoElement("f(x) = x^2 - 2");
+		assertNull(getPreviewPoints());
+	}
+
+	@Test
+	@Issue("APPS-7931")
+	@MockedCasValues({"Evaluate(x² - 2) -> x^2-2"})
+	void testSpecialPointsNotShownOnAlgebraViewSelection() {
+		GeoElement function = evaluateGeoElement("f(x) = x^2 - 2");
+		AlgebraItem.addSelectedGeoWithSpecialPoints(function, getApp());
+		assertNull(getPreviewPoints());
+	}
+
+	@Test
+	@Issue("APPS-7931")
+	@MockedCasValues({"Evaluate(x² - 2) -> x^2-2"})
+	void testSpecialPointsShownAfterGraphicsViewSelection() {
+		evaluateGeoElement("f(x) = x^2 - 2");
+
+		tapAt(1, -1);
+
+		assertNotNull(getPreviewPoints());
+		assertFalse(getPreviewPoints().isEmpty());
+	}
+
+	private void tapAt(double x, double y) {
+		EuclidianView view = getApp().getActiveEuclidianView();
+		TestEvent event = new TestEvent((int) view.toScreenCoordXd(x), (int) view.toScreenCoordYd(y));
+		view.getEuclidianController().wrapMousePressed(event);
+		view.getEuclidianController().wrapMouseReleased(event);
+	}
+
+	private List<GeoElement> getPreviewPoints() {
+		return getApp().getSpecialPointsManager().getSelectedPreviewPoints();
 	}
 
 	@Test

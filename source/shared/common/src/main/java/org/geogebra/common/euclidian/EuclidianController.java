@@ -6563,6 +6563,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		} else if (uniqueSelect) {
 			GeoElement geo = chooseGeo(geos, true);
 			if (geo != null) {
+				notifyGraphicsViewSelection(geo);
 				selection.toggleSelectedGeoWithGroup(geo);
 			}
 		} else {
@@ -6583,8 +6584,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				previewPointHits = getPreviewSpecialPointHits(hits);
 			} else if (!geo.isSelected() || selection.getSelectedGeos().size() != 1) {
 				selection.clearSelectedGeos(false);
+				notifyGraphicsViewSelection(geo);
 				selection.addSelectedGeoWithGroup(geo);
 			}
+		}
+	}
+
+	private void notifyGraphicsViewSelection(GeoElement geo) {
+		if (app.hasSpecialPointsManager()) {
+			app.getSpecialPointsManager().setGraphicsViewSelectedGeo(geo);
 		}
 	}
 
@@ -8210,6 +8218,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						lastSelectionPressResult = SelectionToolPressResult.EMPTY;
 					} else {
 						lastSelectionPressResult = SelectionToolPressResult.ADD;
+						notifyGraphicsViewSelection(geo);
 						selection.addSelectedGeo(geo, true, true);
 					}
 				} else if (mode == EuclidianConstants.MODE_MOVE && isSpecialPreviewPointFound(topHits)) {
@@ -8219,6 +8228,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					// display ev properties)
 					selection.clearSelectedGeos(geo == null, false);
 					selection.updateSelection(false);
+					notifyGraphicsViewSelection(geo);
 					selection.addSelectedGeo(geo, true, true);
 				}
 			}

@@ -5118,8 +5118,9 @@ public abstract class App
 		resetCommandDict();
 		valueConverter = null;
 
-		if (featureRestrictions.contains(FeatureRestriction.HIDE_SPECIAL_POINTS)) {
-			getSpecialPointsManager().isEnabled = false;
+		if (featureRestrictions.contains(
+				FeatureRestriction.SPECIAL_POINTS_ONLY_ON_GRAPHICS_VIEW_SELECTION)) {
+			getSpecialPointsManager().setRestrictedToGraphicsViewSelection(true);
 		}
 		if (featureRestrictions.contains(FeatureRestriction.SURD)) {
 			kernel.setSurds(null);
@@ -5139,8 +5140,9 @@ public abstract class App
 	@Override
 	public void removeRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
 		valueConverter = null;
-		if (featureRestrictions.contains(FeatureRestriction.HIDE_SPECIAL_POINTS)) {
-			getSpecialPointsManager().isEnabled = true;
+		if (featureRestrictions.contains(
+				FeatureRestriction.SPECIAL_POINTS_ONLY_ON_GRAPHICS_VIEW_SELECTION)) {
+			getSpecialPointsManager().setRestrictedToGraphicsViewSelection(false);
 		}
 		if (featureRestrictions.contains(FeatureRestriction.SURD)) {
 			kernel.setSurds(new Surds());

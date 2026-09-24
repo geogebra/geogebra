@@ -72,7 +72,8 @@ class RestrictionsControllerTests extends BaseExamTestSetup {
 
 		restrictionsController.removeRestrictions();
 		assertTrue(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative));
-		assertFalse(restrictionsController.isFeatureRestricted(FeatureRestriction.HIDE_SPECIAL_POINTS));
+		assertFalse(restrictionsController.isFeatureRestricted(
+				FeatureRestriction.SPECIAL_POINTS_ONLY_ON_GRAPHICS_VIEW_SELECTION));
 	}
 
 	@Test
