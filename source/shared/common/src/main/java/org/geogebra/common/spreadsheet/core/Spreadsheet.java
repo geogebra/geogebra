@@ -594,6 +594,14 @@ public final class Spreadsheet<T>
 		return controller.getMenuItems(identifier);
 	}
 
+	/**
+	 * @return Spreadsheet context menu items for the current selection. This is used on mobile
+	 * platforms only.
+	 */
+	public List<ContextMenuItem> getMobileContextMenuItemsForSelection() {
+		return controller.getMobileContextMenuItemsForSelection();
+	}
+
 	// -- SpreadsheetControllerDelegate
 
 	@Override

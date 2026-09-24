@@ -1405,6 +1405,36 @@ public final class SpreadsheetController<T> {
 		resetDragAction();
 	}
 
+	/**
+	 * @return Spreadsheet context menu items for the current selection. This is used on mobile
+	 * platforms only.
+	 */
+	public List<ContextMenuItem> getMobileContextMenuItemsForSelection() {
+		return contextMenuBuilder.build(
+				selectionController.getUppermostSelectedRowIndex(),
+				selectionController.getBottommostSelectedRowIndex(),
+				selectionController.getLeftmostSelectedColumnIndex(),
+				selectionController.getRightmostSelectedColumnIndex(),
+				true);
+	}
+
+	/**
+	 * @param identifier category identifier
+	 * @return all items for given category
+	 */
+	public List<ContextMenuItem> getMenuItems(ContextMenuItem.Identifier identifier) {
+		switch (identifier) {
+			case CREATE_CHART:
+				return contextMenuBuilder.getChartItems();
+			case CALCULATE:
+				return contextMenuBuilder.getCalculateItems();
+			case STATISTICS:
+				return contextMenuBuilder.getStatisticsItems();
+			default:
+				return Collections.emptyList();
+		}
+	}
+
 	// Copy / Paste
 
 	private void initCopyPasteCut() {
@@ -1876,23 +1906,6 @@ public final class SpreadsheetController<T> {
 		if (oldPlainTextMode != isPlainTextMode) {
 			mathField.getInputController().setPlainTextMode(isPlainTextMode);
 			mathField.parse(text);
-		}
-	}
-
-	/**
-	 * @param identifier category identifier
-	 * @return all items for given category
-	 */
-	public List<ContextMenuItem> getMenuItems(ContextMenuItem.Identifier identifier) {
-		switch (identifier) {
-			case CREATE_CHART:
-				return contextMenuBuilder.getChartItems();
-			case CALCULATE:
-				return contextMenuBuilder.getCalculateItems();
-			case STATISTICS:
-				return contextMenuBuilder.getStatisticsItems();
-			default:
-				return Collections.emptyList();
 		}
 	}
 

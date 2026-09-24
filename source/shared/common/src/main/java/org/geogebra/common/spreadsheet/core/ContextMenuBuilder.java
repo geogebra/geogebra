@@ -115,6 +115,7 @@ public final class ContextMenuBuilder {
 
 	/**
 	 * Gets the context menu items for the specific <b>multiple</b> cells / rows / columns
+	 * (Web platform).
 	 * @param fromRow Index of the uppermost row
 	 * @param toRow Index of the bottommost row
 	 * @param fromCol Index of the leftmost column
@@ -122,14 +123,28 @@ public final class ContextMenuBuilder {
 	 * @return list of the menu key and its action.
 	 */
 	public List<ContextMenuItem> build(int fromRow, int toRow, int fromCol, int toCol) {
+		return build(fromRow, toRow, fromCol, toCol, false);
+	}
+
+	/**
+	 * Gets the context menu items for the specific <b>multiple</b> cells / rows / columns
+	 * @param fromRow Index of the uppermost row
+	 * @param toRow Index of the bottommost row
+	 * @param fromCol Index of the leftmost column
+	 * @param toCol Index of the rightmost column
+	 * @param mobile Build context menu for mobile platforms?
+	 * @return list of the menu key and its action.
+	 */
+	public List<ContextMenuItem> build(
+			int fromRow, int toRow, int fromCol, int toCol, boolean mobile) {
 		if (shouldShowTableItems(fromRow, fromCol)) {
 			return tableItems(fromRow, fromCol);
 		} else if (fromRow == HEADER_INDEX) {
-			return columnItems(fromCol, toCol);
+			return columnItems(fromCol, toCol, mobile);
 		} else if (fromCol == HEADER_INDEX) {
-			return rowItems(fromRow, toRow);
+			return rowItems(fromRow, toRow, mobile);
 		}
-		return cellItems(fromRow, toRow, fromCol, toCol);
+		return cellItems(fromRow, toRow, fromCol, toCol, mobile);
 	}
 
 	/**
@@ -150,7 +165,8 @@ public final class ContextMenuBuilder {
 				new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(row, column)));
 	}
 
-	private List<ContextMenuItem> cellItems(int fromRow, int toRow, int fromCol, int toCol) {
+	private List<ContextMenuItem> cellItems(
+			int fromRow, int toRow, int fromCol, int toCol, boolean mobile) {
 		boolean allRows = isAllRows(fromRow, toRow);
 		boolean allColumns = isAllColumns(fromCol, toCol);
 		return Stream.of(
@@ -158,10 +174,10 @@ public final class ContextMenuBuilder {
 						new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, fromCol)),
 						new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(fromRow, fromCol)),
 						new Divider(),
-						getCalculateItem(),
-						getStatisticsItem(),
-						getChartMenuItem(),
-						new Divider(),
+						mobile ? null : getCalculateItem(),
+						mobile ? null : getStatisticsItem(),
+						mobile ? null : getChartMenuItem(),
+						mobile ? null : new Divider(),
 						getInsertRowItem(fromRow, false),
 						getInsertRowItem(toRow + 1, true),
 						getInsertColItem(fromCol, false),
@@ -297,16 +313,16 @@ public final class ContextMenuBuilder {
 		return constructionDelegate == null || constructionDelegate.supportsStatistic(statistic);
 	}
 
-	private List<ContextMenuItem> rowItems(int fromRow, int toRow) {
+	private List<ContextMenuItem> rowItems(int fromRow, int toRow, boolean mobile) {
 		boolean allRows = isAllRows(fromRow, toRow);
 		return Stream.of(
 						new ActionableItem(CUT, () -> spreadsheetController.cutCells(fromRow, -1)),
 						new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, -1)),
 						new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(fromRow, -1)),
 						new Divider(),
-						getCalculateItem(),
-						getChartMenuItem(),
-						new Divider(),
+						mobile ? null : getCalculateItem(),
+						mobile ? null : getChartMenuItem(),
+						mobile ? null : new Divider(),
 						getInsertRowItem(fromRow, false),
 						getInsertRowItem(toRow + 1, true),
 						allRows ? null : new Divider(),
@@ -317,17 +333,17 @@ public final class ContextMenuBuilder {
 				.collect(Collectors.toList());
 	}
 
-	private List<ContextMenuItem> columnItems(int fromCol, int toCol) {
+	private List<ContextMenuItem> columnItems(int fromCol, int toCol, boolean mobile) {
 		boolean allColumns = isAllColumns(fromCol, toCol);
 		return Stream.of(
 						new ActionableItem(CUT, () -> spreadsheetController.cutCells(-1, fromCol)),
 						new ActionableItem(COPY, () -> spreadsheetController.copyCells(-1, fromCol)),
 						new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(-1, fromCol)),
 						new Divider(),
-						getCalculateItem(),
-						getStatisticsItem(),
-						getChartMenuItem(),
-						new Divider(),
+						mobile ? null : getCalculateItem(),
+						mobile ? null : getStatisticsItem(),
+						mobile ? null : getChartMenuItem(),
+						mobile ? null : new Divider(),
 						getInsertColItem(fromCol, false),
 						getInsertColItem(toCol + 1, true),
 						allColumns ? null : new Divider(),

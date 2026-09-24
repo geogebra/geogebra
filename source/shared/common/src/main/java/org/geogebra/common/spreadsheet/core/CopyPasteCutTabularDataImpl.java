@@ -27,7 +27,7 @@ final class CopyPasteCutTabularDataImpl<T> implements CopyPasteCutTabularData {
 	private final TabularDataPasteInterface<T> paste;
 	private final TabularDataFormatter<T> tabularDataFormatter;
 	private final TableLayout layout;
-	private TabularClipboard<T> internalClipboard;
+	private final TabularClipboard<T> internalClipboard;
 	private final SpreadsheetSelectionController selectionController;
 	private final List<Selection> pastedSelections = new ArrayList<>();
 	private String lastCopiedValue;
@@ -47,6 +47,8 @@ final class CopyPasteCutTabularDataImpl<T> implements CopyPasteCutTabularData {
 		this.clipboard = clipboard;
 		this.layout = layout;
 		this.selectionController = selectionController;
+		// Keep this non-null because paste may be requested before copyDeep() populates it.
+		internalClipboard = new TabularClipboard<>();
 		paste = tabularData.getPaste();
 		tabularDataFormatter = new TabularDataFormatter<>(tabularData);
 	}
@@ -75,9 +77,6 @@ final class CopyPasteCutTabularDataImpl<T> implements CopyPasteCutTabularData {
 			sourceToCopy = getAllCellsCopy();
 		}
 		copy(sourceToCopy);
-		if (internalClipboard == null) {
-			internalClipboard = new TabularClipboard<>();
-		}
 		internalClipboard.copy(tabularData, sourceToCopy, new Selection(source).getType());
 	}
 
@@ -133,7 +132,11 @@ final class CopyPasteCutTabularDataImpl<T> implements CopyPasteCutTabularData {
 		// to make sure internal clipboard is used instead
 		clipboard.readContent(rawExternalContent -> {
 			String externalContent = rawExternalContent.replace("\r\n", "\n");
-			reader.accept(Objects.equals(lastCopiedValue, externalContent) ? null : externalContent);
+			boolean canPasteInternal = !internalClipboard.isEmpty();
+			reader.accept(
+					canPasteInternal && Objects.equals(lastCopiedValue, externalContent)
+							? null
+							: externalContent);
 		});
 	}
 
