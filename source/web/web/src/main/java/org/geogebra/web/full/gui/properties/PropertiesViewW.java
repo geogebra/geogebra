@@ -448,7 +448,7 @@ public final class PropertiesViewW extends PropertiesView
 
 	private List<GeoElement> getShowableElements() {
 		return app.getSelectionManager().getSelectedGeos().stream()
-				.filter(geo -> !geo.isMeasurementTool() && !geo.isSpotlight())
+				.filter(this::geoHasPropertiesView)
 				.collect(Collectors.toList());
 	}
 

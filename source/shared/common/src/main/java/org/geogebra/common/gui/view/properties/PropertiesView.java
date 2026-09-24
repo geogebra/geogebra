@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
@@ -128,7 +129,7 @@ public abstract class PropertiesView implements View {
 			Construction.Constants constant = kernel.getConstruction().getConstantElement(geo);
 			if (!kernel.getConstruction().isConstantElement(geo)) {
 				// add if not constant
-				if (!geo.isMeasurementTool() && !geo.isSpotlight()) {
+				if (geoHasPropertiesView(geo)) {
 					geos.add(geo);
 				}
 			} else if (firstConstant == Construction.Constants.NOT) {
@@ -142,6 +143,24 @@ public abstract class PropertiesView implements View {
 		}
 
 		return geos;
+	}
+
+	/**
+	 * Checks if list of points results from table of values.
+	 * @param geo geo element
+	 * @return whether geo is table values point list
+	 */
+	protected boolean tableValuesPoint(GeoElement geo) {
+		return geo instanceof GeoList geoList && geoList.isTableValuesOrPointList();
+	}
+
+	/**
+	 * Checks if geo should have properties view.
+	 * @param geo geo element
+	 * @return whether to show object properties for geo
+	 */
+	protected boolean geoHasPropertiesView(GeoElement geo) {
+		return !geo.isMeasurementTool() && !geo.isSpotlight() && !tableValuesPoint(geo);
 	}
 
 	/**
