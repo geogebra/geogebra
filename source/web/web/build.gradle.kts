@@ -412,7 +412,7 @@ fun css(directory: String?, fileName: String): String {
     val relPath = "$base$fileName.css"
     val text = if (project.hasProperty("downloadStyles")) {
         val ggbVersion = downloadAsString("https://apps-builds.s3-eu-central-1.amazonaws.com/geogebra/tags/version.txt").trim()
-        downloadAsString("https://www.geogebra.org/apps/$ggbVersion/css/$relPath")
+        downloadAsString("https://www.geogebra.org/apps/5.4.930.2/css/$relPath")
     } else {
         val fileDir = "war/css/$relPath"
         file(fileDir).readText()
