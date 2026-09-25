@@ -32,6 +32,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 /**
  *
@@ -104,7 +105,7 @@ public class DrawTurtle extends Drawable {
 
 	private final class DrawState implements GeoTurtle.DrawState {
 		private boolean penDown = true;
-		private GColor penColor = GColor.BLACK;
+		private GColor penColor = GeoGebraColorConstants.NEUTRAL_900;
 		private int penThickness = 1;
 		private int nlines = 0;
 		double turnAngle1 = 0d;
@@ -344,7 +345,7 @@ public class DrawTurtle extends Drawable {
 		// back legs
 		g2.setStroke(stroke2);
 
-		g2.setColor(GColor.BLACK);
+		g2.setColor(GeoGebraColorConstants.NEUTRAL_900);
 
 		g2.draw(legs);
 
@@ -355,13 +356,13 @@ public class DrawTurtle extends Drawable {
 		// head
 		g2.setColor(GColor.GRAY);
 		g2.fill(head);
-		g2.setColor(GColor.BLACK);
+		g2.setColor(GeoGebraColorConstants.NEUTRAL_900);
 		g2.draw(head);
 
 		// body
 		g2.setColor(GColor.GREEN);
 		g2.fill(body);
-		g2.setColor(GColor.BLACK);
+		g2.setColor(GeoGebraColorConstants.NEUTRAL_900);
 		g2.draw(body);
 
 		// pen color dot

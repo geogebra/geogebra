@@ -18,6 +18,7 @@ package org.geogebra.common.kernel;
 
 import static org.geogebra.common.kernel.geos.GeoButton.DEFAULT_BUTTON_HEIGHT;
 import static org.geogebra.common.main.GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK;
+import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_900;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -193,7 +194,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 
 	// lines
 	/** default color for lines */
-	private static final GColor colLine = GColor.BLACK;
+	private static final GColor colLine = NEUTRAL_900;
 	/** default color for lines in Geometry app */
 	private static final GColor colLineGeometry = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
 
@@ -201,7 +202,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	private static final GColor colInequality = GColor.BLUE;
 
 	/** Color for conics **/
-	protected static final GColor colConic = GColor.BLACK;
+	protected static final GColor colConic = NEUTRAL_900;
 	/** Color for conics in Geometry app */
 	protected static final GColor colConicGeometry = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
 	/** default alpha for conics */
@@ -329,7 +330,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	/** default color for angles */
 	private GColor colAngle() {
 		return cons.getApplication().isUnbundledOrWhiteboard()
-				? GColor.BLACK
+				? NEUTRAL_900
 				: GeoGebraColorConstants.GGB_GREEN;
 	}
 

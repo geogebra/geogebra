@@ -341,7 +341,7 @@ class GeoNumericTest extends BaseAppTestSetup {
 			<value val="1"/>
 			<lineStyle thickness="10" type="0" typeHidden="1" opacity="100"/>
 			<show object="true" label="true"/>
-			<objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+			<objColor r="28" g="28" b="31" alpha="0.10000000149011612"/>
 			<layer val="0"/>
 			<labelMode val="1"/>
 			<animation type="0" playing="false"/>

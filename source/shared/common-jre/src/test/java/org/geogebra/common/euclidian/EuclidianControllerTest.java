@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -31,6 +30,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestEvent;
@@ -720,7 +720,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		dragStart(0, 0);
 		dragEnd(50, 50);
 		checkContent("stroke1");
-		assertEquals(GColor.BLACK, lookup("stroke1").getObjectColor());
+		assertEquals(GeoGebraColorConstants.NEUTRAL_900, lookup("stroke1").getObjectColor());
 	}
 
 	@Test
@@ -730,7 +730,7 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		setMode(EuclidianConstants.MODE_PEN);
 		dragStart(0, 0);
 		dragEnd(50, 50);
-		assertEquals(GColor.BLACK, lookup("stroke1").getObjectColor());
+		assertEquals(GeoGebraColorConstants.NEUTRAL_900, lookup("stroke1").getObjectColor());
 	}
 
 	@Test

@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -45,7 +46,7 @@ public class GeoTurtle extends GeoPoint {
 	/** current position */
 	protected double[] position = {0d, 0d, 1d};
 	/** pen color */
-	protected GColor penColor = GColor.BLACK;
+	protected GColor penColor = GeoGebraColorConstants.NEUTRAL_900;
 	/** pen thickness */
 	protected int penThickness = 1;
 	/** whether pen is down (active) */

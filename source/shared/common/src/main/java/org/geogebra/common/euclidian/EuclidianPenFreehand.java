@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -1064,7 +1065,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		if (view.getEuclidianController().getPreviousMode() != EuclidianConstants.MODE_POLYGON) {
 			poly.setAlphaValue(0);
 			poly.setBackgroundColor(GColor.WHITE);
-			poly.setObjColor(GColor.BLACK);
+			poly.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 			poly.updateRepaint();
 			for (GeoPointND point : points) {
 				point.setEuclidianVisible(false);

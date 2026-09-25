@@ -30,6 +30,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 /**
  * Draws a slider to change a number continuously.
@@ -216,8 +217,8 @@ public class DrawSlider extends Drawable {
 			// draw a dot
 			g2.fill(circle);
 
-			// black stroke
-			g2.setPaint(GColor.BLACK);
+			// dark stroke
+			g2.setPaint(GeoGebraColorConstants.NEUTRAL_900);
 			g2.setStroke(borderStroke);
 			g2.draw(circle);
 

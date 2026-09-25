@@ -38,7 +38,7 @@
 </command>
 <element type="line" label="g">
 	<show object="true" label="false"/>
-	<objColor r="0" g="0" b="0" alpha="0"/>
+	<objColor r="28" g="28" b="31" alpha="0"/>
 	<layer val="0"/>
 	<ordering val="3"/>
 	<labelMode val="0"/>

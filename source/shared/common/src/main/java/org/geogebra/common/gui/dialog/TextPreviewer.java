@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.TokenMgrException;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -291,7 +292,7 @@ public abstract class TextPreviewer {
 				if (isLaTeX) {
 					geo.setSerifFont(true);
 				}
-				geo.setObjColor(GColor.BLACK);
+				geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 			}
 			geo.setLaTeX(isLaTeX, true);
 		}

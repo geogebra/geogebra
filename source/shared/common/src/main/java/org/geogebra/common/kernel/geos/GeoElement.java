@@ -89,6 +89,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ScreenReader;
@@ -171,7 +172,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public int labelMode = LABEL_DEFAULT;
 
 	/** default (foreground) color */
-	protected GColor objColor = GColor.BLACK;
+	protected GColor objColor = GeoGebraColorConstants.NEUTRAL_900;
 	/** background color */
 	protected GColor bgColor = null; // none by default
 	/** color when selected */
@@ -807,7 +808,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public void setObjColor(final GColor color) {
 		isColorSet = !isDefaultGeo() || !isGeoNumeric();
-		objColor = color == null ? GColor.BLACK : color;
+		objColor = color == null ? GeoGebraColorConstants.NEUTRAL_900 : color;
 		fillColor = objColor;
 		setAlphaValue(alphaValue);
 

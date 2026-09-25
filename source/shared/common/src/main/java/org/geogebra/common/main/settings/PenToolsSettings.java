@@ -20,10 +20,11 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.geos.XMLBuilder;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 public class PenToolsSettings extends AbstractSettings<PenToolsSettings> {
 
-	private GColor lastSelectedPenColor = GColor.BLACK;
+	private GColor lastSelectedPenColor = GeoGebraColorConstants.NEUTRAL_900;
 	private GColor lastSelectedHighlighterColor = GColor.newColorRGB(0x388C83);
 	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
 	private int lastHighlighterThickness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
