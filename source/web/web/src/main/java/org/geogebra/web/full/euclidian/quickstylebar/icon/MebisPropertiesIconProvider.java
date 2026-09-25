@@ -97,7 +97,8 @@ public final class MebisPropertiesIconProvider extends DefaultPropertiesIconProv
 					ICON_LINE_TYPE_DASHED_DOTTED,
 					ICON_LINE_TYPE_DASHED_LONG,
 					ICON_LINE_TYPE_DOTTED,
-					ICON_LINE_TYPE_DASHED_SHORT -> getFallbackIcon(propertyResource);
+					ICON_LINE_TYPE_DASHED_SHORT,
+					ICON_TEXT_STYLE -> getFallbackIcon(propertyResource);
 			default -> super.matchIconWithResource(propertyResource);
 		};
 	}
@@ -139,6 +140,7 @@ public final class MebisPropertiesIconProvider extends DefaultPropertiesIconProv
 					case ICON_LINE_TYPE_DOTTED -> res.line_dotted_fontawesome();
 					case ICON_LINE_TYPE_DASHED_SHORT -> res.line_dashed_short_fontawesome();
 					case ICON_CELL_BORDER_NONE -> res.border_none();
+					case ICON_TEXT_STYLE -> res.text_style_fontawesome();
 					default -> res.text_serif_black();
 				};
 		return new ImageIconSpec(svgResource);

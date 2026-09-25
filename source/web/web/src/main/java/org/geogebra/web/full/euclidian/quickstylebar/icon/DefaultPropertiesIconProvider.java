@@ -194,6 +194,7 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_PROBABILITY_MODE_INTERVAL -> GuiResources.INSTANCE.interval_between();
 			case ICON_PROBABILITY_MODE_TWO_TAILED -> GuiResources.INSTANCE.interval_two_tailed();
 			case ICON_PROBABILITY_MODE_RIGHT -> GuiResources.INSTANCE.interval_right();
+			case ICON_TEXT_STYLE -> res.text_style();
 			default -> res.stylebar_empty();
 		};
 	}

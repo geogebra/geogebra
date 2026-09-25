@@ -33,12 +33,14 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.undo.UndoActionObserver;
 import org.geogebra.common.main.undo.UndoActionType;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.PropertySupplier;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.PropertyWrapper;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.objects.TextStyleProperty;
 import org.geogebra.web.full.euclidian.quickstylebar.components.IconButtonWithProperty;
 import org.geogebra.web.full.euclidian.quickstylebar.components.QuickStyleBarFontSizeBox;
 import org.geogebra.web.full.euclidian.quickstylebar.icon.PropertiesIconResource;
@@ -72,7 +74,6 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 	private final List<IconButton> quickButtons = new ArrayList<>();
 	private final List<QuickStyleBarFontSizeBox> fontSizeBoxes = new ArrayList<>();
 	public static final int POPUP_MENU_DISTANCE = 8;
-	public static final int QUICK_STYLE_BAR_HEIGHT = 48;
 	private final PropertyWrapper propertyWrapper;
 	private @Nullable ContextMenuGeoElementW contextMenu;
 	GeoElementPropertiesFactory geoElementPropertiesFactory;
@@ -212,17 +213,30 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 				"fontStyle",
 				fontStyleProperty.getProperties());
 
-		BooleanProperty boldProperty =
-				geoElementPropertiesFactory.createBoldProperty(localization, activeGeoList);
-		addTextFormatPropertyButton(activeGeoList, boldProperty);
+		if (isWhiteboardActive) {
+			TextStyleProperty inlineTextStyles =
+					geoElementPropertiesFactory.createTextStyleProperties(localization, activeGeoList);
+			if (inlineTextStyles != null) {
+				addPropertyPopupButton(
+						activeGeoList,
+						UndoActionType.STYLE_OR_CONTENT,
+						inlineTextStyles.getIcon(),
+						inlineTextStyles.getName(),
+						inlineTextStyles.getProperties());
+			}
+		} else {
+			BooleanProperty boldProperty =
+					geoElementPropertiesFactory.createBoldProperty(localization, activeGeoList);
+			addTextFormatPropertyButton(activeGeoList, boldProperty);
 
-		BooleanProperty italicProperty =
-				geoElementPropertiesFactory.createItalicProperty(localization, activeGeoList);
-		addTextFormatPropertyButton(activeGeoList, italicProperty);
+			BooleanProperty italicProperty =
+					geoElementPropertiesFactory.createItalicProperty(localization, activeGeoList);
+			addTextFormatPropertyButton(activeGeoList, italicProperty);
 
-		BooleanProperty underlineProperty =
-				geoElementPropertiesFactory.createUnderlineProperty(localization, activeGeoList);
-		addTextFormatPropertyButton(activeGeoList, underlineProperty);
+			BooleanProperty underlineProperty =
+					geoElementPropertiesFactory.createUnderlineProperty(localization, activeGeoList);
+			addTextFormatPropertyButton(activeGeoList, underlineProperty);
+		}
 		PropertySupplier[] properties =
 				SpecialSymbolProperty.forGeos(ev.getApplication().getLocalization(), activeGeoList);
 		if (properties.length > 0) {
@@ -374,6 +388,27 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 				firstProperty.getName(),
 				geos,
 				closePopupOnAction,
+				properties);
+		styleAndRegisterButton(button);
+	}
+
+	private void addPropertyPopupButton(
+			List<GeoElement> geos,
+			UndoActionType undoType,
+			PropertyResource icon,
+			String ariaLabel,
+			PropertySupplier... properties) {
+		if (properties.length == 0 || properties[0] == null || properties[0].get() == null) {
+			return;
+		}
+		propertyWrapper.addActionObservers(properties, geos, undoType);
+		IconButton button = new IconButtonWithProperty(
+				getApp(),
+				null,
+				propertiesIconResource.getImageResource(icon),
+				ariaLabel,
+				geos,
+				true,
 				properties);
 		styleAndRegisterButton(button);
 	}

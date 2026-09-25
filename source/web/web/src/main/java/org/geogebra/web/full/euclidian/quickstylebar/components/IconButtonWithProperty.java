@@ -24,6 +24,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertySupplier;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.RangeProperty;
+import org.geogebra.common.properties.ToggleableIconProperty;
 import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
@@ -207,6 +208,20 @@ public final class IconButtonWithProperty extends IconButton {
 		if (property instanceof FlagListPropertyListFacade<?> valuedProperty) {
 			LabelSettingsPanel labelStylePanel = widgetAdapter.getLabelPanel(valuedProperty);
 			parent.add(labelStylePanel);
+		}
+		if (property instanceof ToggleableIconProperty iconProperty) {
+			IconButton button = new IconButton(
+					appW,
+					null,
+					((AppWFull) appW).getPropertiesIconResource().getImageResource(iconProperty.getIcon()),
+					iconProperty.getName());
+			button.setActive(iconProperty.getValue());
+			button.addFastClickHandler(source -> {
+				button.setActive(!button.isActive());
+				iconProperty.setValue(!iconProperty.getValue());
+			});
+			parent.add(button);
+			parent.addStyleName("buttonList");
 		}
 		if (property instanceof BooleanPropertyListFacade<?> booleanProperty) {
 			parent.add(widgetAdapter.getCheckBox(booleanProperty, appW.getLocalization()));

@@ -51,6 +51,7 @@ public enum PropertyResource {
 	ICON_ITALIC,
 	ICON_SERIF,
 	ICON_UNDERLINE,
+	ICON_TEXT_STYLE,
 
 	/* Icons for axes line style */
 	ICON_AXES_LINE_TYPE_FULL,

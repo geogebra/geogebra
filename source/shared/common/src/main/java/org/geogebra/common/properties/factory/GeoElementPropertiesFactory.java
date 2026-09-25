@@ -126,6 +126,7 @@ import org.geogebra.common.properties.impl.objects.StylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.StyledNamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextColorProperty;
+import org.geogebra.common.properties.impl.objects.TextStyleProperty;
 import org.geogebra.common.properties.impl.objects.TextStylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.common.properties.impl.objects.UnderlineProperty;
@@ -835,6 +836,18 @@ public final class GeoElementPropertiesFactory {
 				elements,
 				element -> new IsFixedObjectProperty(localization, element),
 				BooleanPropertyListFacade::new);
+	}
+
+	/**
+	 * Returns with a text style property that formats bold/italic/underline the texts,
+	 * or null if not applicable
+	 * @param localization localization
+	 * @param elements elements
+	 * @return text style property or null
+	 */
+	public TextStyleProperty createTextStyleProperties(
+			Localization localization, List<GeoElement> elements) {
+		return createOptionalProperty(() -> new TextStyleProperty(this, localization, elements));
 	}
 
 	/**

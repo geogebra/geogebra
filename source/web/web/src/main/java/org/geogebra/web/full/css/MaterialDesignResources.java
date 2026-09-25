@@ -122,6 +122,12 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_underlined-24px.svg")
 	SVGResource text_underline_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/text_style.svg")
+	SVGResource text_style();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/fontawesome/mow_text_style.svg")
+	SVGResource text_style_fontawesome();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/no_border.svg")
 	SVGResource border_no();
 
