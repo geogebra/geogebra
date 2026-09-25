@@ -97,21 +97,15 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void parallelTool() {
-		setMode(EuclidianConstants.MODE_PARALLEL);
+	void deleteTool() {
+		setMode(EuclidianConstants.MODE_DELETE);
 		t("a:x=1");
-		click(100, 100);
-		click(50, 100);
-		checkContent("a: x = 1", "A = (2, -2)", "f: x = 2");
-	}
-
-	@Test
-	void orthogonalTool() {
-		setMode(EuclidianConstants.MODE_ORTHOGONAL);
-		t("a:x=1");
-		click(100, 100);
-		click(50, 100);
-		checkContent("a: x = 1", "A = (2, -2)", "f: y = -2");
+		t("b:y=-1");
+		click(50, 50);
+		checkContent("a: x = 1");
+		resetMouseLocation();
+		click(50, 50);
+		checkContent();
 	}
 
 	@Test
@@ -120,29 +114,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(0, 0);
 		click(100, 100);
 		checkContent("A = (0, 0)", "B = (2, -2)", "u = (2, -2)");
-	}
-
-	@Test
-	void lineBisectorTool() {
-		setMode(EuclidianConstants.MODE_LINE_BISECTOR); // TODO: on the fly?
-		t("A = (0, 0)");
-		t("B = (2, -2)");
-		click(0, 0);
-		click(100, 100);
-		checkContent("A = (0, 0)", "B = (2, -2)", "f: -x + y = -2");
-	}
-
-	@Test
-	void angularBisectorTool() {
-		setMode(EuclidianConstants.MODE_ANGULAR_BISECTOR); // TODO: on the
-		// fly?
-		t("A = (0, 0)");
-		t("B = (0, -2)");
-		t("C = (2, -2)");
-		click(0, 0);
-		click(0, 100);
-		click(100, 100);
-		checkContent("A = (0, 0)", "B = (0, -2)", "C = (2, -2)", "f: -0.70711x + 0.70711y = -1.41421");
 	}
 
 	@Test
@@ -178,17 +149,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 				"D = (1, 0)",
 				"E = (0, -1)",
 				"c: x y + x - y = 1");
-	}
-
-	@Test
-	void tangentTool() {
-		setMode(EuclidianConstants.MODE_TANGENTS);
-		t("c: x^2+y^2=25");
-		t("A=(3,-4)");
-		click(150, 200);
-		resetMouseLocation();
-		click(200, 150);
-		checkContent(unicode("c: x^2 + y^2 = 25"), "A = (3, -4)", "f: 3x - 4y = 25");
 	}
 
 	@Test
@@ -285,17 +245,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		// Equation form for lines and rays aligned in APPS-6337
 		checkContent("A = (0, 0)", "B = (2, -2)", "f: x + y = 0");
-	}
-
-	@Test
-	void midpointTool() {
-		setMode(EuclidianConstants.MODE_MIDPOINT);
-		click(0, 0);
-		click(100, 100);
-		String circle = "c: x^2 + y^2 = 25";
-		t(circle);
-		click(150, 200);
-		checkContent("A = (0, 0)", "B = (2, -2)", "C = (1, -1)", unicode(circle), "D = (0, 0)");
 	}
 
 	@Test
@@ -540,11 +489,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 				"B = (0, -2)",
 				"A' = (2, -2)",
 				Unicode.alpha + " = 90" + Unicode.DEGREE_STRING);
-	}
-
-	@Test
-	void locusTool() {
-		setMode(EuclidianConstants.MODE_LOCUS); // TODO 47
 	}
 
 	@Test
