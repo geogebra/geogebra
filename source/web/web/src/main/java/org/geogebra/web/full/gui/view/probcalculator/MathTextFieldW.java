@@ -33,7 +33,6 @@ public final class MathTextFieldW extends MathFieldEditor
 		implements MathFieldListener, ErrorHandler {
 	private final ArrayList<JsRunnable> inputHandlers = new ArrayList<>();
 	private final ArrayList<JsConsumer<Boolean>> changeHandlers = new ArrayList<>();
-	private boolean tabEnabled = true;
 
 	/**
 	 * Constructor
@@ -93,11 +92,8 @@ public final class MathTextFieldW extends MathFieldEditor
 
 	@Override
 	public boolean onTab(boolean shiftDown) {
-		if (tabEnabled) {
-			getGlobalKeyDispatcher().handleTab(shiftDown);
-			return true;
-		}
-		return false;
+		getGlobalKeyDispatcher().handleTab(shiftDown);
+		return true;
 	}
 
 	/**
@@ -154,9 +150,5 @@ public final class MathTextFieldW extends MathFieldEditor
 	@Override
 	public void resetError() {
 		setErrorText(null);
-	}
-
-	public void setTabEnabled(boolean tabEnabled) {
-		this.tabEnabled = tabEnabled;
 	}
 }

@@ -442,7 +442,6 @@ public class ComponentInputField extends FlowPanel
 
 	private void createInputMathField(AppW app) {
 		MathTextFieldW inputMathField = new MathTextFieldW(app);
-		inputMathField.setTabEnabled(false);
 		adapter = new MathInputAdapter(inputMathField);
 	}
 
@@ -464,11 +463,19 @@ public class ComponentInputField extends FlowPanel
 			if (supportiveLabel == null) {
 				supportiveLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
 						loc.getMenu(supportiveTextKey), "supportLabel hide");
+				addFocusHandler(ignore -> {
+					if (supportiveLabel != null) {
+						supportiveLabel.removeStyleName("hide");
+					}
+				});
+				addBlurHandler(ignore -> {
+					if (supportiveLabel != null) {
+						supportiveLabel.addStyleName("hide");
+					}
+				});
 			}
 			rootPanel.add(supportiveLabel);
 		}
-		addFocusHandler(ignore -> supportiveLabel.removeStyleName("hide"));
-		addBlurHandler(ignore -> supportiveLabel.addStyleName("hide"));
 	}
 
 	private void addSuffix() {
