@@ -16,6 +16,7 @@
 
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoSpotlight;
 import org.geogebra.common.main.App;
@@ -43,7 +44,8 @@ public class SpotlightController {
 	public SpotlightController(App app) {
 		cons = app.getKernel().getConstruction();
 		this.app = app;
-		disappearBoxTimer = app.newTimer(this::disappearBoundingBox, BOX_DISAPPEAR_DELAY);
+		disappearBoxTimer =
+				UtilFactory.getPrototype().newTimer(this::disappearBoundingBox, BOX_DISAPPEAR_DELAY);
 		selectionManager = app.getSelectionManager();
 	}
 

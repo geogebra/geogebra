@@ -25,7 +25,6 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.LaTeXFactory;
-import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.headless.ApiDelegate;
 import org.geogebra.common.jre.headless.App3DCompanionHeadless;
@@ -46,8 +45,6 @@ import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.FileExtensions;
-import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.awt.AwtFactoryD;
@@ -55,13 +52,11 @@ import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
 import org.geogebra.desktop.factories.LoggingCASFactoryD;
-import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.sound.SoundManagerD;
-import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.ImageManagerD;
 
 /**
@@ -86,8 +81,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	 */
 	public AppDNoGui(LocalizationJre loc, boolean silent) {
 		super(loc, new AwtFactoryD());
-
-		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		loginOperation = new LoginOperationD();
 		setCASFactory(new LoggingCASFactoryD());
 	}
@@ -165,11 +158,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	@Override
 	public ImageManager getImageManager() {
 		return new ImageManagerD();
-	}
-
-	@Override
-	public GTimer newTimer(GTimerListener listener, int delay) {
-		return new GTimerD(listener, delay);
 	}
 
 	@Override

@@ -16,7 +16,7 @@
 
 package org.geogebra.common.gui.util;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.util.GTimer;
 
 import com.google.j2objc.annotations.Weak;
@@ -38,15 +38,14 @@ public class DropDownList {
 	private final DropDownListener listener;
 
 	/**
-	 * @param app
-	 *            application
 	 * @param listener
 	 *            selection listener
 	 */
-	public DropDownList(App app, DropDownListener listener) {
+	public DropDownList(DropDownListener listener) {
 		this.listener = listener;
-		clickTimer = app.newTimer(this::doRunClick, clickDelay);
-		scrollTimer = app.newTimer(this::doScroll, scrollDelay);
+		UtilFactory factory = UtilFactory.getPrototype();
+		clickTimer = factory.newTimer(this::doRunClick, clickDelay);
+		scrollTimer = factory.newTimer(this::doScroll, scrollDelay);
 	}
 
 	/**

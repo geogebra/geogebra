@@ -97,8 +97,6 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5Checksum;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Analytics;
@@ -168,7 +166,6 @@ import org.geogebra.web.html5.main.topbar.MebisTopBarIconProvider;
 import org.geogebra.web.html5.main.topbar.TopBarIconResource;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.safeimage.ImageLoader;
-import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArchiveEntry;
@@ -2940,11 +2937,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				|| !getAppletParameters().getDataParamJSON().isEmpty()
 				|| (getAppletParameters().getDataParamApp()
 						&& NavigatorUtil.getUrlParameter("state") != null);
-	}
-
-	@Override
-	public GTimer newTimer(GTimerListener listener, int delay) {
-		return new GTimerW(listener, delay);
 	}
 
 	/**

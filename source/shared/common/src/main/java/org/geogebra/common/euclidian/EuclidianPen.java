@@ -25,6 +25,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
@@ -103,7 +104,7 @@ public class EuclidianPen implements GTimerListener {
 		this.view = view;
 		this.app = app;
 		this.penPreviewLine = view.newPenPreview();
-		timer = app.newTimer(this, 1500);
+		timer = UtilFactory.getPrototype().newTimer(this, 1500);
 		this.measurementController = measurementController;
 
 		@WeakOuter PenStrokeAdapter line = new PenStrokeAdapter(app);
@@ -223,6 +224,7 @@ public class EuclidianPen implements GTimerListener {
 		resetInitialPoint();
 		penPoints.clear();
 		previewPoints.clear();
+		timer.stop();
 	}
 
 	// ===========================================

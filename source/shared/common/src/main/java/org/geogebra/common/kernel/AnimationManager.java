@@ -19,6 +19,7 @@ package org.geogebra.common.kernel;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -64,7 +65,7 @@ public class AnimationManager implements GTimerListener {
 		this.kernel = kernel2;
 		animatedGeos = new ArrayList<>();
 		changedGeos = new ArrayList<>();
-		timer = kernel.getApplication().newTimer(this, 1000 / MAX_ANIMATION_FRAME_RATE);
+		timer = UtilFactory.getPrototype().newTimer(this, 1000 / MAX_ANIMATION_FRAME_RATE);
 	}
 
 	/**

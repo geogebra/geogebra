@@ -16,6 +16,7 @@
 
 package org.geogebra.common.factories;
 
+import org.geogebra.common.annotation.TestOnly;
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -53,6 +54,11 @@ public abstract class UtilFactory {
 				prototype = p;
 			}
 		}
+	}
+
+	@TestOnly
+	public static void setPrototype(UtilFactory factory) {
+		prototype = factory;
 	}
 
 	/**

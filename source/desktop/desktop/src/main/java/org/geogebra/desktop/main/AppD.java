@@ -162,8 +162,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.FileExtensions;
-import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
@@ -218,7 +216,6 @@ import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.CopyPasteD;
 import org.geogebra.desktop.util.FrameCollector;
-import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.ImageResourceD;
@@ -4319,11 +4316,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return false;
 		}
 		return MouseEventUtil.hasMultipleSelectModifier((MouseEventD) e);
-	}
-
-	@Override
-	public GTimer newTimer(GTimerListener listener, int delay) {
-		return new GTimerD(listener, delay);
 	}
 
 	@Override

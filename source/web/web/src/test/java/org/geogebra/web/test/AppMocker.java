@@ -22,8 +22,11 @@ import static org.mockito.Mockito.when;
 
 import java.util.function.Function;
 
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.UndoRedoMode;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.full.gui.applet.AppletFactory;
@@ -35,6 +38,7 @@ import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
+import org.geogebra.web.html5.factories.UtilFactoryW;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
@@ -176,6 +180,13 @@ public class AppMocker {
 			@Override
 			public Element getStyleElement(Element popup) {
 				return DomMocker.getElement();
+			}
+		});
+		MockTimer.clearInstances();
+		UtilFactory.setPrototypeIfNull(new UtilFactoryW() {
+			@Override
+			public GTimer newTimer(GTimerListener listener, int delay) {
+				return new MockTimer();
 			}
 		});
 		Browser.mockWebGL();

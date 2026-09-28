@@ -14,50 +14,61 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.common.gui;
+package org.geogebra.web.test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
 
-class FlushableTimer implements GTimer {
-	private GTimerListener listener;
-	private static ArrayList<FlushableTimer> instances = new ArrayList<>();
+public class MockTimer implements GTimer {
+	private boolean running;
+	private static final List<MockTimer> instances = new ArrayList<>();
 
-	static void flush() {
-		for (FlushableTimer timer : instances) {
-			timer.listener.onRun();
-		}
+	/**
+	 * @return number of currently running timers
+	 */
+	public static long countRunning() {
+		return instances.stream().filter(MockTimer::isRunning).count();
 	}
 
-	FlushableTimer(GTimerListener listener) {
-		this.listener = listener;
-		instances.add(this);
+	/**
+	 * Remove all instances.
+	 */
+	public static void clearInstances() {
+		instances.clear();
+	}
+
+	private static void addInstance(MockTimer timer) {
+		instances.add(timer);
+	}
+
+	public MockTimer() {
+		addInstance(this);
 	}
 
 	@Override
 	public void start() {
-		// nothing to do
+		running = true;
 	}
 
 	@Override
 	public void startRepeat() {
-		// nothing to do
+		running = true;
 	}
 
 	@Override
 	public void stop() {
-		// nothing to do
+		running = false;
 	}
 
 	@Override
 	public boolean isRunning() {
-		return false;
+		return running;
 	}
 
 	@Override
 	public void setDelay(int delay) {
-		// nothing to do
+		// not needed
 	}
 }

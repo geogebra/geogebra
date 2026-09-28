@@ -31,6 +31,7 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.CASFactoryDummy;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockManager;
@@ -77,6 +78,7 @@ import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
+import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -158,6 +160,18 @@ public class AppCommon extends App {
 		FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 		StringUtil.setPrototypeIfNull(new StringUtil());
 		UtilFactoryJre.setupRegexFactory();
+		FlushableTimer.clearInstances();
+		UtilFactory.setPrototypeIfNull(new UtilFactoryJre() {
+			@Override
+			public HttpRequest newHttpRequest() {
+				return null;
+			}
+
+			@Override
+			public GTimer newTimer(GTimerListener listener, int delay) {
+				return new FlushableTimer(listener);
+			}
+		});
 	}
 
 	@Override
@@ -234,42 +248,6 @@ public class AppCommon extends App {
 	@Override
 	public void closePopups() {
 		// not needed with no UI
-	}
-
-	@Override
-	public GTimer newTimer(GTimerListener listener, int delay) {
-		return new GTimer() {
-
-			@Override
-			public void start() {
-				// stub
-
-			}
-
-			@Override
-			public void startRepeat() {
-				// stub
-
-			}
-
-			@Override
-			public void stop() {
-				// stub
-
-			}
-
-			@Override
-			public boolean isRunning() {
-				// stub
-				return false;
-			}
-
-			@Override
-			public void setDelay(int timerDelay) {
-				// stub
-
-			}
-		};
 	}
 
 	@Override

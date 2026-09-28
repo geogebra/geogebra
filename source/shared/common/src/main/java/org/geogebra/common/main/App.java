@@ -2805,6 +2805,7 @@ public abstract class App
 		if (kernel.getConstruction() != null) {
 			kernel.getConstruction().setIgnoringNewTypes(true);
 		}
+		resetPen();
 		getEuclidianView1().resetXYMinMaxObjects();
 		getEuclidianView1().setSelectionRectangle(null);
 		if (hasEuclidianView2EitherShowingOrNot(1)) {

@@ -30,8 +30,6 @@ import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
-import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 
 /**
@@ -56,15 +54,6 @@ public interface AppInterface {
 
 	@MissingDoc
 	void closePopups();
-
-	/**
-	 * Creates a new Timer.
-	 *
-	 * @param delay
-	 *            Milliseconds to run timer after start()1.
-	 * @return GTimer descendant instance.
-	 */
-	GTimer newTimer(GTimerListener listener, int delay);
 
 	/**
 	 * @return true if we have access to complete gui (menubar, toolbar); false

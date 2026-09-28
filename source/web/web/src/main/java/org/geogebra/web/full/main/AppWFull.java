@@ -55,6 +55,7 @@ import org.geogebra.common.exam.ExamOptions;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.factories.CASFactory;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.gui.inputfield.HasLastItem;
@@ -666,8 +667,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			ensureLoginOperation();
 			if (getVendorSettings().canSessionExpire()) {
 				AuthenticationModel model = getLoginOperation().getModel();
-				model.setSessionExpireTimer(newTimer(
-						getDialogManager().getSessionExpireDialog(), AuthenticationModel.SESSION_TIME));
+				model.setSessionExpireTimer(UtilFactory.getPrototype()
+						.newTimer(
+								getDialogManager().getSessionExpireDialog(), AuthenticationModel.SESSION_TIME));
 			}
 			MenuViewController menuController = new MenuViewController(this);
 			menuController.setMenuViewListener(this);

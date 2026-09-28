@@ -82,7 +82,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		this.geoList = geoList;
 		geo = geoList;
 
-		dropDown = new DropDownList(view.getApplication(), this);
+		dropDown = new DropDownList(this);
 		scroller = new OptionScroller(dropDown);
 		model = new DropDownModel(getLabelFont(), geoList);
 		drawOptions = new DrawOptions(this, model, view, scroller);

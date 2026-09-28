@@ -45,7 +45,7 @@ class RelationTest extends BaseUnitTest {
 	 */
 	@BeforeEach
 	void setupObjects() {
-		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
+		UtilFactory.setPrototype(new UtilFactoryD());
 		getApp().setCASFactory(new CASFactoryD());
 		A = add("A=(0,0)");
 		B = add("B=(0,1)");

@@ -33,6 +33,7 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.ArchiveLoaderMock;
 import org.geogebra.web.test.GgbMockitoTestRunner;
+import org.geogebra.web.test.MockTimer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -224,6 +225,7 @@ public class NotesUndoTest {
 		addPenStroke();
 		objectsPerSlideShouldBe(1);
 		app.getAppletFrame().getPageControlPanel().removePage(0);
+		assertEquals(0, MockTimer.countRunning());
 		objectsPerSlideShouldBe(0);
 		app.getGgbApi().undo();
 		objectsPerSlideShouldBe(1);

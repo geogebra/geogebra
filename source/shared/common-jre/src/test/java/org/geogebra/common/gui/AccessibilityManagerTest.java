@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.factories.UtilFactoryCommon;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.jre.headless.FlushableTimer;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;

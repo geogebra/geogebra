@@ -18,7 +18,9 @@ package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
 
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.TestStringUtil;
@@ -32,11 +34,12 @@ class ProveCommandTest {
 	private static AlgebraProcessor proc;
 
 	/**
-	 * Creates the app
+	 * Creates the app.
 	 */
 	@BeforeAll
 	static void setup() {
 		app = new AppDNoGui(new LocalizationD(3), false);
+		UtilFactory.setPrototype(new UtilFactoryD());
 		proc = app.getKernel().getAlgebraProcessor();
 	}
 
