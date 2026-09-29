@@ -16,12 +16,19 @@
 
 package org.geogebra.common.gui.view.algebra.scicalc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.scientific.LabelController;
+import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,5 +59,46 @@ class LabelHiderCallbackTest extends BaseUnitTest {
 		GeoElement element = (GeoElement) getElementFactory().create("Slider(2, 20)");
 		callback.callback(new GeoElement[] {element});
 		assertTrue(labelController.hasLabel(element));
+	}
+
+	@Test
+	@Issue("MOB-1809")
+	void testRedefinitionKeepsExplicitLabelForLaterInput() {
+		getApp().setScientificConfig();
+		callback.setStoreUndo(false);
+
+		GeoElement first = addAvInput("1");
+		callback.callback(new GeoElement[] {first});
+		assertFalse(labelController.hasLabel(first));
+
+		getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						first,
+						"a=1+1",
+						EvalInfoFactory.getEvalInfoForRedefinition(getKernel(), first, true),
+						false,
+						geo -> callback.callback(new GeoElement[] {(GeoElement) geo}),
+						TestErrorHandler.INSTANCE);
+		GeoElement a = lookup("a");
+		assertNotNull(a);
+		assertTrue(labelController.hasLabel(a));
+		assertEquals("a\\, = \\,1 + 1", AlgebraItem.getPreviewLatexForGeoElement(a));
+
+		GeoElement second = addAvInput("1");
+		callback.callback(new GeoElement[] {second});
+		assertFalse(labelController.hasLabel(second));
+
+		getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						second,
+						"1+a",
+						EvalInfoFactory.getEvalInfoForRedefinition(getKernel(), second, true),
+						false,
+						geo -> callback.callback(new GeoElement[] {(GeoElement) geo}),
+						TestErrorHandler.INSTANCE);
+		second = lookup(second.getLabelSimple());
+		assertNotNull(second);
+		assertEquals("1 + a", AlgebraItem.getPreviewLatexForGeoElement(second));
+		assertEquals("3", second.toValueString(StringTemplate.defaultTemplate));
 	}
 }
