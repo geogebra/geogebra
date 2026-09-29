@@ -261,9 +261,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 	// procedure to traverse inorder the expression
 	private void traverseExpression(ExpressionNode node, Kernel kernel)
 			throws NoSymbolicParametersException {
-		if (node.getLeft() != null
-				&& node.getLeft().isGeoElement()
-				&& node.getLeft() instanceof GeoSegment) {
+		if (node.getLeft() instanceof GeoSegment) {
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
 			if (((GeoSegment) node.getLeft()).getLabelSimple() == null) {
@@ -271,9 +269,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getLeft());
 		}
-		if (node.getRight() != null
-				&& node.getRight().isGeoElement()
-				&& node.getRight() instanceof GeoSegment) {
+		if (node.getRight() instanceof GeoSegment) {
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
 			if (((GeoSegment) node.getRight()).getLabelSimple() == null) {

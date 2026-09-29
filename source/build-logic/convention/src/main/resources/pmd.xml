@@ -48,6 +48,11 @@
             <property name="violationSuppressRegex" value="The( value assigned to)? (field).*"/>
         </properties>
     </rule>
+    <rule ref="category/java/bestpractices.xml/OnDemandImport">
+        <properties>
+            <property name="allowStaticImportsFrom" value="*" />
+        </properties>
+    </rule>
     <rule ref="category/java/codestyle.xml">
         <exclude name="AtLeastOneConstructor"/>
         <exclude name="ShortClassName"/>
@@ -256,43 +261,6 @@
         <properties>
             <property name="xpath">
                 <value>//MethodCall[@MethodName="addDomHandler" and ArgumentList/MethodCall/TypeExpression/ClassType[matches(@SimpleName, "Touch.*")]]</value>
-            </property>
-        </properties>
-    </rule>
-    <rule name="ArrayDimensionInType"
-          language="java"
-          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          typeResolution="true"
-          message="Array dimension is part of type, use `int[] x` instead of `int x[]`">
-        <priority>1</priority>
-        <properties>
-            <property name="xpath">
-                <value>//VariableId/ArrayDimensions</value>
-            </property>
-        </properties>
-    </rule>
-    <rule name="CapitalLForLong"
-          language="java"
-          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          typeResolution="true"
-          message="To avoid confusion, use L instead of l to indicate long variables">
-        <priority>1</priority>
-        <properties>
-            <property name="xpath">
-                <value>//NumericLiteral[matches(@Image,'.*l')]</value>
-            </property>
-        </properties>
-    </rule>
-
-    <rule name="ImportOnDemand"
-          language="java"
-          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          typeResolution="true"
-          message="On-demand import should be replaced by explicit imports.">
-        <priority>1</priority>
-        <properties>
-            <property name="xpath">
-                <value>//ImportDeclaration[@ImportOnDemand=true() and @Static=false()]</value>
             </property>
         </properties>
     </rule>

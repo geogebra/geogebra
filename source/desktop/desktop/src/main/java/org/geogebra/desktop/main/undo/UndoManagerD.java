@@ -117,9 +117,8 @@ public class UndoManagerD extends UndoManager {
 				casView = (CASViewD) app.getGuiManager().getCasView();
 			}
 			if (casView != null
-					&& casView.getListSelModel() != null
-					&& casView.getListSelModel() instanceof DefaultListSelectionModel) {
-				listSelModel = (DefaultListSelectionModel) casView.getListSelModel();
+					&& casView.getListSelModel() instanceof DefaultListSelectionModel listModel) {
+				listSelModel = listModel;
 			}
 
 			int anchorIndex = 0;

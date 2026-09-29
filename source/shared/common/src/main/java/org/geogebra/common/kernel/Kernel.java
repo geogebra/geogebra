@@ -4732,17 +4732,14 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				return ev;
 			}
 		};
-		if (!geo.isLabelSet() && algo != null && algo instanceof DependentAlgo) {
-			DependentAlgo algoDep = (DependentAlgo) algo;
-
+		if (!geo.isLabelSet() && algo instanceof DependentAlgo algoDep) {
 			if (algoDep.getExpression() != null) {
-
 				return algoDep.getExpression().getCopy(this).traverse(ifReplacer).wrap();
 			}
 		}
 
-		if (!geo.isLabelSet() && algo != null && algo instanceof AlgoIf) {
-			return ((AlgoIf) algo).toExpression();
+		if (!geo.isLabelSet() && algo instanceof AlgoIf algoIf) {
+			return algoIf.toExpression();
 		}
 		return new ExpressionNode(this, geo);
 	}

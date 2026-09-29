@@ -300,9 +300,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		createAvexWidget();
 		addAVEXWidget(content);
-		if (app.isUnbundled()
-				&& geo0.getParentAlgorithm() != null
-				&& geo0.getParentAlgorithm() instanceof AlgoPointOnPath) {
+		if (app.isUnbundled() && geo0.getParentAlgorithm() instanceof AlgoPointOnPath) {
 			getWidget().getElement().getStyle().setProperty("minHeight", 72, Unit.PX);
 		}
 		updateDataTest();

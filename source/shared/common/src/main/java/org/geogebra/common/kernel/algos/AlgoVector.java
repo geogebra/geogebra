@@ -184,10 +184,7 @@ public class AlgoVector extends AlgoElement
 
 	@Override
 	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
-		if (P != null
-				&& Q != null
-				&& P instanceof SymbolicParametersAlgo
-				&& Q instanceof SymbolicParametersAlgo) {
+		if (P instanceof SymbolicParametersAlgo && Q instanceof SymbolicParametersAlgo) {
 			((SymbolicParametersAlgo) P).getFreeVariables(variables);
 			((SymbolicParametersAlgo) Q).getFreeVariables(variables);
 			return;
@@ -197,10 +194,7 @@ public class AlgoVector extends AlgoElement
 
 	@Override
 	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
-		if (P != null
-				&& Q != null
-				&& P instanceof SymbolicParametersAlgo
-				&& Q instanceof SymbolicParametersAlgo) {
+		if (P instanceof SymbolicParametersAlgo && Q instanceof SymbolicParametersAlgo) {
 			int[] degree1 = ((SymbolicParametersAlgo) P).getDegrees(a);
 			int[] degree2 = ((SymbolicParametersAlgo) Q).getDegrees(a);
 			int[] result = new int[3];
@@ -216,10 +210,7 @@ public class AlgoVector extends AlgoElement
 	@Override
 	public BigInteger[] getExactCoordinates(final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
-		if (P != null
-				&& Q != null
-				&& P instanceof SymbolicParametersAlgo
-				&& Q instanceof SymbolicParametersAlgo) {
+		if (P instanceof SymbolicParametersAlgo && Q instanceof SymbolicParametersAlgo) {
 			BigInteger[] coords1 = ((SymbolicParametersAlgo) P).getExactCoordinates(values);
 			BigInteger[] coords2 = ((SymbolicParametersAlgo) Q).getExactCoordinates(values);
 			BigInteger[] result = new BigInteger[3];
@@ -236,10 +227,7 @@ public class AlgoVector extends AlgoElement
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (P != null
-				&& Q != null
-				&& P instanceof SymbolicParametersAlgo
-				&& Q instanceof SymbolicParametersAlgo) {
+		if (P instanceof SymbolicParametersAlgo && Q instanceof SymbolicParametersAlgo) {
 			PPolynomial[] coords1 = ((SymbolicParametersAlgo) P).getPolynomials();
 			PPolynomial[] coords2 = ((SymbolicParametersAlgo) Q).getPolynomials();
 			polynomials = new PPolynomial[3];
