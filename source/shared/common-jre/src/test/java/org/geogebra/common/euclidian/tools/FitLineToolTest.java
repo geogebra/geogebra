@@ -20,9 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -142,17 +140,10 @@ class FitLineToolTest extends BaseToolTest {
 	}
 
 	private List<GeoElement> applyFitLineTool(Runnable toolAction) {
-		Set<GeoElement> geosBeforeFitLine =
-				new HashSet<>(getApp().getKernel().getConstruction().getGeoSetConstructionOrder());
+		Set<GeoElement> constructionSnapshot = getConstructionSnapshot();
 		toolAction.run();
 
-		List<GeoElement> lines = new ArrayList<>();
-		for (GeoElement geo : getApp().getKernel().getConstruction().getGeoSetConstructionOrder()) {
-			if (!geosBeforeFitLine.contains(geo) && geo.isGeoLine()) {
-				lines.add(geo);
-			}
-		}
-		return lines;
+		return getNewConstructionElements(constructionSnapshot, GeoElement::isGeoLine);
 	}
 
 	private void processHits(GeoElement... geos) {

@@ -423,39 +423,8 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void angleTool() {
-		setMode(EuclidianConstants.MODE_ANGLE);
-		click(100, 100);
-		click(0, 0);
-		click(150, 0);
-		checkContent(
-				"A = (2, -2)", "B = (0, 0)", "C = (3, 0)", Unicode.alpha + " = 45" + Unicode.DEGREE_STRING);
-	}
-
-	@Test
 	void vectorFromPointTool() {
 		setMode(EuclidianConstants.MODE_VECTOR_FROM_POINT); // TODO 37
-	}
-
-	@Test
-	void distanceTool() {
-		setMode(EuclidianConstants.MODE_DISTANCE); // TODO 38
-		t("A=(0,0)");
-		t("B=(0,-2)");
-		t("p=Polygon(A,B,4)");
-		click(50, 50);
-		checkContent(
-				"A = (0, 0)",
-				"B = (0, -2)",
-				"p = 4",
-				"f = 2",
-				"g = 2",
-				"C = (2, -2)",
-				"D = (2, 0)",
-				"h = 2",
-				"i = 2",
-				"Textp = \"Perimeter of p = 8\"");
-		checkHiddenContent("perimeterp = 8", "Pointp = (1, -1)");
 	}
 
 	@Test
@@ -474,50 +443,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		prepareInput("2");
 		click(100, 100);
 		checkContent("A = (2, -2)", "B = (4, -2)", "f = 2");
-	}
-
-	@Test
-	void angleFixedTool() {
-		setMode(EuclidianConstants.MODE_ANGLE_FIXED); // TODO 46
-		t("A=(0,0)");
-		t("B=(0,-2)");
-		prepareInput("90deg");
-		click(0, 0);
-		click(0, 100);
-		checkContent(
-				"A = (0, 0)",
-				"B = (0, -2)",
-				"A' = (2, -2)",
-				Unicode.alpha + " = 90" + Unicode.DEGREE_STRING);
-	}
-
-	@Test
-	void areaTool() {
-		setMode(EuclidianConstants.MODE_AREA);
-		t("A=(0,0)");
-		t("B=(0,-2)");
-		t("p=Polygon(A,B,4)");
-		click(50, 50);
-		checkContent(
-				"A = (0, 0)",
-				"B = (0, -2)",
-				"p = 4",
-				"f = 2",
-				"g = 2",
-				"C = (2, -2)",
-				"D = (2, 0)",
-				"h = 2",
-				"i = 2",
-				"Textp = \"Area of p = 4\"");
-		checkHiddenContent("Pointp = (1, -1)");
-	}
-
-	@Test
-	void slopeTool() {
-		setMode(EuclidianConstants.MODE_SLOPE);
-		t("f:y=-3x");
-		click(50, 150);
-		checkContent("f: y = -3 x", "m = -3");
 	}
 
 	@Test

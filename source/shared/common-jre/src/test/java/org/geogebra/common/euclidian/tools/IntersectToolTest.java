@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -210,8 +209,7 @@ class IntersectToolTest extends BaseToolTest {
 	void intersectToolDispatchesSupportedObjectPairs(IntersectionCase testCase) {
 		GeoElement first = add(testCase.firstCommand);
 		GeoElement second = add(testCase.secondCommand);
-		Set<GeoElement> geosBeforeIntersection =
-				new HashSet<>(getApp().getKernel().getConstruction().getGeoSetConstructionOrder());
+		Set<GeoElement> constructionSnapshot = getConstructionSnapshot();
 
 		if (testCase.selectTogether) {
 			click(testCase.firstX, testCase.firstY);
@@ -221,10 +219,7 @@ class IntersectToolTest extends BaseToolTest {
 		}
 
 		List<GeoElement> newPoints =
-				getApp().getKernel().getConstruction().getGeoSetConstructionOrder().stream()
-						.filter(geo -> !geosBeforeIntersection.contains(geo))
-						.filter(GeoElement::isGeoPoint)
-						.toList();
+				getNewConstructionElements(constructionSnapshot, GeoElement::isGeoPoint);
 		assertEquals(
 				testCase.expectedOutputCount,
 				newPoints.size(),

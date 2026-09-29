@@ -22,13 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomialInterval;
@@ -62,7 +59,7 @@ class ExtremumToolTest extends BaseToolTest {
 
 		List<GeoElement> points = applyExtremumTool(0, 0);
 
-		assertEquals(List.of("(-1, 2)", "(1, -2)"), definedPointValues(points));
+		assertEquals(List.of("(-1, 2)", "(1, -2)"), definedValueStrings(points));
 		assertInstanceOf(AlgoExtremumPolynomial.class, points.get(0).getParentAlgorithm());
 	}
 
@@ -73,7 +70,7 @@ class ExtremumToolTest extends BaseToolTest {
 		List<GeoElement> points = applyExtremumTool(0, 50);
 
 		assertFalse(points.isEmpty());
-		assertTrue(definedPointValues(points).isEmpty());
+		assertTrue(definedValueStrings(points).isEmpty());
 		assertInstanceOf(AlgoExtremumPolynomial.class, points.get(0).getParentAlgorithm());
 	}
 
@@ -83,7 +80,7 @@ class ExtremumToolTest extends BaseToolTest {
 
 		List<GeoElement> points = applyExtremumTool(0, 0);
 
-		assertEquals(List.of("(-1, 2)", "(1, -2)"), definedPointValues(points));
+		assertEquals(List.of("(-1, 2)", "(1, -2)"), definedValueStrings(points));
 		assertInstanceOf(AlgoExtremumPolynomialInterval.class, points.get(0).getParentAlgorithm());
 	}
 
@@ -93,7 +90,7 @@ class ExtremumToolTest extends BaseToolTest {
 
 		List<GeoElement> points = applyExtremumTool(0, 0);
 
-		assertFalse(definedPointValues(points).isEmpty());
+		assertFalse(definedValueStrings(points).isEmpty());
 		for (GeoElement point : points) {
 			if (point.isDefined()) {
 				double x = ((GeoPoint) point).getInhomX();
@@ -114,7 +111,7 @@ class ExtremumToolTest extends BaseToolTest {
 
 		List<GeoElement> points = applyExtremumTool(0, 0);
 
-		assertEquals(List.of("(0, 0)"), definedPointValues(points));
+		assertEquals(List.of("(0, 0)"), definedValueStrings(points));
 		assertInstanceOf(AlgoExtremumPolynomial.class, points.get(0).getParentAlgorithm());
 	}
 
@@ -124,7 +121,7 @@ class ExtremumToolTest extends BaseToolTest {
 
 		List<GeoElement> points = applyExtremumTool(100, 0);
 
-		assertEquals(4, definedPointValues(points).size());
+		assertEquals(4, definedValueStrings(points).size());
 		assertInstanceOf(AlgoVertexConic.class, points.get(0).getParentAlgorithm());
 	}
 
@@ -135,7 +132,7 @@ class ExtremumToolTest extends BaseToolTest {
 		List<GeoElement> points = applyExtremumTool(50, 0);
 
 		assertEquals(2, points.size());
-		assertEquals(2, definedPointValues(points).size());
+		assertEquals(2, definedValueStrings(points).size());
 		assertInstanceOf(AlgoVertexConic.class, points.get(0).getParentAlgorithm());
 	}
 
@@ -146,7 +143,7 @@ class ExtremumToolTest extends BaseToolTest {
 		List<GeoElement> points = applyExtremumTool(0, 25);
 
 		assertEquals(1, points.size());
-		assertEquals(1, definedPointValues(points).size());
+		assertEquals(1, definedValueStrings(points).size());
 		assertInstanceOf(AlgoVertexConic.class, points.get(0).getParentAlgorithm());
 	}
 
@@ -175,7 +172,7 @@ class ExtremumToolTest extends BaseToolTest {
 
 		List<GeoElement> points = applyExtremumTool(0, 0);
 
-		assertEquals(List.of("(0, 0)"), definedPointValues(points));
+		assertEquals(List.of("(0, 0)"), definedValueStrings(points));
 		assertInstanceOf(AlgoExtremumPolynomial.class, points.get(0).getParentAlgorithm());
 	}
 
@@ -196,26 +193,9 @@ class ExtremumToolTest extends BaseToolTest {
 	}
 
 	private List<GeoElement> applyExtremumTool(int x, int y) {
-		Set<GeoElement> geosBeforeExtremum =
-				new HashSet<>(getApp().getKernel().getConstruction().getGeoSetConstructionOrder());
+		Set<GeoElement> constructionSnapshot = getConstructionSnapshot();
 		click(x, y);
 
-		List<GeoElement> points = new ArrayList<>();
-		for (GeoElement geo : getApp().getKernel().getConstruction().getGeoSetConstructionOrder()) {
-			if (!geosBeforeExtremum.contains(geo) && geo.isGeoPoint()) {
-				points.add(geo);
-			}
-		}
-		return points;
-	}
-
-	private List<String> definedPointValues(List<GeoElement> points) {
-		List<String> values = new ArrayList<>();
-		for (GeoElement point : points) {
-			if (point.isDefined()) {
-				values.add(point.toValueString(StringTemplate.testTemplate));
-			}
-		}
-		return values;
+		return getNewConstructionElements(constructionSnapshot, GeoElement::isGeoPoint);
 	}
 }

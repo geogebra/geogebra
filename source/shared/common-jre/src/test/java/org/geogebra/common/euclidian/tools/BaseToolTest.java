@@ -16,8 +16,21 @@
 
 package org.geogebra.common.euclidian.tools;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.test.TestEvent;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -62,5 +75,56 @@ class BaseToolTest extends BaseEuclidianControllerTest {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		dragStart(view.toScreenCoordX(startXRW), view.toScreenCoordY(startYRW));
 		dragEnd(view.toScreenCoordX(endXRW), view.toScreenCoordY(endYRW));
+	}
+
+	/**
+	 * Initialize the headless dialog manager with the given inputs.
+	 *
+	 * @param inputs inputs returned by consecutive dialogs
+	 */
+	protected void prepareInput(String... inputs) {
+		getApp().initDialogManager(false, inputs);
+	}
+
+	Set<String> getObjectNames() {
+		return Set.copyOf(Arrays.asList(getApp().getGgbApi().getAllObjectNames()));
+	}
+
+	<T extends GeoElement> List<T> getNewObjects(Set<String> existingObjects, Class<T> type) {
+		return Arrays.stream(getApp().getGgbApi().getAllObjectNames())
+				.filter(label -> !existingObjects.contains(label))
+				.map(this::lookup)
+				.filter(type::isInstance)
+				.map(type::cast)
+				.toList();
+	}
+
+	<T extends GeoElement> T getOnlyNewObject(Set<String> existingObjects, Class<T> type) {
+		List<T> newObjects = getNewObjects(existingObjects, type);
+		assertEquals(1, newObjects.size());
+		return newObjects.get(0);
+	}
+
+	Set<GeoElement> getConstructionSnapshot() {
+		return new HashSet<>(getApp().getKernel().getConstruction().getGeoSetConstructionOrder());
+	}
+
+	List<GeoElement> getNewConstructionElements(
+			Set<GeoElement> constructionSnapshot, Predicate<GeoElement> filter) {
+		return getApp().getKernel().getConstruction().getGeoSetConstructionOrder().stream()
+				.filter(geo -> !constructionSnapshot.contains(geo))
+				.filter(filter)
+				.toList();
+	}
+
+	List<String> definedValueStrings(Collection<? extends GeoElement> elements) {
+		return elements.stream()
+				.filter(GeoElement::isDefined)
+				.map(element -> element.toValueString(StringTemplate.testTemplate))
+				.toList();
+	}
+
+	void assertTextContainsValue(GeoText text, GeoElement value) {
+		assertTrue(text.getTextString().contains(value.toValueString(StringTemplate.defaultTemplate)));
 	}
 }
