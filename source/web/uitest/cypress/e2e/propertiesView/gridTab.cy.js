@@ -1,5 +1,3 @@
-import {selectors} from '@geogebra/web-test-harness/selectors'
-/*global cy*/
 
 describe('Properties View', () => {
     beforeEach(() => {

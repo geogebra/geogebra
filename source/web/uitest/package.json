@@ -4,18 +4,25 @@
   "description": "Test automation suite for testing GeoGebra",
   "author": "GeoGebra Group",
   "scripts": {
-    "open": "cypress open"
+    "open": "cypress open",
+    "test": "cypress run",
+    "lint": "eslint cypress"
   },
   "files": [
     "*.js"
   ],
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@geogebra/web-test-harness": "0.1.19",
     "@simonsmith/cypress-image-snapshot": "^10.1.1",
+    "axe-core": "^4.13.0",
     "cypress": "^15.21.0",
+    "cypress-axe": "^1.7.0",
     "del": "^6.0.0",
-    "eslint": "^8.24.0",
+    "eslint": "^10.11.0",
+    "eslint-plugin-cypress": "^7.0.2",
     "events": "^3.3.0",
+    "globals": "^17.12.0",
     "http-server": "14.1.1",
     "jest-image-snapshot": "5.2.0",
     "wait-on": "^8.0.2"

@@ -10,7 +10,7 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
-
+/* global require, module */
 const {
       addMatchImageSnapshotPlugin,
     } = require('@simonsmith/cypress-image-snapshot/plugin');
@@ -23,4 +23,16 @@ module.exports = (on, config) => {
             return del(results.video)
         }
     });
+    on('task', {
+        log(message) {
+            console.log(message)
+
+            return null
+        },
+        table(message) {
+            console.table(message)
+
+            return null
+        }
+    })
 };

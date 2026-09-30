@@ -25,6 +25,7 @@ import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.RootPanel;
@@ -46,6 +47,7 @@ public final class MenuToggleButton extends IconButton implements Persistable {
 				() -> {},
 				new ImageIconSpec(MaterialDesignResources.INSTANCE.toolbar_menu_black()),
 				"Menu");
+		TestHarness.setAttr(this, "mainMenu");
 		new FocusableWidget(AccessibilityGroup.MENU, null, this).attachTo(app);
 		this.appW = app;
 		buildUI();

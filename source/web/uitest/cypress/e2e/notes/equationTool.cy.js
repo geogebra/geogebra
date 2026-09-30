@@ -1,6 +1,5 @@
 import {selectors} from '@geogebra/web-test-harness/selectors'
 import {parseString} from 'xml2js'
-/*global cy,expect*/
 
 describe('Equation tool test', () => {
     beforeEach(() => {

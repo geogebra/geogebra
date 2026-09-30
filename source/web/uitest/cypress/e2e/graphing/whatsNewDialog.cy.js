@@ -1,4 +1,3 @@
-/*global cy*/
 
 describe.skip('Whats new dialog', () => {
     beforeEach(() => {

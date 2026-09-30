@@ -1,6 +1,5 @@
 import '../../support/embed/commands.js'
 import {selectors} from '@geogebra/web-test-harness/selectors'
-/*global cy*/
 
 describe('Keyboard button visibility test', () => {
     beforeEach(() => {

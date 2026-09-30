@@ -56,6 +56,7 @@ public final class ShowKeyboardButton extends SimplePanel {
 		}
 		NoDragImage showKeyboard = new NoDragImage(
 				KeyboardResources.INSTANCE.keyboard_show_material().getSafeUri().asString());
+		showKeyboard.setAltText(app.getLocalization().getMenu("Keyboard"));
 		this.add(showKeyboard);
 		TestHarness.setAttr(this, "showKeyboardButton");
 

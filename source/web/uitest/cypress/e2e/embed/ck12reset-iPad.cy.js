@@ -1,4 +1,3 @@
-/*global cy*/
 
 describe('Reset test', () => {
     beforeEach(() => {

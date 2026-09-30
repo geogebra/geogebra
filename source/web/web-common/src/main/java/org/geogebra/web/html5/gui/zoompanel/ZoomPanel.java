@@ -34,6 +34,7 @@ import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.topbar.DefaultTopBarIconResources;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
+import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -138,6 +139,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				ZoomPanelResources.INSTANCE.fullscreen_black18(),
 				ZoomPanelResources.INSTANCE.fullscreen_exit_black18());
 		fullscreenBtn.setStyleName("zoomPanelBtn");
+		TestHarness.setAttr(fullscreenBtn, "fullscreenButton");
 		registerFocusable(fullscreenBtn, AccessibilityGroup.ViewControlId.FULL_SCREEN);
 
 		fullscreenBtn.addFastClickHandler(source -> {
@@ -180,6 +182,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		homeBtn = new StandardButton(ZoomPanelResources.INSTANCE.home_zoom_black18(), null, 20);
 		homeBtn.setStyleName("zoomPanelBtn");
 		homeBtn.addStyleName("zoomPanelBtnSmall");
+		TestHarness.setAttr(homeBtn, "standardViewButton");
 		getZoomController().hideHomeButton(homeBtn);
 		FastClickHandler handlerHome = source -> getZoomController().onHomePressed();
 		homeBtn.addFastClickHandler(handlerHome);
@@ -208,6 +211,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		zoomToFitBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerHome = source -> getZoomController().onZoomToFitPressed();
 		zoomToFitBtn.addFastClickHandler(handlerHome);
+		TestHarness.setAttr(zoomToFitBtn, "zoomToFitButton");
 		add(zoomToFitBtn);
 		registerFocusable(zoomToFitBtn, AccessibilityGroup.ViewControlId.ZOOM_PANEL_ZOOM_TO_FIT);
 	}
@@ -215,7 +219,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	private void addZoomOutButton() {
 		zoomOutBtn = new StandardButton(GuiResourcesSimple.INSTANCE.zoom_out(), null, 24);
 		zoomOutBtn.setStyleName("zoomPanelBtn");
-
+		TestHarness.setAttr(zoomOutBtn, "zoomOutButton");
 		FastClickHandler handlerZoomOut = source -> getZoomController().onZoomOutPressed();
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
 		add(zoomOutBtn);
@@ -224,7 +228,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	private void addZoomInButton() {
 		zoomInBtn = new StandardButton(GuiResourcesSimple.INSTANCE.zoom_in(), null, 24);
 		zoomInBtn.setStyleName("zoomPanelBtn");
-
+		TestHarness.setAttr(zoomInBtn, "zoomInButton");
 		FastClickHandler handlerZoomIn = source -> getZoomController().onZoomInPressed();
 		zoomInBtn.addFastClickHandler(handlerZoomIn);
 		add(zoomInBtn);

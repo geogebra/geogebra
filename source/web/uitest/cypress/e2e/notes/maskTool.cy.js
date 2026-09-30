@@ -1,5 +1,4 @@
 import {selectors} from '@geogebra/web-test-harness/selectors'
-/*global cy,expect*/
 
 describe('Mask tool test', () => {
     beforeEach(() => {

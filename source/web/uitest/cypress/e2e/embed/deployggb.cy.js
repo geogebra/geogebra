@@ -1,5 +1,4 @@
 import '../../support/embed/commands.js'
-/*global cy*/
 
 describe('deployggb test', () => {
     beforeEach(() => {

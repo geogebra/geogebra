@@ -1,5 +1,4 @@
 import giac from '../../../../../shared/common/src/main/resources/giac/giacTests.js';
-/*global cy,expect*/
 
 function setupTestCategories(range) {
 	describe(`CAS tests ${range}`, () => {

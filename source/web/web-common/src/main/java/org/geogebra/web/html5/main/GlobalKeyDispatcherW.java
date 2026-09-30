@@ -48,6 +48,8 @@ import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.EventListener;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.KeyboardEvent;
+import jsinterop.base.Js;
 
 /**
  * Handles keyboard events.
@@ -160,7 +162,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		private boolean handleKeyDown(Event event) {
 			boolean handled = false;
-
+			KeyboardEvent keyboardEvent = Js.uncheckedCast(event);
 			if (event.getKeyCode() == GWTKeycodes.KEY_X && event.getCtrlKey() && event.getAltKey()) {
 				handleCtrlAltX();
 				handled = true;
@@ -174,7 +176,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 						KeyCodeUtil.translateGWTCode(event.getKeyCode()), event.getShiftKey(), false, true);
 			}
 			KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getKeyCode());
-			if (kc == KeyCodes.TAB) {
+			if ("Tab".equals(keyboardEvent.code)) {
 				if (!escPressed) {
 					handled = handleTab(event.getShiftKey());
 				}

@@ -12,8 +12,8 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
-/*global cy*/
 import { addGeoGebraCommands } from '@geogebra/web-test-harness/commands';
+import 'cypress-axe';
 
 addGeoGebraCommands();
 

@@ -73,6 +73,7 @@ import org.geogebra.web.shared.SharedResources;
 import org.gwtproject.animation.client.AnimationScheduler;
 import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.MouseDownEvent;
@@ -781,7 +782,7 @@ public final class AlgebraViewW extends Tree
 		if (inputPanelTreeItem != null) {
 			removeItem(inputPanelTreeItem);
 			if (inputPanelLatex != null) {
-				inputPanelTreeItem = new TreeItem(inputPanelLatex.getWidget());
+				inputPanelTreeItem = asPlainTreeItem(inputPanelLatex);
 			}
 			styleInputPanel();
 			addItem(inputPanelTreeItem);
@@ -874,7 +875,6 @@ public final class AlgebraViewW extends Tree
 	private void initDependencyOrder() {
 		// don't re-init anything
 		if (depNode == null || indNode == null || auxiliaryNode == null) {
-			// rootDependency = new TreeItem();
 			depNode = new AVTreeItem(); // dependent objects
 			indNode = new AVTreeItem();
 			auxiliaryNode = new AVTreeItem();
@@ -1517,7 +1517,7 @@ public final class AlgebraViewW extends Tree
 		boolean forceKeyboard = inputJustCreated && GuiManagerW.mayForceKeyboard(app);
 		RadioTreeItem inputPanel = prepareInputPanel();
 		hideAlgebraInput();
-		this.inputPanelTreeItem = new TreeItem(inputPanel.getWidget());
+		this.inputPanelTreeItem = asPlainTreeItem(inputPanel);
 		styleInputPanel();
 
 		if (inputJustCreated) {
@@ -1587,7 +1587,8 @@ public final class AlgebraViewW extends Tree
 				inputJustCreated && (forceKeyboard0 || GuiManagerW.mayForceKeyboard(app));
 		RadioTreeItem inputPanel = prepareInputPanel();
 
-		inputPanelTreeItem = super.addItem(inputPanel.getWidget());
+		inputPanelTreeItem = asPlainTreeItem(inputPanel);
+		super.addItem(inputPanelTreeItem);
 		inputPanel.setIndexLast();
 		styleInputPanel();
 
@@ -1608,6 +1609,15 @@ public final class AlgebraViewW extends Tree
 			inputPanel.setItemWidth(inputWidth);
 		}
 		updateFonts();
+	}
+
+	private TreeItem asPlainTreeItem(RadioTreeItem inputPanel) {
+		TreeItem plainTreeItem = new TreeItem(inputPanel.getWidget());
+		if (plainTreeItem.getElement().getChildNodes().getItem(0) instanceof Element el) {
+			el.removeAttribute("role");
+			el.removeAttribute("aria-level");
+		}
+		return plainTreeItem;
 	}
 
 	private boolean isExpanded() {

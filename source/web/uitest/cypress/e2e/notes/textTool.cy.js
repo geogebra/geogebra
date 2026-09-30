@@ -1,6 +1,5 @@
 import {selectors} from '@geogebra/web-test-harness/selectors'
 import {parseString} from 'xml2js'
-/*global cy,expect*/
 
 describe('Text tool test', () => {
     beforeEach(() => {

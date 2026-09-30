@@ -182,7 +182,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.getInputController().setEditorFeatures(features);
 		getHiddenTextArea();
 
-		// el.getElement().setTabIndex(1);
 		if (canvas != null) {
 			this.ctx = JLMContextHelper.as(canvas.getContext2d());
 		}
@@ -584,7 +583,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				|| (keyCodeGWT >= GWTKeycodes.KEY_ZERO && keyCodeGWT <= GWTKeycodes.KEY_NINE)) {
 			return keyCodeGWT;
 		}
-
+		KeyboardEvent keyboardEvent = Js.uncheckedCast(evt);
+		if ("Tab".equals(keyboardEvent.code)) {
+			return JavaKeyCodes.VK_TAB;
+		}
 		// eg Delete has a different code
 		KeyCodes keyCode = KeyCodeUtil.translateGWTCode(keyCodeGWT);
 
