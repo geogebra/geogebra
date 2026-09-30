@@ -41,6 +41,7 @@ import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -317,5 +318,12 @@ class StringTemplateTest {
 		add("N = {{0,-1},{1,0}}");
 		plain("m1 = (N * M) * M", "m1 = N M M");
 		plain("m2 = M * M * N", "m2 = M M N");
+	}
+
+	@Test
+	@Issue("APPS-7960")
+	void powerWithMultiplicationShouldHaveSpaceForEditor() {
+		GeoElementND function = add("1^0.5*(x-1)");
+		assertEquals("1^0.5 (x-1)", function.toValueString(StringTemplate.inputBoxTemplate));
 	}
 }

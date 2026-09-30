@@ -1680,7 +1680,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return false;
 		}
 
-		if (value.wrap().getOperation() == Operation.FUNCTION) {
+		if (value.isOperation(Operation.FUNCTION)) {
 			return requiresBrackets(value.wrap().getLeft(), valueForm);
 		}
 
@@ -1780,8 +1780,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 
 				// right wing
-				int opIDright = ExpressionNode.opID(right);
-				if (opIDright == Operation.DIVIDE.ordinal() && !nounary && stringType == StringType.LATEX) {
+				int opIDRight = ExpressionNode.opID(right);
+				if (opIDRight == Operation.DIVIDE.ordinal() && !nounary && stringType == StringType.LATEX) {
 					sb.append(rightStr);
 				} else if (!requiresBrackets(right, valueForm)) {
 					boolean showMultiplicationSign = false;
@@ -1872,7 +1872,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							|| (!rightStr.isEmpty() && (rightStr.charAt(0) == '-')) // 2 (-5) or -(-5)
 							|| (!nounary
 									&& !right.isLeaf() // -(x*a) or -(x/a)
-									&& (opIDright <= Operation.DIVIDE.ordinal()))) {
+									&& (opIDRight <= Operation.DIVIDE.ordinal()))) {
 						if (rtlMinus) {
 							sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 						}
@@ -1928,6 +1928,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * omitted, based on the factor immediately to its left being numeric or already bracketed.
 	 */
 	private boolean canOmitSpaceBeforeBracket(ExpressionValue left, boolean valueForm) {
+		if (left.isOperation(Operation.POWER)) {
+			return false;
+		}
 		ExpressionValue lastFactor = left;
 		if (left.isOperation(Operation.MULTIPLY) || left.isOperation(Operation.MULTIPLY_OR_FUNCTION)) {
 			lastFactor = left.wrap().getRight();
@@ -2018,7 +2021,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private void appendMultiplySpecial(
 			StringBuilder sb, String leftStr, String rightStr, ExpressionValue left, Localization loc) {
-		// no chceck for 0: we need 0x + 1 to be a function, not number
+		// no check for 0: we need 0x + 1 to be a function, not number
 
 		// check for degree sign or 1degree or degree1 (eg for Arabic)
 		if ((rightStr.length() == 2
