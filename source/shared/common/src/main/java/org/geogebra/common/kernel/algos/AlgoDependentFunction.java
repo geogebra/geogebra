@@ -16,7 +16,9 @@
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
@@ -390,18 +392,17 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 		ExpressionNode funNExpression = funN.getExpression().getCopy(funN.getKernel());
 		// with f(A) where A is a point we should not get there, but
 		// still
-		if (!(right instanceof MyList)) {
+		if (!(right instanceof MyList rightList)) {
 			return null;
 		}
 
-		MyList rightList = (MyList) right;
-
-		// now replace every x in function by the expanded argument
+		// now replace every function variable in function by the expanded argument
+		Map<ExpressionValue, ExpressionValue> replacements = new HashMap<>();
 		for (int i = 0; i < xy.length; i++) {
-			funNExpression = funNExpression
-					.replace(xy[i], expandFunctionDerivativeNodes(get(rightList, i + offset), fast))
-					.wrap();
+			replacements.put(xy[i], expandFunctionDerivativeNodes(get(rightList, i + offset), fast));
 		}
+		funNExpression =
+				funNExpression.traverse(val -> replacements.getOrDefault(val, val)).wrap();
 		return funNExpression;
 	}
 

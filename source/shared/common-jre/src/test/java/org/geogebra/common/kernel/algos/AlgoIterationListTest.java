@@ -20,7 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,5 +48,13 @@ class AlgoIterationListTest extends BaseAppTestSetup {
 				"{34, 13, 8, 5, 3, 2, 1, 0, ?, ?, ?, ?, ?, ?}",
 				list.toValueString(StringTemplate.testTemplate));
 		assertEquals("5", element.toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	@Issue("APPS-2141")
+	void testMultivariableSubstitution() {
+		GeoList list = evaluateGeoElement("IterationList(p(x + y, y + 1), p, {x + y}, 2)");
+		assertEquals(
+				"x + y + y + 1 + y + 1 + 1", list.get(2).toValueString(StringTemplate.testTemplate));
 	}
 }
