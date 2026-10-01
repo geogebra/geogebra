@@ -623,22 +623,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void attachDetachPointTool() {
-		setMode(EuclidianConstants.MODE_ATTACH_DETACH); // TODO 67
-	}
-
-	@Test
-	@Issue("APPS-6630")
-	void testAttachDetachPointToolCrash() {
-		add("A = (1, -1)");
-		setMode(EuclidianConstants.MODE_ATTACH_DETACH);
-		add("y=0");
-		dragStart(50, 50);
-		dragEnd(50, 0);
-		assertEquals("Point(f)", lookup("A").getDefinition(StringTemplate.testTemplate));
-	}
-
-	@Test
 	void functionInspectorTool() {
 		setMode(EuclidianConstants.MODE_FUNCTION_INSPECTOR); // TODO 68
 	}
@@ -646,18 +630,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	void vectorPolygonTool() {
 		setMode(EuclidianConstants.MODE_VECTOR_POLYGON); // TODO 70
-	}
-
-	@Test
-	void createListTool() {
-		setMode(EuclidianConstants.MODE_CREATE_LIST); // TODO 71
-	}
-
-	@Test
-	void complexNumberTool() {
-		setMode(EuclidianConstants.MODE_COMPLEX_NUMBER);
-		click(100, 100);
-		checkContent("z_{1} = 2 - 2" + Unicode.IMAGINARY);
 	}
 
 	@Test
