@@ -40,8 +40,14 @@ public class LaTeXTreeItem extends RadioTreeItem {
 		super(kernel, av);
 	}
 
-	public LaTeXTreeItem(GeoElement geo) {
+	protected LaTeXTreeItem(GeoElement geo) {
 		super(geo);
+	}
+
+	protected static LaTeXTreeItem of(GeoElement geo) {
+		LaTeXTreeItem ret = new LaTeXTreeItem(geo);
+		ret.buildGui();
+		return ret;
 	}
 
 	@Override
@@ -217,7 +223,7 @@ public class LaTeXTreeItem extends RadioTreeItem {
 
 	@Override
 	public RadioTreeItem copy() {
-		return new LaTeXTreeItem(geo);
+		return LaTeXTreeItem.of(geo);
 	}
 
 	@Override

@@ -37,7 +37,7 @@ public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDo
 	AutoCompleteTextFieldW textField;
 
 	/**
-	 * Minimal constructor
+	 * Creates an item for the input.
 	 * @param kernel {@link Kernel}
 	 * @param av {@link AlgebraViewW}
 	 */
@@ -46,8 +46,13 @@ public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDo
 		ensureTextField();
 	}
 
+	/**
+	 * Creates an item for an existing object.
+	 * @param geo construction element
+	 */
 	public LinearNotationTreeItem(GeoElement geo) {
 		super(geo);
+		buildGui();
 	}
 
 	private void createTextField() {

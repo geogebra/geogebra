@@ -64,7 +64,6 @@ import org.geogebra.web.full.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
-import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.gui.view.algebra.compositefocus.AVCompositeFocusAssembler;
 import org.geogebra.web.full.gui.view.algebra.compositefocus.AVFocusContributorFactory;
 import org.geogebra.web.full.main.AppWFull;
@@ -130,6 +129,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private static final int MARGIN_RESIZE = 50;
 
 	protected static final int LATEX_MAX_EDIT_LENGTH = 1500;
+	private static final String CUSTOM_SCROLLBAR = "customScrollbar";
 
 	Boolean stylebarShown;
 	/** Help popup */
@@ -232,6 +232,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		syntaxController.setUpdater(this);
 		setWidget(main);
 		controller = createController();
+		controller.cancelOnScroll(content);
 
 		getController().setLongTouchManager(LongTouchManager.getInstance());
 		setDraggable();
@@ -274,7 +275,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public RadioTreeItem(final GeoElement geo0) {
 		this(geo0.getKernel(), (AlgebraViewW) geo0.getApp().getAlgebraView());
 		geo = geo0;
+	}
 
+	protected void buildGui() {
 		addMarble();
 
 		getDefinitionValuePanel().addStyleName("avPlainText");
@@ -298,9 +301,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 				av.repaintView();
 			}
 		}
-		createAvexWidget();
 		addAVEXWidget(content);
-		if (app.isUnbundled() && geo0.getParentAlgorithm() instanceof AlgoPointOnPath) {
+		if (app.isUnbundled() && geo.getParentAlgorithm() instanceof AlgoPointOnPath) {
 			getWidget().getElement().getStyle().setProperty("minHeight", 72, Unit.PX);
 		}
 		updateDataTest();
@@ -365,13 +367,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		controls.setVisible(true);
 	}
 
-	/**
-	 *
-	 */
-	protected void createAvexWidget() {
-		// only for checkboxes
-	}
-
 	protected final String getLatexString(Integer limit, boolean output) {
 		return AlgebraItem.getContentString(geo, limit, output, StringTemplate.latexTemplate);
 	}
@@ -379,9 +374,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private void rebuildContent() {
 		if (!buildPlainTextSimple()) {
 			buildItemContent();
-		} else if (content.getWidgetCount() != 1) {
-			// extra content shown (eg. arrow) => rebuild
-			rebuildPlaintextContent();
+		} else {
+			content.addStyleName(CUSTOM_SCROLLBAR);
+			content.addStyleName("singleRow");
+			if (content.getWidgetCount() != 1) {
+				// extra content shown (eg. arrow) => rebuild
+				rebuildPlaintextContent();
+			}
 		}
 	}
 
@@ -393,10 +392,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void createDVPanels() {
 		if (definitionPanel == null) {
 			definitionPanel = new FlowPanel();
+			controller.cancelOnScroll(definitionPanel);
 		}
 
 		if (outputPanel == null) {
 			outputPanel = new AlgebraOutputPanel();
+			controller.cancelOnScroll(outputPanel.getValuePanel());
 			outputPanel.addStyleName("avOutput");
 		}
 	}
@@ -535,6 +536,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		} else {
 			definitionPanel.addStyleName("avDefinitionPlain");
 		}
+		definitionPanel.addStyleName(CUSTOM_SCROLLBAR);
 
 		content.clear();
 		if (updateDefinitionPanel()) {
@@ -639,7 +641,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		String text = getLatexString(
 				LATEX_MAX_EDIT_LENGTH, geo.getDescriptionMode() != DescriptionMode.DEFINITION);
 		latex = text != null;
-
+		content.addStyleName("singleRow");
+		content.addStyleName(CUSTOM_SCROLLBAR);
 		if (latex) {
 			if (isInputTreeItem()) {
 				text = geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
@@ -793,6 +796,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			content.clear();
 			latexToCanvas(text);
 			content.add(canvas);
+			content.addStyleName(CUSTOM_SCROLLBAR);
+			content.addStyleName("singleRow");
 		}
 	}
 
@@ -801,14 +806,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 *            item width
 	 */
 	public void setItemWidth(int width) {
-		if (getOffsetWidth() != width && width >= 0) {
-			if (isInputTreeItem()) {
-				Element inputParent = getWidget().getElement().getParentElement();
-				Resizer.setPixelWidth(inputParent, width);
-			} else if (!isTextItem()) {
-				setWidth(width + "px");
-			}
-		}
 		onResize();
 	}
 
@@ -1324,7 +1321,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * @return whether this is a plaintext item (eg A=(1,1))
+	 * @return panel containing either input + output panel
+	 * or just a plain text representation of the element
 	 */
 	public FlowPanel getDefinitionValuePanel() {
 		return definitionValuePanel;
@@ -2198,7 +2196,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void updateDataTest(int index) {
-		marblePanel.setIndex(index);
+		if (marblePanel != null) {
+			marblePanel.setIndex(index);
+		}
 		DataTest.ALGEBRA_ITEM_SYMBOLIC_BUTTON.applyWithIndex(symbolicButton, index);
 		DataTest.ALGEBRA_OUTPUT_ROW.applyWithIndex(outputPanel, index);
 

@@ -22,6 +22,7 @@ import org.geogebra.web.full.gui.TextFieldFocusablePart;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.gwtproject.user.client.ui.ComplexPanel;
 import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.Nullable;
 
@@ -36,6 +37,7 @@ import org.jspecify.annotations.Nullable;
  * consistent visual focus styling.</p>
  */
 public class FocusablePartW implements FocusablePart {
+	public static final String CLASS_NAME = "av-focusablePart";
 	private final Widget widget;
 	private final String focusKey;
 	private final String accessibleLabel;
@@ -55,7 +57,7 @@ public class FocusablePartW implements FocusablePart {
 		this.accessibleLabel = accessibleLabel;
 		this.onFocusCallback = onFocusCallback;
 		AriaHelper.setLabel(widget, accessibleLabel);
-		widget.addStyleName("av-focusablePart");
+		widget.addStyleName(CLASS_NAME);
 	}
 
 	/**
@@ -108,7 +110,13 @@ public class FocusablePartW implements FocusablePart {
 
 	@Override
 	public void focus() {
-		widget.getElement().focus();
+		if (widget instanceof ComplexPanel panel
+				&& panel.getWidgetCount() > 0
+				&& panel.getWidget(0).getElement().getTabIndex() >= 0) {
+			panel.getWidget(0).getElement().focus();
+		} else {
+			widget.getElement().focus();
+		}
 		if (onFocusCallback != null) {
 			onFocusCallback.run();
 		}

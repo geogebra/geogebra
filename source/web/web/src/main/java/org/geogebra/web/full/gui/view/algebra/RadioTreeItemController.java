@@ -32,6 +32,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
@@ -700,5 +701,13 @@ public class RadioTreeItemController
 	 */
 	public String getCommand(MathField mf) {
 		return inputSuggestions.getCommand(mf);
+	}
+
+	/**
+	 * Listen to scroll events in given panel and cancel editing if needed.
+	 * @param panel sub-panel of the item
+	 */
+	public void cancelOnScroll(FlowPanel panel) {
+		Dom.addEventListener(panel.getElement(), "scroll", evt -> markForEdit = false);
 	}
 }

@@ -32,7 +32,6 @@ import org.geogebra.web.html5.util.DataTest;
 import org.geogebra.web.html5.util.HasDataTest;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
@@ -341,20 +340,7 @@ public final class ItemControls extends FlowPanel
 	 * Update position
 	 */
 	public void reposition() {
-
-		Scheduler.get().scheduleDeferred(() -> {
-			int right = getItemRightOffset();
-			getElement().getStyle().setRight(right, Unit.PX);
-		});
-	}
-
-	/**
-	 * @return distance of item's right border from AV right border
-	 */
-	private int getItemRightOffset() {
-		int itemWidth = radioTreeItem.getItemWidth();
-		int avWidth = radioTreeItem.getAV().getOffsetWidth();
-		return Math.max(0, itemWidth - avWidth);
+		// not needed
 	}
 
 	/**

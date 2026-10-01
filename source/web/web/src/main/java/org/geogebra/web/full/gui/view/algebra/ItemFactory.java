@@ -68,7 +68,7 @@ public final class ItemFactory {
 		} else if (AlgebraItem.isTextItem(ob)) {
 			ti = new TextTreeItem(ob);
 		} else {
-			ti = new LaTeXTreeItem(ob);
+			ti = LaTeXTreeItem.of(ob);
 		}
 		ti.setUserObject(ob);
 		ti.addStyleName("avItem");

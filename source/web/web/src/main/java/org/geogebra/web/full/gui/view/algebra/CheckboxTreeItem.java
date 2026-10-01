@@ -23,8 +23,7 @@ import org.gwtproject.user.client.ui.TreeItem;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
- * ReTeX based implementation of AV checkbox
- *
+ * Algebra view item with a checkbox.
  */
 public final class CheckboxTreeItem extends LaTeXTreeItem {
 	/**
@@ -38,18 +37,16 @@ public final class CheckboxTreeItem extends LaTeXTreeItem {
 	 */
 	public CheckboxTreeItem(GeoElement geo0) {
 		super(geo0);
+		checkBox = new ComponentCheckbox(loc, ((GeoBoolean) geo).getBoolean(), "");
+		buildGui();
+		content.addStyleName("noPadding");
+		content.addStyleName("checkboxWrapper");
+		main.addStyleName("checkboxElem");
 	}
 
 	@Override
 	protected LatexTreeItemController createController() {
 		return new CheckBoxTreeItemController(this);
-	}
-
-	@Override
-	protected void createAvexWidget() {
-		checkBox = new ComponentCheckbox(loc, ((GeoBoolean) geo).getBoolean(), "");
-		content.addStyleName("noPadding");
-		main.addStyleName("checkboxElem");
 	}
 
 	@Override
@@ -69,7 +66,6 @@ public final class CheckboxTreeItem extends LaTeXTreeItem {
 			controls.updateAnimPanel();
 		}
 		content.clear();
-		createAvexWidget();
 		addAVEXWidget(content);
 
 		geo.getAlgebraDescriptionTextOrHTMLDefault(

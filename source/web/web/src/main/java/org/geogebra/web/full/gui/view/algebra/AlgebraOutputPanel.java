@@ -56,6 +56,7 @@ public final class AlgebraOutputPanel extends FlowPanel {
 	public AlgebraOutputPanel() {
 		valuePanel = new FlowPanel();
 		valuePanel.addStyleName("avValue");
+		valuePanel.addStyleName("customScrollbar");
 		valuePanel.getElement().setTabIndex(0);
 	}
 

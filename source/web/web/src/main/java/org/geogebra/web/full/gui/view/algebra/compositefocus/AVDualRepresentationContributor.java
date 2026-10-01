@@ -73,6 +73,7 @@ public final class AVDualRepresentationContributor implements FocusContributor {
 		}
 
 		if (item.hasTwoRows()) {
+			item.removeSingleFocusStyle();
 			Widget valueRow = addIfExists(
 					focus,
 					am,
