@@ -1928,12 +1928,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * omitted, based on the factor immediately to its left being numeric or already bracketed.
 	 */
 	private boolean canOmitSpaceBeforeBracket(ExpressionValue left, boolean valueForm) {
-		if (left.isOperation(Operation.POWER)) {
-			return false;
-		}
 		ExpressionValue lastFactor = left;
 		if (left.isOperation(Operation.MULTIPLY) || left.isOperation(Operation.MULTIPLY_OR_FUNCTION)) {
 			lastFactor = left.wrap().getRight();
+		}
+		if (lastFactor.isOperation(Operation.POWER)) {
+			return false;
 		}
 		return isNumericFactor(lastFactor, valueForm) || requiresBrackets(lastFactor, valueForm);
 	}

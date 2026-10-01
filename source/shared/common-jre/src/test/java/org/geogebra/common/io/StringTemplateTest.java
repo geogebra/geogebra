@@ -325,5 +325,11 @@ class StringTemplateTest {
 	void powerWithMultiplicationShouldHaveSpaceForEditor() {
 		GeoElementND function = add("1^0.5*(x-1)");
 		assertEquals("1^0.5 (x-1)", function.toValueString(StringTemplate.inputBoxTemplate));
+		function = add("3*1^0.5*(x-1)");
+		assertEquals("3*1^0.5 (x-1)", function.toValueString(StringTemplate.inputBoxTemplate));
+		function = add("3*exp(2)*(x-1)");
+		assertEquals("3*ℯ^2 (x-1)", function.toValueString(StringTemplate.inputBoxTemplate));
+		function = add("3^(4^5)*(x-1)");
+		assertEquals("3^(4⁵) (x-1)", function.toValueString(StringTemplate.inputBoxTemplate));
 	}
 }
