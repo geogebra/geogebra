@@ -99,7 +99,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 			outNum.setUndefined();
 			return;
 		}
-		limitString = f.getLimit(num.getDouble(), getDirection());
+		limitString = f.getLimit(num, getDirection());
 
 		try {
 			String numStr = kernel.evaluateCachedGeoGebraCAS(limitString, arbconst);

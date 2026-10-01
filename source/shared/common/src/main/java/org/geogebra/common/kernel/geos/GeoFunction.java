@@ -1805,7 +1805,7 @@ public class GeoFunction extends GeoElement
 	 *            otherwise
 	 * @return the limit
 	 */
-	public String getLimit(double x, int direction) {
+	public String getLimit(NumberValue x, int direction) {
 		// get function and function variable string using temp variable
 		// prefixes,
 		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
@@ -1828,7 +1828,7 @@ public class GeoFunction extends GeoElement
 		sbCasCommand.append(',');
 		sbCasCommand.append(funVarStr[1]); // function variable
 		sbCasCommand.append(',');
-		sbCasCommand.append(MyDouble.toString(x));
+		sbCasCommand.append(x.toValueString(StringTemplate.maxPrecision));
 		sbCasCommand.append("),");
 		// increase precision to improve problems like TRAC-2778
 		sbCasCommand.append("50)");
