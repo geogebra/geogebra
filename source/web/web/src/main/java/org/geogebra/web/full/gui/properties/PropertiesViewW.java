@@ -71,6 +71,13 @@ public final class PropertiesViewW extends PropertiesView
 	private ComponentTab settingsTab;
 	private boolean objectPropertiesVisible;
 
+	private final PropertiesPanelAdapter panelAdapter;
+	/**
+	 * Labels of elements whose properties are currently shown. Needed so the state of the
+	 * properties view survives the redefinition of an element.
+	 */
+	private List<String> shownLabels = List.of();
+
 	/**
 	 *
 	 * @param app
@@ -89,6 +96,7 @@ public final class PropertiesViewW extends PropertiesView
 			sideSheet = null;
 			wrappedPanel = new FlowPanel();
 		}
+		panelAdapter = new PropertiesPanelAdapter(app.getLocalization(), app);
 		rebuildContent();
 		addEscapeHandler();
 		app.setPropertiesView(this);
@@ -391,7 +399,15 @@ public final class PropertiesViewW extends PropertiesView
 					.createPropertiesFactory()
 					.createProperties(app, app.getLocalization(), app.appScope.propertiesRegistry);
 		}
-		rebuildTabs(propLists, showObjectProperties);
+		List<String> labels = showableGeos.stream().map(GeoElement::getLabelSimple).toList();
+		boolean keepViewState = settingsTab != null
+				&& objectPropertiesVisible == showObjectProperties
+				&& labels.equals(shownLabels);
+		int scrollTop =
+				keepViewState ? settingsTab.getSelectedTabPanel().getElement().getScrollTop() : 0;
+		int focusedWidget = keepViewState ? panelAdapter.getFocusedWidgetIndex() : -1;
+		rebuildTabs(propLists, showObjectProperties, keepViewState);
+		shownLabels = labels;
 		if (sideSheet == null) {
 			wrappedPanel.clear();
 			FlowPanel fixedPanel = new FlowPanel();
@@ -407,6 +423,10 @@ public final class PropertiesViewW extends PropertiesView
 			sideSheet.update(new SideSheetData(titleKey));
 			sideSheet.addToContent(settingsTab);
 		}
+		if (keepViewState) {
+			settingsTab.getSelectedTabPanel().getElement().setScrollTop(scrollTop);
+			panelAdapter.focusWidget(focusedWidget);
+		}
 		this.objectPropertiesVisible = showObjectProperties;
 	}
 
@@ -419,11 +439,12 @@ public final class PropertiesViewW extends PropertiesView
 		});
 	}
 
-	private void rebuildTabs(List<PropertiesArray> propLists, boolean showObjectProperties) {
-		PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(app.getLocalization(), (AppW) app);
+	private void rebuildTabs(
+			List<PropertiesArray> propLists, boolean showObjectProperties, boolean keepViewState) {
+		panelAdapter.reset(keepViewState);
 		ArrayList<TabData> tabs = new ArrayList<>();
 		for (PropertiesArray props : propLists) {
-			FlowPanel propertiesPanel = adapter.buildPanel(props);
+			FlowPanel propertiesPanel = panelAdapter.buildPanel(props);
 			tabs.add(new TabData(props.getRawName(), propertiesPanel));
 		}
 		int oldTab = -1;
@@ -436,6 +457,7 @@ public final class PropertiesViewW extends PropertiesView
 				(AppW) app,
 				"Settings",
 				oldTab != -1 && oldTab < tabs.size() ? oldTab : 0,
+				!keepViewState,
 				tabs.toArray(new TabData[0]));
 		if (!showObjectProperties) {
 			settingsTab.addTabChangedListener(idx -> {

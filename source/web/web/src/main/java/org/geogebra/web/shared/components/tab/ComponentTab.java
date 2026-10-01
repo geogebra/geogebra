@@ -59,9 +59,11 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 	 * @param ariaLabel aria-label trans key (title of parent element)
 	 * @param initialTab index of initial tab
 	 * {@link org.geogebra.common.main.OptionType} that should be selected
+	 * @param animateInitialTab Whether the animation should occur for the initial tab
 	 * @param tabData {@link TabData} including title and panel widget
 	 */
-	public ComponentTab(AppW appW, String ariaLabel, int initialTab, TabData... tabData) {
+	public ComponentTab(
+			AppW appW, String ariaLabel, int initialTab, boolean animateInitialTab, TabData... tabData) {
 		this.appW = appW;
 		this.loc = appW.getLocalization();
 		this.ariaLabel = ariaLabel;
@@ -71,7 +73,7 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 
 		boolean switchedTab = false;
 		if (!switchedTab && initialTab < tabData.length) {
-			switchToTab(initialTab);
+			switchToTab(initialTab, animateInitialTab);
 		}
 
 		Dom.addEventListener(scrollPanel.getElement(), "keydown", event -> {
@@ -81,6 +83,14 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 				event.stopPropagation();
 			}
 		});
+	}
+
+	/**
+	 * Same as {@link #ComponentTab(AppW, String, int, boolean, TabData...)}
+	 * with {@code animateInitialTab} set to {@code true}.
+	 */
+	public ComponentTab(AppW appW, String ariaLabel, int initialTab, TabData... tabData) {
+		this(appW, ariaLabel, initialTab, true, tabData);
 	}
 
 	/**
@@ -206,21 +216,38 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * switch to tab
-	 * @param tabIdx - index of tab to switch to
+	 * Switch to tab
+	 * @param tabIdx Index of tab to switch to
 	 */
 	public void switchToTab(int tabIdx) {
+		switchToTab(tabIdx, true);
+	}
+
+	/**
+	 * Switch to tab
+	 * @param tabIdx Index of tab to switch to
+	 * @param animate Whether tab switching animation should occur
+	 */
+	private void switchToTab(int tabIdx, boolean animate) {
 		if (selectedBtn != null) {
 			updateSelection(selectedBtn, false);
 		}
 
 		int toHide = selectedTabIdx;
-		fadeTab(toHide, "fadeOut", false);
+		if (animate) {
+			fadeTab(toHide, "fadeOut", false);
+		} else {
+			updateTabPanelVisibility(panelContainer.getWidget(toHide), false);
+		}
 		selectedBtn = tabButton.get(tabIdx);
 		selectedBtn.getElement().scrollIntoView();
 		updateSelection(selectedBtn, true);
 		selectedTabIdx = tabIdx;
-		fadeTab(selectedTabIdx, "fadeIn", true);
+		if (animate) {
+			fadeTab(selectedTabIdx, "fadeIn", true);
+		} else {
+			updateTabPanelVisibility(panelContainer.getWidget(selectedTabIdx), true);
+		}
 		tabChanged.notifyListeners(tabIdx);
 	}
 
@@ -324,6 +351,13 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 
 	public int getSelectedTabIdx() {
 		return selectedTabIdx;
+	}
+
+	/**
+	 * @return The content panel of the currently selected tab
+	 */
+	public Widget getSelectedTabPanel() {
+		return tabData.get(selectedTabIdx).getTabPanel();
 	}
 
 	/**

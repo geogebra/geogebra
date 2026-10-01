@@ -38,6 +38,7 @@ import static org.geogebra.common.properties.PropertyView.TextArea;
 import static org.geogebra.common.properties.PropertyView.TextField;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,12 +65,15 @@ import org.geogebra.web.full.gui.properties.ui.panel.MultiSelectionIconRowPanel;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityResultRow;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.accessibility.HasFocus;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -81,6 +85,9 @@ public final class PropertiesPanelAdapter {
 	private final Localization loc;
 	private final AppW app;
 	private final List<Widget> widgets = new ArrayList<>();
+	private final Map<String, ComponentExpandableList> expandableLists = new HashMap<>();
+
+	private String panelKey = "";
 
 	/**
 	 * @param loc localization
@@ -92,10 +99,23 @@ public final class PropertiesPanelAdapter {
 	}
 
 	/**
+	 * Clears the widgets and prepares the adapter for building a new set of panels.
+	 * @param keepExpandedLists Whether lists that were expanded in the previous build should be
+	 * kept expanded
+	 */
+	public void reset(boolean keepExpandedLists) {
+		widgets.clear();
+		if (!keepExpandedLists) {
+			expandableLists.clear();
+		}
+	}
+
+	/**
 	 * @param props properties
 	 * @return panel with controls for all the properties
 	 */
 	public FlowPanel buildPanel(PropertiesArray props) {
+		panelKey = props.getRawName();
 		FlowPanel panel = new FlowPanel();
 		List<PropertyView> propertyViews = PropertyViewFactory.propertyViewListOf(props);
 		for (PropertyView prop : propertyViews) {
@@ -111,6 +131,36 @@ public final class PropertiesPanelAdapter {
 	 */
 	public void addAccessibility(AccessibilityGroup accessibilityGroup) {
 		new FocusableWidget(accessibilityGroup, null, widgets).attachTo(app);
+	}
+
+	/**
+	 * @return Index of the widget that currently has focus, -1 if there is none.
+	 */
+	public int getFocusedWidgetIndex() {
+		for (int i = 0; i < widgets.size(); i++) {
+			if (widgets.get(i).getElement().isOrHasChild(Dom.getActiveElement())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Focuses the widget with the given index.
+	 * @param index Index
+	 */
+	public void focusWidget(int index) {
+		if (index < 0 || index >= widgets.size()) {
+			return;
+		}
+		Widget widget = widgets.get(index);
+		Scheduler.get().scheduleDeferred(() -> {
+			if (widget instanceof HasFocus focusable) {
+				focusable.focus();
+			} else {
+				widget.getElement().focus();
+			}
+		});
 	}
 
 	/**
@@ -231,6 +281,11 @@ public final class PropertiesPanelAdapter {
 					new ComponentExpandableList(app, leadProperty, expandable.getTitle());
 			for (PropertyView prop : expandable.getItems()) {
 				expandableList.addToContent(getWidget(prop));
+			}
+			ComponentExpandableList previous =
+					expandableLists.put(panelKey + "/" + expandable.getTitle(), expandableList);
+			if (previous != null && previous.isExpanded()) {
+				expandableList.setExpanded(true);
 			}
 			return expandableList;
 		}

@@ -141,6 +141,21 @@ public final class ComponentExpandableList extends FlowPanel implements SetLabel
 	}
 
 	/**
+	 * @param expanded Whether the list should be expanded
+	 */
+	public void setExpanded(boolean expanded) {
+		this.expanded = expanded;
+		updateUISelectedState();
+	}
+
+	/**
+	 * @return Whether the list is currently expanded
+	 */
+	public boolean isExpanded() {
+		return expanded;
+	}
+
+	/**
 	 * Fills the content with given UI element.
 	 * @param widget UI element
 	 */
