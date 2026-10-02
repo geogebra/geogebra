@@ -43,7 +43,6 @@ import org.jspecify.annotations.Nullable;
  */
 public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private final GeoTabber geoTabber;
-	private final AltGeoTabber altGeoTabber;
 	private final AppW app;
 	private final SelectionManager selection;
 	private final ViewAltTexts altTexts;
@@ -80,7 +79,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		this.geoTabber = new GeoTabber(app);
 		altTexts = new ViewAltTexts(app);
 		timer = new AltTextTimer(app.getActiveEuclidianView().getScreenReader(), app.getLocalization());
-		altGeoTabber = new AltGeoTabber(app, altTexts);
+		AltGeoTabber altGeoTabber = new AltGeoTabber(app, altTexts);
 		components.add(altGeoTabber);
 		components.add(geoTabber);
 		components.add(new PlayButtonTabber(app.getActiveEuclidianView()));
@@ -112,7 +111,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			@NonNull FocusableComponent entry, @Nullable FocusableComponent origin) {
 		FocusableComponent nextEntry = entry;
 		do {
-			if (nextEntry == origin) {
+			if (shouldNotMoveFocusTo(nextEntry, origin)) {
 				return false;
 			}
 			if (nextEntry.focusIfVisible(false)) {
@@ -128,7 +127,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			@NonNull FocusableComponent entry, @Nullable FocusableComponent origin) {
 		FocusableComponent nextEntry = entry;
 		do {
-			if (nextEntry == origin) {
+			if (shouldNotMoveFocusTo(nextEntry, origin)) {
 				return false;
 			}
 			if (nextEntry.focusIfVisible(true)) {
@@ -138,6 +137,17 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		} while (nextEntry != entry);
 
 		return false;
+	}
+
+	/**
+	 * @param nextEntry component to move focus to
+	 * @param origin currently selected
+	 * @return whether moving to the other component is prohibited; in general focusing self again
+	 * 	       is not allowed, except for construction elements
+	 */
+	private boolean shouldNotMoveFocusTo(
+			FocusableComponent nextEntry, @Nullable FocusableComponent origin) {
+		return nextEntry == origin && !(nextEntry instanceof GeoTabber);
 	}
 
 	private FocusableComponent findNext(FocusableComponent entry) {
