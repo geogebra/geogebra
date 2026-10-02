@@ -50,7 +50,6 @@ import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -710,6 +709,10 @@ public class MyXMLHandler implements DocHandler {
 
 	protected GeoNumberValue getNumber(String string) {
 		return getAlgProcessor().evaluateToNumeric(string, handler);
+	}
+
+	protected GeoNumeric getNumeric(String string) {
+		return getAlgProcessor().evaluateToGeoNumeric(string, handler);
 	}
 
 	private void handleKeyboard(Map<String, String> attrs) {
@@ -2949,7 +2952,7 @@ public class MyXMLHandler implements DocHandler {
 			if (xmin.get(ev) == null) {
 				ev.setXminObject(null, true);
 			} else {
-				NumberValue n = getNumber(xmin.get(ev));
+				GeoNumeric n = getNumeric(xmin.get(ev));
 				ev.setXminObject(n, true);
 			}
 		}
@@ -2957,7 +2960,7 @@ public class MyXMLHandler implements DocHandler {
 			if (xmax.get(ev) == null) {
 				ev.setXmaxObject(null, true);
 			} else {
-				NumberValue n = getNumber(xmax.get(ev));
+				GeoNumeric n = getNumeric(xmax.get(ev));
 				ev.setXmaxObject(n, true);
 			}
 		}
@@ -2965,7 +2968,7 @@ public class MyXMLHandler implements DocHandler {
 			if (ymin.get(ev) == null) {
 				ev.setYminObject(null, true);
 			} else {
-				NumberValue n = getNumber(ymin.get(ev));
+				GeoNumeric n = getNumeric(ymin.get(ev));
 				ev.setYminObject(n, true);
 			}
 		}
@@ -2973,31 +2976,28 @@ public class MyXMLHandler implements DocHandler {
 			if (ymax.get(ev) == null) {
 				ev.setYmaxObject(null, true);
 			} else {
-				NumberValue n = getNumber(ymax.get(ev));
+				GeoNumeric n = getNumeric(ymax.get(ev));
 				ev.setYmaxObject(n, true);
 			}
 			// ev.updateBounds();
 		}
 		for (EuclidianSettings ev : eSet) {
 			if (!StringUtil.empty(xtick.get(ev))) {
-
-				GeoNumberValue n = getNumber(xtick.get(ev));
+				GeoNumeric n = getNumeric(xtick.get(ev));
 				ev.setAxisNumberingDistance(0, n);
 			}
 			// ev.updateBounds();
 		}
 		for (EuclidianSettings ev : eSet) {
 			if (!StringUtil.empty(ytick.get(ev))) {
-
-				GeoNumberValue n = getNumber(ytick.get(ev));
+				GeoNumeric n = getNumeric(ytick.get(ev));
 				ev.setAxisNumberingDistance(1, n);
 			}
 			// ev.updateBounds();
 		}
 		for (EuclidianSettings ev : eSet) {
 			if (!StringUtil.empty(ztick.get(ev))) {
-
-				GeoNumberValue n = getNumber(ztick.get(ev));
+				GeoNumeric n = getNumeric(ztick.get(ev));
 				ev.setAxisNumberingDistance(2, n);
 			}
 			// ev.updateBounds();
@@ -3183,7 +3183,6 @@ public class MyXMLHandler implements DocHandler {
 			casMap = new TreeMap<>();
 			constMode = MODE_CAS_MAP;
 			casMapParent = MODE_CONST_COMMAND;
-			ok = true;
 		} else {
 			Log.error("unknown tag in <command>: " + eName);
 		}

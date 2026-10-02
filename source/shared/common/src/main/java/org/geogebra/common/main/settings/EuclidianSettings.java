@@ -31,8 +31,6 @@ import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -92,10 +90,10 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	private final double[] axisCross = {0, 0, 0};
 	private final boolean[] positiveAxes = {false, false, false};
 	private final boolean[] drawBorderAxes = {false, false, false};
-	private NumberValue xminObject;
-	private NumberValue xmaxObject;
-	private NumberValue yminObject;
-	private NumberValue ymaxObject;
+	private GeoNumeric xminObject;
+	private GeoNumeric xmaxObject;
+	private GeoNumeric yminObject;
+	private GeoNumeric ymaxObject;
 
 	private int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
@@ -121,7 +119,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	// for axes labeling with numbers
 	protected boolean[] automaticAxesNumberingDistances = {true, true, true};
 
-	protected GeoNumberValue[] axisNumberingDistances = new GeoNumeric[] {null, null, null};
+	protected GeoNumeric[] axisNumberingDistances = new GeoNumeric[] {null, null, null};
 
 	// distances between grid lines
 	protected boolean automaticGridDistance = true;
@@ -593,7 +591,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @param i axis index
 	 * @return numbering distance for the axis
 	 */
-	public GeoNumberValue getAxisNumberingDistance(int i) {
+	public GeoNumeric getAxisNumberingDistance(int i) {
 		return axisNumberingDistances[i];
 	}
 
@@ -612,7 +610,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @param i the index of the axis
 	 * @param dist the distance
 	 */
-	public void setAxisNumberingDistance(int i, GeoNumberValue dist) {
+	public void setAxisNumberingDistance(int i, GeoNumeric dist) {
 		setAxisNumberingDistance(i, dist, true);
 	}
 
@@ -624,7 +622,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @param fireSettingChanged
 	 *            whether to notify listeners
 	 */
-	public void setAxisNumberingDistance(int i, GeoNumberValue dist, boolean fireSettingChanged) {
+	public void setAxisNumberingDistance(int i, GeoNumeric dist, boolean fireSettingChanged) {
 		axisNumberingDistances[i] = dist;
 		setAutomaticAxesNumberingDistance(false, i, false);
 		if (fireSettingChanged) {
@@ -733,7 +731,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @return the xminObject
 	 */
 	public GeoNumeric getXminObject() {
-		return (GeoNumeric) xminObject;
+		return xminObject;
 	}
 
 	/**
@@ -742,7 +740,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @param callsc
 	 *            whether settingChanged should be called
 	 */
-	public void setXminObject(NumberValue xminObjectNew, boolean callsc) {
+	public void setXminObject(GeoNumeric xminObjectNew, boolean callsc) {
 		this.xminObject = xminObjectNew;
 		if (callsc) {
 			settingChanged();
@@ -753,7 +751,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @return the xmaxObject
 	 */
 	public GeoNumeric getXmaxObject() {
-		return (GeoNumeric) xmaxObject;
+		return xmaxObject;
 	}
 
 	/**
@@ -762,7 +760,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @param callsc
 	 *            whether settingChanged should be called
 	 */
-	public void setXmaxObject(NumberValue xmaxObjectNew, boolean callsc) {
+	public void setXmaxObject(GeoNumeric xmaxObjectNew, boolean callsc) {
 		this.xmaxObject = xmaxObjectNew;
 		if (callsc) {
 			settingChanged();
@@ -773,7 +771,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @return the yminObject
 	 */
 	public GeoNumeric getYminObject() {
-		return (GeoNumeric) yminObject;
+		return yminObject;
 	}
 
 	/**
@@ -782,7 +780,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @param callsc
 	 *            whether settingChanged should be called
 	 */
-	public void setYminObject(NumberValue yminObjectNew, boolean callsc) {
+	public void setYminObject(GeoNumeric yminObjectNew, boolean callsc) {
 		this.yminObject = yminObjectNew;
 		if (callsc) {
 			settingChanged();
@@ -793,7 +791,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @return the ymaxObject
 	 */
 	public GeoNumeric getYmaxObject() {
-		return (GeoNumeric) ymaxObject;
+		return ymaxObject;
 	}
 
 	/**
@@ -802,7 +800,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @param callsc
 	 *            whether settingChanged should be called
 	 */
-	public void setYmaxObject(NumberValue ymaxObjectNew, boolean callsc) {
+	public void setYmaxObject(GeoNumeric ymaxObjectNew, boolean callsc) {
 		this.ymaxObject = ymaxObjectNew;
 		if (callsc) {
 			settingChanged();
@@ -933,8 +931,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @param fireSettingChanged
 	 *            whether to notify listeners
 	 */
-	public void setAxesNumberingDistance(
-			GeoNumberValue tickDist, int axis, boolean fireSettingChanged) {
+	public void setAxesNumberingDistance(GeoNumeric tickDist, int axis, boolean fireSettingChanged) {
 		setAxisNumberingDistance(axis, tickDist, fireSettingChanged);
 	}
 
@@ -944,7 +941,7 @@ public class EuclidianSettings extends AbstractSettings<EuclidianSettings> {
 	 * @param axis
 	 *            axis
 	 */
-	public void setAxesNumberingDistance(GeoNumberValue tickDist, int axis) {
+	public void setAxesNumberingDistance(GeoNumeric tickDist, int axis) {
 		setAxesNumberingDistance(tickDist, axis, true);
 	}
 

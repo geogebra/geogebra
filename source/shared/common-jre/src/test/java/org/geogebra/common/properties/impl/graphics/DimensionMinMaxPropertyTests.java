@@ -121,6 +121,35 @@ class DimensionMinMaxPropertyTests extends BaseAppTestSetup {
 		assertEquals(16, getEuclidianView3D().getZmax(), DELTA);
 	}
 
+	@Test
+	void testDynamicSegmentBounds() {
+		setupApp(SuiteSubApp.GRAPHING);
+		setup2DBounds();
+		DimensionMinMaxProperty xMaxProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "xmax", getEuclidianView(), MinMaxType.maxX);
+		evaluate("A=(1,0)");
+		evaluate("a=Segment(O,A)");
+		xMaxProperty.setValue("a");
+		evaluate("SetValue(A,(7,0))");
+		assertEquals(7, getEuclidianView().getXmax());
+	}
+
+	@Test
+	void testDynamicBoundsReplaced() {
+		setupApp(SuiteSubApp.GRAPHING);
+		setup2DBounds();
+		DimensionMinMaxProperty xMaxProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "xmax", getEuclidianView(), MinMaxType.maxX);
+		evaluate("a=1");
+		xMaxProperty.setValue("a+1");
+		assertEquals(2, getEuclidianView().getXmax());
+		GeoNumeric ref = getEuclidianView().getXmaxObject();
+		xMaxProperty.setValue("2");
+		evaluate("SetValue(a,4)");
+		assertEquals(2, getEuclidianView().getXmax());
+		assertEquals(2, ref.getDouble(), 0);
+	}
+
 	private EuclidianView getEuclidianView() {
 		return getApp().getEuclidianView1();
 	}

@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -29,7 +30,7 @@ import org.geogebra.common.properties.NumericPropertyWithSuggestions;
 import org.geogebra.editor.share.util.Unicode;
 
 /**
- * This property controls the distance of an axis numbering
+ * This property controls the distance of an axis numbering.
  */
 public class AxisDistanceProperty extends NumericPropertyWithSuggestions
 		implements SettingsDependentProperty {
@@ -61,7 +62,13 @@ public class AxisDistanceProperty extends NumericPropertyWithSuggestions
 
 	@Override
 	protected void setNumberValue(GeoNumberValue value) {
-		euclidianSettings.setAxisNumberingDistance(axis, value);
+		euclidianSettings.setAxisNumberingDistance(axis, (GeoNumeric) value);
+	}
+
+	@Override
+	protected void doSetValue(String value) {
+		GeoNumeric numberValue = util.parseAsGeoNumeric(value);
+		setNumberValue(numberValue);
 	}
 
 	@Override

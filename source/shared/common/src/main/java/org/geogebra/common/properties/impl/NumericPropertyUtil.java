@@ -20,6 +20,8 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.editor.share.util.Unicode;
 
@@ -53,10 +55,22 @@ public class NumericPropertyUtil {
 	 */
 	public GeoNumberValue parseInputString(String value) {
 		String trimmedValue = value.trim();
-		if ("".equals(trimmedValue)) {
+		if (trimmedValue.isEmpty()) {
 			return null;
 		}
 		return algebraProcessor.evaluateToNumeric(trimmedValue, true);
+	}
+
+	/**
+	 * @param value property value
+	 * @return parsed number
+	 */
+	public GeoNumeric parseAsGeoNumeric(String value) {
+		String trimmedValue = value.trim();
+		if (trimmedValue.isEmpty()) {
+			return null;
+		}
+		return algebraProcessor.evaluateToGeoNumeric(trimmedValue, ErrorHelper.silent());
 	}
 
 	/**

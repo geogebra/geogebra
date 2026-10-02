@@ -107,7 +107,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -115,7 +114,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
-import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -342,9 +340,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	private int arRatioMetricSystem;
 
 	/** possibly dynamic z min */
-	protected NumberValue zminObject;
+	protected GeoNumeric zminObject;
 	/** possibly dynamic z max */
-	protected NumberValue zmaxObject;
+	protected GeoNumeric zmaxObject;
 
 	/**
 	 * common constructor
@@ -423,7 +421,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		});
 		automaticAxesNumberingDistances = new boolean[] {true, true, true};
 		axesNumberingDistances = new double[] {2, 2, 2};
-		axesDistanceObjects = new GeoNumberValue[] {null, null, null};
+		axesDistanceObjects = new GeoNumeric[] {null, null, null};
 		drawBorderAxes = new boolean[] {false, false, false};
 		axisCross = new double[] {0, 0, 0};
 		positiveAxes = new boolean[] {false, false, false};
@@ -1128,44 +1126,40 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @return the zminObject
 	 */
 	public GeoNumeric getZminObject() {
-		return (GeoNumeric) zminObject;
+		return zminObject;
 	}
 
 	/**
-	 * @param zminObjectNew the zminObject to set
+	 * @param zMinObject the z-min object to set
 	 */
-	public void setZminObject(NumberValue zminObjectNew) {
-		if (zminObject != null) {
-			((GeoNumeric) zminObject).removeEVSizeListener(this);
-		}
-		if (zminObjectNew == null && kernel.getConstruction() != null) {
+	public void setZminObject(GeoNumeric zMinObject) {
+		removeDynamicBoundIfChanged(this.zminObject, zMinObject);
+		if (zMinObject == null && kernel.getConstruction() != null) {
 			this.zminObject = new GeoNumeric(kernel.getConstruction());
 			updateBoundObjects();
 		} else {
-			this.zminObject = zminObjectNew;
+			this.zminObject = zMinObject;
 		}
 		setSizeListeners();
 	}
 
 	/**
-	 * @return the zmaxObject
+	 * @return the z-max object
 	 */
 	public GeoNumeric getZmaxObject() {
-		return (GeoNumeric) zmaxObject;
+		return zmaxObject;
 	}
 
 	/**
-	 * @param zmaxObjectNew the zmaxObject to set
+	 * @param zMaxObject the z-max object to set
 	 */
-	public void setZmaxObject(NumberValue zmaxObjectNew) {
-		if (zmaxObject != null) {
-			((GeoNumeric) zmaxObject).removeEVSizeListener(this);
-		}
-		if (zmaxObjectNew == null && kernel.getConstruction() != null) {
+	public void setZmaxObject(GeoNumeric zMaxObject) {
+		removeDynamicBoundIfChanged(this.zmaxObject, zMaxObject);
+		if (zMaxObject == null && kernel.getConstruction() != null) {
 			this.zmaxObject = new GeoNumeric(kernel.getConstruction());
 			updateBoundObjects();
 		} else {
-			this.zmaxObject = zmaxObjectNew;
+			this.zmaxObject = zMaxObject;
 		}
 		setSizeListeners();
 	}
@@ -2893,12 +2887,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		// coord system
 		sb.startTag("coordSystem");
 		if (!isZoomable() && !asPreference) {
-			sb.attr("xMin", ((GeoNumeric) xminObject).getLabel(tpl));
-			sb.attr("xMax", ((GeoNumeric) xmaxObject).getLabel(tpl));
-			sb.attr("yMin", ((GeoNumeric) yminObject).getLabel(tpl));
-			sb.attr("yMax", ((GeoNumeric) ymaxObject).getLabel(tpl));
-			sb.attr("zMin", ((GeoNumeric) zminObject).getLabel(tpl));
-			sb.attr("zMax", ((GeoNumeric) zmaxObject).getLabel(tpl));
+			sb.attr("xMin", xminObject.getLabel(tpl));
+			sb.attr("xMax", xmaxObject.getLabel(tpl));
+			sb.attr("yMin", yminObject.getLabel(tpl));
+			sb.attr("yMax", ymaxObject.getLabel(tpl));
+			sb.attr("zMin", zminObject.getLabel(tpl));
+			sb.attr("zMax", zmaxObject.getLabel(tpl));
 		} else {
 			sb.attr("xZero", getXZero());
 			sb.attr("yZero", getYZero());
@@ -3427,12 +3421,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public void updateBoundObjects() {
 		if (isZoomable() && xminObject != null) {
-			((GeoNumeric) xminObject).setValue(getXmin());
-			((GeoNumeric) xmaxObject).setValue(getXmax());
-			((GeoNumeric) yminObject).setValue(getYmin());
-			((GeoNumeric) ymaxObject).setValue(getYmax());
-			((GeoNumeric) zminObject).setValue(getZmin());
-			((GeoNumeric) zmaxObject).setValue(getZmax());
+			xminObject.setValue(getXmin());
+			xmaxObject.setValue(getXmax());
+			yminObject.setValue(getYmin());
+			ymaxObject.setValue(getYmax());
+			zminObject.setValue(getZmin());
+			zmaxObject.setValue(getZmax());
 			dimensionListeners.forEach(DimensionListener::dimensionsUpdated);
 		}
 	}
@@ -5141,8 +5135,8 @@ public abstract class EuclidianView3D extends EuclidianView
 	protected void setSizeListeners() {
 		super.setSizeListeners();
 		if (zminObject != null) {
-			((GeoNumeric) zmaxObject).addEVSizeListener(this);
-			((GeoNumeric) zminObject).addEVSizeListener(this);
+			zmaxObject.addEVSizeListener(this);
+			zminObject.addEVSizeListener(this);
 		}
 	}
 

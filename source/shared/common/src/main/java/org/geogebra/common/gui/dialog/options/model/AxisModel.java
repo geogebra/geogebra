@@ -25,6 +25,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -82,10 +83,11 @@ public class AxisModel {
 	}
 
 	public GeoNumberValue applyTickDistance(String str, boolean fireChange) {
-		GeoNumberValue value = null;
+		GeoNumeric value = null;
 		final String text = str.trim();
-		if (!"".equals(text)) {
-			value = app.getKernel().getAlgebraProcessor().evaluateToNumeric(text, ErrorHelper.silent());
+		if (!text.isEmpty()) {
+			value =
+					app.getKernel().getAlgebraProcessor().evaluateToGeoNumeric(text, ErrorHelper.silent());
 		}
 		if (value != null) {
 			EuclidianSettings settings = getSettings();

@@ -464,7 +464,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			if (zmin.get(ev) == null) {
 				ev.setZminObject(null, true);
 			} else {
-				NumberValue n = getNumber(zmin.get(ev));
+				NumberValue n = getNumeric(zmin.get(ev));
 				ev.setZminObject(n, true);
 			}
 		}
@@ -472,7 +472,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			if (zmax.get(ev) == null) {
 				ev.setZmaxObject(null, true);
 			} else {
-				NumberValue n = getNumber(zmax.get(ev));
+				NumberValue n = getNumeric(zmax.get(ev));
 				ev.setZmaxObject(n, true);
 			}
 		}

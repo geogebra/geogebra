@@ -1765,7 +1765,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Parses given String str and tries to evaluate it to a NumberValue Returns
-	 * null if something went wrong. Michael Borcherds 2008-08-13
+	 * null if something went wrong.
 	 *
 	 * @param str
 	 *            string to parse
@@ -3905,5 +3905,30 @@ public class AlgebraProcessor {
 	 */
 	public void removeGeoElementSetup(GeoElementSetup geoElementSetup) {
 		geoElementSetups.remove(geoElementSetup);
+	}
+
+	/**
+	 * Parses given String str and tries to evaluate it to a GeoNumeric. Returns
+	 * null if something went wrong. Unlike {@link #evaluateToNumeric(String, ErrorHandler)},
+	 * this wraps polygons and segments in a converter algo to make sure the resuult is a numeric.
+	 *
+	 * @param value
+	 *            string to parse
+	 * @param errorHandler
+	 *            false to show error messages (only stacktrace otherwise)
+	 * @return resulting number
+	 */
+	public @Nullable GeoNumeric evaluateToGeoNumeric(String value, ErrorHandler errorHandler) {
+		NumberValue numberValue = evaluateToNumeric(value, errorHandler);
+		return numberValue == null
+				? null
+				: numberValue instanceof GeoNumeric numeric ? numeric : coerceToGeoNumeric(numberValue);
+	}
+
+	private @Nullable GeoNumeric coerceToGeoNumeric(NumberValue numberValue) {
+		AlgoDependentNumber algoDependentNumber =
+				new AlgoDependentNumber(cons, numberValue.wrap(), false);
+		cons.removeFromConstructionList(algoDependentNumber);
+		return (GeoNumeric) algoDependentNumber.getNumber();
 	}
 }

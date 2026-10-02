@@ -28,9 +28,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -253,7 +254,8 @@ public class EuclidianOptionsModel {
 	}
 
 	public void applyMinMax(String text, MinMaxType type, IBasicTab basicTab) {
-		NumberValue minMax = app.getKernel().getAlgebraProcessor().evaluateToNumeric(text, false);
+		GeoNumeric minMax =
+				app.getKernel().getAlgebraProcessor().evaluateToGeoNumeric(text, ErrorHelper.silent());
 		// not parsed to number => return all
 		if (minMax == null) {
 			basicTab.setMinMaxText(

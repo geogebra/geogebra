@@ -21,8 +21,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.aliases.StringProperty;
@@ -60,7 +62,8 @@ public class DimensionMinMaxProperty extends AbstractValuedProperty<String>
 
 	@Override
 	protected void doSetValue(String value) {
-		NumberValue numberValue = app.getKernel().getAlgebraProcessor().evaluateToNumeric(value, true);
+		GeoNumeric numberValue =
+				app.getKernel().getAlgebraProcessor().evaluateToGeoNumeric(value, ErrorHelper.silent());
 		if (numberValue == null) {
 			return;
 		}

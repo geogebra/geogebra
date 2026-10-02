@@ -1938,12 +1938,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		EuclidianSettings evs = app.getSettings().getEuclidian(index);
 		evs.beginBatch();
 		evs.setAxisNumberingDistance(
-				0, this.algebraprocessor.evaluateToNumeric(xStep, ErrorHelper.silent()));
+				0, this.algebraprocessor.evaluateToGeoNumeric(xStep, ErrorHelper.silent()));
 		evs.setAxisNumberingDistance(
-				1, this.algebraprocessor.evaluateToNumeric(yStep, ErrorHelper.silent()));
+				1, this.algebraprocessor.evaluateToGeoNumeric(yStep, ErrorHelper.silent()));
 		if (evs.is3D()) {
 			evs.setAxisNumberingDistance(
-					2, this.algebraprocessor.evaluateToNumeric(zStep, ErrorHelper.silent()));
+					2, this.algebraprocessor.evaluateToGeoNumeric(zStep, ErrorHelper.silent()));
 		}
 		evs.endBatch();
 		kernel.notifyRepaint();

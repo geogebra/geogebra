@@ -24,7 +24,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -474,7 +473,7 @@ public interface EuclidianViewInterfaceCommon
 	 * @param axis
 	 *            axis index
 	 */
-	void setAxesNumberingDistance(GeoNumberValue tickDist, int axis);
+	void setAxesNumberingDistance(GeoNumeric tickDist, int axis);
 
 	/**
 	 * @param axisCross
@@ -605,30 +604,30 @@ public interface EuclidianViewInterfaceCommon
 	void setShowMouseCoords(boolean b);
 
 	/**
-	 * @param minMax
+	 * @param xMinObject
 	 *            new xMin object
 	 */
-	void setXminObject(NumberValue minMax);
+	void setXminObject(GeoNumeric xMinObject);
 
 	/**
 	 * minX
 	 *
-	 * @param minMax
+	 * @param xMaxObject
 	 *            new xMax object
 	 */
-	void setXmaxObject(NumberValue minMax);
+	void setXmaxObject(GeoNumeric xMaxObject);
 
 	/**
-	 * @param minMax
+	 * @param yMinObject
 	 *            new yMin object
 	 */
-	void setYminObject(NumberValue minMax);
+	void setYminObject(GeoNumeric yMinObject);
 
 	/**
-	 * @param minMax
+	 * @param yMaxObject
 	 *            new yMax object
 	 */
-	void setYmaxObject(NumberValue minMax);
+	void setYmaxObject(GeoNumeric yMaxObject);
 
 	/**
 	 *

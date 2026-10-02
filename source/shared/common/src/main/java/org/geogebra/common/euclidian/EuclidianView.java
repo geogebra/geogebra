@@ -77,7 +77,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -278,13 +277,13 @@ public abstract class EuclidianView
 	/** maximal visible real world y */
 	private double ymax;
 	/** possibly dynamic x min */
-	protected NumberValue xminObject;
+	protected GeoNumeric xminObject;
 	/** possibly dynamic x max */
-	protected NumberValue xmaxObject;
+	protected GeoNumeric xmaxObject;
 	/** possibly dynamic y min */
-	protected NumberValue yminObject;
+	protected GeoNumeric yminObject;
 	/** possibly dynamic y max */
-	protected NumberValue ymaxObject;
+	protected GeoNumeric ymaxObject;
 
 	private double invXscale;
 
@@ -321,7 +320,7 @@ public abstract class EuclidianView
 	protected boolean[] automaticAxesNumberingDistances = {true, true};
 
 	protected double[] axesNumberingDistances;
-	protected GeoNumberValue[] axesDistanceObjects;
+	protected GeoNumeric[] axesDistanceObjects;
 	ArrayList<Integer> axesLabelsPositionsX = new ArrayList<>();
 	double yLabelMaxWidthPos = 0;
 	double yLabelMaxWidthNeg = 0;
@@ -706,7 +705,7 @@ public abstract class EuclidianView
 		};
 		automaticAxesNumberingDistances = new boolean[] {true, true};
 		axesNumberingDistances = new double[] {2, 2};
-		axesDistanceObjects = new GeoNumberValue[] {null, null};
+		axesDistanceObjects = new GeoNumeric[] {null, null};
 		drawBorderAxes = new boolean[] {false, false};
 		axisCross = new double[] {0, 0};
 		positiveAxes = new boolean[] {false, false};
@@ -831,16 +830,16 @@ public abstract class EuclidianView
 	 */
 	@Override
 	public GeoNumeric getXminObject() {
-		return (GeoNumeric) xminObject;
+		return xminObject;
 	}
 
 	@Override
 	public void updateBoundObjects() {
 		if (isZoomable() && xminObject != null) {
-			((GeoNumeric) xminObject).setValue(getXmin());
-			((GeoNumeric) xmaxObject).setValue(getXmax());
-			((GeoNumeric) yminObject).setValue(getYmin());
-			((GeoNumeric) ymaxObject).setValue(getYmax());
+			xminObject.setValue(getXmin());
+			xmaxObject.setValue(getXmax());
+			yminObject.setValue(getYmin());
+			ymaxObject.setValue(getYmax());
 			dimensionListeners.forEach(DimensionListener::dimensionsUpdated);
 		}
 	}
@@ -982,19 +981,17 @@ public abstract class EuclidianView
 	}
 
 	/**
-	 * @param xminObjectNew
+	 * @param xMinObject
 	 *            the xminObject to set
 	 */
 	@Override
-	public void setXminObject(NumberValue xminObjectNew) {
-		if (xminObject != null) {
-			((GeoNumeric) xminObject).removeEVSizeListener(this);
-		}
-		if (xminObjectNew == null && kernel.getConstruction() != null) {
+	public void setXminObject(GeoNumeric xMinObject) {
+		removeDynamicBoundIfChanged(this.xminObject, xMinObject);
+		if (xMinObject == null && kernel.getConstruction() != null) {
 			this.xminObject = new GeoNumeric(kernel.getConstruction());
 			updateBoundObjects();
 		} else {
-			this.xminObject = xminObjectNew;
+			this.xminObject = xMinObject;
 		}
 		setSizeListeners();
 	}
@@ -1004,49 +1001,59 @@ public abstract class EuclidianView
 	 */
 	@Override
 	public GeoNumeric getXmaxObject() {
-		return (GeoNumeric) xmaxObject;
+		return xmaxObject;
 	}
 
 	/**
-	 * @param xmaxObjectNew
+	 * @param xMaxObject
 	 *            the xmaxObject to set
 	 */
 	@Override
-	public void setXmaxObject(NumberValue xmaxObjectNew) {
-		if (xmaxObject != null) {
-			((GeoNumeric) xmaxObject).removeEVSizeListener(this);
-		}
-		if (xmaxObjectNew == null && kernel.getConstruction() != null) {
+	public void setXmaxObject(GeoNumeric xMaxObject) {
+		removeDynamicBoundIfChanged(this.xmaxObject, xMaxObject);
+		if (xMaxObject == null && kernel.getConstruction() != null) {
 			this.xmaxObject = new GeoNumeric(kernel.getConstruction());
 			updateBoundObjects();
 		} else {
-			this.xmaxObject = xmaxObjectNew;
+			this.xmaxObject = xMaxObject;
 		}
 		setSizeListeners();
 	}
 
 	/**
-	 * @return the yminObject
+	 * Make sure dynamic bound is no longer updating this view, if it's no longer needed.
+	 * If the bound is a temporary object, remove it from construction to avoid leaks.
+	 * @param bound dynamic bound
 	 */
-	@Override
-	public GeoNumeric getYminObject() {
-		return (GeoNumeric) yminObject;
+	protected void removeDynamicBoundIfChanged(@Nullable GeoNumeric bound, GeoNumeric replacement) {
+		if (bound != null && bound != replacement) {
+			bound.removeEVSizeListener(this);
+			if (!bound.isLabelSet() && bound.getParentAlgorithm() != null) {
+				bound.getParentAlgorithm().remove();
+			}
+		}
 	}
 
 	/**
-	 * @param yminObjectNew
-	 *            the yminObject to set
+	 * @return the y-min object
 	 */
 	@Override
-	public void setYminObject(NumberValue yminObjectNew) {
-		if (yminObject != null) {
-			((GeoNumeric) yminObject).removeEVSizeListener(this);
-		}
-		if (yminObjectNew == null && kernel.getConstruction() != null) {
+	public GeoNumeric getYminObject() {
+		return yminObject;
+	}
+
+	/**
+	 * @param yMinObject
+	 *            the y-min object to set
+	 */
+	@Override
+	public void setYminObject(GeoNumeric yMinObject) {
+		removeDynamicBoundIfChanged(this.yminObject, yMinObject);
+		if (yMinObject == null && kernel.getConstruction() != null) {
 			this.yminObject = new GeoNumeric(kernel.getConstruction());
 			updateBoundObjects();
 		} else {
-			this.yminObject = yminObjectNew;
+			this.yminObject = yMinObject;
 		}
 		setSizeListeners();
 	}
@@ -1067,10 +1074,10 @@ public abstract class EuclidianView
 
 	protected void setSizeListeners() {
 		if (xminObject != null) {
-			((GeoNumeric) xminObject).addEVSizeListener(this);
-			((GeoNumeric) yminObject).addEVSizeListener(this);
-			((GeoNumeric) xmaxObject).addEVSizeListener(this);
-			((GeoNumeric) ymaxObject).addEVSizeListener(this);
+			xminObject.addEVSizeListener(this);
+			yminObject.addEVSizeListener(this);
+			xmaxObject.addEVSizeListener(this);
+			ymaxObject.addEVSizeListener(this);
 		}
 	}
 
@@ -1509,7 +1516,7 @@ public abstract class EuclidianView
 	 */
 	@Override
 	public GeoNumeric getYmaxObject() {
-		return (GeoNumeric) ymaxObject;
+		return ymaxObject;
 	}
 
 	/**
@@ -1530,19 +1537,17 @@ public abstract class EuclidianView
 	}
 
 	/**
-	 * @param ymaxObjectNew
+	 * @param yMaxObject
 	 *            the ymaxObject to set
 	 */
 	@Override
-	public void setYmaxObject(NumberValue ymaxObjectNew) {
-		if (ymaxObject != null) {
-			((GeoNumeric) ymaxObject).removeEVSizeListener(this);
-		}
-		if (ymaxObjectNew == null && kernel.getConstruction() != null) {
+	public void setYmaxObject(GeoNumeric yMaxObject) {
+		removeDynamicBoundIfChanged(this.ymaxObject, yMaxObject);
+		if (yMaxObject == null && kernel.getConstruction() != null) {
 			this.ymaxObject = new GeoNumeric(kernel.getConstruction());
 			updateBoundObjects();
 		} else {
-			this.ymaxObject = ymaxObjectNew;
+			this.ymaxObject = yMaxObject;
 		}
 		setSizeListeners();
 	}
@@ -3163,15 +3168,13 @@ public abstract class EuclidianView
 	 *            0 for xAxis, 1 for yAxis
 	 */
 	@Override
-	public void setAxesNumberingDistance(GeoNumberValue dist, int axis) {
-		if (axesDistanceObjects[axis] != null) {
-			((GeoNumeric) axesDistanceObjects[axis]).removeEVSizeListener(this);
-		}
+	public void setAxesNumberingDistance(GeoNumeric dist, int axis) {
+		removeDynamicBoundIfChanged(axesDistanceObjects[axis], dist);
 		if (dist != null && !Double.isNaN(dist.getDouble()) && dist.getDouble() > 0) {
 			axesNumberingDistances[axis] = dist.getDouble();
 			axesDistanceObjects[axis] = dist;
 			setAutomaticAxesNumberingDistance(false, axis);
-			((GeoNumeric) dist).addEVSizeListener(this);
+			dist.addEVSizeListener(this);
 		} else {
 			axesDistanceObjects[axis] = null;
 			setAutomaticAxesNumberingDistance(true, axis);
@@ -4624,10 +4627,10 @@ public abstract class EuclidianView
 		sbxml.startTag("coordSystem");
 		if (!isZoomable() && !asPreference) {
 			StringTemplate tpl = StringTemplate.xmlTemplate;
-			sbxml.attr("xMin", ((GeoNumeric) xminObject).getLabel(tpl));
-			sbxml.attr("xMax", ((GeoNumeric) xmaxObject).getLabel(tpl));
-			sbxml.attr("yMin", ((GeoNumeric) yminObject).getLabel(tpl));
-			sbxml.attr("yMax", ((GeoNumeric) ymaxObject).getLabel(tpl));
+			sbxml.attr("xMin", xminObject.getLabel(tpl));
+			sbxml.attr("xMax", xmaxObject.getLabel(tpl));
+			sbxml.attr("yMin", yminObject.getLabel(tpl));
+			sbxml.attr("yMax", ymaxObject.getLabel(tpl));
 		} else {
 			sbxml.attr("xZero", getXZeroForXml());
 			sbxml.attr("yZero", getYZeroForXml());
