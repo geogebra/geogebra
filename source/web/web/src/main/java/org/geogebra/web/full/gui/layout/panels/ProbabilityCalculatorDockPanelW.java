@@ -97,4 +97,12 @@ public final class ProbabilityCalculatorDockPanelW extends DockPanelW {
 					.createGeoElements();
 		}
 	}
+
+	@Override
+	protected boolean needsResetIcon() {
+		return app.showResetIcon()
+				&& !app.showView(App.VIEW_EUCLIDIAN)
+				&& !app.showView(App.VIEW_EUCLIDIAN2)
+				&& !app.showView(App.VIEW_EUCLIDIAN3D);
+	}
 }

@@ -48,6 +48,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/clipboard.js")
 	TextResource clipboardJs();
 
+	// TODO: replace with SVG, update size in DockPanelW
 	@Source("org/geogebra/common/icons/png/view_refresh.png")
 	ImageResource viewRefresh();
 

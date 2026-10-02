@@ -1076,11 +1076,11 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
-	 * Add reset icon to the stylebar
+	 * Add reset icon to the style bar
 	 */
 	public void showResetIcon() {
 		StandardButton resetBtn =
-				new StandardButton(GuiResourcesSimple.INSTANCE.viewRefresh(), null, 24);
+				new StandardButton(GuiResourcesSimple.INSTANCE.viewRefresh(), null, 22);
 		resetBtn.addFastClickHandler(source -> app.reset());
 		resetBtn.addStyleName("graphicsResetIcon");
 		if (!app.allowStylebar()) {

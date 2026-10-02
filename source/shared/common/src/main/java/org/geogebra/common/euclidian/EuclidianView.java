@@ -5468,7 +5468,7 @@ public abstract class EuclidianView
 	 */
 	public boolean isPrimaryEV() {
 		return this.getEuclidianViewNo() == 1
-				|| (!app.showView(App.VIEW_EUCLIDIAN) && this.isDefault2D());
+				|| (!app.showView(App.VIEW_EUCLIDIAN) && this.isDefault2D() && !isPlotPanel());
 	}
 
 	/**
