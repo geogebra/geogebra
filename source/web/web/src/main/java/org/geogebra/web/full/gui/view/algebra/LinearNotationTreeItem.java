@@ -62,7 +62,10 @@ public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDo
 		updateInputText();
 		textField.getTextField().addKeyDownHandler(this);
 		textField.addInsertHandler(ignore -> updateInputText());
-		textField.addFocusHandler(ignore -> getAV().startEditItem(geo));
+		textField.addFocusHandler(ignore -> {
+			AriaHelper.setLabel(textField, null);
+			getAV().startEditItem(geo);
+		});
 		textField.addBlurHandler(controller);
 		FocusUtil.makeFocusable(textField.getElement());
 		setDefaultAriaLabel();

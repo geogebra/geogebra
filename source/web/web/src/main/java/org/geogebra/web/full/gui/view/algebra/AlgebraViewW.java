@@ -1534,15 +1534,17 @@ public final class AlgebraViewW extends Tree
 	 */
 	private @NonNull RadioTreeItem prepareInputPanel() {
 		if (inputPanelLatex == null) {
-			if (getApp().getAlgebraStyle() == AlgebraStyle.LINEAR_NOTATION) {
-				inputPanelLatex = new LinearNotationTreeItem(kernel, this).initInput();
-			} else {
-				inputPanelLatex = new LaTeXTreeItem(kernel, this).initInput();
-			}
+			inputPanelLatex = isLinearNotation()
+					? new LinearNotationTreeItem(kernel, this).initInput()
+					: new LaTeXTreeItem(kernel, this).initInput();
 		} else {
 			inputPanelLatex.removeFromParent();
 		}
 		return inputPanelLatex;
+	}
+
+	private boolean isLinearNotation() {
+		return getApp().getAlgebraStyle() == AlgebraStyle.LINEAR_NOTATION;
 	}
 
 	@Override
@@ -1794,7 +1796,10 @@ public final class AlgebraViewW extends Tree
 
 		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
 			// check for attached needed for F2 when Algebra View closed
-			if (geo.isGeoText() && ((GeoText) geo).isLaTeX() && !geo.isTextCommand()) {
+			if (geo.isGeoText()
+					&& ((GeoText) geo).isLaTeX()
+					&& !geo.isTextCommand()
+					&& !isLinearNotation()) {
 				app.getDialogManager().showRedefineDialog(geo, true);
 				return;
 			}
