@@ -901,13 +901,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * @param rawInput
-	 *            value after edit
-	 * @param callback
-	 *            callback
+	 * @param rawInput editor content, kept for correction if the input is rejected
+	 * @param evalInput input to evaluate (e.g. without trailing operator)
+	 * @param callback callback, only called if the input was accepted
+	 * @return false if the input was rejected and is kept for correction; true otherwise
 	 */
-	public final void stopEditing(
-			final String rawInput, final AsyncOperation<GeoElementND> callback) {
+	public final boolean stopEditing(
+			final String rawInput, final String evalInput, final AsyncOperation<GeoElementND> callback) {
 		lastTeX = null;
 		lastInput = null;
 		onStopEdit();
@@ -927,16 +927,17 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		if (!StringUtil.empty(rawInput)) {
-			String newValue = isTextItem() ? "\"" + rawInput + "\"" : rawInput;
+			String newValue = isTextItem() ? "\"" + rawInput + "\"" : evalInput;
 			final boolean wasLaTeX = geo instanceof GeoText && ((GeoText) geo).isLaTeX();
 			if (geo != null) {
 				boolean redefine = !isMoveablePoint(geo);
-				this.lastInput = newValue;
+				this.lastInput = rawInput;
 				this.lastTeX = getEditorLatex();
 				if (this.lastTeX == null) {
 					this.lastInput = null;
 				}
 
+				final boolean[] accepted = {false};
 				EvalInfo info = EvalInfoFactory.getEvalInfoForRedefinition(kernel, geo, redefine);
 				kernel
 						.getAlgebraProcessor()
@@ -946,30 +947,26 @@ public abstract class RadioTreeItem extends AVTreeItem
 								info,
 								true,
 								geo2 -> {
-									if (geo2 != null) {
-										geo = geo2.toGeoElement();
-										lastTeX = null;
-										lastInput = null;
+									if (geo2 == null) {
+										return;
 									}
+									accepted[0] = true;
+									geo = geo2.toGeoElement();
+									lastTeX = null;
+									lastInput = null;
 									if (geo instanceof GeoText && wasLaTeX && geo.isIndependent()) {
 										((GeoText) geo).setLaTeX(true, false);
 									}
 									if (marblePanel != null) {
 										marblePanel.updateIcons(false);
 									}
-									updateAfterRedefine(geo2 != null);
+									updateAfterRedefine(true);
 									if (callback != null) {
 										callback.callback(geo2);
 									}
 								},
-								AlgebraInputW.getWarningHandler(this, app));
-				// make sure edting ends: run callback even if not successful
-				// TODO maybe prevent running this twice?
-				if (!geo.isIndependent() && callback != null) {
-					callback.callback(geo);
-				}
-
-				return;
+								getErrorHandler(true, false, false));
+				return accepted[0];
 			}
 		} else {
 			if (isAlgebraStyle(AlgebraStyle.DEFINITION_AND_VALUE)) {
@@ -979,6 +976,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		// empty new value -- consider success to make sure focus goes away
 		updateAfterRedefine(rawInput == null);
+		return true;
 	}
 
 	protected void showStyleBarIfNeeded() {
@@ -1054,16 +1052,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * Mark geo as erroneous; show warning icon
+	 * Mark geo as erroneous; show warning icon. The element itself stays unchanged.
 	 */
 	protected void saveError() {
 		if (geo != null) {
-			geo.setUndefined();
-			geo.updateRepaint();
-			updateAfterRedefine(true);
-			if (marblePanel != null) {
-				marblePanel.updateIcons(true);
-			}
+			updateIcons(true);
 		}
 	}
 
@@ -1832,7 +1825,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	String getPreviewText() {
-		return getMathField() != null ? getMathField().getInternal().getPreviewText() : getText();
+		if (getMathField() == null) {
+			return getText();
+		}
+		String previewText = getMathField().getInternal().getPreviewText();
+		return StringUtil.emptyTrim(previewText) ? getText() : previewText;
 	}
 
 	/**
@@ -1852,7 +1849,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 * Cancel editing
 	 */
 	public void cancelEditing() {
-		stopEditing(getText(), null);
+		stopEditing(getText(), getPreviewText(), null);
 		updateIcons(this.errorMessage != null);
 		app.getActiveEuclidianView().requestFocus();
 	}

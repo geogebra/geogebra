@@ -97,11 +97,6 @@ public class BaseActivity implements GeoGebraActivity {
 	}
 
 	@Override
-	public boolean useValidInput() {
-		return false;
-	}
-
-	@Override
 	public HeaderResizer getHeaderResizer(GeoGebraFrameW frame) {
 		if (headerResizer == null) {
 			headerResizer = new BaseHeaderResizer(frame);

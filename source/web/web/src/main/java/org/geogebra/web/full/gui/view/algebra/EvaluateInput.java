@@ -42,7 +42,6 @@ public final class EvaluateInput {
 	RadioTreeItem item;
 	App app;
 	RadioTreeItemController ctrl;
-	private boolean usingValidInput;
 
 	/**
 	 * Constructor.
@@ -55,17 +54,7 @@ public final class EvaluateInput {
 		this.item = item;
 		this.app = item.getApplication();
 		this.ctrl = ctrl;
-		this.usingValidInput = true;
 		this.selectionCallback = callback;
-	}
-
-	/**
-	 * Set whether it should use the last valid input,
-	 * or the user input
-	 * @param usingValidInput use valid input
-	 */
-	public void setUsingValidInput(boolean usingValidInput) {
-		this.usingValidInput = usingValidInput;
 	}
 
 	/**
@@ -92,30 +81,18 @@ public final class EvaluateInput {
 		return app.getKernel().getAlgebraProcessor().evaluateToGeoElement(item.getText(), false);
 	}
 
-	private String getUserInput() {
-		return ctrl.isInputAsText() ? item.getText() : item.getPreviewText();
-	}
-
-	private String getValidInput(String userInput) {
-		return app.getKernel().getInputPreviewHelper().getInput(userInput);
-	}
-
-	private String getInput(String userInput, String validInput) {
-		String input = usingValidInput ? validInput : userInput;
-		boolean textInput = ctrl.isInputAsText();
-		return textInput ? "\"" + input + "\"" : input;
+	private String getInput() {
+		return ctrl.isInputAsText() ? "\"" + item.getText() + "\"" : item.getPreviewText();
 	}
 
 	private void evaluate(final boolean keepFocus, AsyncOperation<GeoElementND[]> cbEval) {
-		String userInput = getUserInput();
-		String validInput = getValidInput(userInput);
-		String input = getInput(userInput, validInput);
+		String input = getInput();
 		boolean withSliders = app.getConfig().hasAutomaticSliders();
 
 		ctrl.setInputAsText(false);
 		app.setScrollToShow(true);
 
-		final ErrorHandler err = getErrorHandler(input, keepFocus, withSliders);
+		final ErrorHandler err = getErrorHandler(keepFocus, withSliders);
 		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, withSliders);
 
 		// undo point stored in callback
@@ -126,12 +103,11 @@ public final class EvaluateInput {
 		}
 	}
 
-	ErrorHandler getErrorHandler(String input, boolean keepFocus, boolean withSliders) {
+	ErrorHandler getErrorHandler(boolean keepFocus, boolean withSliders) {
 		if (ctrl.isInputAsText()) {
 			return null;
 		}
-		boolean valid = input.equals(getUserInput());
-		return item.getErrorHandler(valid, keepFocus, withSliders);
+		return item.getErrorHandler(true, keepFocus, withSliders);
 	}
 
 	private void processAlgebraInput(

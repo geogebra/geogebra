@@ -1548,6 +1548,9 @@ public class Construction {
 				return;
 
 			} else {
+				if (!newGeo.isLabelSet()) {
+					newGeo.remove();
+				}
 				throw new CircularDefinitionException();
 			}
 		}

@@ -195,9 +195,17 @@ public abstract class CommandDispatcher {
 			if (c.getName().equals(app.getLocalization().getFunction("freehand"))) {
 				return null;
 			}
-			throw new CommandNotFoundError(app.getLocalization(), c);
+			throw commandNotFound(c);
 		}
 		return process(cmdProc, c, info);
+	}
+
+	private MyError commandNotFound(Command command) {
+		if (app.getParserFunctions().isReserved(command.getName())) {
+			// Built-in function with wrong arguments
+			return new MyError(app.getLocalization(), Errors.InvalidInput);
+		}
+		return new CommandNotFoundError(app.getLocalization(), command);
 	}
 
 	/**
@@ -251,7 +259,7 @@ public abstract class CommandDispatcher {
 				return new GeoElement[0];
 			}
 			if (cmdProc == null) {
-				throw new CommandNotFoundError(app.getLocalization(), c);
+				throw commandNotFound(c);
 			}
 			return cmdProc.process(c, info);
 		} catch (Exception e) {

@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,12 +48,15 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.Description;
@@ -60,6 +64,8 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class RedefineTest extends BaseUnitTest {
 
@@ -131,8 +137,7 @@ class RedefineTest extends BaseUnitTest {
 		checkError("f(x)=3-(x^2+y^2=1)", "Illegal subtraction \n" + "3 -  x\u00B2 + y\u00B2 = 1 ");
 		checkError("f(x)=3^(x^2+y^2=1)", "Illegal exponent \n" + "3 ^  x\u00B2 + y\u00B2 = 1 ");
 		checkError("f(x)=sin(x^2+y^2=1)", "Illegal argument \n" + "sin(  x\u00B2 + y\u00B2 = 1 ) ");
-		// error could be improved
-		checkError("f(x)=sin(1,2,3)", "Unknown command : sin");
+		checkError("f(x)=sin(1,2,3)", "Please check your input");
 		checkError("{1,2,3}\\(1,2)", "Illegal list operation \n" + "{1, 2, 3} \\ (1, 2) ");
 	}
 
@@ -775,5 +780,63 @@ class RedefineTest extends BaseUnitTest {
 		add("f:y^2 + x = x^2");
 		GeoElement derivative = lookup("f'");
 		assertThat(derivative, hasValue("?"));
+	}
+
+	@ParameterizedTest
+	@CsvSource(
+			delimiter = ';',
+			value = {"a; 1+", "a; (1,", "a; Circle(1, 2, 3, 4)", "b; 2a+", "b; 2b"})
+	@Issue("APPS-7584")
+	void failedRedefinitionShouldNotChangeConstruction(String label, String input) {
+		add("a=1");
+		add("b=2a");
+		activateUndo();
+		getKernel().initUndoInfo();
+		app.storeUndoInfo();
+		int undoHistorySize = getConstruction().getUndoManager().getHistorySize();
+		String xml = app.getXML();
+		ErrorAccumulator errors = new ErrorAccumulator();
+
+		redefine(lookup(label), input, errors, result -> fail("rejected input reported as result"));
+
+		assertNotEquals("", errors.getErrors());
+		assertEquals(xml, app.getXML());
+		assertEquals(undoHistorySize, getConstruction().getUndoManager().getHistorySize());
+	}
+
+	@Test
+	@Issue("APPS-7584")
+	void functionWithoutArgumentShouldNotBeReportedAsUnknownCommand() {
+		checkError("1+sqrt()", "Please check your input");
+	}
+
+	@Test
+	@Issue("APPS-7584")
+	void circularRedefinitionShouldNotLeaveAlgorithmAttached() {
+		add("a=1");
+		GeoElement b = add("b=2a");
+		redefine(b, "2b", new ErrorAccumulator(), null);
+		assertTrue(b.getAlgorithmList().isEmpty());
+	}
+
+	@Test
+	@Issue("APPS-7584")
+	void syntaxErrorInRedefinitionShouldBeReportedLikeNewInput() {
+		ErrorAccumulator redefinitionErrors = new ErrorAccumulator();
+		redefine(add("a=1"), "1+", redefinitionErrors, null);
+		ErrorAccumulator newInputErrors = new ErrorAccumulator();
+		ap.processAlgebraCommandNoExceptionHandling("1+", false, newInputErrors, false, null);
+		assertEquals(newInputErrors.getErrors(), redefinitionErrors.getErrors());
+	}
+
+	private void redefine(
+			GeoElement geo, String input, ErrorHandler handler, AsyncOperation<GeoElementND> callback) {
+		ap.changeGeoElementNoExceptionHandling(
+				geo,
+				input,
+				EvalInfoFactory.getEvalInfoForRedefinition(getKernel(), geo, true),
+				true,
+				callback,
+				handler);
 	}
 }

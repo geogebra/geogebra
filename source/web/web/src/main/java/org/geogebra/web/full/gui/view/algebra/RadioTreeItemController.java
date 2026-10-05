@@ -497,7 +497,7 @@ public class RadioTreeItemController
 		if (!editing) {
 			return;
 		}
-		item.stopEditing(item.getText(), null);
+		item.stopEditing(item.getText(), item.getPreviewText(), null);
 	}
 
 	/**

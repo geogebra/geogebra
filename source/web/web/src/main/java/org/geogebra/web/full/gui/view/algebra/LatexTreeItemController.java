@@ -50,7 +50,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public LatexTreeItemController(RadioTreeItem item) {
 		super(item);
 		evalInput = new EvaluateInput(item, this, item.getAV().getSelectionCallback());
-		evalInput.setUsingValidInput(app.getActivity().useValidInput());
 	}
 
 	@Override
@@ -127,15 +126,17 @@ public class LatexTreeItemController extends RadioTreeItemController
 			hideKeyboardIfNotLast();
 			return;
 		}
-		item.stopEditing(item.getText(), obj -> {
-			if (obj != null) {
-				hideKeyboardIfNotLast();
-			}
-			if (obj != null && !keepFocus) {
+		boolean accepted = item.stopEditing(item.getText(), item.getPreviewText(), obj -> {
+			hideKeyboardIfNotLast();
+			if (!keepFocus) {
 				app.setScrollToShow(true);
 				obj.update();
 			}
 		});
+		if (!accepted && keepFocus) {
+			setEditing(true);
+			setFocus(true);
+		}
 	}
 
 	private void hideKeyboardIfNotLast() {

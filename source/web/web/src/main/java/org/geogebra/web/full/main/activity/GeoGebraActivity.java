@@ -94,12 +94,6 @@ public interface GeoGebraActivity {
 	SVGResource getIcon();
 
 	/**
-	 *
-	 * @return use valid input
-	 */
-	boolean useValidInput();
-
-	/**
 	 * @param frame application frame
 	 * @return resizer class for the external header.
 	 */

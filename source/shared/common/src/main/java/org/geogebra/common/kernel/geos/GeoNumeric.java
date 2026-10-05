@@ -1871,10 +1871,12 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * @param geoElement
-	 *            make sure min/max interval is big enough to contain the value
+	 *            make sure min/max interval is big enough to contain the value;
+	 *            the value itself is not changed
 	 */
 	public void extendMinMax(GeoElement geoElement) {
 		if (geoElement instanceof GeoNumeric) {
+			double oldValue = value;
 			value = geoElement.evaluateDouble();
 			if (getIntervalMaxObject() != null && isChangeable(getIntervalMaxObject())) {
 				setMaxFrom(this);
@@ -1883,7 +1885,8 @@ public class GeoNumeric extends GeoElement
 			if (getIntervalMinObject() != null && isChangeable(getIntervalMinObject())) {
 				setMinFrom(this);
 			}
-			exactValue = null;
+			// only the interval is extended here; callers set the new value
+			value = oldValue;
 		}
 	}
 

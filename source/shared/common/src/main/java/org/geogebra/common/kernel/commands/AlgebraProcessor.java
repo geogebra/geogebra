@@ -494,7 +494,7 @@ public class AlgebraProcessor {
 	 * @param storeUndoInfo
 	 *            true to make undo step
 	 * @param callback
-	 *            what to do with the changed geo
+	 *            what to do with the changed geo; not called if the redefinition fails
 	 * @param handler
 	 *            decides how to handle exceptions
 	 *
@@ -538,11 +538,6 @@ public class AlgebraProcessor {
 			changeGeoElementNoExceptionHandling(geo, ve, info, storeUndoInfo, callback, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, newValue, loc, handler);
-		} catch (ParseException exception) {
-			handler.showError(exception.getMessage());
-			if (callback != null) {
-				callback.callback(geo);
-			}
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (CommandNotLoadedError e) {
