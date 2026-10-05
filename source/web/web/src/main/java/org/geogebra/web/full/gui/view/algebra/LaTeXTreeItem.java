@@ -21,10 +21,13 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.CommandSyntaxLookupImpl;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.controller.MatrixResizeController;
+import org.geogebra.editor.share.editor.MathFieldInternal;
 import org.geogebra.editor.share.serializer.TeXSerializer;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.DataTest;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -103,9 +106,11 @@ public class LaTeXTreeItem extends RadioTreeItem {
 		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
-		resizePopup = new MatrixResizePopup(
-				mf.getInternal().getMatrixResizeController(), mf, app, this::onKeyTyped);
-		mf.getInternal().getMatrixResizeController().addListener(resizePopup);
+		MatrixResizeController matrixResizeController = mf.getInternal().getMatrixResizeController();
+		mf.getInternal().registerMathFieldInternalListener(this::styleContentIfMatrix);
+		styleContentIfMatrix(mf.getInternal());
+		resizePopup = new MatrixResizePopup(matrixResizeController, mf, app, this::onKeyTyped);
+		matrixResizeController.addListener(resizePopup);
 		mf.setFontSize(getFontSize());
 		mf.getInternal().registerMathFieldInternalListener(syntaxController);
 		mf.setPixelRatio(app.getPixelRatio());
@@ -119,6 +124,12 @@ public class LaTeXTreeItem extends RadioTreeItem {
 			mf.getInternal().getMatrixResizeController().addListener(resizePopup);
 			updateAriaLabel();
 		});
+	}
+
+	private void styleContentIfMatrix(MathFieldInternal mathFieldInternal) {
+		boolean containsMatrix =
+				mathFieldInternal.getMatrixResizeController().getState().containsMatrix();
+		Dom.toggleClass(content, "hasMatrix", containsMatrix);
 	}
 
 	private void updateEditorAriaLabel(String text) {

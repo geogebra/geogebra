@@ -147,7 +147,10 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
 		StubGenerator.replaceMethodWithMock(CopyPasteW.class, "clipboardSupports", Void.class);
 		StubGenerator.replaceMethodWithMock(Opentype.class, "loadFont", Void.class);
 		StubGenerator.replaceMethodWithMock(StickyTable.class, "getCell", Element.class);
-		StubGenerator.replaceMethodWithMock(MathFieldW.class, "getHiddenTextArea", Element.class);
+		StubGenerator.replaceMethodWithMock(MathFieldW.class, "setBackgroundColor", Void.class);
+		StubGenerator.replaceMethodWithMock(MathFieldW.class, "setForegroundColor", Void.class);
+		StubGenerator.replaceMethodWithMock(MathFieldW.class, "setAriaValue", Void.class);
+		StubGenerator.replaceMethodWithMock(MathFieldW.class, "requestViewFocus", Void.class);
 	}
 
 	@Override
@@ -181,7 +184,6 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
 		classes.add(JsDate.class);
 		classes.add(CellBasedWidgetImplStandard.class);
 		classes.add(StickyTable.class);
-		classes.add(MathFieldW.class);
 		return classes;
 	}
 
