@@ -18,18 +18,20 @@ package org.geogebra.common.gui.view.table.regression;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.BaseExamTestSetup;
 import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.TableValues;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup.Row;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.restrictions.FeatureRestriction;
-import org.geogebra.editor.share.util.Unicode;
+import org.geogebra.common.util.AttributedString;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,141 +39,335 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class RegressionSpecificationTest extends BaseExamTestSetup {
-	private TableValuesView view;
-	private GeoList listY;
-	private int column = 1;
+	private TableValues view;
+	private AttributedString model;
+	private String formula;
+	private AttributedString fitQuality;
+	private String coefficient;
+	private String pmmc;
 
 	@BeforeEach
 	void setupTable() {
 		setupApp(SuiteSubApp.GRAPHING);
 		getApp().setRounding("2d");
-		GeoList list = evaluateGeoElement("{1,2,3,4}");
-		listY = evaluateGeoElement("{1,8,27,64}");
-		GeoList listY2 = evaluateGeoElement("{5,7,5,3}");
-		getApp().getSettings().getTable().setValueList(list);
-		view = new TableValuesView(getKernel());
-		getKernel().attach(view);
-		view.add(listY);
-		view.showColumn(listY);
-		view.add(listY2);
-		view.showColumn(listY2);
-		column = 1;
+		model = new AttributedString(getLocalization().getMenu("Stats.Model"));
+		formula = getLocalization().getMenu("Stats.Formula");
+		fitQuality = new AttributedString(getLocalization().getMenu("Stats.FitQuality"));
+		coefficient = getLocalization().getMenu("CoefficientOfDetermination");
+		pmmc = getLocalization().getMenu("Stats.PMCC");
+		view = setupTableValues("{1,2,3,4}", "{1,8,27,64}", "{5,7,5,3}", "{-1,-8,-27,-64}");
 	}
 
 	@Test
 	void testRegressionCount() {
-		assertEquals(
-				9, new RegressionSpecificationBuilder().getForListSize(listY.size()).size());
+		assertEquals(9, view.getRegressionSpecifications(1).size());
 	}
 
 	@Test
 	void testLinearRegression() {
+		RegressionSpecification linearRegression =
+				view.getRegressionSpecifications(1).get(0);
 		assertEquals(
-				"y = a\\ x+b, a = 20.8, b = -27, R\u00b2 = 0.91, r = 0.95", getRegressionValues(0));
-		assertEquals("20.8x - 27", getRegressionFormula(0));
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = a\\ x+b", true, null),
+										new Row("a", "20.8", false, "20.8"),
+										new Row("b", "-27", false, "-27"))),
+						new StatisticGroup(
+								fitQuality,
+								List.of(
+										new Row(coefficient, "R\u00b2 = 0.91", false, "0.9051046"),
+										new Row(pmmc, "r = 0.95", false, "0.9513699")))),
+				withLowPrecisionClipboard(view.getRegression(1, linearRegression)));
 	}
 
 	@Test
 	@Issue("APPS-7328")
 	void testLinearRegressionNegative() {
-		GeoList listY3 = evaluateGeoElement("{-1,-8,-27,-64}");
-		view.add(listY3);
-		view.showColumn(listY3);
-		column = 3;
+		RegressionSpecification linearRegression =
+				view.getRegressionSpecifications(3).get(0);
 		assertEquals(
-				"y = a\\ x+b, a = -20.8, b = 27, R\u00b2 = 0.91, r = -0.95", getRegressionValues(0));
-		assertEquals("-20.8x + 27", getRegressionFormula(0));
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = a\\ x+b", true, null),
+										new Row("a", "-20.8", false, "-20.8"),
+										new Row("b", "27", false, "27"))),
+						new StatisticGroup(
+								fitQuality,
+								List.of(
+										new Row(coefficient, "R\u00b2 = 0.91", false, "0.9051046"),
+										new Row(pmmc, "r = -0.95", false, "-0.9513699")))),
+				withLowPrecisionClipboard(view.getRegression(3, linearRegression)));
 	}
 
 	@Test
 	void testLogRegression() {
+		RegressionSpecification logRegression = view.getRegressionSpecifications(1).get(1);
 		assertEquals(
-				"y = a + b\\cdot \\ln(x), a = -7.59, b = 41.02, R\u00b2 = 0.76", getRegressionValues(1));
-		assertEquals("-7.59 + 41.02ln(x)", getRegressionFormula(1));
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = a + b\\cdot \\ln(x)", true, null),
+										new Row("a", "-7.59", false, "-7.5946143"),
+										new Row("b", "41.02", false, "41.024622"))),
+						new StatisticGroup(
+								fitQuality, List.of(new Row(coefficient, "R\u00b2 = 0.76", false, "0.7634906")))),
+				withLowPrecisionClipboard(view.getRegression(1, logRegression)));
 	}
 
 	@Test
 	void testPowerRegression() {
-		assertEquals("y = a \\cdot x^b, a = 1, b = 3, R\u00b2 = 1", getRegressionValues(2));
-		assertEquals("1x³", getRegressionFormula(2));
+		RegressionSpecification powerRegression =
+				view.getRegressionSpecifications(1).get(2);
+		assertEquals(
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = a \\cdot x^b", true, null),
+										new Row("a", "1", false, "1"),
+										new Row("b", "3", false, "3"))),
+						new StatisticGroup(
+								fitQuality, List.of(new Row(coefficient, "R\u00b2 = 1", false, "1")))),
+				withLowPrecisionClipboard(view.getRegression(1, powerRegression)));
 	}
 
 	@Test
 	void testQuadraticRegression() {
+		RegressionSpecification quadraticRegression =
+				view.getRegressionSpecifications(1).get(3);
 		assertEquals(
-				"y = a\\ x^{2}+b\\ x+c, a = 7.5, b = -16.7, c = 10.5, R\u00b2 = 1", getRegressionValues(3));
-		assertEquals("7.5x\u00b2 - 16.7x + 10.5", getRegressionFormula(3));
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = a\\ x^{2}+b\\ x+c", true, null),
+										new Row("a", "7.5", false, "7.5"),
+										new Row("b", "-16.7", false, "-16.7"),
+										new Row("c", "10.5", false, "10.5"))),
+						new StatisticGroup(
+								fitQuality, List.of(new Row(coefficient, "R\u00b2 = 1", false, "0.9992469")))),
+				withLowPrecisionClipboard(view.getRegression(1, quadraticRegression)));
 	}
 
 	@Test
 	void testCubicRegression() {
+		RegressionSpecification cubicRegression =
+				view.getRegressionSpecifications(1).get(4);
 		assertEquals(
-				"y = a\\ x^{3}+b\\ x^{2}+c\\ x+d, a = 1, b = 0, c = 0, d = 0, R\u00b2 = 1",
-				getRegressionValues(4));
-		assertEquals("x\u00b3 + 0x\u00b2 - 0x + 0", getRegressionFormula(4));
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = a\\ x^{3}+b\\ x^{2}+c\\ x+d", true, null),
+										new Row("a", "1", false, "1"),
+										new Row("b", "0", false, "0"),
+										new Row("c", "0", false, "0"),
+										new Row("d", "0", false, "0"))),
+						new StatisticGroup(
+								fitQuality, List.of(new Row(coefficient, "R\u00b2 = 1", false, "1")))),
+				withLowPrecisionClipboard(view.getRegression(1, cubicRegression)));
 	}
 
 	@Test
 	void testExponentialRegression() {
+		RegressionSpecification exponentialRegression =
+				view.getRegressionSpecifications(1).get(5);
 		assertEquals(
-				"y = a \\cdot e^{b\\ x}, a = 0.35, b = 1.37, R\u00b2 = 0.81", getRegressionValues(5));
-		assertEquals("0.35" + Unicode.EULER_STRING + "^(1.37x)", getRegressionFormula(5));
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = a \\cdot e^{b\\ x}", true, null),
+										new Row("a", "0.35", false, "0.3535534"),
+										new Row("b", "1.37", false, "1.3693045"))),
+						new StatisticGroup(
+								fitQuality, List.of(new Row(coefficient, "R\u00b2 = 0.81", false, "0.8076908")))),
+				withLowPrecisionClipboard(view.getRegression(1, exponentialRegression)));
 	}
 
 	@Test
 	void testGrowthRegression() {
-		assertEquals("y = a \\cdot b^x, a = 0.35, b = 3.93, R\u00b2 = 0.81", getRegressionValues(6));
-		assertEquals("0.35 * 3.93^x", getRegressionFormula(6));
+		RegressionSpecification growthRegression =
+				view.getRegressionSpecifications(1).get(6);
+		assertEquals(
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = a \\cdot b^x", true, null),
+										new Row("a", "0.35", false, "0.3535534"),
+										new Row("b", "3.93", false, "3.9326144"))),
+						new StatisticGroup(
+								fitQuality, List.of(new Row(coefficient, "R\u00b2 = 0.81", false, "0.8076908")))),
+				withLowPrecisionClipboard(view.getRegression(1, growthRegression)));
 	}
 
 	@Test
 	void testSinRegression() {
+		RegressionSpecification sinRegression = view.getRegressionSpecifications(1).get(7);
 		assertEquals(
-				"y = a \\cdot \\sin(b\\ x + c) + d," + " a = ?, b = ?, c = ?, d = ?, R\u00b2 = ?",
-				getRegressionValues(7));
-		assertEquals("?", getRegressionFormula(7));
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = a \\cdot \\sin(b\\ x + c) + d", true, null),
+										new Row("a", "?", false, "?"),
+										new Row("b", "?", false, "?"),
+										new Row("c", "?", false, "?"),
+										new Row("d", "?", false, "?"))),
+						new StatisticGroup(
+								fitQuality, List.of(new Row(coefficient, "R\u00b2 = ?", false, "?")))),
+				withLowPrecisionClipboard(view.getRegression(1, sinRegression)));
 
-		column = 2;
 		assertEquals(
-				"y = a \\cdot \\sin(b\\ x + c) + d," + " a = 2, b = 1.57, c = -1.57, d = 5, R\u00b2 = 1",
-				getRegressionValues(7));
-		assertEquals("5 + 2sin(1.57x - 1.57)", getRegressionFormula(7));
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = a \\cdot \\sin(b\\ x + c) + d", true, null),
+										new Row("a", "2", false, "2"),
+										new Row("b", "1.57", false, "1.5707963"),
+										new Row("c", "-1.57", false, "-1.5707963"),
+										new Row("d", "5", false, "5"))),
+						new StatisticGroup(
+								fitQuality, List.of(new Row(coefficient, "R\u00b2 = 1", false, "1")))),
+				withLowPrecisionClipboard(view.getRegression(2, sinRegression)));
 	}
 
 	@Test
 	void testLogisticRegression() {
+		RegressionSpecification logisticRegression =
+				view.getRegressionSpecifications(1).get(8);
 		assertEquals(
-				"y = \\frac{a}{1 + b\\cdot e^{-c\\ x}}," + " a = 105.06, b = 258.98, c = 1.5, R\u00b2 = 1",
-				getRegressionValues(8));
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row(formula, "y = \\frac{a}{1 + b\\cdot e^{-c\\ x}}", true, null),
+										new Row("a", "105.06", false, "105.0625538"),
+										new Row("b", "258.98", false, "258.9842766"),
+										new Row("c", "1.5", false, "1.5000152"))),
+						new StatisticGroup(
+								fitQuality, List.of(new Row(coefficient, "R\u00b2 = 1", false, "0.9996562")))),
+				withLowPrecisionClipboard(view.getRegression(1, logisticRegression)));
+	}
+
+	@ParameterizedTest(name = "{arguments}")
+	@Issue("APPS-7328")
+	@CsvSource(
+			value = {
+				"0;1;20.8x - 27",
+				"0;3;-20.8x + 27",
+				"1;1;-7.59 + 41.02ln(x)",
+				"2;1;1x³",
+				"3;1;7.5x² - 16.7x + 10.5",
+				"4;1;x³ + 0x² - 0x + 0",
+				"5;1;0.35ℯ^(1.37x)",
+				"6;1;0.35 * 3.93^x",
+				"7;1;?",
+				"7;2;5 + 2sin(1.57x - 1.57)",
+				"8;1;105.06 / (1 + 258.98ℯ^(-1.5x))"
+			},
+			delimiter = ';')
+	void testRegressionFormulas(int specificationIndex, int column, String expected) {
 		assertEquals(
-				"105.06 / (1 + 258.98" + Unicode.EULER_STRING + "^(-1.5x))", getRegressionFormula(8));
+				expected,
+				view.plotRegression(
+								column, view.getRegressionSpecifications(column).get(specificationIndex))
+						.toValueString(
+								StringTemplate.defaultTemplate.deriveWithoutCoefficientSimplification()));
+	}
+
+	@Test
+	void testCustomLinearRegression() {
+		startExam(ExamType.MMS);
+		getApp()
+				.getRegressionSpecBuilder()
+				.applyRestrictions(Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));
+		RegressionSpecification linearRegression =
+				view.getRegressionSpecifications(1).get(0);
+		assertEquals(
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(new Row("a", "20.8", false, "20.8"), new Row("b", "-27", false, "-27"))),
+						new StatisticGroup(fitQuality, List.of(new Row(pmmc, "r = 0.95", false, "0.9513699")))),
+				withLowPrecisionClipboard(view.getRegression(1, linearRegression)));
+	}
+
+	@Test
+	void testCustomExponentialPlusConstantRegression() {
+		startExam(ExamType.MMS);
+		getApp()
+				.getRegressionSpecBuilder()
+				.applyRestrictions(Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));
+		RegressionSpecification exponentialPlusConstantRegression =
+				view.getRegressionSpecifications(1).get(6);
+		assertEquals(
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row("a", "3.44", false, "3.4380718"),
+										new Row("b", "-6.76", false, "-6.7619424"),
+										new Row("c", "0.76", false, "0.7564421"))),
+						new StatisticGroup(fitQuality, List.of(new Row(pmmc, "r = 1", false, "0.9997548")))),
+				withLowPrecisionClipboard(view.getRegression(1, exponentialPlusConstantRegression)));
+	}
+
+	@Test
+	void testCustomExponentialRegression() {
+		startExam(ExamType.MMS);
+		getApp()
+				.getRegressionSpecBuilder()
+				.applyRestrictions(Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));
+		RegressionSpecification exponentialRegression =
+				view.getRegressionSpecifications(1).get(7);
+		assertEquals(
+				List.of(
+						new StatisticGroup(
+								model,
+								List.of(
+										new Row("a", "0.35", false, "0.3535534"),
+										new Row("b", "1.37", false, "1.3693045"))),
+						new StatisticGroup(fitQuality, List.of(new Row(pmmc, "r = 0.9", false, "0.8987162")))),
+				withLowPrecisionClipboard(view.getRegression(1, exponentialRegression)));
 	}
 
 	@ParameterizedTest(name = "{arguments}")
 	@CsvSource(
 			value = {
-				"0:20.8x - 27 * 1:a = 20.8, b = -27, r = 0.95",
-				"1:11.8x:a = 11.8, r = 0.84",
-				"2:7.5x² - 16.7x + 10.5 * 1:a = 7.5, b = -16.7, c = 10.5, r = 1",
-				"3:5.81x² - 7.55x:a = 5.81, b = -7.55, r = 1",
-				"4:4.26x² - 6.98 * 1:a = 4.26, c = -6.98, r = 0.99",
-				"5:3.67x²:a = 3.67, r = 0.98",
-				"6:3.44ℯ^(x * 0.76) - 6.76:a = 3.44, b = -6.76, c = 0.76, r = 1",
-				"7:0.35ℯ^(1.37x):a = 0.35, b = 1.37, r = 0.9",
-				"8:-65.23x⁻¹ + 58.97 * 1:a = -65.23, b = 58.97, r = 0.78",
-				"9:21.07x⁻¹:a = 21.07, r = ?",
-				"10:-44.73x⁻² + 40.92 * 1:a = -44.73, b = 40.92, r = 0.69",
-				"11:9.27x⁻²:a = 9.27, r = ?",
-				"12:18.71x^0.5:a = 18.71, r = 0.65"
+				"0;20.8x - 27 * 1",
+				"1;11.8x",
+				"2;7.5x² - 16.7x + 10.5 * 1",
+				"3;5.81x² - 7.55x",
+				"4;4.26x² - 6.98 * 1",
+				"5;3.67x²",
+				"6;3.44ℯ^(x * 0.76) - 6.76",
+				"7;0.35ℯ^(1.37x)",
+				"8;-65.23x⁻¹ + 58.97 * 1",
+				"9;21.07x⁻¹",
+				"10;-44.73x⁻² + 40.92 * 1",
+				"11;9.27x⁻²",
+				"12;18.71x^0.5"
 			},
-			delimiter = ':')
-	void testCustomRegressions(int index, String expected, String expectedVals) {
+			delimiter = ';')
+	void testMmsRegressionFormulas(int specificationIndex, String expected) {
 		startExam(ExamType.MMS);
 		getApp()
 				.getRegressionSpecBuilder()
 				.applyRestrictions(Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));
-		assertEquals(expected, getRegressionFormula(index));
-		assertEquals(expectedVals, getRegressionValues(index));
+		assertEquals(
+				expected,
+				view.plotRegression(1, view.getRegressionSpecifications(1).get(specificationIndex))
+						.toValueString(
+								StringTemplate.defaultTemplate.deriveWithoutCoefficientSimplification()));
 	}
 
 	@Test
@@ -180,23 +376,28 @@ class RegressionSpecificationTest extends BaseExamTestSetup {
 		getApp()
 				.getRegressionSpecBuilder()
 				.applyRestrictions(Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));
-		assertEquals(
-				13, getApp().getRegressionSpecBuilder().getForListSize(listY.size()).size());
+		assertEquals(13, view.getRegressionSpecifications(1).size());
 	}
 
-	private String getRegressionFormula(int spec) {
-		GeoElement plot = view.plotRegression(column, getSpec(spec));
-		return plot.toValueString(
-				StringTemplate.defaultTemplate.deriveWithoutCoefficientSimplification());
+	private List<StatisticGroup> withLowPrecisionClipboard(List<StatisticGroup> groups) {
+		return groups.stream()
+				.map(group -> new StatisticGroup(
+						group.heading(),
+						group.rows().stream()
+								.map(row -> new Row(
+										row.label(), row.value(), row.isLaTeX(), lowPrecision(row.clipboardValue())))
+								.toList()))
+				.toList();
 	}
 
-	private String getRegressionValues(int spec) {
-		return view.getRegression(column, getSpec(spec)).stream()
-				.flatMap(g -> g.values().stream())
-				.collect(Collectors.joining(", "));
-	}
-
-	private RegressionSpecification getSpec(int i) {
-		return getApp().getRegressionSpecBuilder().getForListSize(listY.size()).get(i);
+	private String lowPrecision(String clipboardValue) {
+		try {
+			return new BigDecimal(clipboardValue)
+					.setScale(7, RoundingMode.HALF_UP)
+					.stripTrailingZeros()
+					.toPlainString();
+		} catch (Exception exception) {
+			return clipboardValue;
+		}
 	}
 }

@@ -77,6 +77,17 @@ public final class TableUtil {
 	}
 
 	/**
+	 * Builds an attributed statistics heading such as {@code y₁ Statistics}.
+	 * @param variables names of the variables included in the statistics
+	 * @param localization localization for the statistics pattern
+	 * @return attributed heading with subscript ranges
+	 */
+	public static AttributedString getStatisticsHeading(String variables, Localization localization) {
+		String heading = localization.getPlainDefault("AStatistics", "%0 Statistics", variables);
+		return parseSubscripts(heading);
+	}
+
+	/**
 	 * Converts an {@link AttributedString} to an HTML string, wrapping subscript ranges
 	 * in {@code <sub>} tags.
 	 * <p> Examples: </p>

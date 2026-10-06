@@ -18,4 +18,27 @@ package org.geogebra.common.gui.view.table.dialog;
 
 import java.util.List;
 
-public record StatisticGroup(String heading, boolean isLaTeX, List<String> values) {}
+import org.geogebra.common.util.AttributedString;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
+/**
+ * Related statistic rows displayed together, with an optional heading.
+ * @param heading the heading of the group, or {@code null} if no heading should be shown.
+ * @param rows the rows of the group to display
+ */
+public record StatisticGroup(
+		@Nullable AttributedString heading, @NonNull List<Row> rows) {
+	/**
+	 * A labeled statistic value with an optional value for copying to the clipboard.
+	 * @param label label shown in the first half of the row
+	 * @param value value shown in the second half of the row
+	 * @param isLaTeX whether the row uses LaTeX rendering
+	 * @param clipboardValue copyable value, or {@code null} when the row is not copyable
+	 */
+	public record Row(
+			@NonNull String label,
+			@NonNull String value,
+			boolean isLaTeX,
+			@Nullable String clipboardValue) {}
+}

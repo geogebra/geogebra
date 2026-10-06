@@ -184,6 +184,7 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 		inputPanel.add(regressionChooser);
 		showSideSheet(regression, "Plot");
 		sideSheet.addPositiveButtonRunnable(regression::plotResult);
+		sideSheet.addStyleName("regression");
 	}
 
 	private void showTable(SpreadsheetStatisticsView.@NonNull FrequencyTable frequencyTable) {
@@ -296,6 +297,7 @@ public final class SpreadsheetStatisticsDelegateW implements SpreadsheetStatisti
 			});
 			sideSheet.addStyleName("statistics");
 		} else {
+			sideSheet.removeStyleName("regression");
 			sideSheet.update(data);
 		}
 		outputPanel.addStyleName("sideSheetStats");

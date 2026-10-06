@@ -23,21 +23,28 @@ import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel;
 import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel.Content;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.states.State;
 import org.geogebra.common.util.AttributedString;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
+import org.geogebra.web.full.gui.components.ComponentToast;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Panel;
+import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -100,26 +107,140 @@ public final class StatsSideSheetTV {
 	 * @param parent parent panel
 	 */
 	public static void renderGroups(List<StatisticGroup> statistics, AppW app, Panel parent) {
-		for (StatisticGroup row : statistics) {
+		for (StatisticGroup statisticGroup : statistics) {
 			FlowPanel group = new FlowPanel();
 			group.addStyleName("group");
 
-			Label heading = BaseWidgetFactory.INSTANCE.newSecondaryText(row.heading(), "heading");
-			group.add(heading);
+			addHeadingIfExists(statisticGroup.heading(), parent);
 
-			for (String value : row.values()) {
+			for (StatisticGroup.Row row : statisticGroup.rows()) {
+				FlowPanel rowPanel = new FlowPanel();
+				rowPanel.addStyleName("row");
+				rowPanel.add(BaseWidgetFactory.INSTANCE.newPrimaryText(row.label(), "label"));
 				if (row.isLaTeX()) {
-					Canvas canvas = Canvas.createIfSupported();
-					((DrawEquationW) app.getDrawEquation())
-							.paintOnCleanCanvas(value, canvas, 16, GColor.newColor(0, 0, 0, 0.87), false);
-					group.add(canvas);
+					addLatexCanvasBasedRow(app, row, rowPanel);
 				} else {
-					Label valueLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(value, "value");
-					group.add(valueLbl);
+					addValueRow(app, row, rowPanel);
 				}
+
+				addCopyButton(app, row, rowPanel, app.getLocalization().getMenu("General.CopyValue"));
+				group.add(rowPanel);
 			}
 			parent.add(group);
 		}
+	}
+
+	/**
+	 * Creates and adds heading label to parent panel.
+	 * @param statHeading {@link AttributedString}
+	 * @param parent panel
+	 */
+	private static void addHeadingIfExists(AttributedString statHeading, Panel parent) {
+		if (statHeading != null) {
+			Label heading = BaseWidgetFactory.INSTANCE.newPrimaryText("", "heading");
+			heading.getElement().setInnerHTML(TableUtil.toHtml(statHeading));
+			parent.add(heading);
+		}
+	}
+
+	/**
+	 * Creates and adds a scrollable canvas row to the parent, showing the latex content.
+	 * @param app {@link AppW}
+	 * @param row {@link StatisticGroup.Row}
+	 * @param rowPanel row panel
+	 */
+	private static void addLatexCanvasBasedRow(AppW app, StatisticGroup.Row row, FlowPanel rowPanel) {
+		FlowPanel canvasWrapper = new FlowPanel();
+		canvasWrapper.addStyleName("canvasWrapper");
+		Canvas canvas = Canvas.createIfSupported();
+		((DrawEquationW) app.getDrawEquation())
+				.paintOnCleanCanvas(row.value(), canvas, 16, GColor.newColor(0, 0, 0, 0.87), false);
+		canvasWrapper.add(canvas);
+		rowPanel.add(canvasWrapper);
+	}
+
+	/**
+	 * Creates and adds a label to the row. If the value is too long, will be shown with
+	 * ellipsis and on hover a tooltip is visible with the whole value.
+	 * @param app {@link AppW}
+	 * @param row {@link StatisticGroup.Row}
+	 * @param rowPanel row panel
+	 */
+	private static void addValueRow(AppW app, StatisticGroup.Row row, FlowPanel rowPanel) {
+		Label valueLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(row.value(), "value");
+		rowPanel.add(valueLbl);
+		ComponentToast toast = new ComponentToast(app, row.value());
+		valueLbl.addMouseOverHandler(event -> showTooltipIfNecessary(valueLbl, toast, app));
+		valueLbl.addMouseOutHandler(event -> toast.hide());
+	}
+
+	/**
+	 * Tooltip only shown if value label longer than available space.
+	 * @param widget value label
+	 * @param toast {@link ComponentToast}
+	 * @param app {@link AppW}
+	 */
+	private static void showTooltipIfNecessary(Widget widget, ComponentToast toast, AppW app) {
+		if (widget.getOffsetWidth() < widget.getElement().getScrollWidth()) {
+			app.getAppletFrame().add(toast);
+			toast.setPopupPosition(widget.getAbsoluteLeft(), widget.getAbsoluteTop() - 32);
+			Scheduler.get().scheduleDeferred(() -> toast.addStyleName("fadeIn"));
+		} else {
+			toast.hide();
+		}
+	}
+
+	/**
+	 * Creates and adds a copy button, which is visible on row hover. It copies the
+	 * value of the row to the clipboard.
+	 * @param app {@link AppW}
+	 * @param row {@link StatisticGroup.Row}
+	 * @param parent parent panel
+	 * @param buttonText localizes text of the button
+	 */
+	private static void addCopyButton(
+			AppW app, StatisticGroup.Row row, FlowPanel parent, String buttonText) {
+		if (row.clipboardValue() == null) {
+			return;
+		}
+
+		StandardButton copyButton = new StandardButton(
+				MaterialDesignResources.INSTANCE
+						.copy_black()
+						.withFill(GeoGebraColorConstants.NEUTRAL_700.toString()),
+				16);
+		Dom.addEventListener(
+				copyButton.getElement(),
+				"mouseover",
+				event -> copyButton.setIcon(MaterialDesignResources.INSTANCE
+						.copy_black()
+						.withFill(GeoGebraColorConstants.NEUTRAL_900.toString())));
+		Dom.addEventListener(
+				copyButton.getElement(),
+				"mouseout",
+				event -> copyButton.setIcon(MaterialDesignResources.INSTANCE
+						.copy_black()
+						.withFill(GeoGebraColorConstants.NEUTRAL_700.toString())));
+		copyButton.addStyleName("valueCopyButton");
+		copyButton.setTooltipPositionRight();
+		copyButton.setTitle(buttonText);
+
+		Dom.addEventListener(parent.getElement(), "mouseover", event -> {
+			copyButton.removeStyleName("transitionOut");
+			copyButton.addStyleName("transitionIn");
+		});
+		Dom.addEventListener(parent.getElement(), "mouseout", event -> {
+			copyButton.removeStyleName("transitionIn");
+			copyButton.addStyleName("transitionOut");
+		});
+
+		copyButton.addFastClickHandler(source -> {
+			CopyPasteW.writeToExternalClipboardWithFallback(row.clipboardValue(), null);
+			app.getToolTipManager()
+					.showBottomMessage(app.getLocalization().getMenu("CopiedToClipboard"), app);
+		});
+
+		parent.add(copyButton);
 	}
 
 	/**

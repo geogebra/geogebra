@@ -874,7 +874,7 @@ class MmsExamTests extends BaseExamTestSetup {
 		assertEquals(
 				List.of("Sum", "Sum of squares", "Sample Standard Deviation", "Cardinality"),
 				tableValuesView.getStatistics1Var(1).stream()
-						.map(StatisticGroup::heading)
+						.flatMap(group -> group.rows().stream().map(StatisticGroup.Row::label))
 						.collect(Collectors.toList()));
 	}
 
@@ -905,6 +905,9 @@ class MmsExamTests extends BaseExamTestSetup {
 		TableValuesView tableValuesView = setupTableValues();
 		assertEquals(
 				List.of(
+						// xy
+						"Sum of products",
+						"Cardinality",
 						// x
 						"Sum",
 						"Sum of squares",
@@ -912,12 +915,9 @@ class MmsExamTests extends BaseExamTestSetup {
 						// y
 						"Sum",
 						"Sum of squares",
-						"Sample Standard Deviation",
-						// xy
-						"Sum of products",
-						"Cardinality"),
+						"Sample Standard Deviation"),
 				tableValuesView.getStatistics2Var(1).stream()
-						.map(StatisticGroup::heading)
+						.flatMap(group -> group.rows().stream().map(StatisticGroup.Row::label))
 						.collect(Collectors.toList()));
 	}
 

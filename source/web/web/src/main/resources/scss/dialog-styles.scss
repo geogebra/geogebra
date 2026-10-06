@@ -1505,14 +1505,80 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				border-bottom: 1px colors.$teal-default solid;
 			}
 
-			.group {
-				margin-bottom: 22px;
+			.subTitle {
+				font-weight: 500;
+				height: 19px;
+				line-height: 19px;
+				margin-bottom: 16px;
+			}
 
-				.heading {
-					margin-top: 8px;
-					margin-bottom: 4px;
-					height: 14px;
-					font-size: 12px;
+			.heading {
+				font-size: 16px;
+				font-weight: 500;
+				height: 20px;
+				line-height: 20px;
+				padding: 8px 0;
+			}
+
+			.group {
+				margin-bottom: 16px;
+				padding: 0 12px;
+				border: 1px solid neutral(300);
+				border-radius: 12px;
+
+				.row {
+					display: flex;
+					position: relative;
+					gap: 8px;
+					padding: 8px 0;
+					&:not(:last-child) {
+						border-bottom: 1px solid neutral(300);
+					}
+
+					.label {
+						flex: 1 0 0;
+						max-width: 150px;
+						font-size: 14px;
+						line-height: 16px;
+						align-content: center;
+					}
+
+					.value {
+						width: 168px;
+						font-size: 14px;
+						line-height: 16px;
+						margin: auto 0;
+						text-overflow: ellipsis;
+						overflow: hidden;
+						white-space: nowrap;
+					}
+
+					.canvasWrapper {
+						width: 168px;
+						overflow-x: auto;
+						margin: auto 0;
+						line-height: 50%;
+					}
+
+					.valueCopyButton {
+						position: absolute;
+						right: -10px;
+						height: 16px;
+						top: calc(50% - 8px);
+						opacity: 0;
+
+						&.transitionIn {
+							transition: opacity 200ms;
+							transition-timing-function: cubic-bezier(0, 0, 0, 1);
+							opacity: 1;
+						}
+
+						&.transitionOut {
+							transition: opacity 200ms;
+							transition-timing-function: cubic-bezier(0.3, 0, 1, 1);
+							opacity: 0;
+						}
+					}
 				}
 			}
 
@@ -1523,11 +1589,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				.checkbox {
 					margin-left: 0;
 				}
-			}
-
-			.subTitle {
-				height: 32px;
-				line-height: 32px;
 			}
 
 			.sideSheetStats .infoErrorPanel {
@@ -1570,6 +1631,18 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				tr:last-child td {
 					border-bottom: 0;
 				}
+			}
+		}
+	}
+
+	.statistics.regression .sideSheet {
+		.contentPanel .group {
+			.label {
+				max-width: 94px;
+			}
+
+			.value, .canvasWrapper {
+				width: 222px;
 			}
 		}
 	}

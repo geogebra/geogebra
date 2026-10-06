@@ -91,8 +91,8 @@ public final class KernelTwoVarSpreadsheetStatisticsView
 					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED, null);
 		}
 		List<StatisticGroup> statistics = statisticGroupsBuilder.buildTwoVariableStatistics(
-				cleanedLists[0], "x",
-				cleanedLists[1], "y");
+				cleanedLists[0], "X",
+				cleanedLists[1], "Y");
 		if (statistics.isEmpty()) {
 			return newInvalidResult(
 					SpreadsheetStatistics.Error.TWO_NUMERIC_DATA_RANGES_OF_EQUAL_LENGTH_REQUIRED, null);

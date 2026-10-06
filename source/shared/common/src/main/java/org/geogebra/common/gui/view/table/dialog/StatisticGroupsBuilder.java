@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -86,11 +87,11 @@ public class StatisticGroupsBuilder {
 	public List<StatisticGroup> buildOneVariableStatistics(
 			GeoEvaluatable variable, String variableName) {
 		GeoList cleanVariable = removeUndefinedValues(variable);
-		List<StatisticGroup> statisticGroups = new ArrayList<>();
+		List<StatisticGroup.Row> rows = new ArrayList<>();
 		// use command strings, not algos, to make sure code splitting works in Web
-		addStatistics(statisticGroups, ONE_VAR_STATISTICS, variableName, cleanVariable);
-		addStatistics(statisticGroups, ONE_VAR_STATISTICS2, variableName, cleanVariable);
-		return statisticGroups;
+		addRows(rows, ONE_VAR_STATISTICS, variableName, cleanVariable);
+		addRows(rows, ONE_VAR_STATISTICS2, variableName, cleanVariable);
+		return rows.isEmpty() ? List.of() : List.of(new StatisticGroup(null, rows));
 	}
 
 	private GeoList removeUndefinedValues(GeoEvaluatable list) {
@@ -115,12 +116,34 @@ public class StatisticGroupsBuilder {
 			String variableName2) {
 		List<StatisticGroup> statisticGroups = new ArrayList<>();
 		GeoList[] cleanLists = getCleanListsTwoVariable(variable1, variable2);
-		addStatistics(statisticGroups, ONE_VAR_STATISTICS, variableName1, cleanLists[0]);
-		addStatistics(statisticGroups, ONE_VAR_STATISTICS, variableName2, cleanLists[1]);
-		addStatistics(statisticGroups, TWO_VAR_STATISTICS, variableName1 + variableName2, cleanLists);
-		addStatistics(statisticGroups, List.of(LENGTH), variableName1, cleanLists[0]);
-		addStatistics(statisticGroups, MIN_MAX, variableName1, cleanLists[0]);
-		addStatistics(statisticGroups, MIN_MAX, variableName2, cleanLists[1]);
+		Kernel kernel = cleanLists[0].getKernel();
+
+		List<StatisticGroup.Row> xyRows = new ArrayList<>();
+		addRows(xyRows, TWO_VAR_STATISTICS, variableName1 + variableName2, cleanLists);
+		addRows(xyRows, List.of(LENGTH), variableName1, cleanLists[0]);
+		if (!xyRows.isEmpty()) {
+			statisticGroups.add(new StatisticGroup(
+					TableUtil.getStatisticsHeading(
+							variableName1 + " " + variableName2, kernel.getLocalization()),
+					xyRows));
+		}
+
+		List<StatisticGroup.Row> xRows = new ArrayList<>();
+		addRows(xRows, ONE_VAR_STATISTICS, variableName1, cleanLists[0]);
+		addRows(xRows, MIN_MAX, variableName1, cleanLists[0]);
+		if (!xRows.isEmpty()) {
+			statisticGroups.add(new StatisticGroup(
+					TableUtil.getStatisticsHeading(variableName1, kernel.getLocalization()), xRows));
+		}
+
+		List<StatisticGroup.Row> yRows = new ArrayList<>();
+		addRows(yRows, ONE_VAR_STATISTICS, variableName2, cleanLists[1]);
+		addRows(yRows, MIN_MAX, variableName2, cleanLists[1]);
+		if (!yRows.isEmpty()) {
+			statisticGroups.add(new StatisticGroup(
+					TableUtil.getStatisticsHeading(variableName2, kernel.getLocalization()), yRows));
+		}
+
 		return statisticGroups;
 	}
 
@@ -169,8 +192,8 @@ public class StatisticGroupsBuilder {
 		}
 	}
 
-	private void addStatistics(
-			List<StatisticGroup> statisticGroups,
+	private void addRows(
+			List<StatisticGroup.Row> rows,
 			List<Statistic> statistics,
 			String variableName,
 			GeoList... variables) {
@@ -190,10 +213,11 @@ public class StatisticGroupsBuilder {
 			try {
 				AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 				GeoElementND result = algebraProcessor.processValidExpressionSilent(command)[0];
-				String heading = kernel.getLocalization().getMenu(statistic.getMenuLocalizationKey());
+				String label = kernel.getLocalization().getMenu(statistic.getMenuLocalizationKey());
+				String value = result.toValueString(StringTemplate.defaultTemplate);
+				String clipboardValue = result.toValueString(StringTemplate.maxDecimals);
 				String lhs = statistic.getLHS(kernel.getLocalization(), variableName);
-				String formula = lhs + " = " + result.toValueString(StringTemplate.defaultTemplate);
-				statisticGroups.add(new StatisticGroup(heading, true, List.of(formula)));
+				rows.add(new StatisticGroup.Row(label, lhs + " = " + value, true, clipboardValue));
 			} catch (CommandNotLoadedError err) {
 				throw err;
 			} catch (CommandNotFoundError err) {

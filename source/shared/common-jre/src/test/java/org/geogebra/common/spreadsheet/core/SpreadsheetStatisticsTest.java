@@ -121,7 +121,8 @@ class SpreadsheetStatisticsTest {
 
 		Result.GroupList result =
 				assertInstanceOf(Result.GroupList.class, oneVarStatisticsView().getResult());
-		assertEquals(11, result.statisticGroups().size());
+		assertEquals(1, result.statisticGroups().size());
+		assertEquals(11, result.statisticGroups().get(0).rows().size());
 	}
 
 	@Test
@@ -471,7 +472,10 @@ class SpreadsheetStatisticsTest {
 
 		Result.GroupList result =
 				assertInstanceOf(Result.GroupList.class, twoVarStatisticsView().getResult());
-		assertEquals(18, result.statisticGroups().size());
+		assertEquals(3, result.statisticGroups().size());
+		assertEquals(4, result.statisticGroups().get(0).rows().size());
+		assertEquals(7, result.statisticGroups().get(1).rows().size());
+		assertEquals(7, result.statisticGroups().get(2).rows().size());
 	}
 
 	@Test
@@ -631,7 +635,9 @@ class SpreadsheetStatisticsTest {
 
 		Result.GroupList result =
 				assertInstanceOf(Result.GroupList.class, regressionView().getResult());
-		assertEquals(4, result.statisticGroups().size());
+		assertEquals(2, result.statisticGroups().size());
+		assertEquals(3, result.statisticGroups().get(0).rows().size());
+		assertEquals(2, result.statisticGroups().get(1).rows().size());
 	}
 
 	@Test

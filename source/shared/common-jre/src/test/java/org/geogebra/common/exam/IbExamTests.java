@@ -43,6 +43,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 // Tabs in CsvSources
+@SuppressWarnings("checkstyle:RegexpSinglelineCheck")
 class IbExamTests extends BaseExamTestSetup {
 
 	@BeforeEach
@@ -138,7 +139,7 @@ class IbExamTests extends BaseExamTestSetup {
 						"Upper quartile",
 						"Maximum"),
 				tableValuesView.getStatistics1Var(1).stream()
-						.map(StatisticGroup::heading)
+						.flatMap(group -> group.rows().stream().map(StatisticGroup.Row::label))
 						.collect(Collectors.toList()));
 	}
 
@@ -164,26 +165,24 @@ class IbExamTests extends BaseExamTestSetup {
 		TableValuesView tableValuesView = setupTableValues();
 		assertEquals(
 				List.of(
-						// x
-						"Mean",
-						"Sum",
-						"Sample Standard Deviation",
-						"Population Standard Deviation",
-						// y
-						"Mean",
-						"Sum",
-						"Sample Standard Deviation",
-						"Population Standard Deviation",
 						// xy
 						"Correlation Coefficient",
 						// x
+						"Mean",
+						"Sum",
+						"Sample Standard Deviation",
+						"Population Standard Deviation",
 						"Minimum",
 						"Maximum",
 						// y
+						"Mean",
+						"Sum",
+						"Sample Standard Deviation",
+						"Population Standard Deviation",
 						"Minimum",
 						"Maximum"),
 				tableValuesView.getStatistics2Var(1).stream()
-						.map(StatisticGroup::heading)
+						.flatMap(group -> group.rows().stream().map(StatisticGroup.Row::label))
 						.collect(Collectors.toList()));
 	}
 

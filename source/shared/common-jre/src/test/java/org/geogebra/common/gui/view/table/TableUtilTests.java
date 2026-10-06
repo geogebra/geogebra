@@ -80,6 +80,15 @@ class TableUtilTests extends BaseAppTestSetup {
 	}
 
 	@Test
+	void getStatisticsHeadingWithSubscript() {
+		setupApp(SuiteSubApp.GRAPHING);
+		AttributedString heading = TableUtil.getStatisticsHeading("x y_{1}", getLocalization());
+		assertEquals("x y1 Statistics", heading.getRawValue());
+		assertEquals(
+				Set.of(new Range(3, 4)), heading.getAttribute(AttributedString.Attribute.Subscript));
+	}
+
+	@Test
 	void testToHtmlWithSingleAttribute() {
 		AttributedString attributedString = new AttributedString("Column x y10");
 		attributedString.add(AttributedString.Attribute.Subscript, new Range(10, 12));
