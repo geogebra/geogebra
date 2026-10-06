@@ -213,7 +213,8 @@ public class DrawAxis {
 			if (view.logAxes[0]) {
 				drawXTicksLog(g2, yCrossPix, minusSign, drawRightArrow, fontsize, xAxisStart);
 			} else {
-				drawXTicksLinear(g2, yCrossPix, minusSign, drawRightArrow, fontsize, xAxisStart);
+				drawXTicksLinear(
+						g2, yCrossPix, minusSign, drawLeftArrow, drawRightArrow, fontsize, xAxisStart);
 			}
 		}
 
@@ -230,7 +231,8 @@ public class DrawAxis {
 			if (view.logAxes[1]) {
 				drawYticksLog(g2, xCrossPix, fontsize, minusSign, drawTopArrow, yCrossPix, yAxisEnd);
 			} else {
-				drawYticksLinear(g2, xCrossPix, fontsize, minusSign, drawTopArrow, yCrossPix, yAxisEnd);
+				drawYticksLinear(
+						g2, xCrossPix, fontsize, minusSign, drawBottomArrow, drawTopArrow, yCrossPix, yAxisEnd);
 			}
 		}
 
@@ -398,6 +400,7 @@ public class DrawAxis {
 			double xCrossPix,
 			double fontsize,
 			char minusSign,
+			boolean drawBottomArrow,
 			boolean drawTopArrow,
 			double yCrossPix,
 			double yAxisEnd) {
@@ -446,7 +449,7 @@ public class DrawAxis {
 
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
 			// big tick
-			if (drawMajorTicks[1]) {
+			if (drawMajorTicks[1] && !drawBottomArrow) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xBig, pix, xCrossPix, pix);
 			}
@@ -455,12 +458,9 @@ public class DrawAxis {
 			labelno++;
 		}
 
-		// draw all of the remaining ticks and labels
+		// draw all the remaining ticks and labels
 
 		int maxY = EuclidianView.SCREEN_BORDER;
-
-		// yAxisEnd
-
 		String crossAtStr = view.kernel.formatPiE(
 				view.axisCross[0], view.axesNumberFormat[1], StringTemplate.defaultTemplate);
 
@@ -471,7 +471,7 @@ public class DrawAxis {
 		// arraylist
 		ArrayList<TickNumber> numbers = new ArrayList<>();
 
-		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
+		for (; pix >= 0; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {
 				if (view.showAxesNumbers[1]
 						// Don't show the biggest number on y-axis if x-axis is
@@ -544,8 +544,8 @@ public class DrawAxis {
 			}
 		}
 
-		for (int i = 0; i < numbers.size(); i++) {
-			numbers.get(i).draw();
+		for (TickNumber number : numbers) {
+			number.draw();
 		}
 	}
 
@@ -642,8 +642,7 @@ public class DrawAxis {
 		}
 
 		int y;
-		if (view.positiveAxes[0] && !view.positiveAxes[1]
-				|| view.positiveAxes[0] && view.positiveAxes[1] && !view.showAxesNumbers[0]
+		if (view.positiveAxes[0] && (!view.positiveAxes[1] || !view.showAxesNumbers[0])
 				|| !view.showAxes[0]) {
 			y = (int) (yCrossPix + yoffset2);
 		} else {
@@ -863,6 +862,7 @@ public class DrawAxis {
 			GGraphics2D g2,
 			double yCrossPix,
 			char minusSign,
+			boolean drawLeftArrow,
 			boolean drawRightArrow,
 			double fontsize,
 			double xAxisStart) {
@@ -913,7 +913,7 @@ public class DrawAxis {
 		double pix = view.getXZero() + (rw * view.getXscale());
 		if (pix < EuclidianView.SCREEN_BORDER) {
 			// big tick
-			if (drawMajorTicks[0]) {
+			if (drawMajorTicks[0] && !drawLeftArrow) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(pix, yCrossPix, pix, yBig);
 			}

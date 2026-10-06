@@ -28,8 +28,8 @@ import org.jspecify.annotations.Nullable;
 
 public class AxesLineStyleProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
-	private EuclidianSettings euclidianSettings;
-	private PropertyResource[] icons = new PropertyResource[] {
+	private final EuclidianSettings euclidianSettings;
+	private final PropertyResource[] icons = new PropertyResource[] {
 		PropertyResource.ICON_AXES_LINE_TYPE_ARROW,
 		PropertyResource.ICON_AXES_LINE_TYPE_ARROW_FILLED,
 		PropertyResource.ICON_AXES_LINE_TYPE_TWO_ARROWS,
@@ -60,12 +60,13 @@ public class AxesLineStyleProperty extends AbstractEnumeratedProperty<Integer>
 
 	@Override
 	protected void doSetValue(Integer value) {
-		euclidianSettings.setAxesLineStyle(value);
+		euclidianSettings.setAxesLineStyle(
+				value + (euclidianSettings.areAxesBold() ? EuclidianStyleConstants.AXES_BOLD : 0));
 	}
 
 	@Override
 	public Integer getValue() {
-		return euclidianSettings.getAxesLineStyle();
+		return euclidianSettings.getAxesLineStyle() & ~EuclidianStyleConstants.AXES_BOLD;
 	}
 
 	@Override

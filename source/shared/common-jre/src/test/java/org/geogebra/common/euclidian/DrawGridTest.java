@@ -14,20 +14,16 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.euclidian;
+package org.geogebra.common.euclidian;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.ByteArrayOutputStream;
-import java.nio.charset.StandardCharsets;
-
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.commands.AlgebraTest;
+import org.geogebra.common.euclidian.draw.SvgGraphics;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.desktop.export.GraphicExportDialog;
-import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -37,16 +33,16 @@ import org.junit.jupiter.api.Test;
  * @author Zbynek
  *
  */
-class GridTest {
+class DrawGridTest {
 
-	private static AppDNoGui app;
+	private static AppCommon app;
 
 	/**
 	 * Create test app
 	 */
 	@BeforeAll
 	static void setup() {
-		app = AlgebraTest.createApp();
+		app = AppCommonFactory.create3D();
 	}
 
 	/**
@@ -81,10 +77,9 @@ class GridTest {
 	}
 
 	private static void hasBlueLines(int expectMinor, int expectMajor) {
-		ByteArrayOutputStream ss = new ByteArrayOutputStream();
-		GraphicExportDialog.exportSVG(
-				app, app.getActiveEuclidianView(), ss, false, 800, 600, 8, 6, 1, false);
-		String svg = ss.toString(StandardCharsets.UTF_8);
+		SvgGraphics svgGraphics = new SvgGraphics(800, 600);
+		app.getActiveEuclidianView().paint(svgGraphics);
+		String svg = svgGraphics.toString();
 		int start = 0;
 		// int lines = 0;
 		String[] lines = svg.split("\n");

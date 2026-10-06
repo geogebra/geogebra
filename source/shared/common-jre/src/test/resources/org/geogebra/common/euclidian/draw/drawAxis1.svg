@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<path d="M0.0,0.0L800.0,0.0L800.0,600.0L0.0,600.0L0.0,0.0Z" fill="#ffffff" stroke-opacity="1.0"/>
+<path d="M215.0,2.0L215.0,600.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M215.0,1.0L211.66666666666666,4.333333333333334" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M215.0,1.0L218.33333333333334,4.333333333333334" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M0.0,315.0L798.0,315.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M799.0,315.0L795.6666666666666,311.6666666666667" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M799.0,315.0L795.6666666666666,318.3333333333333" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="11.0" y="329.0">–4</text>
+<path d="M15.0,315.0L15.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="61.0" y="329.0">–3</text>
+<path d="M65.0,315.0L65.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="111.0" y="329.0">–2</text>
+<path d="M115.0,315.0L115.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="161.0" y="329.0">–1</text>
+<path d="M165.0,315.0L165.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="263.0" y="329.0">1</text>
+<path d="M265.0,315.0L265.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="313.0" y="329.0">2</text>
+<path d="M315.0,315.0L315.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="363.0" y="329.0">3</text>
+<path d="M365.0,315.0L365.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="413.0" y="329.0">4</text>
+<path d="M415.0,315.0L415.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="463.0" y="329.0">5</text>
+<path d="M465.0,315.0L465.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="513.0" y="329.0">6</text>
+<path d="M515.0,315.0L515.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="563.0" y="329.0">7</text>
+<path d="M565.0,315.0L565.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="613.0" y="329.0">8</text>
+<path d="M615.0,315.0L615.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="663.0" y="329.0">9</text>
+<path d="M665.0,315.0L665.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="711.0" y="329.0">10</text>
+<path d="M715.0,315.0L715.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="761.0" y="329.0">11</text>
+<path d="M765.0,315.0L765.0,318.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,565.0L215.0,565.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,515.0L215.0,515.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,465.0L215.0,465.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,415.0L215.0,415.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,365.0L215.0,365.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,265.0L215.0,265.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,215.0L215.0,215.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,165.0L215.0,165.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,115.0L215.0,115.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,65.0L215.0,65.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<path d="M212.0,15.0L215.0,15.0" stroke="#1c1c1f" stroke-opacity="1.0"/>
+<text x="198.0" y="569.0">–5</text>
+<text x="198.0" y="519.0">–4</text>
+<text x="198.0" y="469.0">–3</text>
+<text x="198.0" y="419.0">–2</text>
+<text x="198.0" y="369.0">–1</text>
+<text x="203.0" y="269.0">1</text>
+<text x="203.0" y="219.0">2</text>
+<text x="203.0" y="169.0">3</text>
+<text x="203.0" y="119.0">4</text>
+<text x="203.0" y="69.0">5</text>
+<text x="203.0" y="19.0">6</text>
+<text x="203.0" y="329.0">0</text>
+</svg>

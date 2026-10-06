@@ -340,7 +340,7 @@ public final class GColor implements GPaint {
 
 	/**
 	 * Returns true if this color is darker than the color in the parameter.
-	 * Darkerk means that all RGB components have a lower value.
+	 * Darker means that all RGB components have a lower value.
 	 * @param color color
 	 * @return true if this color is darker
 	 */
