@@ -164,6 +164,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			// to clear preview points
 			app.getSelectionManager().clearSelectedGeos();
 		}
+		setEditing(true);
 		item.onKeyTyped();
 		dispatchKeyTypeEvent(key);
 	}
