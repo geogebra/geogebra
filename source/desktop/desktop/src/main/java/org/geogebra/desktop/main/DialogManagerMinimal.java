@@ -189,12 +189,6 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void openToolHelp() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
 		// TODO Auto-generated method stub
 

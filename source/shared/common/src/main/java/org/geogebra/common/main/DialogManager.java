@@ -710,11 +710,6 @@ public abstract class DialogManager {
 		showTextDialog(null, startPoint, rw);
 	}
 
-	/**
-	 * Open help for current tool.
-	 */
-	public abstract void openToolHelp();
-
 	protected void showTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
 		app.setWaitCursor();
 

@@ -218,11 +218,6 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 	}
 
 	@Override
-	public void openToolHelp() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
 		return null;
 	}

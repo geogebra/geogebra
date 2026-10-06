@@ -631,11 +631,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 	}
 
 	@Override
-	public void openToolHelp() {
-		new HelpDialog((AppD) app).openToolHelp();
-	}
-
-	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
 		TextInputDialogD dialog = new TextInputDialogD(
 				app,

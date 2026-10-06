@@ -42,6 +42,7 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.FileExtensionFilter;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
+import org.geogebra.desktop.gui.dialog.HelpDialog;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
@@ -393,5 +394,11 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher implements KeyEven
 			app.setDefaultCursor();
 			newWindowAllowed = false;
 		}
+	}
+
+	@Override
+	protected boolean openToolHelp() {
+		new HelpDialog((AppD) app).openToolHelp();
+		return true;
 	}
 }

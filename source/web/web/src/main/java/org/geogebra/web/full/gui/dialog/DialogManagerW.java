@@ -577,11 +577,6 @@ public class DialogManagerW extends DialogManager implements LoadingApplication 
 	}
 
 	@Override
-	public void openToolHelp() {
-		// only desktop
-	}
-
-	@Override
 	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
 		if (mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS

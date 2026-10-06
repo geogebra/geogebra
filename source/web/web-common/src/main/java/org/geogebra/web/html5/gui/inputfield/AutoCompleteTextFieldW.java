@@ -35,17 +35,14 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.InputMode;
-import org.geogebra.common.gui.inputfield.TextFieldUtil;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.util.AltKeys;
@@ -580,24 +577,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	/**
-	 * shows dialog with syntax info
-	 *
-	 * @param cmd
-	 *            is the internal command name
-	 */
-	private void showCommandHelp(String cmd) {
-		// show help for current command (current word)
-		String help = loc.getCommandSyntax(cmd);
-
-		// show help if available
-		if (help != null) {
-			app.showError(MyError.forCommand(loc, loc.getMenu("Syntax") + ":\n" + help, cmd, null));
-		} else if (app.getGuiManager() != null) {
-			app.getGuiManager().openHelp(ManualPage.COMMAND, null);
-		}
-	}
-
-	/**
 	 * Updates curWord to word at current caret position. curWordStart,
 	 * curWordEnd are set to this word's start and end position
 	 */
@@ -777,7 +756,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		int keyCode = e.getNativeKeyCode();
 		app.getGlobalKeyDispatcher();
-		if (keyCode == GWTKeycodes.KEY_F1 || GlobalKeyDispatcherW.isBadKeyEvent(e)) {
+		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
 			e.preventDefault();
 		}
 		if (keyCode == GWTKeycodes.KEY_TAB && moveToNextArgument(true, false)) {
@@ -882,12 +861,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					e.stopPropagation();
 				}
 				break;
-
-			case GWTKeycodes.KEY_F1:
-				handleF1();
-
-				e.stopPropagation();
-				break;
 			case GWTKeycodes.KEY_ZERO:
 			case GWTKeycodes.KEY_ONE:
 			case GWTKeycodes.KEY_TWO:
@@ -968,28 +941,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		int caretPos = getCaretPosition();
 		if (caretPos < getText().length()) {
 			setCaretPosition(caretPos + 1);
-		}
-	}
-
-	private void handleF1() {
-		if (autoComplete) {
-			if (!"".equals(getText())) {
-				int pos = getCaretPosition();
-				while (pos > 0 && getText().charAt(pos - 1) == '[') {
-					pos--;
-				}
-				String word = TextFieldUtil.getWordAtPos(getText(), pos);
-				String lowerCurWord = word == null ? "" : word.toLowerCase(Locale.ROOT);
-				String closest = inputSuggestions.getDictionary().lookup(lowerCurWord);
-
-				if (closest != null) {
-					showCommandHelp(app.getInternalCommand(closest));
-				} else if (app.getGuiManager() != null) {
-					app.getGuiManager().openHelp(ManualPage.MAIN_PAGE, null);
-				}
-			}
-		} else if (app.getGuiManager() != null) {
-			app.getGuiManager().openHelp(ManualPage.MAIN_PAGE, null);
 		}
 	}
 
