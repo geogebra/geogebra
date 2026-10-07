@@ -274,20 +274,20 @@ public class StylebarPositioner {
 	}
 
 	/**
-	 * Calculates the position of the dynamic stylebar on the EuclidianView
+	 * Calculates the position of the dynamic style bar on the EuclidianView
 	 *
 	 * @param stylebarHeight
-	 *            The height of the stylebar.
+	 *            The height of the style bar.
 	 * @param stylebarWidth
-	 *            The width of the stylebar.
+	 *            The width of the style bar.
 	 * @param canvasRect
 	 *            The rectangle on the euclidian view where the top-left corner
-	 *            of the stylebar is allowed to be. If the whole stylebar should
+	 *            of the style bar is allowed to be. If the whole style bar should
 	 *            be on the euclidian view then the width and the height of the
-	 *            stylebar should be already subtracted from the rectangle's
+	 *            style bar should be already subtracted from the rectangle's
 	 *            dimensions.
 	 * @return Returns a GPoint which contains the x and y coordinates for the
-	 *         top of the stylebar.
+	 *         top of the style bar.
 	 */
 	@SuppressWarnings("WeakerAccess")
 	public @Nullable GPoint getPositionOnCanvas(
@@ -310,44 +310,6 @@ public class StylebarPositioner {
 				return getPositionForFunction(geo, stylebarHeight, stylebarWidth, canvasRect);
 			}
 			return getPositionFor(geo, stylebarHeight, stylebarWidth, canvasRect);
-		}
-		return null;
-	}
-
-	/**
-	 * Returns the position of the popup for the first element of the geoList.
-	 * This method is deprecated, use the getPositionFor(GeoElement geo, int
-	 * stylebarHeight, int stylebarWidth, GRectangle canvasRect) method instead!
-	 *
-	 * @param geoList
-	 *            selected geos
-	 * @param stylebarHeight
-	 *            height of stylebar
-	 * @param minYPosition
-	 *            min y pos of popup
-	 * @param maxYPosition
-	 *            max y pos of popup
-	 * @param minXPosition
-	 *            min x pos of popup
-	 * @param maxXPosition
-	 *            max x pos of popup
-	 * @return position of popup
-	 */
-	@Deprecated
-	@SuppressWarnings({"unused", "MethodWithTooManyParameters", "deprecation", "ReturnOfNull"})
-	public GPoint getPositionFor(
-			List<GeoElement> geoList,
-			int stylebarHeight,
-			int minYPosition,
-			int maxYPosition,
-			int minXPosition,
-			int maxXPosition) {
-		if (geoList != null && !geoList.isEmpty()) {
-			return getPositionFor(
-					geoList.get(0),
-					stylebarHeight,
-					0,
-					getGRectangle(minXPosition, minYPosition, maxXPosition, maxYPosition));
 		}
 		return null;
 	}
@@ -381,7 +343,7 @@ public class StylebarPositioner {
 	 * @return position
 	 */
 	@SuppressWarnings("WeakerAccess")
-	public GPoint getPositionFor(
+	public @Nullable GPoint getPositionFor(
 			GeoElement geo, int stylebarHeight, int stylebarWidth, GRectangle canvasRect) {
 		DrawableND dr = euclidianView.getDrawableND(geo);
 		// noinspection ReturnOfNull

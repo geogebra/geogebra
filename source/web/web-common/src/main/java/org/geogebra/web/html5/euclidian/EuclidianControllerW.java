@@ -17,6 +17,7 @@
 package org.geogebra.web.html5.euclidian;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -62,15 +63,26 @@ public class EuclidianControllerW extends EuclidianController
 
 	private MouseTouchGestureControllerW mtg;
 	private CreateToolImage toolImageW;
+	private PreviewPointPopup popup;
 
 	@Override
-	protected void showSpecialPointPopup(final ArrayList<GeoElement> previewPoints) {
+	protected void showSpecialPointPopup(List<GeoElement> previewPoints) {
 		if (!app.getConfig().hasPreviewPoints()) {
 			return;
 		}
-		final PreviewPointPopup popup = new PreviewPointPopup((AppW) getApplication(), previewPoints);
+		if (popup == null) {
+			popup = new PreviewPointPopup((AppW) getApplication());
+		}
+		popup.createContent(previewPoints);
 		popup.setPopupPositionAndShow((offsetWidth, offsetHeight) ->
 				popup.positionPopup(offsetWidth, offsetHeight, previewPoints));
+	}
+
+	@Override
+	protected void hideSpecialPointPopup() {
+		if (popup != null) {
+			popup.hide();
+		}
 	}
 
 	@Override

@@ -3579,7 +3579,6 @@ public abstract class EuclidianView
 	private void drawGeometricObjects(GGraphics2D g2) {
 		// only draw drawables we need
 		allDrawableList.drawAll(g2);
-
 		if (getEuclidianController().isMultiSelection()) {
 			getEuclidianController().setBoundingBoxFromList(app.getSelectionManager().getSelectedGeos());
 		}
@@ -6662,5 +6661,28 @@ public abstract class EuclidianView
 	@Override
 	public void removeDimensionListener(@NonNull DimensionListener dimensionListener) {
 		dimensionListeners.remove(dimensionListener);
+	}
+
+	/**
+	 * Update the visual representation of the tracking point (create it of needed).
+	 * @param pt path-tracking point
+	 */
+	void updateFunctionTracker(GeoPoint pt) {
+		Drawable pathTrackingPoint = (Drawable) drawableMap.computeIfAbsent(pt, (key) -> {
+			DrawPoint drawPoint = new DrawPoint(this, pt);
+			allDrawableList.add(drawPoint);
+			return drawPoint;
+		});
+		pathTrackingPoint.update();
+		repaintView();
+	}
+
+	/**
+	 * Remove all references to path-tracking point.
+	 * @param pt path-tracking point
+	 */
+	void resetFunctionTracker(GeoPoint pt) {
+		DrawableND pathTrackingPoint = drawableMap.remove(pt);
+		allDrawableList.remove(pathTrackingPoint);
 	}
 }

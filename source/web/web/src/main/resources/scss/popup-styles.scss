@@ -57,6 +57,7 @@
 		font-size: 90%; // 14px
 		box-shadow: 0 0 2px 1px colors.$popup-shadow;
 		white-space: nowrap;
+		pointer-events: none;
 
 		.gwt-Label {
 			text-align: center;

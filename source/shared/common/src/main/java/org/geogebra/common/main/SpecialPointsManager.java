@@ -72,7 +72,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 
 	private List<GeoElement> specPoints;
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
-	private GeoPoint defaultPoint;
+	private final GeoPoint defaultPoint;
 	private boolean isUpdating = false;
 	private boolean restrictedToGraphicsViewSelection = false;
 	private @Nullable GeoElement graphicsViewSelectedGeo;

@@ -20,16 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 public class SpecialPointPopupHelper {
-
+	private static final StringTemplate rounded =
+			StringTemplate.printDecimals(ExpressionNodeConstants.StringType.GEOGEBRA, 3, false);
 	/**
 	 * Returns the list of Strings that represent the rows of a popup for preview points.
 	 *
@@ -47,7 +50,8 @@ public class SpecialPointPopupHelper {
 				contentRows.add(getContentRow(app, parentAlgorithm));
 			}
 		}
-		contentRows.add(point.getAlgebraDescriptionRHS());
+		contentRows.add(
+				point.isIndependent() ? point.toValueString(rounded) : point.getAlgebraDescriptionRHS());
 		return contentRows;
 	}
 
@@ -55,8 +59,7 @@ public class SpecialPointPopupHelper {
 		GetCommand cmd = parentAlgo.getClassName();
 		Localization localization = app.getLocalization();
 		if (cmd == Commands.Intersect) {
-			if (parentAlgo instanceof AlgoIntersectAbstract) {
-				AlgoIntersectAbstract intersectAbstract = (AlgoIntersectAbstract) parentAlgo;
+			if (parentAlgo instanceof AlgoIntersectAbstract intersectAbstract) {
 				Kernel kernel = app.getKernel();
 				GeoElement xAxis = kernel.getXAxis();
 				GeoElement yAxis = kernel.getYAxis();

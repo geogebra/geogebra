@@ -306,6 +306,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected boolean draggingOccurred = false;
 	protected boolean draggingOccurredBeforeRelease = false;
 	protected GeoPointND pointCreated = null;
+	private PathTracker pathTracker;
 
 	// may be omitted
 	protected boolean moveModeSelectionHandled;
@@ -534,6 +535,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		storeUndo = new UpdateActionStore(selection, app.getUndoManager());
 		createCompanions();
 		measurementController = new MeasurementController(this::createMeasurementToolImage);
+		pathTracker = new PathTracker(this);
 	}
 
 	protected GeoImage createMeasurementToolImage(int mode, String fileName) {
@@ -7720,7 +7722,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			case BOX_PLOT:
 				moveBoxPlot();
 				break;
-
+			case FUNCTION_TRACKER:
+				pathTracker.update(event.getX(), event.getY());
+				break;
 			default: // do nothing
 		}
 
@@ -8275,7 +8279,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// make sure dragging a fixed eg button triggers the scripts
 		// important for tablets, IWBs
 
-		if (geo == null && th.size() > 0) {
+		if (geo == null && !th.isEmpty()) {
 			geo = th.get(0);
 
 			if (geo.isLocked() && !isMoveButtonExpected(geo) && !isMoveTextFieldExpected(geo)) {
@@ -8292,6 +8296,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// no geo clicked at
 			moveMode = MoveMode.NONE;
 			resetMovedGeoPoint();
+			if (geo instanceof GeoFunctionable function) {
+				pathTracker.schedule(function);
+			}
 			return;
 		}
 
@@ -10452,6 +10459,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedGeoImplicitCurve = null;
 		movedGeoText = null;
 		movedGeoImage = null;
+		pathTracker.reset();
 	}
 
 	private void focusGroupElement(GeoElement geo) {
@@ -12371,7 +12379,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param previewPoints
 	 *            preview points
 	 */
-	protected void showSpecialPointPopup(ArrayList<GeoElement> previewPoints) {
+	protected void showSpecialPointPopup(List<GeoElement> previewPoints) {
 		// Should be implemented in subclass
 	}
 

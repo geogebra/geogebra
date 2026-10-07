@@ -50,4 +50,5 @@ public enum MoveMode {
 	Z_AXIS,
 	AUDIO_SLIDER,
 	BOX_PLOT,
+	FUNCTION_TRACKER
 }

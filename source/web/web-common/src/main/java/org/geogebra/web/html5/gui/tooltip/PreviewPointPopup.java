@@ -16,13 +16,14 @@
 
 package org.geogebra.web.html5.gui.tooltip;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.popup.specialpoint.SpecialPointPopupHelper;
 import org.geogebra.common.gui.stylebar.StylebarPositioner;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -39,37 +40,35 @@ public class PreviewPointPopup extends GPopupPanel {
 	/**
 	 * @param appW
 	 *            application
-	 * @param previewPoints
-	 *            list of preview points
 	 */
-	public PreviewPointPopup(AppW appW, ArrayList<GeoElement> previewPoints) {
+	public PreviewPointPopup(AppW appW) {
 		super(appW.getAppletFrame(), appW);
 		this.app = appW;
 		content = new FlowPanel();
-		this.addStyleName("previewPointsPopup");
-		createContent(previewPoints);
 		add(content);
+		this.addStyleName("previewPointsPopup");
 		setAutoHideEnabled(true);
 	}
 
 	/**
-	 * position popup
+	 * Position the popup for given special points.
 	 *
 	 * @param offsetWidth
 	 *            width of popup
 	 * @param offsetHeight
 	 *            height of popup
+	 * @param geos list of special points
 	 */
-	public void positionPopup(int offsetWidth, int offsetHeight, ArrayList<GeoElement> geos) {
+	public void positionPopup(int offsetWidth, int offsetHeight, List<GeoElement> geos) {
 		StylebarPositioner positioner = new StylebarPositioner(app);
 		positioner.setCenter(true);
-		GPoint pos = positioner.getPositionFor(
-				geos,
-				offsetHeight,
-				33,
-				app.getActiveEuclidianView().getViewHeight() - offsetHeight,
+		int minY = 33;
+		GRectangle rectangle = new Rectangle(
 				offsetWidth / 2,
-				app.getActiveEuclidianView().getViewWidth() - offsetWidth / 2);
+				minY,
+				app.getActiveEuclidianView().getViewWidth() - offsetWidth,
+				app.getActiveEuclidianView().getViewHeight() - offsetHeight - minY);
+		GPoint pos = positioner.getPositionFor(geos.get(0), offsetHeight, 0, rectangle);
 		if (pos != null) {
 			this.setPopupPosition(
 					pos.getX()
@@ -82,17 +81,20 @@ public class PreviewPointPopup extends GPopupPanel {
 		}
 	}
 
-	private void createContent(ArrayList<GeoElement> previewPoints) {
+	/**
+	 * @param previewPoints points whose coordinates should be displayed
+	 */
+	public void createContent(List<GeoElement> previewPoints) {
+		content.clear();
 		List<String> contentRows = SpecialPointPopupHelper.getContentRows(app, previewPoints);
 		for (String row : contentRows) {
-			Label lbl = new Label(row);
-			addToContent(lbl);
+			addToContent(row);
 		}
 	}
 
-	private void addToContent(Label lbl) {
-		if (!"".equals(lbl.getText())) {
-			content.add(lbl);
+	private void addToContent(String lbl) {
+		if (!lbl.isEmpty()) {
+			content.add(new Label(lbl));
 		}
 	}
 }
