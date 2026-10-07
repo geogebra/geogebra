@@ -427,7 +427,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 			definitionFromTeX(text);
 		} else if (geo != null) {
 			resetCanvas();
-			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(definitionPanel, app);
+			Label plainDefinitionContent = new Label();
+			definitionPanel.clear();
+			// intermediate DIV needed so that parent's color used for scrollbar does not hide text
+			definitionPanel.add(plainDefinitionContent);
+			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(plainDefinitionContent, app);
 			if (isAlgebraStyle(AlgebraStyle.DESCRIPTION)) {
 				if (AlgebraItem.needsPacking(geo)) {
 					IndexHTMLBuilder.convertIndicesToHTML(

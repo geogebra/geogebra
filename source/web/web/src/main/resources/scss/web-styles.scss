@@ -1361,10 +1361,15 @@
 		line-height: 100%;
 		padding: 10px 4px;
 	}
-
+	.gwt-Tree > .inputHelp-treeItem {
+		padding-left: 0;
+	}
 	.inputHelp-treeItem {
 		padding: 0 8px;
-		font-weight: bold
+		font-weight: bold;
+		& > .gwt-TreeItem {
+			margin-left: 16px;
+		}
 	}
 
 	.inputHelp-leaf {
@@ -2241,6 +2246,13 @@
 
 	.customizableToolbarItem {
 		cursor: pointer;
+		padding-left: 24px;
+		.toolbar_button {
+			margin: 4px;
+		}
+	}
+
+	td > .gwt-TreeItem .customizableToolbarItem {
 		padding-left: 5px;
 	}
 
