@@ -37,7 +37,6 @@ import org.geogebra.common.jre.headless.MyImageCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ImageProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
@@ -61,8 +60,6 @@ import org.geogebra.common.util.MockedCasValues;
 import org.geogebra.common.util.MockedCasValuesExtension;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -71,16 +68,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SuppressWarnings({"variableDeclarationUsageDistanceCheck", "RegexpSinglelineCheck"})
 @ExtendWith(MockedCasValuesExtension.class)
 class PropertyViewTests extends BaseAppTestSetup {
-
-	@BeforeAll
-	static void enablePreviewFeatures() {
-		PreviewFeature.setPreviewFeaturesEnabled(true);
-	}
-
-	@AfterAll
-	static void disabledPreviewFeatures() {
-		PreviewFeature.setPreviewFeaturesEnabled(false);
-	}
 
 	@Test
 	void testGridTypeDependentLineStyleVisibility() {

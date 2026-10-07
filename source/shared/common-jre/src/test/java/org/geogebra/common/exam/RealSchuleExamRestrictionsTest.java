@@ -39,7 +39,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
@@ -193,7 +192,6 @@ class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 
 	@Test
 	void testEnabledEngineeringNotation() {
-		PreviewFeature.enablePreviewFeatures = true;
 		examController.startExam(ExamType.BAYERN_GR, null);
 		boolean enableEngineeringNotation = getAlgebraSettings().isEngineeringNotationEnabled();
 		Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters =
@@ -201,7 +199,6 @@ class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 		assertTrue(AlgebraOutputFormat.getPossibleFormats(
 						evaluateGeoElement("1.234"), enableEngineeringNotation, algebraOutputFormatFilters)
 				.contains(ENGINEERING));
-		PreviewFeature.enablePreviewFeatures = false;
 	}
 
 	@Issue("APPS-6634")

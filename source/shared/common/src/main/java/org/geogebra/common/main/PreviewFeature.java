@@ -39,7 +39,9 @@ public enum PreviewFeature {
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
 	/** APPS-5641 */
-	IB_EXAM;
+	IB_EXAM,
+	/** APPS-7999 */
+	PATH_TRACKING;
 
 	/**
 	 * Global flag to activate preview features.
@@ -73,12 +75,18 @@ public enum PreviewFeature {
 	}
 
 	/**
-	 * Checks whether a preview feature is available.
-	 * @param previewFeature A preview feature.
+	 * Same as {@code previewFeature.isAvailable()}.
+	 */
+	public static boolean isAvailable(PreviewFeature previewFeature) {
+		return previewFeature.isAvailable();
+	}
+
+	/**
+	 * Checks whether this preview feature is available.
 	 * @return {@code true} iff the preview feature's {@code isEnabled} flag is {@code true} and
 	 * {@link #enablePreviewFeatures} is {@code true} as well; {@code false} otherwise.
 	 */
-	public static boolean isAvailable(PreviewFeature previewFeature) {
-		return enablePreviewFeatures && previewFeature.isEnabled;
+	public boolean isAvailable() {
+		return enablePreviewFeatures && isEnabled;
 	}
 }

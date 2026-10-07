@@ -23,6 +23,8 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.jre.headless.FlushableTimer;
+import org.geogebra.common.main.PreviewFeature;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,9 +32,15 @@ class PathTrackerTest extends BaseEuclidianControllerTest {
 
 	@BeforeEach
 	void setup() {
+		PreviewFeature.setPreviewFeaturesEnabled(true);
 		setupApp(SuiteSubApp.GRAPHING);
 		ec = getApp().getActiveEuclidianView().getEuclidianController();
 		reset();
+	}
+
+	@AfterEach
+	void tearDown() {
+		PreviewFeature.setPreviewFeaturesEnabled(false);
 	}
 
 	@Test

@@ -181,6 +181,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
@@ -8296,7 +8297,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// no geo clicked at
 			moveMode = MoveMode.NONE;
 			resetMovedGeoPoint();
-			if (geo instanceof GeoFunctionable function) {
+			if (geo instanceof GeoFunctionable function && PreviewFeature.PATH_TRACKING.isAvailable()) {
 				pathTracker.schedule(function);
 			}
 			return;
