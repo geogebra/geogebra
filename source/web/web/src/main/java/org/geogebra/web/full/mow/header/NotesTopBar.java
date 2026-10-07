@@ -14,7 +14,7 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.shared.mow.header;
+package org.geogebra.web.full.mow.header;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRANSLATE_VIEW;
 
@@ -22,13 +22,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.properties.PropertyView;
+import org.geogebra.common.properties.impl.ZoomProperty;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.full.euclidian.quickstylebar.components.InlineComboBox;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbarpanel.UndoRedoProvider;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
@@ -40,6 +45,7 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.DomGlobal;
 
@@ -48,29 +54,33 @@ public final class NotesTopBar extends FlowPanel
 	private static final int TOP_BAR_HEIGHT = 48;
 	private final AppletParameters appletParams;
 	private final TopBarController controller;
-	private final List<IconButton> buttons = new ArrayList<>();
+	private final List<SetLabels> buttons = new ArrayList<>();
+	InlineComboBox sizeBox;
 	private final UndoRedoProvider undoRedoProvider;
-	private IconButton homeBtn;
 	private IconButton dragBtn;
 	private IconButton fullscreenButton;
+	private @Nullable IconButton zoomInButton;
+	private @Nullable IconButton zoomOutButton;
 	private final TopBarIconResource topBarIconResource;
+	private final EuclidianView view;
 
 	/**
 	 * constructor
 	 * @param appW - application
 	 */
-	public NotesTopBar(AppW appW) {
+	public NotesTopBar(AppWFull appW) {
 		this.appletParams = appW.getAppletParameters();
 		topBarIconResource = appW.getTopBarIconResource();
 		controller = new TopBarController(appW, topBarIconResource);
 		undoRedoProvider = new UndoRedoProvider(appW);
+		view = appW.getActiveEuclidianView();
 
 		if (appW.getActiveEuclidianView() != null) {
 			appW.getActiveEuclidianView().getEuclidianController().addZoomerListener(this);
 		}
 
 		addStyleName("topbar");
-		buildGui();
+		buildGui(appW);
 	}
 
 	/**
@@ -95,10 +105,10 @@ public final class NotesTopBar extends FlowPanel
 				: 0;
 	}
 
-	private void buildGui() {
+	private void buildGui(AppWFull app) {
 		addMenuButton();
 		addUndoRedo();
-		addZoomButtons();
+		addZoomButtons(app);
 		addFullscreenButton();
 		addSettingsButton();
 
@@ -125,42 +135,36 @@ public final class NotesTopBar extends FlowPanel
 		}
 	}
 
-	private void addZoomButtons() {
+	private void addZoomButtons(AppW app) {
 		if (!ZoomPanel.needsZoomButtons(controller.getApp())) {
 			return;
 		}
-
 		if (!NavigatorUtil.isMobile()) {
-			addSmallPressButton(
-					TopBarIcon.ZOOM_IN,
-					"ZoomIn.Tool",
-					controller::onZoomIn,
-					AccessibilityGroup.ZOOM_NOTES_PLUS);
-			addSmallPressButton(
+			zoomOutButton = addSmallPressButton(
 					TopBarIcon.ZOOM_OUT,
 					"ZoomOut.Tool",
 					controller::onZoomOut,
 					AccessibilityGroup.ZOOM_NOTES_MINUS);
 		}
-
-		homeBtn = addSmallPressButton(
-				TopBarIcon.STANDARD_VIEW,
-				"StandardView",
-				controller::onHome,
-				AccessibilityGroup.ZOOM_NOTES_HOME);
-		homeBtn.setDisabled(true);
-
-		addZoomToFitButton();
+		ZoomProperty zoomProperty = new ZoomProperty(
+				app.getKernel().getAlgebraProcessor(), app.getLocalization(), app.getActiveEuclidianView());
+		PropertyView.ComboBoxWithIcons zoomPropView = new PropertyView.ComboBoxWithIcons(zoomProperty);
+		view.getEuclidianController().addZoomerListener(zoomPropView);
+		sizeBox = new InlineComboBox(app, zoomPropView, () -> {}, "Zoom");
+		zoomPropView.setConfigurationUpdateDelegate(sizeBox::updateValue);
+		sizeBox.addPopupClassName("zoomItemsPopup");
+		sizeBox.addStyleName("zoomComboBox");
+		add(sizeBox);
+		buttons.add(sizeBox);
+		if (!NavigatorUtil.isMobile()) {
+			zoomInButton = addSmallPressButton(
+					TopBarIcon.ZOOM_IN,
+					"ZoomIn.Tool",
+					controller::onZoomIn,
+					AccessibilityGroup.ZOOM_NOTES_PLUS);
+		}
 		addDragButton();
 		addDivider();
-	}
-
-	private void addZoomToFitButton() {
-		addSmallPressButton(
-				TopBarIcon.ZOOM_TO_FIT,
-				"ShowAllObjects",
-				controller::onZoomToFit,
-				AccessibilityGroup.ZOOM_NOTES_TO_FIT);
 	}
 
 	private void addDragButton() {
@@ -265,7 +269,13 @@ public final class NotesTopBar extends FlowPanel
 
 	@Override
 	public void onCoordSystemChanged() {
-		controller.updateHomeButtonVisibility(homeBtn);
+		if (zoomInButton != null) {
+			zoomInButton.setDisabled(
+					view.getXscale() >= EuclidianView.MAX_SCALE_NOTES - Kernel.STANDARD_PRECISION);
+		}
+		if (zoomOutButton != null) {
+			zoomOutButton.setDisabled(view.getXscale() < Kernel.STANDARD_PRECISION);
+		}
 	}
 
 	private void registerFocusable(IconButton button, AccessibilityGroup group) {

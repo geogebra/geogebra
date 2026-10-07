@@ -14,10 +14,14 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.html5.main.topbar;
+package org.geogebra.web.full.mow.header;
 
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
+import org.geogebra.web.html5.main.topbar.DefaultTopBarIconResources;
+import org.geogebra.web.html5.main.topbar.TopBarIcon;
+import org.geogebra.web.html5.main.topbar.TopBarIconProvider;
 import org.geogebra.web.resources.SVGResource;
 
 public class DefaultTopBarIconProvider implements TopBarIconProvider {
@@ -30,37 +34,20 @@ public class DefaultTopBarIconProvider implements TopBarIconProvider {
 	}
 
 	private SVGResource findImage(TopBarIcon icon) {
-		switch (icon) {
-			case MENU:
-				return res.menu();
-			case UNDO:
-				return res.undo_border();
-			case REDO:
-				return res.redo_border();
-			case ZOOM_IN:
-				return res.zoom_in();
-			case ZOOM_OUT:
-				return res.zoom_out();
-			case STANDARD_VIEW:
-				return res.home();
-			case ZOOM_TO_FIT:
-				return res.show_all_objects();
-			case PAN_VIEW:
-				return res.pan_view();
-			case FULLSCREEN_ON:
-				return res.fullscreen();
-			case FULLSCREEN_OFF:
-				return res.fullscreen_exit();
-			case SETTINGS:
-				return res.settings();
-			case RULING:
-				return res.ruling();
-			case COLOR:
-				return res.color();
-			case PAGE_OVERVIEW:
-				return res.page_overview();
-			default:
-				return null;
-		}
+		MaterialDesignResources materialIcons = MaterialDesignResources.INSTANCE;
+		return switch (icon) {
+			case MENU -> res.menu();
+			case UNDO -> res.undo_border();
+			case REDO -> res.redo_border();
+			case ZOOM_IN -> materialIcons.add_black();
+			case ZOOM_OUT -> materialIcons.minus_black();
+			case PAN_VIEW -> res.pan_view();
+			case FULLSCREEN_ON -> res.fullscreen();
+			case FULLSCREEN_OFF -> res.fullscreen_exit();
+			case SETTINGS -> res.settings();
+			case RULING -> res.ruling();
+			case COLOR -> res.color();
+			case PAGE_OVERVIEW -> res.page_overview();
+		};
 	}
 }

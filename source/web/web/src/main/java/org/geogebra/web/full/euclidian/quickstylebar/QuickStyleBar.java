@@ -42,7 +42,7 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.objects.TextStyleProperty;
 import org.geogebra.web.full.euclidian.quickstylebar.components.IconButtonWithProperty;
-import org.geogebra.web.full.euclidian.quickstylebar.components.QuickStyleBarFontSizeBox;
+import org.geogebra.web.full.euclidian.quickstylebar.components.InlineComboBox;
 import org.geogebra.web.full.euclidian.quickstylebar.icon.PropertiesIconResource;
 import org.geogebra.web.full.gui.ContextMenuGeoElementW;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -72,7 +72,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 	private final EuclidianView ev;
 	private final StylebarPositioner stylebarPositioner;
 	private final List<IconButton> quickButtons = new ArrayList<>();
-	private final List<QuickStyleBarFontSizeBox> fontSizeBoxes = new ArrayList<>();
+	private final List<InlineComboBox> fontSizeBoxes = new ArrayList<>();
 	public static final int POPUP_MENU_DISTANCE = 8;
 	private final PropertyWrapper propertyWrapper;
 	private @Nullable ContextMenuGeoElementW contextMenu;
@@ -299,8 +299,10 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		propertyWrapper.addActionObservers(
 				new PropertySupplier[] {fontSizeProperty}, geos, UndoActionType.STYLE_OR_CONTENT);
 
-		QuickStyleBarFontSizeBox fontSizeBox =
-				new QuickStyleBarFontSizeBox(getApp(), comboBox, this::requestFontSizeBoxFocusAfterUpdate);
+		InlineComboBox fontSizeBox = new InlineComboBox(
+				getApp(), comboBox, this::requestFontSizeBoxFocusAfterUpdate, "FontSize");
+		fontSizeBox.addPopupClassName("quickStyleBarFontSizePopup");
+		fontSizeBox.addStyleName("quickStyleBarFontSizeBox");
 		fontSizeBoxes.add(fontSizeBox);
 		add(fontSizeBox);
 	}
@@ -619,7 +621,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 				((IconButtonWithProperty) button).closePopup();
 			}
 		}
-		fontSizeBoxes.forEach(QuickStyleBarFontSizeBox::closePopup);
+		fontSizeBoxes.forEach(InlineComboBox::closePopup);
 	}
 
 	private void requestFontSizeBoxFocusAfterUpdate() {

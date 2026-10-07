@@ -36,6 +36,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.euclidian.quickstylebar.SpecialSymbolProperty;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.toolbox.TextIconSpec;
@@ -57,7 +58,7 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_LINE_TYPE_DOTTED -> res.line_dotted();
 			case ICON_LINE_TYPE_DASHED_SHORT -> res.line_dashed_short();
 			case ICON_FILLING_HATCHED -> res.pattern_hatching();
-			case ICON_FILLING_DOTTED -> res.pattern_dots();
+			case ICON_FILLING_DOTTED, ICON_DOTS -> res.pattern_dots();
 			case ICON_FILLING_CROSSHATCHED -> res.pattern_cross_hatching();
 			case ICON_FILLING_HONEYCOMB -> res.pattern_honeycomb();
 			case ICON_FILLING_CHESSBOARD -> res.pattern_chessboard();
@@ -123,7 +124,6 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_CARTESIAN_MINOR -> res.minor_gridlines();
 			case ICON_POLAR -> res.grid_polar();
 			case ICON_ISOMETRIC -> res.grid_isometric();
-			case ICON_DOTS -> res.pattern_dots();
 			case ICON_PROJECTION_PARALLEL -> res.projection_orthographic();
 			case ICON_PROJECTION_PERSPECTIVE -> res.projection_perspective();
 			case ICON_PROJECTION_GLASSES -> res.projection_glasses();
@@ -194,6 +194,8 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_PROBABILITY_MODE_INTERVAL -> GuiResources.INSTANCE.interval_between();
 			case ICON_PROBABILITY_MODE_TWO_TAILED -> GuiResources.INSTANCE.interval_two_tailed();
 			case ICON_PROBABILITY_MODE_RIGHT -> GuiResources.INSTANCE.interval_right();
+			case ICON_STANDARD_VIEW -> ZoomPanelResources.INSTANCE.home_zoom_black18();
+			case ICON_ZOOM_TO_FIT -> res.show_all_objects_black();
 			case ICON_TEXT_STYLE -> res.text_style();
 			default -> res.stylebar_empty();
 		};

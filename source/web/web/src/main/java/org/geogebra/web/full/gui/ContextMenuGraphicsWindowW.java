@@ -27,6 +27,7 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -135,7 +136,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 
 	private void addRulingMenuItem() {
 		AriaMenuItem rulingMenuItem = MainMenu.getMenuBarItem(
-				((AppW) app).getTopBarIconResource().getImageResource(TopBarIcon.RULING),
+				((AppWFull) app).getTopBarIconResource().getImageResource(TopBarIcon.RULING),
 				loc.getMenu("Ruling"),
 				() -> {
 					DialogData data = new DialogData("Ruling", "Cancel", "Save");
@@ -148,7 +149,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 
 	private void addBackgroundMenuItem() {
 		AriaMenuItem miBackgroundCol = MainMenu.getMenuBarItem(
-				((AppW) app).getTopBarIconResource().getImageResource(TopBarIcon.COLOR),
+				((AppWFull) app).getTopBarIconResource().getImageResource(TopBarIcon.COLOR),
 				loc.getMenu("BackgroundColor"),
 				this::openColorChooser);
 		wrappedPopup.addItem(miBackgroundCol);
@@ -169,7 +170,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * @param type of option
 	 */
 	protected void addMiProperties(final OptionType type) {
-		IconSpec gearIcon = ((AppW) app).getTopBarIconResource().getImageResource(TopBarIcon.SETTINGS);
+		IconSpec gearIcon =
+				((AppWFull) app).getTopBarIconResource().getImageResource(TopBarIcon.SETTINGS);
 
 		AriaMenuItem miProperties =
 				MainMenu.getMenuBarItem(gearIcon, loc.getMenu("Settings"), () -> showOptionsDialog(type));

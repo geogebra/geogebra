@@ -21,11 +21,8 @@ import static org.geogebra.common.properties.PropertyView.Dropdown;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.web.html5.gui.inputfield.UpDownArrowHandler;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -35,6 +32,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public final class DropDownComboBoxController implements SetLabels, UpDownArrowHandler {
@@ -44,13 +42,13 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 	private final Supplier<List<String>> items;
 	private final List<Runnable> changeHandlers = new ArrayList<>();
 	private final MulticastEvent<String> onHighlighted = new MulticastEvent<>();
-	private final PropertyView propertyView;
+	private final @NonNull Supplier<List<Integer>> dividerIndexSupplier;
 	private final ComponentDropDown.@Nullable Styler styler;
 
 	/**
 	 * popup controller for dropdown and combo box
 	 * @param app apps
-	 * @param propertyView {@link PropertyView}
+	 * @param dividerIndexSupplier provides indices
 	 * @param parent dropdown or combo box
 	 * @param items list of items in popup
 	 * @param labelKey label of drop down or combo box
@@ -59,13 +57,13 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 	 */
 	public DropDownComboBoxController(
 			final AppW app,
-			PropertyView propertyView,
+			@NonNull Supplier<List<Integer>> dividerIndexSupplier,
 			Widget parent,
 			Supplier<List<String>> items,
 			String labelKey,
 			Runnable onClose,
-			ComponentDropDown.Styler styler) {
-		this.propertyView = propertyView;
+			ComponentDropDown.@Nullable Styler styler) {
+		this.dividerIndexSupplier = dividerIndexSupplier;
 		this.parent = parent;
 		this.items = items;
 		this.styler = styler;
@@ -156,23 +154,13 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
 		dropDown.clear();
-		List<Integer> dividers = getGroupDividerIndices();
+		List<Integer> dividers = dividerIndexSupplier.get();
 		for (int i = 0; i < menuItems.size(); i++) {
 			if (dividers != null && dividers.contains(i)) {
 				dropDown.addDivider();
 			}
 			dropDown.addItem(menuItems.get(i));
 		}
-	}
-
-	private List<Integer> getGroupDividerIndices() {
-		if (propertyView instanceof Dropdown dropdown) {
-			int[] groupDividerIndices = dropdown.getGroupDividerIndices();
-			if (groupDividerIndices != null) {
-				return IntStream.of(groupDividerIndices).boxed().collect(Collectors.toList());
-			}
-		}
-		return null;
 	}
 
 	/**
@@ -199,7 +187,7 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 	}
 
 	/**
-	 * CLose popup.
+	 * Close popup.
 	 */
 	public void closePopup() {
 		dropDown.close();
@@ -273,7 +261,7 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 
 	/**
 	 * @param input text field input
-	 * @return index of input in {@link DropDownComboBoxController#items}, if contains it,
+	 * @return index of input in {@link #items}, if contains it,
 	 * -1 otherwise
 	 */
 	public int possibleSelectedIndex(String input) {

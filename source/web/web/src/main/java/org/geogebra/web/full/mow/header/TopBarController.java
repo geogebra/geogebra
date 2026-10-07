@@ -14,7 +14,7 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.shared.mow.header;
+package org.geogebra.web.full.mow.header;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 
@@ -40,7 +40,6 @@ import org.jspecify.annotations.Nullable;
 public final class TopBarController {
 	private final AppW appW;
 	private final ZoomController zoomController;
-	private final EuclidianView view;
 	private ContextMenuGraphicsWindowW settingsContextMenu;
 	private @Nullable PageListPanel pageControlPanel;
 	private final TopBarIconResource topBarIconResource;
@@ -52,7 +51,7 @@ public final class TopBarController {
 	 */
 	public TopBarController(AppW appW, TopBarIconResource topBarIconResource) {
 		this.appW = appW;
-		this.view = appW.getActiveEuclidianView();
+		EuclidianView view = appW.getActiveEuclidianView();
 		this.topBarIconResource = topBarIconResource;
 		zoomController = new ZoomController(appW, view);
 	}
@@ -67,59 +66,19 @@ public final class TopBarController {
 	}
 
 	/**
-	 * on undo pressed
+	 * Zoom in the view.
 	 */
-	public void onUndo() {
+	void onZoomIn() {
 		appW.closePopups();
-		appW.getGuiManager().undo();
-	}
-
-	/**
-	 * on redo pressed
-	 */
-	public void onRedo() {
-		appW.closePopups();
-		appW.getGuiManager().redo();
-	}
-
-	/**
-	 * on zoom in press
-	 */
-	public void onZoomIn() {
-		appW.closePopups();
-		setSelectMode();
 		zoomController.onZoomInPressed();
 	}
 
 	/**
-	 * on zoom out press
+	 * Zoom out the view.
 	 */
-	public void onZoomOut() {
+	void onZoomOut() {
 		appW.closePopups();
-		setSelectMode();
 		zoomController.onZoomOutPressed();
-	}
-
-	private void setSelectMode() {
-		if (appW.getMode() != MODE_SELECT_MOW) {
-			appW.setMode(MODE_SELECT_MOW);
-		}
-	}
-
-	/**
-	 * on zoom to fit press
-	 */
-	public void onZoomToFit() {
-		appW.closePopups();
-		appW.setViewShowAllObjects();
-	}
-
-	/**
-	 * on home press
-	 */
-	public void onHome() {
-		appW.closePopups();
-		zoomController.onHomePressed();
 	}
 
 	/**
@@ -138,22 +97,6 @@ public final class TopBarController {
 
 	public AppW getApp() {
 		return appW;
-	}
-
-	/**
-	 * update home button state based on whether view is standard view
-	 * @param homeBtn - home button
-	 */
-	public void updateHomeButtonVisibility(IconButton homeBtn) {
-		if (view == null) {
-			return;
-		}
-		if (view.isCoordSystemTranslatedByAnimation()) {
-			return;
-		}
-		if (homeBtn != null) {
-			homeBtn.setDisabled(view.isStandardView());
-		}
 	}
 
 	/**

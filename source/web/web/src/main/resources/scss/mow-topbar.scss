@@ -19,4 +19,23 @@
 			position: absolute;
 		}
 	}
+	.zoomComboBox {
+		width: 48px;
+	}
+	.dropDownPopup.inlineComboBoxPopup.zoomItemsPopup {
+		.menuSeparator {
+			width: 100%;
+		}
+		.menuImg {
+			padding-right: 12px;
+		}
+		.dropDownElement {
+			justify-content: left;
+			padding: 0 12px;
+			i {
+				opacity: .54;
+				margin-right: 12px;
+			}
+		}
+	}
 }

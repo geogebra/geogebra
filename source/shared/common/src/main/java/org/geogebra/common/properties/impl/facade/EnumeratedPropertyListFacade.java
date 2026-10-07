@@ -21,6 +21,7 @@ import java.util.List;
 import org.geogebra.common.properties.EnumeratedProperty;
 import org.geogebra.common.properties.ValueFilter;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public abstract class EnumeratedPropertyListFacade<T extends EnumeratedProperty<S>, S>
 		extends AbstractValuedPropertyListFacade<T, S> implements EnumeratedProperty<S> {
@@ -55,7 +56,7 @@ public abstract class EnumeratedPropertyListFacade<T extends EnumeratedProperty<
 	}
 
 	@Override
-	public int[] getGroupDividerIndices() {
+	public int @Nullable [] getGroupDividerIndices() {
 		return getFirstProperty().getGroupDividerIndices();
 	}
 }

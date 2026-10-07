@@ -26,6 +26,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumeratedProperty;
 import org.geogebra.common.properties.ValueFilter;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for enumerated properties. When overriding this class, make sure to call
@@ -120,7 +121,7 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	}
 
 	@Override
-	public int[] getGroupDividerIndices() {
+	public int @Nullable [] getGroupDividerIndices() {
 		return groupDividerIndices;
 	}
 

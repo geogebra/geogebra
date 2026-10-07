@@ -185,6 +185,8 @@ import org.geogebra.web.full.main.activity.SuiteActivity;
 import org.geogebra.web.full.main.mask.MaskWidgetListW;
 import org.geogebra.web.full.main.video.VideoManagerW;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
+import org.geogebra.web.full.mow.header.DefaultTopBarIconProvider;
+import org.geogebra.web.full.mow.header.MebisTopBarIconProvider;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -206,6 +208,7 @@ import org.geogebra.web.html5.main.FragmentPrefetcher;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
+import org.geogebra.web.html5.main.topbar.TopBarIconResource;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -303,6 +306,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private ExamEventBus examEventBus;
 	private InitialViewState initialViewState;
 	private PropertiesIconResource propertiesIconResource;
+	private TopBarIconResource topBarIconResource;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -1327,6 +1331,18 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		GImageIconW icon = new GImageIconW("");
 		GGWToolBar.getImageResource(mode, this, icon);
 		return icon;
+	}
+
+	/**
+	 * @return top bar icon resource provider
+	 */
+	public TopBarIconResource getTopBarIconResource() {
+		if (topBarIconResource == null) {
+			topBarIconResource = new TopBarIconResource(
+					isUsingFontAwesome() ? new MebisTopBarIconProvider() : new DefaultTopBarIconProvider());
+		}
+
+		return topBarIconResource;
 	}
 
 	@Override

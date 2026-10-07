@@ -20,8 +20,8 @@ import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.NotesToolbox;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.full.mow.header.NotesTopBar;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.mow.header.NotesTopBar;
 import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.Nullable;
 

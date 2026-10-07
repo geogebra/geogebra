@@ -17,7 +17,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.AccessibilityGroup;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.util.PersistablePanel;
 
 /**
@@ -29,7 +29,7 @@ public final class UndoRedoPanel extends PersistablePanel {
 	/**
 	 * @param app application
 	 */
-	public UndoRedoPanel(AppW app) {
+	public UndoRedoPanel(AppWFull app) {
 		undoRedoProvider = new UndoRedoProvider(
 				app, AccessibilityGroup.UNDO_GRAPHICS, AccessibilityGroup.REDO_GRAPHICS);
 		addStyleName("undoRedoPanel");

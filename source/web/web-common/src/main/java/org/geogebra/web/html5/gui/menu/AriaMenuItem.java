@@ -288,4 +288,11 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	public void setResource(ResourcePrototype icon) {
 		img.setAttribute("src", NoDragImage.safeURI(icon));
 	}
+
+	/**
+	 * @param icon new icon
+	 */
+	public void setIcon(IconSpec icon) {
+		setContent(textNode.textContent, icon);
+	}
 }

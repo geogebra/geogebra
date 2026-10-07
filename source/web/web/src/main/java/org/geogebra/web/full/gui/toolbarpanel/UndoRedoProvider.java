@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.topbar.TopBarIcon;
@@ -26,7 +27,7 @@ import org.geogebra.web.html5.main.topbar.TopBarIcon;
  * Undo/redo panel for unbundled apps
  */
 public final class UndoRedoProvider {
-	private final AppW app;
+	private final AppWFull app;
 	FocusableWidget redoAnchor;
 	IconButton btnUndo;
 	IconButton btnRedo;
@@ -36,7 +37,7 @@ public final class UndoRedoProvider {
 	 * {@link AccessibilityGroup#REDO}
 	 * @param app {@link AppW}
 	 */
-	public UndoRedoProvider(AppW app) {
+	public UndoRedoProvider(AppWFull app) {
 		this(app, AccessibilityGroup.UNDO, AccessibilityGroup.REDO);
 	}
 
@@ -44,7 +45,8 @@ public final class UndoRedoProvider {
 	 * Undo/redo button provider with defined {@link AccessibilityGroup}
 	 * @param app {@link AppW}
 	 */
-	public UndoRedoProvider(AppW app, AccessibilityGroup undoGroup, AccessibilityGroup redoGroup) {
+	public UndoRedoProvider(
+			AppWFull app, AccessibilityGroup undoGroup, AccessibilityGroup redoGroup) {
 		this.app = app;
 		initUndoButton(undoGroup);
 		initRedoButton(redoGroup);

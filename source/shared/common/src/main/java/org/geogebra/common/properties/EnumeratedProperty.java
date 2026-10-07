@@ -80,7 +80,7 @@ public interface EnumeratedProperty<V> extends ValuedProperty<V> {
 	 * @return a sorted array of indices where a divider must be inserted
 	 * or {@code null} if no dividers are present.
 	 */
-	default @Nullable int[] getGroupDividerIndices() {
+	default int @Nullable [] getGroupDividerIndices() {
 		return null;
 	}
 }

@@ -65,7 +65,6 @@ import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
@@ -128,8 +127,8 @@ public final class ToolbarPanel extends FlowPanel
 	/**
 	 * @param app application
 	 */
-	public ToolbarPanel(AppW app, DockPanelDecorator decorator) {
-		this.app = (AppWFull) app;
+	public ToolbarPanel(AppWFull app, DockPanelDecorator decorator) {
+		this.app = app;
 		this.decorator = decorator;
 		examController = GlobalScope.getExamController(app);
 		eventDispatcher = app.getEventDispatcher();

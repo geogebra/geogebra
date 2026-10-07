@@ -104,7 +104,7 @@ public final class ComponentComboBox extends FlowPanel
 
 	private void initController(Supplier<List<String>> items) {
 		controller = new DropDownComboBoxController(
-				appW, comboBoxProperty, this, items, labelTextKey, this::onClose, null);
+				appW, () -> null, this, items, labelTextKey, this::onClose, null);
 		controller.addChangeHandler(() -> updateSelectionText(getSelectedText()));
 		controller.setPopupID(controlsID);
 		controller.setFocusAnchor(inputTextField.getInputElement());

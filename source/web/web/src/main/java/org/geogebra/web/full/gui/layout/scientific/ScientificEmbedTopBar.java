@@ -20,6 +20,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbarpanel.UndoRedoProvider;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.style.shared.Unit;
@@ -42,7 +43,7 @@ public final class ScientificEmbedTopBar extends FlowPanel {
 	 * Used only for embedded scientific calculator.
 	 * @param appW application
 	 */
-	public ScientificEmbedTopBar(AppW appW) {
+	public ScientificEmbedTopBar(AppWFull appW) {
 		this.appW = appW;
 		undoRedoProvider = new UndoRedoProvider(appW);
 		addStyleName("scientificEmbedTopBar");

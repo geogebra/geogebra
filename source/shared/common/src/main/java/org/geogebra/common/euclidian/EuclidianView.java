@@ -173,13 +173,13 @@ public abstract class EuclidianView
 	public static final double MOUSE_WHEEL_ZOOM_FACTOR = 1.1;
 	/** standard pixels per unit */
 	public static final double SCALE_STANDARD = 50;
+	/** Maximal scale for Notes app */
+	public static final double MAX_SCALE_NOTES = 400;
 	/** border in which axis numbers are not drawn */
 	protected static final int SCREEN_BORDER = 10;
 	/** Number of inset pixels for safe area */
 	public static final int MINIMUM_SAFE_AREA = 8;
 
-	// public static final double SCALE_MAX = 10000;
-	// public static final double SCALE_MIN = 0.1;
 	/** default screen x-coord of origin */
 	public static final double XZERO_STANDARD = 215; // needs to be positive
 	/** default screen y-coord of origin */
@@ -5339,13 +5339,23 @@ public abstract class EuclidianView
 	 *            x coord of old origin
 	 * @param originY
 	 *            y coord of old origin
-	 * @param newScale
-	 *            x scale
+	 * @param targetScale
+	 *            x scale after zoom
 	 */
 	@Override
 	public void setAnimatedCoordSystem(
-			double originX, double originY, double f, double newScale, int steps, boolean storeUndo) {
-
+			double originX,
+			double originY,
+			double zoomFactor,
+			double targetScale,
+			int steps,
+			boolean storeUndo) {
+		double newScale = targetScale;
+		double f = zoomFactor;
+		if (app.isWhiteboardActive() && targetScale > MAX_SCALE_NOTES) {
+			newScale = 400;
+			f = 400 / xscale;
+		}
 		double ox = originX + (getXZero() - originX) * f;
 		double oy = originY + (getYZero() - originY) * f;
 

@@ -20,6 +20,7 @@ import static org.geogebra.common.properties.PropertyView.ConfigurationUpdateDel
 import static org.geogebra.common.properties.PropertyView.Dropdown;
 import static org.geogebra.common.properties.PropertyView.VisibilityUpdateDelegate;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -151,7 +152,7 @@ public final class ComponentDropDown extends FlowPanel
 	private void initController(List<String> items) {
 		controller = new DropDownComboBoxController(
 				app,
-				dropDown,
+				() -> asList(dropDown == null ? null : dropDown.getGroupDividerIndices()),
 				this,
 				() -> items,
 				labelKey,
@@ -168,6 +169,13 @@ public final class ComponentDropDown extends FlowPanel
 		});
 		controller.setFocusAnchor(getElement());
 		updateSelectionText();
+	}
+
+	private static List<Integer> asList(int @Nullable [] indices) {
+		if (indices == null) {
+			return List.of();
+		}
+		return Arrays.stream(indices).boxed().toList();
 	}
 
 	private void buildGUI(String labelStr) {

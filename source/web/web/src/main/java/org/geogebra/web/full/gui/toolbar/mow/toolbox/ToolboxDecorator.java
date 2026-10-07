@@ -16,8 +16,8 @@
 
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
+import org.geogebra.web.full.mow.header.NotesTopBar;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.shared.mow.header.NotesTopBar;
 
 public final class ToolboxDecorator {
 	private final NotesToolbox toolboxMow;

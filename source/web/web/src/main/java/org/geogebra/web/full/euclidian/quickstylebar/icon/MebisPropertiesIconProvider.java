@@ -64,6 +64,8 @@ public final class MebisPropertiesIconProvider extends DefaultPropertiesIconProv
 			case ICON_UNDERLINE -> new FaIconSpec("fa-underline");
 			case ICON_BOLD -> new FaIconSpec("fa-bold");
 			case ICON_ITALIC -> new FaIconSpec("fa-italic");
+			case ICON_STANDARD_VIEW -> new FaIconSpec("fa-house");
+			case ICON_ZOOM_TO_FIT -> new FaIconSpec("fa-arrows-to-eye");
 			case ICON_SEGMENT_START_DEFAULT,
 					ICON_SEGMENT_START_LINE,
 					ICON_SEGMENT_START_ARROW,

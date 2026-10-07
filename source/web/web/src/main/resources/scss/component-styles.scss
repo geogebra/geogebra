@@ -261,6 +261,10 @@ $keyboard_button_transition: opacity .3s ease;
 			text-overflow: ellipsis;
 		}
 
+		img {
+        	opacity: 0.54;
+        }
+
 		.dropDownElement:hover {
 			cursor: pointer;
 		}
@@ -269,9 +273,8 @@ $keyboard_button_transition: opacity .3s ease;
 			background: neutral(300);
 		}
 
-		&.quickStyleBarFontSizePopup {
+		&.inlineComboBoxPopup {
 			z-index: z-index.$z-dialog-over-keyboard;
-			width: 52px;
 			border-radius: 12px;
 			padding: 8px 0;
 			box-shadow: 0 1px 6px 0 rgba(133, 132, 138, 0.08), 0 2px 12px -1px rgba(133, 132, 138, 0.12);
@@ -296,6 +299,10 @@ $keyboard_button_transition: opacity .3s ease;
 			.selectedDropDownElement:hover {
 				background-color: neutral(200);
 			}
+		}
+
+		&.quickStyleBarFontSizePopup {
+			width: 52px;
 		}
 
 		&.show {
