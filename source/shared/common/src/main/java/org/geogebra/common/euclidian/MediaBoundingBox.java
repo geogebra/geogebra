@@ -88,6 +88,10 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 
 	@Override
 	protected void drawHandlers(GGraphics2D g2) {
+		if (isFixed()) {
+			return;
+		}
+
 		for (GShape handler : handlers) {
 			if (isSideHandler(handler)) {
 				drawRotatedSideHandler(g2, (GRectangle2D) handler);

@@ -55,8 +55,6 @@ public class GeoButton extends GeoElement implements TextProperties, AbsoluteScr
 
 	private boolean serifFont = false;
 
-	private boolean fixedSize = false;
-
 	public static final int DEFAULT_BUTTON_HEIGHT = 36;
 
 	/**
@@ -515,17 +513,7 @@ public class GeoButton extends GeoElement implements TextProperties, AbsoluteScr
 		return true;
 	}
 
-	/**
-	 * @return whether this button has fixed size (otherwise depends on text)
-	 */
-	public boolean isFixedSize() {
-		return fixedSize;
-	}
-
-	/**
-	 * @param fixedSize
-	 *            whether this button should have fixed size
-	 */
+	@Override
 	public void setFixedSize(boolean fixedSize) {
 		this.fixedSize = fixedSize;
 		getKernel().notifyRepaint();

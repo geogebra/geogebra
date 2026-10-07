@@ -662,6 +662,15 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private boolean handleFixedSize(Map<String, String> attrs) {
+		try {
+			geo.setFixedSize(MyXMLHandler.parseBoolean(attrs.get("val")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
 	private boolean handleIsMask(Map<String, String> attrs) {
 		try {
 			geo.setIsMask(MyXMLHandler.parseBoolean(attrs.get("val")));
@@ -2261,6 +2270,9 @@ public class ConsElementXMLHandler {
 					break;
 				case "fixed":
 					handleFixed(attrs);
+					break;
+				case "fixedSize":
+					handleFixedSize(attrs);
 					break;
 				case "file":
 					handleFile(attrs);

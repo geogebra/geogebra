@@ -197,6 +197,10 @@ public abstract class BoundingBox<T extends GShape> {
 	 *            graphics
 	 */
 	protected void drawHandlers(GGraphics2D g2) {
+		if (fixed) {
+			return;
+		}
+
 		for (GShape handler : handlers) {
 			fillHandlerWhite(g2, handler);
 			setHandlerBorderStyle(g2);
@@ -433,7 +437,7 @@ public abstract class BoundingBox<T extends GShape> {
 	 *            selected element
 	 */
 	public void updateFrom(GeoElement geo) {
-		fixed = geo.isLocked();
+		fixed = geo.isLocked() || geo.isFixedSize();
 	}
 
 	/**
@@ -442,6 +446,10 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	public void setFixed(boolean fixed) {
 		this.fixed = fixed;
+	}
+
+	public boolean isFixed() {
+		return fixed;
 	}
 
 	/**

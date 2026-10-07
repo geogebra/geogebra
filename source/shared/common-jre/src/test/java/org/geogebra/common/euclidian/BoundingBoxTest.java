@@ -79,4 +79,42 @@ class BoundingBoxTest extends BaseEuclidianControllerTest {
 						+ " (0.50746, 1.51465), (2.12493, 2.69099))",
 				curve.getDefinition(StringTemplate.editTemplate));
 	}
+
+	@Test
+	@Issue("MOW-1820")
+	void fixedSizeGeoHasNoHandler() {
+		getApp().setMode(EuclidianConstants.MODE_SELECT_MOW);
+		GeoConic circle = add("Circle((1,-1),1)");
+		circle.setAlphaValue(1);
+		circle.setFixedSize(true);
+		click(50, 50);
+		getApp().getActiveEuclidianView().repaintView();
+		// fixedSize = true -> no handlers
+		dragStart(100, 100);
+		assertEquals(
+				EuclidianBoundingBoxHandler.UNDEFINED, getApp().getActiveEuclidianView().getHitHandler());
+		// fixedSize = false -> handlers visible
+		circle.setFixedSize(false);
+		getApp().getActiveEuclidianView().repaintView();
+		dragStart(100, 100);
+		assertEquals(
+				EuclidianBoundingBoxHandler.BOTTOM_RIGHT,
+				getApp().getActiveEuclidianView().getHitHandler());
+	}
+
+	@Test
+	@Issue("MOW-1820")
+	void fixedSizeGeoStillMovable() {
+		getApp().setMode(EuclidianConstants.MODE_SELECT_MOW);
+		GeoConic circle = add("Circle((1,-1),1)");
+		circle.setAlphaValue(1);
+		circle.setFixedSize(true);
+		click(50, 50);
+		getApp().getActiveEuclidianView().repaintView();
+		assertEquals("Circle((1, -1), 1)", circle.getDefinition(StringTemplate.algebraTemplate));
+		// fixed size circle still movable
+		dragStart(50, 50);
+		dragEnd(100, 100);
+		assertEquals("Circle((2, -2), 1)", circle.getDefinition(StringTemplate.algebraTemplate));
+	}
 }

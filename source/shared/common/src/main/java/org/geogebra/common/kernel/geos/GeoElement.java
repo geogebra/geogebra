@@ -168,6 +168,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	// construction
 	/** fixed (cannot be moved or deleted) */
 	protected boolean fixed = false;
+
+	protected boolean fixedSize = false;
 	/** label, value, caption, label+value */
 	public int labelMode = LABEL_DEFAULT;
 
@@ -1533,6 +1535,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public boolean showFixUnfix() {
 		return isFixable();
+	}
+
+	public boolean isFixedSize() {
+		return fixedSize;
+	}
+
+	public void setFixedSize(boolean fixedSize) {
+		this.fixedSize = fixedSize;
 	}
 
 	@Override
@@ -4599,6 +4609,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		// is object fixed
 		if (fixed && isFixable()) {
 			sb.startTag("fixed").attr("val", true).endTag();
+		}
+		// is object fixed size
+		if (fixedSize) {
+			sb.startTag("fixedSize").attr("val", fixedSize).endTag();
 		}
 		// is selection allowed
 		if (!selectionAllowed) {

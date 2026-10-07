@@ -53,6 +53,10 @@ public class CurveBoundingBox extends BoundingBox<GEllipse2DDouble> {
 
 	@Override
 	protected void drawHandlers(GGraphics2D g2) {
+		if (isFixed()) {
+			return;
+		}
+
 		int index = 0;
 		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2));
 		g2.setColor(GeoGebraColorConstants.NEUTRAL_400);

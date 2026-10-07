@@ -76,6 +76,7 @@ import org.geogebra.common.properties.impl.objects.FillingPropertyCollection;
 import org.geogebra.common.properties.impl.objects.FillingStyleProperty;
 import org.geogebra.common.properties.impl.objects.FixCheckboxProperty;
 import org.geogebra.common.properties.impl.objects.FixObjectProperty;
+import org.geogebra.common.properties.impl.objects.FixObjectSizeProperty;
 import org.geogebra.common.properties.impl.objects.FixSliderObjectProperty;
 import org.geogebra.common.properties.impl.objects.FontProperty;
 import org.geogebra.common.properties.impl.objects.FontRulingColorProperty;
@@ -272,6 +273,14 @@ public final class GeoElementPropertiesFactory {
 				BooleanPropertyListFacade::new);
 	}
 
+	private Property createFixObjectSizeProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createOptionalPropertyFacade(
+				elements,
+				element -> new FixObjectSizeProperty(localization, element),
+				BooleanPropertyListFacade::new);
+	}
+
 	private Property createAnimationStepProperty(
 			AlgebraProcessor processor,
 			Localization localization,
@@ -349,7 +358,8 @@ public final class GeoElementPropertiesFactory {
 						Stream.of(
 								createNameProperty(localization, elements),
 								createShowTraceProperty(localization, elements),
-								createFixObjectProperty(localization, elements)))
+								createFixObjectProperty(localization, elements),
+								createFixObjectSizeProperty(localization, elements)))
 				: createPropsArray(
 						"Properties.Basic",
 						localization,

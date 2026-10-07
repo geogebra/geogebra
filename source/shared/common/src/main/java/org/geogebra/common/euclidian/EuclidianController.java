@@ -12480,7 +12480,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (!(geo instanceof Rotatable) || (geo instanceof GeoMindMapNode)) {
 				hasRotationHandler = false;
 			}
-			if (geo.isLocked() || isLockedForMultiuser(geo)) {
+			if (geo.isLocked() || isLockedForMultiuser(geo) || geo.isFixedSize()) {
 				fixed = true;
 			}
 		}
