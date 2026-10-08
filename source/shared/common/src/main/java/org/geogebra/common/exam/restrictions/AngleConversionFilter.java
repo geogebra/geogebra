@@ -67,16 +67,19 @@ public class AngleConversionFilter implements AlgebraOutputFilter {
 				}
 				return isSimpleDegreeOrScalarExpression(element, getAngleDimension(definition));
 			case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
-				return !definition.any(this::isDegree)
-						&& isNotForcedDegree(element); // angle computations involved?
+				return !definition.any(this::isDegree) // angle computations involved?
+						&& !isForcedToOtherUnit(element, Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
 			default:
 				return true;
 		}
 	}
 
-	private boolean isNotForcedDegree(GeoElementND element) {
-		return !(element instanceof GeoAngle angle)
-				|| angle.getForcedAngleUnit() != Kernel.ANGLE_DEGREE;
+	private boolean isForcedToOtherUnit(GeoElementND element, int angleUnit) {
+		if (!(element instanceof GeoAngle angle)) {
+			return false;
+		}
+		int forcedAngleUnit = angle.getForcedAngleUnit();
+		return forcedAngleUnit >= 0 && forcedAngleUnit != angleUnit;
 	}
 
 	private ExpressionValue skipTrig(ExpressionValue value) {

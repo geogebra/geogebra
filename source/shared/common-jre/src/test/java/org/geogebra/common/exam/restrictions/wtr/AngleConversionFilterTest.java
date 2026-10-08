@@ -26,6 +26,7 @@ import org.geogebra.common.exam.BaseExamTestSetup;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.AngleConversionFilter;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -109,5 +110,20 @@ class AngleConversionFilterTest extends BaseExamTestSetup {
 		assertTrue(filter.isAllowed(evaluateGeoElement("alpha=30°15'20''")));
 		assertFalse(filter.isAllowed(evaluateGeoElement("alpha*deg")));
 		assertFalse(filter.isAllowed(evaluateGeoElement("alpha/deg")));
+	}
+
+	@Test
+	@Issue("APPS-7994")
+	void noConversionFromDegreesMinutesSecondsAfterSwitchFromRadians() {
+		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+		GeoElement angle = evaluateGeoElement("60°50''");
+		assertFalse(filter.isAllowed(angle));
+
+		// Output must stay hidden
+		getKernel().setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
+		assertFalse(filter.isAllowed(angle));
+
+		// No conversion; entered in DMS mode
+		assertTrue(filter.isAllowed(evaluateGeoElement("60°50''")));
 	}
 }
