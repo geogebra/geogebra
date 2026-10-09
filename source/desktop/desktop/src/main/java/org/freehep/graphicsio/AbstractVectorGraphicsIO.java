@@ -45,6 +45,7 @@ import java.util.Map;
 
 import org.freehep.graphics2d.font.FontEncoder;
 import org.freehep.util.images.ImageUtilities;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides an abstract VectorGraphicsIO class for specific output
@@ -922,7 +923,11 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 */
 	@Override
 	public Shape getClip() {
-		return (userClip != null) ? new Area(untransformShape(userClip)) : null;
+		if (userClip == null) {
+			return null;
+		}
+		Shape s = untransformShape(userClip);
+		return (s != null) ? new Area(s) : null;
 	}
 
 	/**
@@ -1564,7 +1569,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 		return transformShape(getTransform(), s);
 	}
 
-	private Shape untransformShape(Shape s) {
+	private @Nullable Shape untransformShape(Shape s) {
 		if (s == null) {
 			return null;
 		}
@@ -1576,29 +1581,5 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 		} catch (NoninvertibleTransformException e) {
 			return null;
 		}
-	}
-
-	/**
-	 * Draws an overline for the text at (x, y). The method is usesefull for
-	 * drivers that do not support overlines by itself.
-	 *
-	 * @param text
-	 *            text for width calulation
-	 * @param font
-	 *            font for width calulation
-	 * @param x
-	 *            position of text
-	 * @param y
-	 *            position of text
-	 */
-	protected void overLine(String text, Font font, float x, float y) {
-		TextLayout layout = new TextLayout(text, font, getFontRenderContext());
-		float width = Math.max(layout.getAdvance(), (float) layout.getBounds().getWidth());
-
-		GeneralPath path = new GeneralPath();
-		path.moveTo(x, y + (float) layout.getBounds().getY() - layout.getAscent());
-		path.lineTo(
-				x + width, y + (float) layout.getBounds().getY() - layout.getAscent() - layout.getAscent());
-		draw(path);
 	}
 }
