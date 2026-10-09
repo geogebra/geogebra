@@ -373,17 +373,17 @@ public class GeoGebraPreferencesD {
 			return;
 		}
 
-		ggbPrefs.put(GeoGebraPreferences.XML_USER_PREFERENCES, userPrefsXML);
+		putLargeString(ggbPrefs, GeoGebraPreferences.XML_USER_PREFERENCES, userPrefsXML);
 
 		try {
-			getPref().savePreference(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
+			putLargeString(ggbPrefs, GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
 		} catch (Exception e) {
 			Log.debug(e);
-			Log.error("object defaults too long");
+			Log.error("could not save object defaults");
 		}
 
 		// store current tools including icon images as ggt file (byte array)
-		putByteArray(TOOLS_FILE_GGT, app.getMacroFileAsByteArray());
+		putByteArray(ggbPrefs, TOOLS_FILE_GGT, app.getMacroFileAsByteArray());
 
 		try {
 			ggbPrefs.flush();
@@ -393,34 +393,80 @@ public class GeoGebraPreferencesD {
 	}
 
 	/**
+	 * Stores a string that may exceed {@link Preferences#MAX_VALUE_LENGTH}
+	 * by splitting it into pieces stored under key1, key2, ...; values that
+	 * fit are stored under the base key. Stale pieces from previous
+	 * (longer) values are removed in both cases.
+	 */
+	static void putLargeString(Preferences prefs, String key, String value) {
+		if (key == null || value == null) {
+			return;
+		}
+		if (value.length() <= Preferences.MAX_VALUE_LENGTH) {
+			prefs.put(key, value);
+			removeParts(prefs, key, 1);
+			return;
+		}
+		prefs.remove(key);
+		int part = 0;
+		int pos = 0;
+		while (pos < value.length()) {
+			part++;
+			int end = Math.min(pos + Preferences.MAX_VALUE_LENGTH, value.length());
+			prefs.put(key + part, value.substring(pos, end));
+			pos = end;
+		}
+		removeParts(prefs, key, part + 1);
+	}
+
+	/**
+	 * Reads a string stored by {@link #putLargeString}: either the base key
+	 * value or the concatenation of pieces key1, key2, ...
+	 *
+	 * @return stored value or {@code def} if neither is present
+	 */
+	static String getLargeString(Preferences prefs, String key, String def) {
+		String single = prefs.get(key, null);
+		if (single != null) {
+			return single;
+		}
+		StringBuilder sb = new StringBuilder();
+		int part = 0;
+		String piece;
+		while ((piece = prefs.get(key + ++part, null)) != null) {
+			sb.append(piece);
+		}
+		return sb.length() == 0 ? def : sb.toString();
+	}
+
+	private static void removeParts(Preferences prefs, String key, int firstStale) {
+		int part = firstStale;
+		while (prefs.get(key + part, null) != null) {
+			prefs.remove(key + part);
+			part++;
+		}
+	}
+
+	/**
 	 * Breaks up byte array value into pieces and calls
 	 * prefs.putByteArray(prefs, key+k, piece_k) for every piece.
 	 */
-	private void putByteArray(String key, byte[] value) {
+	static void putByteArray(Preferences prefs, String key, byte[] value) {
 		// byte array must not be longer than 3/4 of max value length
 		int max_length = (int) Math.floor(Preferences.MAX_VALUE_LENGTH * 0.75);
 
 		// value array is small enough
 		if (value == null || value.length < max_length) {
-			ggbPrefs.putByteArray(key, value);
+			prefs.putByteArray(key, value);
 
 			// remove possible old part keys
-			int partCount = 0;
-			while (true) {
-				byte[] temp = ggbPrefs.getByteArray(key + partCount, null);
-				if (temp != null) {
-					ggbPrefs.remove(key + partCount);
-					partCount++;
-				} else {
-					break;
-				}
-			}
+			removeParts(prefs, key, 1);
 		}
 
 		// break value array up into smaller pieces
 		else {
 			// delete key value
-			ggbPrefs.remove(key);
+			prefs.remove(key);
 
 			byte[] bytePart = new byte[max_length];
 			int pos = 0;
@@ -432,7 +478,7 @@ public class GeoGebraPreferencesD {
 
 				// put piece key + partCount
 				partCount++;
-				ggbPrefs.putByteArray(key + partCount, bytePart);
+				prefs.putByteArray(key + partCount, bytePart);
 			}
 
 			// write last part
@@ -445,12 +491,15 @@ public class GeoGebraPreferencesD {
 
 				// put piece key + partCount
 				partCount++;
-				ggbPrefs.putByteArray(key + partCount, bytePart);
+				prefs.putByteArray(key + partCount, bytePart);
 			}
+
+			// remove stale part keys from previous (longer) values
+			removeParts(prefs, key, partCount + 1);
 		}
 
 		try {
-			ggbPrefs.flush();
+			prefs.flush();
 		} catch (Exception e) {
 			Log.debug(e);
 		}
@@ -460,8 +509,8 @@ public class GeoGebraPreferencesD {
 	 * Breaks up byte array value into pieces and calls
 	 * prefs.putByteArray(prefs, key+k, piece_k) for every piece.
 	 */
-	private byte[] getByteArray(String key, byte[] def) {
-		byte[] ret = ggbPrefs.getByteArray(key, null);
+	static byte[] getByteArray(Preferences prefs, String key, byte[] def) {
+		byte[] ret = prefs.getByteArray(key, null);
 
 		if (ret != null) {
 			// no parts: return byte array
@@ -471,7 +520,7 @@ public class GeoGebraPreferencesD {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			int partCount = 1;
 			while (true) {
-				ret = ggbPrefs.getByteArray(key + partCount, null);
+				ret = prefs.getByteArray(key + partCount, null);
 				if (ret != null) {
 					bos.write(ret);
 					partCount++;
@@ -544,16 +593,16 @@ public class GeoGebraPreferencesD {
 		// load this preferences xml file in application
 		try {
 			// load tools from ggt file (byte array)
-			byte[] ggtFile = getByteArray(TOOLS_FILE_GGT, null);
+			byte[] ggtFile = getByteArray(ggbPrefs, TOOLS_FILE_GGT, null);
 			app.loadMacroFileFromByteArray(ggtFile, true);
 
 			// load preferences xml
 			String xml =
-					getPref().loadPreference(GeoGebraPreferences.XML_USER_PREFERENCES, factoryDefaultXml);
+					getLargeString(ggbPrefs, GeoGebraPreferences.XML_USER_PREFERENCES, factoryDefaultXml);
 			app.setXML(xml, false);
 
-			String xmlDef = getPref()
-					.loadPreference(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
+			String xmlDef = getLargeString(
+					ggbPrefs, GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
 			if (!xmlDef.equals(factoryDefaultXml)) {
 				boolean eda = app.getKernel().getElementDefaultAllowed();
 				app.getKernel().setElementDefaultAllowed(true);
