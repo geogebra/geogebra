@@ -237,13 +237,11 @@ public final class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 
 		set(GeoGebraPreferences.XML_USER_PREFERENCES, xml);
 
-		if (!app.is3D()) { // TODO: implement it in Application3D!
-			XMLStringBuilder sb = new XMLStringBuilder();
-			app.getKernel().getConstruction().getConstructionDefaults().getDefaultsXML(sb);
-			String objectPrefsXML = sb.toString();
+		XMLStringBuilder sb = new XMLStringBuilder();
+		app.getKernel().getConstruction().getConstructionDefaults().getDefaultsXML(sb);
+		String objectPrefsXML = sb.toString();
 
-			set(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
-		}
+		set(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
 
 		byte[] macrofile = app.getMacroFileAsByteArray();
 		String macrostring = Base64.encodeToString(macrofile, false);
@@ -280,14 +278,12 @@ public final class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			String xml = get(GeoGebraPreferences.XML_USER_PREFERENCES, factoryDefaultXml);
 			app.setXML(xml, true);
 
-			if (!app.is3D()) { // TODO: implement it in Application3D!
-				String xmlDef = get(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
-				if (!xmlDef.equals(factoryDefaultXml)) {
-					boolean eda = app.getKernel().getElementDefaultAllowed();
-					app.getKernel().setElementDefaultAllowed(true);
-					app.setXML(xmlDef, false);
-					app.getKernel().setElementDefaultAllowed(eda);
-				}
+			String xmlDef = get(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
+			if (!xmlDef.equals(factoryDefaultXml)) {
+				boolean eda = app.getKernel().getElementDefaultAllowed();
+				app.getKernel().setElementDefaultAllowed(true);
+				app.setXML(xmlDef, false);
+				app.getKernel().setElementDefaultAllowed(eda);
 			}
 		} catch (Exception e) {
 			Log.debug(e);
