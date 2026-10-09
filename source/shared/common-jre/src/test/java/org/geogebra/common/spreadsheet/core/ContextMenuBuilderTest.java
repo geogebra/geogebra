@@ -28,6 +28,7 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.IN
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.OBJECT_PROPERTIES;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PASTE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.STATISTICS_FREQUENCY_TABLE;
@@ -105,6 +106,31 @@ final class ContextMenuBuilderTest {
 						INSERT_COLUMN_RIGHT,
 						DIVIDER,
 						DELETE_ROW,
+						DELETE_COLUMN,
+						DIVIDER,
+						OBJECT_PROPERTIES));
+	}
+
+	@Test
+	void testEmptyCellMenuOrder() {
+		data.removeContentAt(2, 2);
+		testMenuOrder(
+				2,
+				2,
+				List.of(
+						CUT,
+						COPY,
+						PASTE,
+						DIVIDER,
+						CALCULATE,
+						CREATE_CHART,
+						DIVIDER,
+						INSERT_ROW_ABOVE,
+						INSERT_ROW_BELOW,
+						INSERT_COLUMN_LEFT,
+						INSERT_COLUMN_RIGHT,
+						DIVIDER,
+						DELETE_ROW,
 						DELETE_COLUMN));
 	}
 
@@ -129,7 +155,9 @@ final class ContextMenuBuilderTest {
 						INSERT_COLUMN_RIGHT,
 						DIVIDER,
 						DELETE_ROW,
-						DELETE_COLUMN));
+						DELETE_COLUMN,
+						DIVIDER,
+						OBJECT_PROPERTIES));
 	}
 
 	@Test

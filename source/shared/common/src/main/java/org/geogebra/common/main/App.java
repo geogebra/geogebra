@@ -4019,6 +4019,7 @@ public abstract class App
 					factory,
 					new DefaultSpreadsheetConstructionDelegate(kernel.getAlgebraProcessor()),
 					getUndoManager());
+			spreadsheet.setSelectionDelegate(selection::setSelectedGeos);
 			spreadsheet.setCellDescriptionBuilder(
 					new SpreadsheetCellDescriptionBuilder(tabularData, getLocalization()));
 			if (!isUnbundled()) {

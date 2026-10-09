@@ -16,10 +16,12 @@
 
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.FocusableComponent;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
@@ -51,7 +53,7 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.jspecify.annotations.NonNull;
 
 public final class SpreadsheetControlsDelegateW
-		implements SpreadsheetControlsDelegate, AutoCompleteW {
+		implements SpreadsheetControlsDelegate<GeoElement>, AutoCompleteW {
 
 	private final SpreadsheetCellEditorW editor;
 	private final GPopupMenuW contextMenu;
@@ -374,5 +376,11 @@ public final class SpreadsheetControlsDelegateW
 	public void showSnackbar(@NonNull String messageKey) {
 		String translatedMessage = loc.getMenu(messageKey);
 		getApplication().getToolTipManager().showBottomMessage(translatedMessage, getApplication());
+	}
+
+	@Override
+	public void showProperties(@NonNull List<@NonNull GeoElement> objects) {
+		getApplication().getSelectionManager().setSelectedGeos(objects);
+		getApplication().getDialogManager().showPropertiesDialog(new ArrayList<>(objects));
 	}
 }

@@ -17,6 +17,7 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -48,7 +49,7 @@ public final class SpreadsheetTab extends ToolbarTab {
 	}
 
 	private void createContent() {
-		Spreadsheet<?> spreadsheet = toolbarPanel.getApp().getSpreadsheet();
+		Spreadsheet<GeoElement> spreadsheet = toolbarPanel.getApp().getSpreadsheet();
 		if (spreadsheet == null) {
 			return;
 		}

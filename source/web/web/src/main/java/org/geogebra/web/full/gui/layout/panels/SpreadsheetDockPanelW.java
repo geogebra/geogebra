@@ -69,7 +69,7 @@ public final class SpreadsheetDockPanelW extends NavigableDockPanelW {
 		if (wrapview == null) {
 			wrapview = new AbsolutePanel();
 			wrapview.addStyleName("SpreadsheetWrapView");
-			Spreadsheet<?> spreadsheet = app.getSpreadsheet();
+			Spreadsheet<GeoElement> spreadsheet = app.getSpreadsheet();
 			if (spreadsheet != null) {
 				spreadsheetPanel = new SpreadsheetPanel(app, spreadsheet);
 				wrapview.add(spreadsheetPanel);

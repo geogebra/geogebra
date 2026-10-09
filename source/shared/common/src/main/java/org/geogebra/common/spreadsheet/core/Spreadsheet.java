@@ -109,7 +109,7 @@ public final class Spreadsheet<T>
 	/**
 	 * @param controlsDelegate delegate for controls
 	 */
-	public void setControlsDelegate(@Nullable SpreadsheetControlsDelegate controlsDelegate) {
+	public void setControlsDelegate(@Nullable SpreadsheetControlsDelegate<T> controlsDelegate) {
 		controller.setControlsDelegate(controlsDelegate);
 	}
 
@@ -636,6 +636,13 @@ public final class Spreadsheet<T>
 	 */
 	public void handleOnViewAppear() {
 		controller.handleOnViewAppear();
+	}
+
+	/**
+	 * @param selectionDelegate selection delegate
+	 */
+	public void setSelectionDelegate(SelectionDelegate<T> selectionDelegate) {
+		controller.setSelectionDelegate(selectionDelegate);
 	}
 
 	// -- Test support API (DO NOT USE except for tests!)

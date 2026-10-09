@@ -31,6 +31,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
@@ -96,6 +97,7 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 				null,
 				undoProvider);
 		spreadsheet.setViewportAdjustmentHandler(new DummyViewportAdjuster());
+		spreadsheet.setSelectionDelegate(getApp().getSelectionManager()::setSelectedGeos);
 		new SpreadsheetSettingsAdapter<>(spreadsheet, getApp()).registerListeners();
 
 		spreadsheet.setHeightForRows(20, 0, 5);
@@ -328,6 +330,17 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 		assertEquals(151, tabularData.numberOfRows());
 		assertEquals(151, spreadsheet.getController().getLayout().numberOfRows());
+	}
+
+	@Test
+	@Issue("APPS-7826")
+	void testSelectionDelegate() {
+		evaluate("l1 = Sequence(k, k, 1, 10)");
+		evaluate("FillColumn(1, l1)");
+		simulateCellMouseClick(spreadsheet.getController(), 9, 0, 1);
+		List<GeoElement> selectedGeos = getApp().getSelectionManager().getSelectedGeos();
+		assertEquals(1, selectedGeos.size());
+		assertEquals("A10", selectedGeos.get(0).getLabelSimple());
 	}
 
 	private GGraphicsCommon getColorCollectingGraphics(Set<GColor> colors) {

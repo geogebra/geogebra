@@ -26,7 +26,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * Shows and hides spreadsheet controls (editor, context menu)
  */
-public interface SpreadsheetControlsDelegate {
+public interface SpreadsheetControlsDelegate<T> {
 
 	/**
 	 * @return A cell editor instance.
@@ -82,4 +82,10 @@ public interface SpreadsheetControlsDelegate {
 	 * @param messageKey Message key found in the menu localization bundle.
 	 */
 	void showSnackbar(@NonNull String messageKey);
+
+	/**
+	 * Show properties view for given object.
+	 * @param objects object whose properties should be shown
+	 */
+	void showProperties(@NonNull List<@NonNull T> objects);
 }

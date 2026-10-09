@@ -59,6 +59,7 @@ public class ContextMenuItem {
 		INSERT_COLUMN_LEFT("ContextMenu.insertColumnLeft"),
 		INSERT_COLUMN_RIGHT("ContextMenu.insertColumnRight"),
 		DELETE_COLUMN("ContextMenu.deleteColumn"),
+		OBJECT_PROPERTIES("Properties"),
 		DIVIDER("");
 
 		public final @NonNull String localizationKey;

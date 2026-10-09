@@ -242,7 +242,7 @@ public class SpreadsheetDemo {
 				}
 			});
 
-			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate() {
+			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate<>() {
 
 				private final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame, app);
 
@@ -310,6 +310,11 @@ public class SpreadsheetDemo {
 				@Override
 				public void showSnackbar(@NonNull String messageKey) {
 					// Not needed
+				}
+
+				@Override
+				public void showProperties(@NonNull List<@NonNull Object> objects) {
+					// not needed
 				}
 			});
 		}

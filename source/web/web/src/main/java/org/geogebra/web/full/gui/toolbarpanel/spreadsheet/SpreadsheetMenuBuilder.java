@@ -103,6 +103,7 @@ public final class SpreadsheetMenuBuilder {
 			case DELETE_COLUMN, DELETE_ROW -> res.delete_outline();
 			case INSERT_COLUMN_LEFT -> res.add_column_left();
 			case INSERT_COLUMN_RIGHT -> res.add_column_right();
+			case OBJECT_PROPERTIES -> res.gear();
 			case SUM,
 					SD,
 					MIN,

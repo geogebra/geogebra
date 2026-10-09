@@ -71,7 +71,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 class SpreadsheetControllerTest
-		implements SpreadsheetControlsDelegate, SpreadsheetConstructionDelegate {
+		implements SpreadsheetControlsDelegate<String>, SpreadsheetConstructionDelegate {
 
 	private AppCommon app;
 	private SpreadsheetController<String> controller;
@@ -1592,6 +1592,11 @@ class SpreadsheetControllerTest
 	@Override
 	public void showSnackbar(@NonNull String messageKey) {
 		this.chartError = messageKey;
+	}
+
+	@Override
+	public void showProperties(@NonNull List<@NonNull String> objects) {
+		// not needed in tests
 	}
 
 	// -- SpreadsheetConstructionDelegate --

@@ -34,6 +34,7 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.MA
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.MEAN;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.MEDIAN;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.MIN;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.OBJECT_PROPERTIES;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PASTE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PIE_CHART;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.Q1;
@@ -70,7 +71,7 @@ public final class ContextMenuBuilder {
 	static final int HEADER_INDEX = -1;
 
 	@Weak
-	private SpreadsheetController spreadsheetController;
+	private final SpreadsheetController<?> spreadsheetController;
 
 	@Weak
 	private SpreadsheetConstructionDelegate constructionDelegate;
@@ -81,7 +82,7 @@ public final class ContextMenuBuilder {
 	/**
 	 * @param spreadsheetController {@link SpreadsheetController}
 	 */
-	ContextMenuBuilder(SpreadsheetController spreadsheetController) {
+	ContextMenuBuilder(SpreadsheetController<?> spreadsheetController) {
 		this.spreadsheetController = spreadsheetController;
 	}
 
@@ -169,6 +170,9 @@ public final class ContextMenuBuilder {
 			int fromRow, int toRow, int fromCol, int toCol, boolean mobile) {
 		boolean allRows = isAllRows(fromRow, toRow);
 		boolean allColumns = isAllColumns(fromCol, toCol);
+		boolean singleCell = (fromRow == toRow)
+				&& (fromCol == toCol)
+				&& spreadsheetController.contentAt(fromRow, fromCol) != null;
 		return Stream.of(
 						new ActionableItem(CUT, () -> spreadsheetController.cutCells(fromRow, fromCol)),
 						new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, fromCol)),
@@ -189,7 +193,12 @@ public final class ContextMenuBuilder {
 						allColumns
 								? null
 								: new ActionableItem(
-										DELETE_COLUMN, () -> spreadsheetController.deleteColumnAt(fromCol)))
+										DELETE_COLUMN, () -> spreadsheetController.deleteColumnAt(fromCol)),
+						singleCell ? new Divider() : null,
+						singleCell
+								? new ActionableItem(
+										OBJECT_PROPERTIES, () -> spreadsheetController.showProperties(fromRow, fromCol))
+								: null)
 				.filter(Objects::nonNull)
 				.collect(Collectors.toList());
 	}

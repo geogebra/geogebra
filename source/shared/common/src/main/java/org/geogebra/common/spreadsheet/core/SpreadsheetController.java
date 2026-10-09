@@ -62,10 +62,11 @@ public final class SpreadsheetController<T> {
 	@Weak
 	private @Nullable SpreadsheetControllerDelegate delegate;
 
-	private @Nullable SpreadsheetControlsDelegate controlsDelegate;
+	private @Nullable SpreadsheetControlsDelegate<T> controlsDelegate;
 	private @Nullable SpreadsheetAccessibilityDelegate accessibilityDelegate;
 	private @Nullable ExpressionReader expressionReader;
 	private @Nullable SpreadsheetConstructionDelegate constructionDelegate;
+	private @Nullable SelectionDelegate<T> selectionDelegate;
 	private final @NonNull TableLayout layout;
 	private final @NonNull ContextMenuBuilder contextMenuBuilder;
 
@@ -119,7 +120,7 @@ public final class SpreadsheetController<T> {
 	/**
 	 * @param controlsDelegate The controls delegate.
 	 */
-	public void setControlsDelegate(@Nullable SpreadsheetControlsDelegate controlsDelegate) {
+	public void setControlsDelegate(@Nullable SpreadsheetControlsDelegate<T> controlsDelegate) {
 		this.controlsDelegate = controlsDelegate;
 		editor = null;
 		initCopyPasteCut();
@@ -132,6 +133,13 @@ public final class SpreadsheetController<T> {
 			@Nullable SpreadsheetConstructionDelegate constructionDelegate) {
 		this.constructionDelegate = constructionDelegate;
 		this.contextMenuBuilder.setSpreadsheetConstructionDelegate(constructionDelegate);
+	}
+
+	void showProperties(int row, int col) {
+		T object = tabularData.contentAt(row, col);
+		if (object != null && controlsDelegate != null) {
+			controlsDelegate.showProperties(List.of(object));
+		}
 	}
 
 	/**
@@ -149,6 +157,10 @@ public final class SpreadsheetController<T> {
 		this.statisticsViewDelegate = statisticsViewDelegate;
 		this.spreadsheetStatistics = spreadsheetStatistics;
 		this.contextMenuBuilder.setSpreadsheetStatisticsDelegate(this.statisticsViewDelegate);
+	}
+
+	void setSelectionDelegate(SelectionDelegate<T> selectionDelegate) {
+		this.selectionDelegate = selectionDelegate;
 	}
 
 	/**
@@ -324,8 +336,7 @@ public final class SpreadsheetController<T> {
 		int fromRow = selectionController.getUppermostSelectedRowIndex();
 		int fromCol = selectionController.getLeftmostSelectedColumnIndex();
 		getSelections().forEach(s -> {
-			TabularRange validRange = s.getRange()
-					.restrictInfiniteRangeTo(tabularData.numberOfRows(), tabularData.numberOfColumns());
+			TabularRange validRange = intersectWithDataRange(s);
 			validRange.forEach(tabularData::removeContentAt);
 		});
 		updateLayout(fromCol, fromRow);
@@ -908,6 +919,7 @@ public final class SpreadsheetController<T> {
 				break;
 			case DEFAULT:
 				extendSelectionByDrag(x, y, modifiers.ctrlOrCmd, true);
+				updateConstructionSelection();
 				break;
 			case DRAG_DOT:
 				if (pasteDragSelectionToDestination()) {
@@ -1098,6 +1110,23 @@ public final class SpreadsheetController<T> {
 		updateStatisticsRangeSelection();
 	}
 
+	private void updateConstructionSelection() {
+		if (selectionDelegate == null) {
+			return;
+		}
+		Selection firstSelection = selectionController.getSelections().findFirst().orElse(null);
+		if (firstSelection != null) {
+			List<T> selectedObjects = new ArrayList<>();
+			intersectWithDataRange(firstSelection).forEach((row, col) -> {
+				T cellContent = tabularData.contentAt(row, col);
+				if (cellContent != null) {
+					selectedObjects.add(cellContent);
+				}
+			});
+			selectionDelegate.setSelectedObjects(selectedObjects);
+		}
+	}
+
 	private void handleCellReferenceInsertion() {
 		Optional<Selection> first = selectionController.getSelections().findFirst();
 		if (isEditorActive()
@@ -1230,6 +1259,7 @@ public final class SpreadsheetController<T> {
 			}
 		}
 		if (cellSelectionChanged) {
+			updateConstructionSelection();
 			adjustViewportIfNeeded();
 		}
 		// Ctrl not pressed: we just opened the editor, handled an arrow or opened the menu
