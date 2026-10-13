@@ -126,6 +126,64 @@ class SpreadsheetStatisticsTest {
 	}
 
 	@Test
+	@Issue("APPS-8011")
+	void testOneVarStatisticsUsesAllSelectedColumns() {
+		setupColumn(0, 1, 2, 3, 4);
+		setupColumn(1, 5, 6, 7, 8);
+		kernelBackedController.select(new TabularRange(0, 0, 3, 1), false, false);
+		kernelBackedController.showOneVarStatistics();
+
+		assertEquals(
+				new OneVarInput(parseReference("A1:B4")), oneVarStatisticsView().getInput());
+		Result.GroupList result =
+				assertInstanceOf(Result.GroupList.class, oneVarStatisticsView().getResult());
+		assertEquals("4.5", result.statisticGroups().get(0).rows().get(0).clipboardValue());
+		assertEquals("36", result.statisticGroups().get(0).rows().get(1).clipboardValue());
+		assertEquals("8", result.statisticGroups().get(0).rows().get(5).clipboardValue());
+
+		oneVarStatisticsView().setFocusedDataRange(SpreadsheetStatistics.DataRange.X);
+		assertEquals(
+				new SpreadsheetReferences(List.of(), parseReference("A1:B4")),
+				kernelBackedController.getStatisticsReferences());
+	}
+
+	@Test
+	@Issue("APPS-8011")
+	void testOneVarStatisticsUsesReversedHorizontalSelection() {
+		setupColumn(1, 100, 2);
+		setupColumn(2, 100, 4);
+		setupColumn(3, 100, 6);
+		kernelBackedController.select(new TabularRange(1, 3, 1, 1), false, false);
+		kernelBackedController.showOneVarStatistics();
+
+		assertEquals(
+				new OneVarInput(parseReference("B2:D2")), oneVarStatisticsView().getInput());
+		Result.GroupList result =
+				assertInstanceOf(Result.GroupList.class, oneVarStatisticsView().getResult());
+		assertEquals("4", result.statisticGroups().get(0).rows().get(0).clipboardValue());
+		assertEquals("3", result.statisticGroups().get(0).rows().get(5).clipboardValue());
+	}
+
+	@Test
+	@Issue("APPS-8011")
+	void testOneVarStatisticsRecalculatesWhenSecondColumnChanges() {
+		setupColumn(0, 1, 2, 3, 4);
+		setupColumn(1, 5, 6, 7, 8);
+		kernelBackedController.select(new TabularRange(0, 0, 3, 1), false, false);
+		kernelBackedController.showOneVarStatistics();
+
+		GeoNumeric cell = (GeoNumeric) kernelTabularData.contentAt(3, 1);
+		cell.setValue(16);
+		cell.updateRepaint();
+
+		Result.GroupList result =
+				assertInstanceOf(Result.GroupList.class, oneVarStatisticsView().getResult());
+		assertEquals("5.5", result.statisticGroups().get(0).rows().get(0).clipboardValue());
+		assertEquals("44", result.statisticGroups().get(0).rows().get(1).clipboardValue());
+		assertEquals("8", result.statisticGroups().get(0).rows().get(5).clipboardValue());
+	}
+
+	@Test
 	void testOneVarStatisticsEmptyRange() {
 		kernelBackedController.showOneVarStatistics();
 		assertNull(oneVarStatisticsView());

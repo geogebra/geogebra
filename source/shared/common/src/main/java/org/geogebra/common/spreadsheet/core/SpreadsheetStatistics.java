@@ -91,11 +91,11 @@ public interface SpreadsheetStatistics {
 			/**
 			 * Converting constructor, accepting a {@link TabularRange}.
 			 * @param range If finite (bounded in both directions), the result will be a
-			 * {@link SpreadsheetReference} truncated to {@code range}'s first column. An unbounded
-			 * {@code range} will give {@code null}.
+			 * {@link SpreadsheetReference}, that can contain multiple columns.
+			 * An unbounded {@code range} will give {@code null}.
 			 */
 			public OneVarInput(@NonNull TabularRange range) {
-				this(SpreadsheetReference.fromRange(range.firstColumn()));
+				this(SpreadsheetReference.fromRange(range));
 			}
 		}
 
