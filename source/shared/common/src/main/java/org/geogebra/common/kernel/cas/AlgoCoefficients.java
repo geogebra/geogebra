@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.statistics.AlgoFitPoly;
 import org.geogebra.common.kernel.statistics.FitAlgo;
 
 /**
@@ -111,7 +112,11 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 		}
 
 		// check if it's a polynomial & get coefficients
-		PolyFunction poly = inFun.expandToPolyFunction(expression, false, false);
+		// Polynomial fits retain normalized expressions for stable evaluation. Use their
+		// original-coordinate coefficients rather than expanding the expression again.
+		PolyFunction poly = f.getParentAlgorithm() instanceof AlgoFitPoly
+				? null
+				: inFun.expandToPolyFunction(expression, false, false);
 		g.clear();
 		g.setDefined(true);
 		if (poly != null) {
@@ -122,7 +127,17 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 		} else if (f.getParentAlgorithm() instanceof FitAlgo) {
 			FitAlgo fitAlgo = (FitAlgo) f.getParentAlgorithm();
 			double[] coeffs = fitAlgo.getCoeffs();
-			for (int i = coeffs.length - 1; i >= 0; i--) {
+			if (coeffs == null) {
+				g.setUndefined();
+				return;
+			}
+			int highestPower = coeffs.length - 1;
+			if (fitAlgo instanceof AlgoFitPoly) {
+				while (highestPower > 0 && coeffs[highestPower] == 0) {
+					highestPower--;
+				}
+			}
+			for (int i = highestPower; i >= 0; i--) {
 				g.add(new GeoNumeric(cons, coeffs[i]));
 			}
 		} else {

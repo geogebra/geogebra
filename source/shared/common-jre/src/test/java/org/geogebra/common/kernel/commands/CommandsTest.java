@@ -1773,15 +1773,15 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdFitPoly() {
 		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 0 ]", "6");
-		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 1 ]", "(4 * x) - 2");
-		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 2 ]", "x^(2)");
-		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 3 ]", "x^(2)");
+		// Compare rounded coefficients: QR may leave roundoff in otherwise zero terms.
+		tRound("Coefficients(FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 1 ])", "{4, -2}");
+		tRound("Coefficients(FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 2 ])", "{1, 0, 0}");
+		tRound("Coefficients(FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 3 ])", "{0, 1, 0, 0}");
 		// this one falls back to Polynomial()
 		tRound("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 4 ]", unicode("0x^3 + x^2 + 0x"));
 		tRound(
-				"FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16),(5,25)}, 4 ]",
-				unicode("0x^4 + 0x^3 + x^2 + 0x + 0"));
-		t("FitPoly[ Function({0,4,0,1,4,9,16}), 1 ]", "(4 * x) - 2");
+				"Coefficients(FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16),(5,25)}, 4 ])", "{0, 0, 1, 0, 0}");
+		tRound("Coefficients(FitPoly[ Function({0,4,0,1,4,9,16}), 1 ])", "{4, -2}");
 	}
 
 	@Test

@@ -57,7 +57,7 @@ public class RegressionBuilder {
 
 	/**
 	 * Creates a list of available stats groups.
-	 * If regression is not possible (not enough data) the list will be empty.
+	 * If fitting fails, the model is retained with undefined parameter values.
 	 * @param regression regression type + degree
 	 * @return regression parameters + coefficient of determination
 	 */
@@ -69,8 +69,8 @@ public class RegressionBuilder {
 		try {
 			GeoElementND geo = algebraProcessor.processValidExpressionSilent(cmd)[0];
 			FitAlgo fitAlgo = (FitAlgo) geo.getParentAlgorithm();
-			double[] coeffs = Objects.requireNonNull(fitAlgo).getCoeffs();
-			if (coeffs == null) {
+			double[] coeffs = geo.isDefined() ? Objects.requireNonNull(fitAlgo).getCoeffs() : null;
+			if (geo.isDefined() && coeffs == null) {
 				return stats;
 			}
 			List<StatisticGroup.Row> modelRows = new ArrayList<>();
@@ -78,11 +78,14 @@ public class RegressionBuilder {
 			if (formula != null) {
 				modelRows.add(new StatisticGroup.Row(loc.getMenu("Stats.Formula"), formula, true, null));
 			}
-			for (int i = 0; i < coeffs.length; i++) {
+			int coefficientCount =
+					coeffs == null ? regression.getCoeffOrdering().length() : coeffs.length;
+			for (int i = 0; i < coefficientCount; i++) {
 				char coeffName = regression.getCoeffName(i);
 				int index = regression.getCoeffOrdering().indexOf(coeffName);
-				String value = kernel.format(coeffs[index], StringTemplate.defaultTemplate);
-				String clipboardValue = kernel.format(coeffs[index], StringTemplate.maxDecimals);
+				double coefficient = coeffs == null ? Double.NaN : coeffs[index];
+				String value = kernel.format(coefficient, StringTemplate.defaultTemplate);
+				String clipboardValue = kernel.format(coefficient, StringTemplate.maxDecimals);
 				modelRows.add(
 						new StatisticGroup.Row(String.valueOf(coeffName), value, false, clipboardValue));
 			}

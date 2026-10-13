@@ -33,6 +33,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Fit a Polynomial exactly to a set of coordinates. Unstable above about 12
@@ -200,6 +202,18 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 	 * @return function
 	 */
 	public static Function buildPolyFunctionExpression(Kernel kernel, double[] cof) {
+		return buildPolyFunctionExpression(kernel, cof, false);
+	}
+
+	/**
+	 * Builds an expanded polynomial, optionally preserving near-unit coefficients exactly.
+	 * @param kernel kernel
+	 * @param cof coefficients in ascending power order
+	 * @param preserveCoefficients whether only exact unit coefficients may be simplified
+	 * @return function, or null if any coefficient is nonfinite
+	 */
+	public static @Nullable Function buildPolyFunctionExpression(
+			@NonNull Kernel kernel, double @NonNull [] cof, boolean preserveCoefficients) {
 		int n = cof.length;
 		ExpressionNode poly = null; // expression for the expanded polynomial
 		FunctionVariable fVar = new FunctionVariable(kernel);
@@ -227,7 +241,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 					powerExp = new ExpressionNode(kernel, fVar, Operation.POWER, new MyDouble(kernel, k));
 			}
 
-			poly = addToPoly(poly, powerExp, coeff, kernel);
+			poly = addToPoly(poly, powerExp, coeff, kernel, preserveCoefficients);
 		}
 
 		// all coefficients were 0, we've got f(x) = 0
@@ -247,6 +261,15 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 	 */
 	public static ExpressionNode addToPoly(
 			final ExpressionNode poly, ExpressionValue powerExp, double coeff, Kernel kernel) {
+		return addToPoly(poly, powerExp, coeff, kernel, false);
+	}
+
+	private static @NonNull ExpressionNode addToPoly(
+			@Nullable ExpressionNode poly,
+			@Nullable ExpressionValue powerExp,
+			double coeff,
+			@NonNull Kernel kernel,
+			boolean preserveCoefficients) {
 		boolean negativeCoeff = coeff < 0;
 		// build the expression
 		// (coeff) * x^k
@@ -254,7 +277,9 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		MyDouble coeffMyDouble = null;
 		// check for poly != null rather than k != n-1 in case the leading
 		// coefficient was 0, eg FitPoly[{(1,-1),(0,0),(-1,-1),(2,-4)},3]
-		if (DoubleUtil.isEqual(coeff, 1.0) || (poly != null && DoubleUtil.isEqual(coeff, -1.0))) {
+		boolean positiveUnit = preserveCoefficients ? coeff == 1 : DoubleUtil.isEqual(coeff, 1);
+		boolean negativeUnit = preserveCoefficients ? coeff == -1 : DoubleUtil.isEqual(coeff, -1);
+		if (positiveUnit || (poly != null && negativeUnit)) {
 			if (powerExp == null) {
 				partExp = new MyDouble(kernel, 1.0);
 			} else {

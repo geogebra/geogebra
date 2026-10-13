@@ -16,6 +16,7 @@
 
 package org.geogebra.common.factories;
 
+import org.geogebra.common.jre.headless.FlushableTimer;
 import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -29,6 +30,6 @@ public class UtilFactoryCommon extends UtilFactoryJre {
 
 	@Override
 	public GTimer newTimer(GTimerListener listener, int delay) {
-		return null;
+		return new FlushableTimer(listener);
 	}
 }

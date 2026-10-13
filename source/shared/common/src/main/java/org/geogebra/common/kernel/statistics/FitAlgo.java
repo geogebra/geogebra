@@ -16,13 +16,15 @@
 
 package org.geogebra.common.kernel.statistics;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Algorithm that allows extraction of parameters
  */
 public interface FitAlgo {
 
 	/**
-	 * @return list of parameters used in the result; meaning depends on algo
+	 * @return list of parameters used in the result, or null if unavailable; meaning depends on algo
 	 */
-	double[] getCoeffs();
+	double @Nullable [] getCoeffs();
 }

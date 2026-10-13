@@ -209,6 +209,7 @@ class RegressionSpecificationTest extends BaseExamTestSetup {
 	}
 
 	@Test
+	@Issue("APPS-7950")
 	void testSinRegression() {
 		RegressionSpecification sinRegression = view.getRegressionSpecifications(1).get(7);
 		assertEquals(

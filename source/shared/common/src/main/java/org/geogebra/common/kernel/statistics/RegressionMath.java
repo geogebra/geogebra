@@ -20,32 +20,23 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.QRDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoPolynomialFromCoordinates;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
- * RegressionMath is a library of sums, determinants and parameter calculations
- * used by the FitXxx[GeoList]:GeoFunction commands.
- *
- * Might be problems if callers are running in separate threads. Is this a
- * problem?
- * <b>--- Interface: ---</b>
- * <ul>
- * <li>RegressionMath(GeoList)
- * <li>det33(...), det44(...) determinants. (Faster than Gauss for n&lt;5)
- * <li>but det55 removed to keep code size down (web)
- * <li>doLinReg(),doQuadReg(),doCubicReg(),doQuartRet()
- * <li>doExpReg(),doLogReg(),doPowReg()
- * <li>getSigmaX(),getSigmaX2(),[getSigmaX3()..getSigmaX5()
- * <li>getSigmaY(),[getSigmaY2(),getSigmaXY(),getSigmaX2Y(),getSigmaX3Y
- * (),getSigmaX4Y()]
- * <li>getP1(),getP2(),getP3(),getP4(),getP5() //Parameters for regression
- * function
- * <li>getR() //regression coefficient. (When users get regression, they will
- * certainly ask for this...)
- * </ul>
+ * Fits polynomials by QR decomposition in normalized coordinates and computes
+ * sums and determinants for other regression algorithms.
  *
  * @author Hans-Petter Ulven
  * @version 20.02.10
@@ -53,8 +44,6 @@ import org.geogebra.common.util.debug.Log;
 public final class RegressionMath {
 
 	public static final int LINEAR = 1;
-	public static final int QUAD = 2;
-	public static final int CUBIC = 3;
 	public static final int EXP = 5;
 	public static final int LOG = 6;
 	public static final int POW = 7;
@@ -69,21 +58,15 @@ public final class RegressionMath {
 	// Sums of x,x^2,...
 	private double sigmax;
 	private double sigmax2;
-	private double sigmax3;
-	private double sigmax4;
-	private double sigmax5;
-	private double sigmax6;
 	private double sigmay;
 	private double sigmay2;
 	private double sigmaxy;
-	private double sigmax2y;
-	private double sigmax3y;
 	private GeoList geolist;
 	private double[] xlist;
 	private double[] ylist;
 	private int size;
 
-	// For (M_T*M)*Par=(M_T*Y)
+	// Design matrix and response vector for polynomial least squares
 	private double[][] marray;
 	private double[][] yarray;
 
@@ -133,7 +116,7 @@ public final class RegressionMath {
 	}
 
 	/**
-	 * Does the polynomial regression for degree &gt; 4
+	 * Fits a polynomial using QR decomposition in centered, scaled x-coordinates.
 	 *
 	 * @param gl
 	 *            input data
@@ -141,164 +124,128 @@ public final class RegressionMath {
 	 *            polynomial degree
 	 * @param cof
 	 *            output coefficients
-	 * @return success
+	 * @return the fitted polynomial, or null if fitting fails
 	 */
-	public boolean doPolyN(GeoList gl, int degree, double[] cof) {
+	public @Nullable Function fitPolynomial(@NonNull GeoList gl, int degree, double @NonNull [] cof) {
 		error = false;
 		geolist = gl;
 		size = geolist.size();
-		getPoints(); // getPoints from geolist
-		if (error) {
-			return false;
+		getPoints();
+		if (error || degree < 0 || size <= degree) {
+			return null;
+		}
+		double min = Double.POSITIVE_INFINITY;
+		double max = Double.NEGATIVE_INFINITY;
+		for (int i = 0; i < size; i++) {
+			if (!Double.isFinite(xlist[i]) || !Double.isFinite(ylist[i])) {
+				return null;
+			}
+			min = Math.min(min, xlist[i]);
+			max = Math.max(max, xlist[i]);
+		}
+		// Halve before adding to avoid overflowing for large coordinates.
+		double center = min / 2 + max / 2;
+		double scale = Math.max(max - center, center - min);
+		if (degree == 0) {
+			scale = 1;
+		} else if (scale == 0 || !Double.isFinite(scale)) {
+			return null;
 		}
 		try {
-			makeMatrixArrays(degree); // make marray and yarray
-			RealMatrix M = new Array2DRowRealMatrix(marray, false);
-			DecompositionSolver solver = new QRDecomposition(M).getSolver();
-			RealMatrix Y = new Array2DRowRealMatrix(yarray, false);
-			RealMatrix P = solver.solve(Y);
-			for (int i = 0; i <= degree; i++) {
-				cof[i] = P.getEntry(i, 0);
+			makeMatrixArrays(degree, center, scale);
+			RealMatrix matrix = new Array2DRowRealMatrix(marray, false);
+			// The tolerance is relative to the normalized matrix, not the original x units.
+			double threshold = Math.ulp(1.0) * Math.max(size, degree + 1) * matrix.getFrobeniusNorm();
+			DecompositionSolver solver = new QRDecomposition(matrix, threshold).getSolver();
+			if (!solver.isNonSingular()) {
+				return null;
 			}
-		} catch (Throwable t) {
-			Log.debug(t.toString());
-			error = true;
-		} // try-catch. ToDo: A bit more fine-grained error-handling...
-		return !error;
+			RealMatrix solution = solver.solve(new Array2DRowRealMatrix(yarray, false));
+			if (!convertCoefficients(solution, degree, center, scale, cof)) {
+				return null;
+			}
+			if (canExpandPolynomial(
+					solution, degree, center, scale, Math.max(Math.abs(min), Math.abs(max)))) {
+				return AlgoPolynomialFromCoordinates.buildPolyFunctionExpression(gl.getKernel(), cof, true);
+			}
+			return buildNormalizedPolynomial(gl.getKernel(), solution, degree, center, scale);
+		} catch (RuntimeException exception) {
+			Log.debug(exception.toString());
+			return null;
+		}
 	}
 
-	/**
-	 * Do linear regression, store result in p1,p2
-	 *
-	 * @param gl
-	 *            list of points
-	 * @param cof
-	 *            output coefficients
-	 * @return whether calculating sums worked
-	 */
-	public boolean doLinear(GeoList gl, double[] cof) {
-		error = false;
-		geolist = gl;
-		size = geolist.size();
-		getPoints(); // getPoints from geolist
-		if (error) {
-			return false;
+	/** Use expanded notation only when the estimated rounding error is small. */
+	private boolean canExpandPolynomial(
+			@NonNull RealMatrix solution, int degree, double center, double scale, double maxAbsX) {
+		if (degree == 0) {
+			return true;
 		}
-		doSums(LINEAR); // calculate necessary sigmas
-		if (error) {
-			return false;
+		double maxAbsY = 0;
+		for (double y : ylist) {
+			maxAbsY = Math.max(maxAbsY, Math.abs(y));
 		}
-
-		double n = det22(1.0d * size, sigmax, sigmax, sigmax2);
-		if (Math.abs(n - 0.0d) < 1.0E-15d) {
-			return false;
+		// Bound the magnitudes before any cancellation in coefficient conversion or evaluation.
+		double offsetMagnitude = (maxAbsX + Math.abs(center)) / scale;
+		double magnitude = Math.abs(solution.getEntry(degree, 0));
+		for (int i = degree - 1; i >= 0; i--) {
+			magnitude = magnitude * offsetMagnitude + Math.abs(solution.getEntry(i, 0));
 		}
-		cof[0] = det22(sigmay, sigmax, sigmaxy, sigmax2) / n;
-		cof[1] = det22(size, sigmay, sigmax, sigmaxy) / n;
-		// r=corrCoeff();
-		return true;
+		double roundingBound = magnitude * Math.ulp(1.0) * 8 * (degree + 1) * (degree + 1);
+		return Double.isFinite(roundingBound) && roundingBound <= maxAbsY * 1E-12;
 	}
 
-	/**
-	 * Compute quadratic fit and store result in p1, p2, p3.
-	 *
-	 * @param gl
-	 *            input data
-	 * @param cof
-	 *            output coefficients
-	 * @return whether sums could be calculated
-	 */
-	public boolean doQuad(GeoList gl, double[] cof) {
-		error = false;
-		geolist = gl;
-		size = geolist.size();
-		getPoints(); // getPoints from geolist
-		if (error) {
-			return false;
+	/** Build the evaluation expression without expanding powers of the normalization offset. */
+	private @NonNull Function buildNormalizedPolynomial(
+			@NonNull Kernel kernel,
+			@NonNull RealMatrix solution,
+			int degree,
+			double center,
+			double scale) {
+		int highestPower = degree;
+		while (highestPower > 0 && solution.getEntry(highestPower, 0) == 0) {
+			highestPower--;
 		}
-		doSums(QUAD); // calculate necessary sigmas
-		if (error) {
-			return false;
+		FunctionVariable x = new FunctionVariable(kernel);
+		ExpressionNode normalizedX =
+				new ExpressionNode(kernel, x, Operation.MINUS, new MyDouble(kernel, center));
+		normalizedX =
+				new ExpressionNode(kernel, normalizedX, Operation.DIVIDE, new MyDouble(kernel, scale));
+		ExpressionNode polynomial =
+				new ExpressionNode(kernel, new MyDouble(kernel, solution.getEntry(highestPower, 0)));
+		for (int i = highestPower - 1; i >= 0; i--) {
+			polynomial = new ExpressionNode(kernel, polynomial, Operation.MULTIPLY, normalizedX);
+			polynomial = new ExpressionNode(
+					kernel, polynomial, Operation.PLUS, new MyDouble(kernel, solution.getEntry(i, 0)));
 		}
-
-		double n =
-				det33(1.0d * size, sigmax, sigmax2, sigmax, sigmax2, sigmax3, sigmax2, sigmax3, sigmax4);
-
-		if (Math.abs(n - 0.0d) < 1.0E-15d) {
-			return false;
-		}
-		cof[0] =
-				det33(sigmay, sigmax, sigmax2, sigmaxy, sigmax2, sigmax3, sigmax2y, sigmax3, sigmax4) / n;
-		cof[1] =
-				det33(1.0d * size, sigmay, sigmax2, sigmax, sigmaxy, sigmax3, sigmax2, sigmax2y, sigmax4)
-						/ n;
-		cof[2] =
-				det33(1.0d * size, sigmax, sigmay, sigmax, sigmax2, sigmaxy, sigmax2, sigmax3, sigmax2y)
-						/ n;
-		// r=0.0d; // Not useful
-		return true;
+		return new Function(polynomial, x);
 	}
 
-	/**
-	 * Calculate cubic regression and stre in p1, p2, p3, p4.
-	 *
-	 * @param gl
-	 *            input data
-	 * @param cof
-	 *            output coefficients
-	 * @return whether sums could be calculated
-	 */
-	public boolean doCubic(GeoList gl, double[] cof) {
-		error = false;
-		geolist = gl;
-		size = geolist.size();
-		getPoints(); // getPoints from geolist
-		if (error) {
-			return false;
+	/** Substitute (x - center) / scale into the fitted polynomial using Horner's method. */
+	private boolean convertCoefficients(
+			@NonNull RealMatrix solution,
+			int degree,
+			double center,
+			double scale,
+			double @NonNull [] coefficients) {
+		double[] converted = new double[degree + 1];
+		converted[0] = solution.getEntry(degree, 0);
+		double offset = center / scale;
+		for (int i = degree - 1; i >= 0; i--) {
+			for (int j = degree - i; j > 0; j--) {
+				converted[j] = converted[j - 1] / scale - offset * converted[j];
+			}
+			converted[0] = solution.getEntry(i, 0) - offset * converted[0];
 		}
-		doSums(CUBIC); // calculate necessary sigmas
-		if (error) {
-			return false;
+		for (int i = 0; i < converted.length; i++) {
+			if (!Double.isFinite(converted[i])) {
+				return false;
+			}
+			if (converted[i] == 0) {
+				converted[i] = 0;
+			}
 		}
-
-		double n = det44(
-				1.0d * size,
-				sigmax,
-				sigmax2,
-				sigmax3,
-				sigmax,
-				sigmax2,
-				sigmax3,
-				sigmax4,
-				sigmax2,
-				sigmax3,
-				sigmax4,
-				sigmax5,
-				sigmax3,
-				sigmax4,
-				sigmax5,
-				sigmax6);
-
-		if (Math.abs(n - 0.0d) < 1.0E-15d) {
-			return false;
-		}
-		cof[0] = det44(
-						sigmay, sigmax, sigmax2, sigmax3, sigmaxy, sigmax2, sigmax3, sigmax4, sigmax2y, sigmax3,
-						sigmax4, sigmax5, sigmax3y, sigmax4, sigmax5, sigmax6)
-				/ n;
-		cof[1] = det44(
-						size, sigmay, sigmax2, sigmax3, sigmax, sigmaxy, sigmax3, sigmax4, sigmax2, sigmax2y,
-						sigmax4, sigmax5, sigmax3, sigmax3y, sigmax5, sigmax6)
-				/ n;
-		cof[2] = det44(
-						size, sigmax, sigmay, sigmax3, sigmax, sigmax2, sigmaxy, sigmax4, sigmax2, sigmax3,
-						sigmax2y, sigmax5, sigmax3, sigmax4, sigmax3y, sigmax6)
-				/ n;
-		cof[3] = det44(
-						size, sigmax, sigmax2, sigmay, sigmax, sigmax2, sigmax3, sigmaxy, sigmax2, sigmax3,
-						sigmax4, sigmax2y, sigmax3, sigmax4, sigmax5, sigmax3y)
-				/ n;
-		// r=0.0d; // Not useful
+		System.arraycopy(converted, 0, coefficients, 0, converted.length);
 		return true;
 	}
 
@@ -329,7 +276,7 @@ public final class RegressionMath {
 			}
 			ylist[i] = Math.log(y);
 		} // for all y
-		doSums(LINEAR); // calculate necessary sigmas
+		doSums(); // calculate necessary sigmas
 		if (error) {
 			return false;
 		}
@@ -369,7 +316,7 @@ public final class RegressionMath {
 			}
 			xlist[i] = Math.log(xlist[i]);
 		} // for all x
-		doSums(LINEAR); // calculate necessary sigmas
+		doSums(); // calculate necessary sigmas
 		if (error) {
 			return false;
 		}
@@ -415,7 +362,7 @@ public final class RegressionMath {
 			xlist[i] = Math.log(x);
 			ylist[i] = Math.log(y);
 		} // for all x
-		doSums(LINEAR); // calculate necessary sigmas
+		doSums(); // calculate necessary sigmas
 		if (error) {
 			return false;
 		}
@@ -569,39 +516,16 @@ public final class RegressionMath {
 	// / --- Private --- ///
 
 	/* Do whatever sums necessary */
-	private void doSums(int degree) { // do whatever sums necessary
-		double x, y, xx, xy;
-		sigmax = sigmax2 = sigmax3 = sigmax4 = sigmax5 = sigmax6 = 0.0d;
-		sigmaxy = sigmax2y = sigmax3y = sigmay = sigmay2 = 0.0d;
+	private void doSums() {
+		sigmax = sigmax2 = sigmaxy = sigmay = sigmay2 = 0;
 		for (int i = 0; i < size; i++) {
-			x = xlist[i];
-			y = ylist[i];
-			xx = x * x;
-			xy = x * y; // save some calculations
-			switch (degree) { // fall through switch
-				default:
-					// do nothing
-					break;
-				case 4:
-				// $FALL-THROUGH$
-				case 3:
-					sigmax3y += xx * xy;
-					sigmax5 += xx * xx * x;
-					sigmax6 += xx * xx * xx;
-				// $FALL-THROUGH$
-				case 2:
-					sigmax2y += xx * y;
-					sigmax3 += xx * x;
-					sigmax4 += xx * xx;
-				// $FALL-THROUGH$
-				case 1:
-					sigmay2 += y * y; // r only for linear
-			}
-			// always do these
+			double x = xlist[i];
+			double y = ylist[i];
 			sigmax += x;
-			sigmax2 += xx;
-			sigmaxy += xy;
+			sigmax2 += x * x;
+			sigmaxy += x * y;
 			sigmay += y;
+			sigmay2 += y * y;
 		}
 	}
 
@@ -628,7 +552,7 @@ public final class RegressionMath {
 	}
 
 	// Make M with 1,x,x^2,... , and Y with y1,y2,.. for all datapoints
-	private void makeMatrixArrays(int degree) {
+	private void makeMatrixArrays(int degree, double center, double scale) {
 		marray = new double[size][degree + 1];
 		yarray = new double[size][1]; // column matrix
 		for (int i = 0; i < size; i++) {
@@ -636,7 +560,7 @@ public final class RegressionMath {
 			yarray[i][0] = ylist[i];
 			// M:
 			for (int j = 0; j < (degree + 1); j++) {
-				marray[i][j] = Math.pow(xlist[i], j);
+				marray[i][j] = j == 0 ? 1 : marray[i][j - 1] * ((xlist[i] - center) / scale);
 			}
 		}
 	}
