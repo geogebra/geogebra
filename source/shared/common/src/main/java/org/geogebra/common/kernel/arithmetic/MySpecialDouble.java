@@ -371,7 +371,7 @@ public class MySpecialDouble extends MyDouble {
 	}
 
 	private void initFraction() {
-		if (strToString == null) {
+		if (strToString == null || setFromOutside) {
 			denominator = Double.NaN;
 			return;
 		}

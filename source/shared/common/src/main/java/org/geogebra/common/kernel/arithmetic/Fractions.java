@@ -119,11 +119,11 @@ public class Fractions {
 			return false;
 		}
 		ExpressionValue left1 = lt.unwrap();
-		if (left1 instanceof ExpressionNode) {
-			((ExpressionNode) left1).getFraction(parts, expandPlusAndDecimals);
+		if (left1 instanceof ExpressionNode node) {
+			node.getFraction(parts, expandPlusAndDecimals);
 			return true;
-		} else if (left1 instanceof GeoNumeric && ((GeoNumeric) left1).getDefinition() != null) {
-			((GeoNumeric) left1).getFraction(parts, expandPlusAndDecimals);
+		} else if (left1 instanceof GeoNumeric numeric && numeric.getDefinition() != null) {
+			numeric.getFraction(parts, expandPlusAndDecimals);
 			return true;
 		} else if (left1.isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, left1.wrap());

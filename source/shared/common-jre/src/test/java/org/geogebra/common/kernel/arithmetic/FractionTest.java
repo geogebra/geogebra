@@ -116,6 +116,14 @@ class FractionTest extends SymbolicArithmeticTest {
 		assertThat(add("51/1000"), hasExactFraction(true));
 	}
 
+	@Test
+	@Issue("APPS-8013")
+	void fractionsWithLog() {
+		add("a=log(10,0.8)");
+		t("0.5 * log(10,0.8)", "-0.0484550065");
+		t("0.5 * a", "-0.0484550065");
+	}
+
 	private Matcher<GeoElement> hasExactFraction(boolean flag) {
 		return hasProperty("exact fraction", geo -> Fractions.isExactFraction(geo, getKernel()), flag);
 	}
