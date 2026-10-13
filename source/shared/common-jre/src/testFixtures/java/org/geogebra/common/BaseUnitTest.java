@@ -229,7 +229,7 @@ public class BaseUnitTest {
 	 */
 	public static TypeSafeMatcher<GeoElementND> isDefined() {
 		if (isDefined == null) {
-			isDefined = new TypeSafeMatcher<GeoElementND>() {
+			isDefined = new TypeSafeMatcher<>() {
 				@Override
 				protected boolean matchesSafely(GeoElementND item) {
 					return item.isDefined();
@@ -265,14 +265,14 @@ public class BaseUnitTest {
 	 * @param <B> property type
 	 */
 	public static <A, B> TypeSafeMatcher<A> hasProperty(String propName, Function<A, B> prop, B val) {
-		return new TypeSafeMatcher<A>() {
+		return new TypeSafeMatcher<>() {
 			@Override
 			protected boolean matchesSafely(A item) {
 				return val.equals(prop.apply(item));
 			}
 
 			@Override
-			public void describeMismatchSafely(A item, Description description) {
+			protected void describeMismatchSafely(A item, Description description) {
 				description.appendText("had " + propName + " ").appendValue(prop.apply(item));
 			}
 

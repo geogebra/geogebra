@@ -83,8 +83,8 @@ public class XmlTestUtil {
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = schemaFactory.newSchema(schemaFile);
 			VALIDATOR = schema.newValidator();
-		} catch (IllegalArgumentException exception) {
-			// Ignore
+		} catch (IllegalArgumentException ignored) {
+			// Ignore, code shared with Android where this is not supported
 		}
 		return VALIDATOR;
 	}

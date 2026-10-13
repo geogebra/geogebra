@@ -66,6 +66,7 @@ public final class TestErrorHandler implements ErrorLogger {
 	}
 
 	@Override
+	@SuppressWarnings("PMD.AvoidPrintStackTrace")
 	public void log(Throwable e) {
 		e.printStackTrace();
 		Throwable cause = e.getCause() == null ? e : e.getCause();

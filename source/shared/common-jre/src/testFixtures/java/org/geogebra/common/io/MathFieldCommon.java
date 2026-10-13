@@ -159,6 +159,9 @@ public class MathFieldCommon implements MathField {
 		internal.setSyntaxAdapter(syntaxAdapter);
 	}
 
+	/**
+	 * @return caret path as a list of indices, from bottom up.
+	 */
 	public ArrayList<Integer> getCaretPath() {
 		return CursorController.getPath(internal.getEditorState());
 	}

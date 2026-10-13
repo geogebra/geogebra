@@ -27,7 +27,9 @@ public class ImageManagerCommon extends ImageManager {
 	private final HashMap<String, MyImage> externalImages = new HashMap<>();
 
 	@Override
-	public void addExternalImage(String filename0, String urlBase64) {}
+	public void addExternalImage(String filename0, String urlBase64) {
+		// not needed in tests
+	}
 
 	@Override
 	public void addExternalImage(@NonNull MyImage image, @NonNull String path) {

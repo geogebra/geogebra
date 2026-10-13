@@ -73,24 +73,24 @@ class EditorChecker {
 		typer = new EditorTyper(mathField);
 	}
 
-	public MathFieldCommon getMathField() {
+	MathFieldCommon getMathField() {
 		return mathField;
 	}
 
-	public void checkAsciiMath(String output) {
+	void checkAsciiMath(String output) {
 		SequenceNode rootComponent = getRootComponent();
 		assertEquals(output, GeoGebraSerializer.serialize(rootComponent, (EditorFeatures) null));
 		// clean the checker after typing
 		reset();
 	}
 
-	public void checkLaTeX(String output) {
+	void checkLaTeX(String output) {
 		assertEquals(output, TeXSerializer.serialize(getRootComponent()));
 		// clean the checker after typing
 		reset();
 	}
 
-	public void checkLaTeXWithCursor(String output) {
+	void checkLaTeXWithCursor(String output) {
 		EditorState state = mathField.getInternal().getEditorState();
 		assertEquals(
 				output,
@@ -100,11 +100,11 @@ class EditorChecker {
 		reset();
 	}
 
-	public void checkGGBMath(String output) {
+	void checkGGBMath(String output) {
 		checkGGBMath(output, null);
 	}
 
-	public void checkGGBMath(String output, @Nullable EditorFeatures editorFeatures) {
+	void checkGGBMath(String output, @Nullable EditorFeatures editorFeatures) {
 		SequenceNode rootComponent = getRootComponent();
 		String exp = new GeoGebraSerializer(editorFeatures)
 				.serialize(rootComponent, new StringBuilder())
@@ -119,7 +119,7 @@ class EditorChecker {
 		reset();
 	}
 
-	public EditorChecker checkPlaceholders(String expected) {
+	EditorChecker checkPlaceholders(String expected) {
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
 		mathFieldInternal.update();
 		EditorState editorState = mathFieldInternal.getEditorState();
@@ -165,12 +165,12 @@ class EditorChecker {
 		return null;
 	}
 
-	public void checkRaw(String output) {
+	void checkRaw(String output) {
 		SequenceNode rootComponent = getRootComponent();
 		assertEquals(output, rootComponent + "");
 	}
 
-	public void checkLength(int length) {
+	void checkLength(int length) {
 		assertEquals(length, getRootComponent().size());
 	}
 
@@ -189,17 +189,17 @@ class EditorChecker {
 	 * @param input to type.
 	 * @return the modified checker.
 	 */
-	public EditorChecker type(String input) {
+	EditorChecker type(String input) {
 		typer.type(input);
 		return this;
 	}
 
-	public EditorChecker pressSingleKey(String key) {
+	EditorChecker pressSingleKey(String key) {
 		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), key);
 		return this;
 	}
 
-	public EditorChecker typeKey(int key) {
+	EditorChecker typeKey(int key) {
 		typer.typeKey(key);
 		return this;
 	}
@@ -213,7 +213,7 @@ class EditorChecker {
 	 * @param count of the cursor moves
 	 * @return the modified checker.
 	 */
-	public EditorChecker left(int count) {
+	EditorChecker left(int count) {
 		return repeatKey(JavaKeyCodes.VK_LEFT, count);
 	}
 
@@ -226,26 +226,26 @@ class EditorChecker {
 	 * @param count of the cursor moves
 	 * @return the modified checker.
 	 */
-	public EditorChecker right(int count) {
+	EditorChecker right(int count) {
 		return repeatKey(JavaKeyCodes.VK_RIGHT, count);
 	}
 
-	public EditorChecker setModifiers(int modifiers) {
+	EditorChecker setModifiers(int modifiers) {
 		typer.setModifiers(modifiers);
 		return this;
 	}
 
-	public EditorChecker repeatKey(int key, int count) {
+	EditorChecker repeatKey(int key, int count) {
 		typer.repeatKey(key, count);
 		return this;
 	}
 
-	public EditorChecker insert(String input) {
+	EditorChecker insert(String input) {
 		typer.insert(input);
 		return this;
 	}
 
-	public EditorChecker parse(String input) {
+	EditorChecker parse(String input) {
 		Parser parser = new Parser(mathField.getCatalog());
 		Formula formula;
 		try {
@@ -257,13 +257,13 @@ class EditorChecker {
 		return this;
 	}
 
-	public EditorChecker withPlaceholders() {
+	EditorChecker withPlaceholders() {
 		new AddPlaceholders()
 				.process(mathField.getInternal().getFormula().getRootNode().getChild(0));
 		return this;
 	}
 
-	public EditorChecker convertFormula(String input) {
+	EditorChecker convertFormula(String input) {
 		return convertFormulaAndProtect(input, true);
 	}
 
@@ -283,11 +283,11 @@ class EditorChecker {
 		return this;
 	}
 
-	public EditorChecker convertFormulaForAV(String input) {
+	EditorChecker convertFormulaForAV(String input) {
 		return convertFormulaAndProtect(input, false);
 	}
 
-	public EditorChecker matrixFromParser(String input) {
+	EditorChecker matrixFromParser(String input) {
 		Parser parser = new Parser(mathField.getCatalog());
 		Formula formula;
 		try {
@@ -305,12 +305,12 @@ class EditorChecker {
 	 * Protect top level sequence
 	 * @return this
 	 */
-	public EditorChecker protect() {
+	EditorChecker protect() {
 		mathField.getInternal().getFormula().getRootNode().setProtected();
 		return this;
 	}
 
-	public EditorChecker checkCaret(Integer... indexes) {
+	EditorChecker checkCaret(Integer... indexes) {
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
 		mathField.requestViewFocus();
 		mathFieldInternal.update();
@@ -319,7 +319,7 @@ class EditorChecker {
 		return this;
 	}
 
-	public void serializeAs(String latex) {
+	void serializeAs(String latex) {
 		TeXSerializer teXSerializer = new TeXSerializer();
 		assertEquals(latex, teXSerializer.serialize(mathField.getInternal().getFormula()));
 	}
@@ -328,19 +328,19 @@ class EditorChecker {
 		new EditorChecker(app).insert(input).checkAsciiMath(output);
 	}
 
-	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
+	void setFormatConverter(SyntaxAdapterImpl formatConverter) {
 		mathField.setFormatConverter(formatConverter);
 	}
 
-	public void setForceBracketsAfterFunction() {
+	void setForceBracketsAfterFunction() {
 		mathField.getCatalog().setForceBracketAfterFunction(true);
 	}
 
-	public void setAllowAbs(boolean allowAbs) {
+	void setAllowAbs(boolean allowAbs) {
 		mathField.getInternal().setAllowAbs(allowAbs);
 	}
 
-	public EditorChecker click(int x, int y) {
+	EditorChecker click(int x, int y) {
 		mathField.getInternal().onPointerUp(x, y);
 		return this;
 	}
@@ -350,7 +350,7 @@ class EditorChecker {
 	 * Examples ('|' is the cursor):
 	 *  xy^z|, xy_|z, xy^(1/x|)
 	 */
-	public void checkCursorInScript() {
+	void checkCursorInScript() {
 		assertTrue(mathField.getInternal().getEditorState().isInScript());
 	}
 
@@ -358,7 +358,7 @@ class EditorChecker {
 	 * Asserts if the cursor is NOT in super- or subscript.
 	 * Note: opposite of cursorInScript().
 	 */
-	public void checkCursorNotInScript() {
+	void checkCursorNotInScript() {
 		assertFalse(mathField.getInternal().getEditorState().isInScript());
 	}
 
@@ -368,18 +368,18 @@ class EditorChecker {
 	 * For example ('|' is the cursor) let's take a point (1, 2) in math field.
 	 * Then '(1, |2)' is false, but '(1,2)|' or '|(1,2)' are true.
 	 */
-	public void checkCursorIsAtRoot() {
+	void checkCursorIsAtRoot() {
 		EditorState editorState = mathField.getInternal().getEditorState();
 		assertEquals(editorState.getCurrentNode(), editorState.getRootNode());
 	}
 
-	public EditorChecker select(int from, int to) {
+	EditorChecker select(int from, int to) {
 		EditorState state = mathField.getInternal().getEditorState();
 		state.selectSubsequence(state.getRootNode(), from, to);
 		return this;
 	}
 
-	public void add(String input) {
+	void add(String input) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(input, false);
 	}
 
@@ -395,33 +395,33 @@ class EditorChecker {
 		reset();
 	}
 
-	public void checkSelectionEmpty() {
+	void checkSelectionEmpty() {
 		assertNull(mathField.getInternal().getEditorState().getSelectionStart());
 		reset();
 	}
 
-	public EditorChecker shiftOn() {
+	EditorChecker shiftOn() {
 		return this.setModifiers(KeyEvent.SHIFT_MASK);
 	}
 
-	public void shouldDeleteOnly(Integer number) {
+	void shouldDeleteOnly(Integer number) {
 		String before = GeoGebraSerializer.serialize(getRootComponent(), (EditorFeatures) null);
 		setModifiers(0);
 		typeKey(JavaKeyCodes.VK_DELETE);
 		checkAsciiMath(before.replace(number.toString(), ""));
 	}
 
-	public EditorChecker backspace(int times) {
+	EditorChecker backspace(int times) {
 		return repeatKey(JavaKeyCodes.VK_BACK_SPACE, times);
 	}
 
-	public EditorChecker ctrlA() {
+	EditorChecker ctrlA() {
 		setModifiers(KeyEvent.CTRL_MASK);
 		typeKey(JavaKeyCodes.VK_A);
 		return this;
 	}
 
-	public EditorChecker down(int times) {
+	EditorChecker down(int times) {
 		return repeatKey(JavaKeyCodes.VK_DOWN, times);
 	}
 

@@ -51,8 +51,8 @@ public class MultipleResultsMatcher extends TypeSafeMatcher<String> {
 		return false;
 	}
 
-	private String removeSpaces(String string) {
-		return string.replaceAll(" ", "");
+	private static String removeSpaces(String string) {
+		return string.replace(" ", "");
 	}
 
 	@Override
@@ -60,9 +60,9 @@ public class MultipleResultsMatcher extends TypeSafeMatcher<String> {
 		description.appendList(" Any of: ", ", ", "", validResults);
 	}
 
-	private class ValidResult implements SelfDescribing {
+	private static final class ValidResult implements SelfDescribing {
 
-		private String resultString;
+		private final String resultString;
 
 		private ValidResult(String resultString) {
 			this.resultString = resultString;

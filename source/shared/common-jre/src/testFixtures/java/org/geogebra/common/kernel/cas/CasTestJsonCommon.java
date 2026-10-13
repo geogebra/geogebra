@@ -56,6 +56,7 @@ import org.junit.Test;
  *
  * Note: no need for Before / BeforeClass, testCat clears everything
  */
+@SuppressWarnings("PMD.WrongTestAnnotation")
 public abstract class CasTestJsonCommon {
 
 	protected static HashMap<String, ArrayList<CasTest>> testcases = new HashMap<>();
@@ -70,7 +71,7 @@ public abstract class CasTestJsonCommon {
 		protected String output;
 		protected String rounding;
 
-		public CasTest(String input, String output, String rounding) {
+		CasTest(String input, String output, String rounding) {
 			this.input = input;
 			this.output = output;
 			this.rounding = rounding;
@@ -329,7 +330,6 @@ public abstract class CasTestJsonCommon {
 
 	protected void testCatNoWindows(String category) {
 		String os = System.getProperty("os.version");
-		;
 		if (os != null && StringUtil.toLowerCaseUS(os).startsWith("windows")) {
 			testCat(category);
 		} else {
