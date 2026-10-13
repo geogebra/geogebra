@@ -24,7 +24,7 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 public class FixObjectSizeProperty extends AbstractValuedProperty<Boolean>
-		implements BooleanProperty {
+		implements BooleanProperty, GeoElementDependentProperty {
 	private final GeoElement geoElement;
 
 	/**
@@ -50,5 +50,10 @@ public class FixObjectSizeProperty extends AbstractValuedProperty<Boolean>
 	@Override
 	public boolean isEnabled() {
 		return !geoElement.isLocked();
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return geoElement;
 	}
 }
