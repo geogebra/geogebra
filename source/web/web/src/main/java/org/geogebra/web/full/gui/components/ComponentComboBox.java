@@ -23,7 +23,6 @@ import static org.geogebra.common.properties.PropertyView.VisibilityUpdateDelega
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.StringUtil;
@@ -31,7 +30,6 @@ import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
@@ -169,14 +167,10 @@ public final class ComponentComboBox extends FlowPanel
 	// Combo box and input field related handlers
 
 	private void addClickHandler() {
-		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				controller.getPopup().forceKeyboardFocus(false);
-				if (!isDisabled() && !isInputFocused()) {
-					toggleExpanded();
-				}
+		Dom.addEventListener(this.getElement(), "click", event -> {
+			controller.getPopup().forceKeyboardFocus(false);
+			if (!isDisabled() && (!isInputFocused() || !controller.isOpened())) {
+				toggleExpanded();
 			}
 		});
 	}
