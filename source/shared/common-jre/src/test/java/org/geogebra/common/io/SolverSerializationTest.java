@@ -24,6 +24,7 @@ import org.geogebra.editor.share.io.latex.Parser;
 import org.geogebra.editor.share.serializer.SolverSerializer;
 import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.util.Unicode;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -162,9 +163,9 @@ class SolverSerializationTest {
 
 	@Test
 	void testLog() {
-		parsesToSolverInput("log(x)", "log_[10](x)");
-		parsesToSolverInput("log(10,x)", "log_[10](x)");
-		parsesToSolverInput("log(2,x)", "log_[2](x)");
+		parsesToSolverInput("log(x)", "log_[10][x]");
+		parsesToSolverInput("log(10,x)", "log_[10][x]");
+		parsesToSolverInput("log(2,x)", "log_[2][x]");
 	}
 
 	@Test
@@ -237,5 +238,97 @@ class SolverSerializationTest {
 		parsesToSolverInput("x(8)", "x(8)");
 		parsesToSolverInput("x(x+1)", "x(x+1)");
 		parsesToSolverInput("xxx(x)", "xxx(x)");
+	}
+
+	@Test
+	@Issue("APPS-7936")
+	void testConstants() {
+		parsesToSolverInput(String.valueOf(Unicode.pi), "/pi/");
+		parsesToSolverInput(String.valueOf(Unicode.EULER_CHAR), "/e/");
+	}
+
+	@Test
+	@Issue("APPS-7936")
+	void testGreekLetters() {
+		// Lowercase
+		parsesToSolverInput(String.valueOf(Unicode.alpha), "\\alpha");
+		parsesToSolverInput(String.valueOf(Unicode.beta), "\\beta");
+		parsesToSolverInput(String.valueOf(Unicode.gamma), "\\gamma");
+		parsesToSolverInput(String.valueOf(Unicode.theta), "\\theta");
+		parsesToSolverInput(String.valueOf(Unicode.lambda), "\\lambda");
+		parsesToSolverInput(String.valueOf(Unicode.mu), "\\mu");
+		parsesToSolverInput(String.valueOf(Unicode.omega), "\\omega");
+		// Uppercase
+		parsesToSolverInput(String.valueOf(Unicode.Delta), "\\Delta");
+		parsesToSolverInput(String.valueOf(Unicode.Pi), "\\Pi");
+		parsesToSolverInput(String.valueOf(Unicode.Sigma), "\\Sigma");
+		parsesToSolverInput(String.valueOf(Unicode.Omega), "\\Omega");
+	}
+
+	@Test
+	@Issue("APPS-7936")
+	void testInequalities() {
+		parsesToSolverInput("x" + Unicode.LESS_EQUAL + "2", "x<=2");
+		parsesToSolverInput("x" + Unicode.GREATER_EQUAL + "2", "x>=2");
+		parsesToSolverInput("1" + Unicode.LESS_EQUAL + "x" + Unicode.LESS_EQUAL + "2", "1<=x<=2");
+		parsesToSolverInput("x" + Unicode.GREATER_EQUAL + "2", "x>=2");
+	}
+
+	@Test
+	@Issue("APPS-7936")
+	void testSymbolsInExpressions() {
+		parsesToSolverInput("2" + Unicode.pi, "2/pi/");
+		parsesToSolverInput("sin(" + Unicode.pi + ")", "sin[/pi/]");
+		parsesToSolverInput(Unicode.EULER_CHAR + "+1", "/e/+1");
+		parsesToSolverInput("2" + Unicode.alpha + "+" + Unicode.beta, "2\\alpha+\\beta");
+		parsesToSolverInput("x" + Unicode.LESS_EQUAL + Unicode.pi, "x<=/pi/");
+	}
+
+	@Test
+	@Issue("APPS-7936")
+	void testPowersOfSymbols() {
+		parsesToSolverInput(Unicode.pi + "^2", "[/pi/^2]");
+		parsesToSolverInput(Unicode.EULER_CHAR + "^x", "[/e/^x]");
+		parsesToSolverInput(Unicode.alpha + "^2", "[\\alpha^2]");
+	}
+
+	@Test
+	@Issue("APPS-7936")
+	void testSubscripts() {
+		parsesToSolverInput("x_1", "x_1");
+		parsesToSolverInput("x_{321}", "x_321");
+		parsesToSolverInput("a_n", "a_n");
+		parsesToSolverInput("x_1+x_2", "x_1+x_2");
+		parsesToSolverInput("x_1^2", "[x_1^2]");
+	}
+
+	@Test
+	@Issue("APPS-7936")
+	void testTrigonometricFunctionsWithPower() {
+		parsesToSolverInput("sin^(2)(x)", "[sin^2][x]");
+		parsesToSolverInput("cos^(2)(x)", "[cos^2][x]");
+		parsesToSolverInput("tan^(3)(x)", "[tan^3][x]");
+	}
+
+	@Test
+	@Issue("APPS-7936")
+	void testDegrees() {
+		parsesToSolverInput("45" + Unicode.DEGREE_CHAR, "degree[45]");
+		parsesToSolverInput("sin(30" + Unicode.DEGREE_CHAR + ")", "sin[degree[30]]");
+	}
+
+	@Test
+	@Issue("APPS-7936")
+	void testDerivative() {
+		parsesToSolverInput("Derivative(x^2,x)", "diff[[x^2]/x]");
+		parsesToSolverInput("Derivative(sin(t),t)", "diff[sin[t]/t]");
+	}
+
+	@Test
+	@Issue("APPS-7936")
+	void testIntegral() {
+		parsesToSolverInput("Integral(x^2)", "prim[[x^2],x]");
+		parsesToSolverInput("Integral(t^2,t)", "prim[[t^2],t]");
+		parsesToSolverInput("Integral(x^2,1,2)", "int[1,2,[x^2],x]");
 	}
 }
