@@ -1649,6 +1649,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public final GeoElement getLabelHit(GPoint p, PointerEventType type) {
+		if (!getApplication().isLabelDragsEnabled()) {
+			return null;
+		}
 		return getCompanion().getLabelHit(p, type);
 	}
 

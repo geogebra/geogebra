@@ -257,7 +257,7 @@ public class HitDetector {
 		} else {
 			int capturingThreshold = ev.getApplication().getCapturingThreshold(type);
 			setHits(p, capturingThreshold);
-			if (type == PointerEventType.TOUCH && getHits().size() == 0) {
+			if (type == PointerEventType.TOUCH && getHits().isEmpty()) {
 				setHits(p, capturingThreshold * 3);
 			}
 		}
