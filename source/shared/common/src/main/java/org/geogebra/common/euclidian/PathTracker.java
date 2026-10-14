@@ -25,6 +25,8 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates, updates and removes a point that can be moved along a selected path.
@@ -34,6 +36,8 @@ class PathTracker {
 	private final EuclidianController controller;
 	private GeoFunctionable trackedGeoFunction;
 	private GTimer functionTrackerTimer;
+	// Keep the callback alive while iOS timers hold listeners weakly.
+	private @Nullable GTimerListener functionTrackerListener;
 	private GeoPoint trackingPoint;
 
 	PathTracker(EuclidianController controller) {
@@ -73,18 +77,18 @@ class PathTracker {
 			functionTrackerTimer.stop();
 			functionTrackerTimer = null;
 		}
+		functionTrackerListener = null;
 	}
 
 	void schedule(GeoFunctionable function) {
-		functionTrackerTimer = UtilFactory.getPrototype()
-				.newTimer(
-						() -> {
-							trackedGeoFunction = function;
-							GPoint pointerLocation = controller.getMouseLoc();
-							update(pointerLocation.x, pointerLocation.y);
-							controller.moveMode = MoveMode.FUNCTION_TRACKER;
-						},
-						DELAY);
+		functionTrackerListener = () -> {
+			trackedGeoFunction = function;
+			GPoint pointerLocation = controller.getMouseLoc();
+			update(pointerLocation.x, pointerLocation.y);
+			controller.moveMode = MoveMode.FUNCTION_TRACKER;
+			functionTrackerListener = null;
+		};
+		functionTrackerTimer = UtilFactory.getPrototype().newTimer(functionTrackerListener, DELAY);
 		functionTrackerTimer.start();
 	}
 }
