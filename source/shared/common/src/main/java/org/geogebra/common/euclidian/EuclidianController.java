@@ -8297,7 +8297,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// no geo clicked at
 			moveMode = MoveMode.NONE;
 			resetMovedGeoPoint();
-			if (geo instanceof GeoFunctionable function && PreviewFeature.PATH_TRACKING.isAvailable()) {
+			if (geo instanceof GeoFunctionable function) {
 				pathTracker.schedule(function);
 			}
 			return;
