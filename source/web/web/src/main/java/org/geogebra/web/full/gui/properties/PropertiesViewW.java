@@ -453,11 +453,13 @@ public final class PropertiesViewW extends PropertiesView
 		} else if (optionType != OptionType.OBJECTS) {
 			oldTab = ComponentTab.indexOf(tabs, optionType.getName());
 		}
+		int initialTab = oldTab != -1 && oldTab < tabs.size() ? oldTab : 0;
+		boolean tabChanged = settingsTab != null && settingsTab.getSelectedTabIdx() != initialTab;
 		settingsTab = new ComponentTab(
 				(AppW) app,
 				"Settings",
-				oldTab != -1 && oldTab < tabs.size() ? oldTab : 0,
-				!keepViewState,
+				initialTab,
+				!keepViewState && tabChanged,
 				tabs.toArray(new TabData[0]));
 		if (!showObjectProperties) {
 			settingsTab.addTabChangedListener(idx -> {
