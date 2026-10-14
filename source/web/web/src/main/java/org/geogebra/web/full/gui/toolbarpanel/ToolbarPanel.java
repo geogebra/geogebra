@@ -1540,7 +1540,7 @@ public final class ToolbarPanel extends FlowPanel
 		navRail.paintToCanvas(context2d, left, top);
 		// if tool tabs is active, still paint algebra
 		ToolbarTab active =
-				getSelectedTabId() == TabIds.TABLE ? getTab(TabIds.TABLE) : getTab(TabIds.ALGEBRA);
+				getSelectedTabId() == TabIds.TOOLS ? getTab(TabIds.ALGEBRA) : getTab(getSelectedTabId());
 		active.paintToCanvas(context2d, counter, left + 72, top);
 	}
 

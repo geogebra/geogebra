@@ -241,4 +241,18 @@ public final class ToolbarDockPanelW extends DockPanelW implements AlgebraPanelI
 				&& toolbar.isOpen()
 				&& (isAlone() || DockSplitPaneW.getSize(getLayoutData()) > 0);
 	}
+
+	@Override
+	public int getFocusedViewId() {
+		DockPanelData.TabIds selectedTabId = toolbar.getSelectedTabId();
+		if (selectedTabId == null) {
+			return App.VIEW_ALGEBRA;
+		}
+		return switch (selectedTabId) {
+			case ALGEBRA, TOOLS -> App.VIEW_ALGEBRA;
+			case DISTRIBUTION -> App.VIEW_PROBABILITY_CALCULATOR;
+			case TABLE -> App.VIEW_TABLE;
+			case SPREADSHEET -> App.VIEW_SPREADSHEET;
+		};
+	}
 }

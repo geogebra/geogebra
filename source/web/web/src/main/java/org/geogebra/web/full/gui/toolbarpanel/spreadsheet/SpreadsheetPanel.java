@@ -139,6 +139,9 @@ public final class SpreadsheetPanel extends FlowPanel
 			setPointerCapture(event);
 			if (!app.isUnbundled()) {
 				app.getGuiManager().setActivePanelAndToolbar(App.VIEW_SPREADSHEET);
+			} else {
+				// VIEW_ALGEBRA corresponds to ToolbarDockPanelW, which owns the spreadsheet
+				app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_ALGEBRA);
 			}
 			if (modifiers.secondaryButton
 					|| spreadsheet.isEditorActive()

@@ -1283,7 +1283,7 @@ public final class DockManagerW extends DockManager {
 			return -1;
 		}
 
-		return focusedDockPanel.getViewId();
+		return focusedDockPanel.getFocusedViewId();
 	}
 
 	/**
