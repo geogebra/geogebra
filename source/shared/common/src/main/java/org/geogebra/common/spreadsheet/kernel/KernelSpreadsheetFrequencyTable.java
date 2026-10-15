@@ -26,9 +26,11 @@ import org.geogebra.common.kernel.algos.AlgoSort;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.statistics.AlgoCellRange;
 import org.geogebra.common.kernel.statistics.AlgoFrequency;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.spreadsheet.core.SpreadsheetReference;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatistics;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStatisticsView;
@@ -82,7 +84,10 @@ public class KernelSpreadsheetFrequencyTable
 		Construction cons = kernel.getConstruction();
 		if (valueGrouping) {
 			AlgoFrequency algoFrequency = new AlgoFrequency(
-					cons, new GeoBoolean(cons, input.cumulative()), null, dataCellRange.getList());
+					cons,
+					new GeoBoolean(cons, input.cumulative()),
+					null,
+					unwrapSymbolicElements(dataCellRange.getList()));
 			algoFrequency.remove();
 			if (!algoFrequency.getResult().isDefined()) {
 				return newInvalidResult(
@@ -97,13 +102,13 @@ public class KernelSpreadsheetFrequencyTable
 						SpreadsheetStatistics.DataRange.Y);
 			}
 			classCellRange = setCellRange(cellRangeY, classCellRange);
-			AlgoSort sortedClasses = new AlgoSort(cons, classCellRange.getList());
+			AlgoSort sortedClasses = new AlgoSort(cons, unwrapSymbolicElements(classCellRange.getList()));
 			sortedClasses.remove();
 			AlgoFrequency algoFrequency = new AlgoFrequency(
 					cons,
 					new GeoBoolean(cons, input.cumulative()),
 					sortedClasses.getResult(),
-					dataCellRange.getList());
+					unwrapSymbolicElements(dataCellRange.getList()));
 			algoFrequency.remove();
 			if (!algoFrequency.getResult().isDefined()) {
 				return newInvalidResult(
@@ -111,6 +116,18 @@ public class KernelSpreadsheetFrequencyTable
 			}
 			return tabularResultClass(sortedClasses.getResult(), algoFrequency.getResult());
 		}
+	}
+
+	private GeoList unwrapSymbolicElements(GeoList list) {
+		if (list.getElementType() == GeoClass.SYMBOLIC) {
+			GeoList unwrappedList = new GeoList(kernel.getConstruction());
+			list.elements().forEach(item -> {
+				GeoElementND unwrappedItem = item.unwrapSymbolic();
+				unwrappedList.add(unwrappedItem == null ? item : unwrappedItem);
+			});
+			return unwrappedList;
+		}
+		return list;
 	}
 
 	private SpreadsheetStatistics.@NonNull Result tabularResult(GeoList values, GeoList frequencies) {
