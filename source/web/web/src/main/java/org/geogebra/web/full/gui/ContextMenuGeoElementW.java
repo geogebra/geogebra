@@ -121,7 +121,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 	 */
 	private void initPopup(ArrayList<GeoElement> geos) {
 		wrappedPopup.clearItems();
-		if (geos == null || geos.size() == 0 || !geos.get(0).isLabelSet()) {
+		if (geos == null || geos.isEmpty() || !geos.get(0).isLabelSet()) {
 			return;
 		}
 		this.setGeos(geos);
@@ -560,11 +560,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 	}
 
 	private void addPlaneItems() {
-		if (!(getGeo() instanceof ViewCreator)) {
+		if (!(getGeo() instanceof ViewCreator plane)) {
 			return;
 		}
-
-		final ViewCreator plane = (ViewCreator) getGeo();
 
 		Command action = () -> {
 			plane.setView2DVisible(true);
@@ -580,8 +578,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 
 		GeoElement geo = getGeo();
 
-		if (geo instanceof GeoImplicit) {
-			final GeoImplicit inputElement = (GeoImplicit) geo;
+		if (geo instanceof GeoImplicit inputElement) {
 			if (inputElement.isValidInputForm()) {
 				Command action;
 				if (inputElement.isInputForm()) {
@@ -677,14 +674,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		if (app.isUnbundledOrWhiteboard()) {
 			return;
 		}
-		if (!(getGeo() instanceof GeoLine)) {
+		if (!(getGeo() instanceof GeoLine line)) {
 			return;
 		}
 		if (getGeo() instanceof GeoSegment) {
 			return;
 		}
 
-		GeoLine line = (GeoLine) getGeo();
 		LinearEquationRepresentable.Form form = line.getEquationForm();
 		Command action;
 
@@ -728,7 +724,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 			return;
 		}
 
-		if (!(getGeo() instanceof CoordStyle) || getGeo() instanceof GeoLine) {
+		if (!(getGeo() instanceof CoordStyle point) || getGeo() instanceof GeoLine) {
 			return;
 		}
 
@@ -736,7 +732,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 			return;
 		}
 
-		CoordStyle point = (CoordStyle) getGeo();
 		int mode = point.getToStringMode();
 		Command action;
 
