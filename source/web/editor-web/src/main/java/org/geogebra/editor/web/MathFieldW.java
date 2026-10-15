@@ -129,6 +129,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int rightMargin = 30;
 	private int bottomOffset = 10;
 	private double maxHeight = -1;
+	private boolean centerVertically = false;
 	private ClickAdapterW adapter;
 	private boolean powerHappened;
 	private HandlerRegistration blurRegistration;
@@ -510,6 +511,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	/**
+	 * @param centerVertically Whether content should be centered vertically
+	 */
+	public void setCenterVertically(boolean centerVertically) {
+		this.centerVertically = centerVertically;
+	}
+
+	/**
 	 * Update alt flags after key released
 	 *
 	 * @param event
@@ -680,11 +688,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		ctx.canvas.width = (int) Math.ceil(size.getX() * ratio);
 		wasPaintedWithCursor = CursorBox.visible();
 
-		double margin = getMargin(lastIcon);
+		double top = getContentTop();
 
-		paint(ctx, margin, backgroundColor, scale);
+		paint(ctx, top, backgroundColor, scale);
 		Graphics2DW g = new Graphics2DW(ctx);
-		lastIcon.paintCursor(g, margin);
+		lastIcon.paintCursor(g, top);
 	}
 
 	/**
@@ -763,6 +771,22 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return fixMargin
 				+ Math.max(
 						0, -lastIcon2.getTrueIconHeight() + lastIcon2.getTrueIconDepth() + getFontSize());
+	}
+
+	private double getContentTop() {
+		if (!centerVertically) {
+			return getMargin(lastIcon);
+		}
+		return Math.max(0, (computeHeight() - lastIcon.getIconHeight()) / 2);
+	}
+
+	/**
+	 * Converts a canvas y-coordinate to the coordinate used for hit testing.
+	 * @param eventY y-coordinate in CSS pixels
+	 * @return y-coordinate with scaling and the centering offset removed
+	 */
+	int toFormulaY(double eventY) {
+		return (int) (eventY / scale - (centerVertically && lastIcon != null ? getContentTop() : 0));
 	}
 
 	private boolean active(Object element) {
@@ -1118,9 +1142,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (SelectionBox.isTouchSelection()) {
 			return;
 		}
-		int x = toCanvasPixels(absX - asWidget().getAbsoluteLeft(), extScale);
-		int y = toCanvasPixels(absY - asWidget().getAbsoluteTop(), extScale);
-		if (x > asWidget().getOffsetWidth()) {
+		int x = (int) ((absX - asWidget().getAbsoluteLeft()) / scale / extScale);
+		int y = toFormulaY((absY - asWidget().getAbsoluteTop()) / extScale);
+		if (x * scale > asWidget().getOffsetWidth()) {
 			CursorController.lastField(mathFieldInternal.getEditorState());
 			mathFieldInternal.update();
 		} else if (x < 0) {
@@ -1153,10 +1177,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (this.onTextfieldBlur != null) {
 			this.onTextfieldBlur.onBlur(null);
 		}
-	}
-
-	private int toCanvasPixels(int x, double extScale) {
-		return (int) (x / scale / extScale);
 	}
 
 	@Override
@@ -1304,7 +1324,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void scrollParentHorizontally(Widget parentPanel) {
 		Scheduler.get()
 				.scheduleDeferred(() -> MathFieldScroller.scrollHorizontallyToCursor(
-						parentPanel, rightMargin, lastIcon.getCursorX()));
+						parentPanel, rightMargin, (int) (lastIcon.getCursorX() * scale)));
 	}
 
 	/**

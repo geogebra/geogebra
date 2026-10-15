@@ -54,6 +54,11 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class ComponentInputField extends FlowPanel
 		implements SetLabels, Input, HasFocus, TextObject {
+	/**
+	 * 48 px - 2 * (1px border + 1px padding)
+	 */
+	private static final int MATH_FIELD_MAX_HEIGHT = 44;
+
 	private final Localization loc;
 	private String errorTextKey;
 	private String labelTextKey;
@@ -442,6 +447,9 @@ public class ComponentInputField extends FlowPanel
 
 	private void createInputMathField(AppW app) {
 		MathTextFieldW inputMathField = new MathTextFieldW(app);
+		MathFieldW mathField = inputMathField.getMathField();
+		mathField.setCenterVertically(true);
+		mathField.setMaxHeight(MATH_FIELD_MAX_HEIGHT);
 		adapter = new MathInputAdapter(inputMathField);
 	}
 

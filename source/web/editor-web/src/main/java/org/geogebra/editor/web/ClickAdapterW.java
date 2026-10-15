@@ -55,7 +55,7 @@ public class ClickAdapterW implements DoubleClickHandler {
 		target.setPointerCapture(event.pointerId);
 		event.preventDefault();
 		SelectionBox.setTouchSelection("touch".equals(event.pointerType));
-		handler.onPointerDown(toFormulaPx(event.offsetX), toFormulaPx(event.offsetY));
+		handler.onPointerDown(toFormulaPx(event.offsetX), field.toFormulaY(event.offsetY));
 		this.pointerIsDown = true;
 	}
 
@@ -71,12 +71,12 @@ public class ClickAdapterW implements DoubleClickHandler {
 			return;
 		}
 		this.pointerIsDown = false;
-		handler.onPointerUp(toFormulaPx(event.offsetX), toFormulaPx(event.offsetY));
+		handler.onPointerUp(toFormulaPx(event.offsetX), field.toFormulaY(event.offsetY));
 	}
 
 	private void onPointerMove(PointerEvent event) {
 		if (this.pointerIsDown) {
-			handler.onPointerMove(toFormulaPx(event.offsetX), toFormulaPx(event.offsetY));
+			handler.onPointerMove(toFormulaPx(event.offsetX), field.toFormulaY(event.offsetY));
 		}
 	}
 
