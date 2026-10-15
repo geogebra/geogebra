@@ -35,6 +35,7 @@ describe('Text tool test', () => {
                 .mouseEvent('up', 100, 300);
             cy.get(".murokTextArea textarea").type("GeoGebra Rocks", {"force": true});
             cy.wait(500);
+            cy.get("[data-title=\"Text style\"] img").click();
             cy.get("[data-title=\"Bold\"] img").click();
 
             cy.window().then((win) => {
@@ -53,6 +54,7 @@ describe('Text tool test', () => {
                 .mouseEvent('up', 100, 300);
            cy.get(".murokTextArea textarea").type("Text element example", {"force": true});
            cy.wait(500);
+           cy.get("[data-title=\"Text style\"] img").click();
            cy.get("[data-title=\"Underline\"] img").click();
 
            cy.window().then((win) => {
