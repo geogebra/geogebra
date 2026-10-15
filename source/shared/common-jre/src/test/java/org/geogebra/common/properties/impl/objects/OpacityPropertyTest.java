@@ -16,6 +16,8 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -52,5 +54,14 @@ class OpacityPropertyTest extends BaseUnitTest {
 		GeoElement point = addAvInput("(1,2)");
 		assertThrows(
 				NotApplicablePropertyException.class, () -> new OpacityProperty(getLocalization(), point));
+	}
+
+	@Test
+	void testListRoundTrip() {
+		GeoElement list = addAvInput("{xx+yy=4}");
+		OpacityProperty property =
+				assertDoesNotThrow(() -> new OpacityProperty(getLocalization(), list));
+		property.setValue(50);
+		assertEquals(50, property.getValue());
 	}
 }

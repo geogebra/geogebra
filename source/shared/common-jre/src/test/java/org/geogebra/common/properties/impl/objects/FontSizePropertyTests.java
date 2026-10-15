@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
@@ -80,5 +81,15 @@ class FontSizePropertyTests extends BaseAppTestSetup {
 
 		geoText.setFontSizeMultiplier(15.0);
 		assertEquals(FontSizeProperty.FontSize.EXTRA_LARGE, fontSizeProperty.getValue());
+	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{\"text\"}");
+		FontSizeProperty property =
+				assertDoesNotThrow(() -> new FontSizeProperty(getLocalization(), list));
+		property.setValue(FontSizeProperty.FontSize.EXTRA_LARGE);
+		assertEquals(FontSizeProperty.FontSize.EXTRA_LARGE, property.getValue());
 	}
 }

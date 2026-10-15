@@ -79,4 +79,16 @@ class HiddenLineStylePropertyTests extends BaseAppTestSetup {
 		assertEquals(HiddenLineStyle.INVISIBLE, hiddenLineStyleProperty.getValue());
 		assertEquals(EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE, geoElement.getLineTypeHidden());
 	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.G3D);
+		GeoElement list = evaluateGeoElement("{Line((0,0),(1,1)), Line((2,2),(3,3))}");
+		HiddenLineStyleProperty property =
+				assertDoesNotThrow(() -> new HiddenLineStyleProperty(getLocalization(), list));
+
+		property.setValue(HiddenLineStyle.DASHED);
+		assertEquals(HiddenLineStyle.DASHED, property.getValue());
+		assertEquals(EuclidianStyleConstants.LINE_TYPE_HIDDEN_DASHED, list.getLineTypeHidden());
+	}
 }

@@ -71,4 +71,16 @@ class ObjectColorPropertyTests extends BaseAppTestSetup {
 		assertEquals(GColor.YELLOW, objectColorProperty.getValue());
 		assertEquals(GColor.YELLOW, geoElement.getObjectColor());
 	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{Circle((0,0),1), Circle((1,1),2)}");
+		ObjectColorProperty property =
+				assertDoesNotThrow(() -> new ObjectColorProperty(getLocalization(), list));
+
+		property.setValue(GColor.BLACK);
+		assertEquals(GColor.BLACK, property.getValue());
+		assertEquals(GColor.BLACK, list.getObjectColor());
+	}
 }

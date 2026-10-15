@@ -41,11 +41,9 @@ public class QuadraticEquationFormDelegate extends AbstractGeoElementDelegate {
 		}
 		if (element instanceof QuadraticEquationRepresentable) {
 			Kernel kernel = element.getKernel();
-			if (kernel != null) {
-				EquationBehaviour equationBehaviour = kernel.getEquationBehaviour();
-				if (equationBehaviour != null) {
-					return equationBehaviour.allowsChangingEquationFormsByUser();
-				}
+			EquationBehaviour equationBehaviour = kernel.getEquationBehaviour();
+			if (equationBehaviour != null) {
+				return equationBehaviour.allowsChangingEquationFormsByUser();
 			}
 			return true;
 		}

@@ -16,12 +16,15 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.jupiter.api.Test;
 
@@ -44,5 +47,14 @@ class CaptionStylePropertyTest extends BaseUnitTest {
 		assertThrows(
 				NotApplicablePropertyException.class,
 				() -> new CaptionStyleProperty(getLocalization(), text));
+	}
+
+	@Test
+	void testListRoundTrip() {
+		GeoElement list = addAvInput("{(1,2),(3,4)}");
+		CaptionStyleProperty property =
+				assertDoesNotThrow(() -> new CaptionStyleProperty(getLocalization(), list));
+		property.setValue(GeoElementND.LABEL_VALUE);
+		assertEquals(GeoElementND.LABEL_VALUE, property.getValue());
 	}
 }

@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.test.BaseAppTestSetup;
@@ -79,5 +80,15 @@ class ShowConditionPropertyTests extends BaseAppTestSetup {
 		ShowConditionProperty showConditionProperty =
 				new ShowConditionProperty(getLocalization(), point);
 		assertNotNull(assertDoesNotThrow(() -> showConditionProperty.validateValue("(")));
+	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{(1,2),(3,4)}");
+		ShowConditionProperty property = new ShowConditionProperty(getLocalization(), list);
+
+		property.setValue("1 > 2");
+		assertEquals("1 > 2", property.getValue());
 	}
 }

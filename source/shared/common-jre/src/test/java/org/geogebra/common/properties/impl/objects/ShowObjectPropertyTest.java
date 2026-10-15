@@ -21,6 +21,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.jupiter.api.Test;
@@ -53,5 +54,15 @@ class ShowObjectPropertyTest extends BaseUnitTest {
 		assertThat(showObjectProperty.isEnabled(), is(true));
 		assertThat(minProperty.isEnabled(), is(true));
 		assertThat(elementColorProperty.isEnabled(), is(false));
+	}
+
+	@Test
+	void testListRoundTrip() {
+		GeoElement list = addAvInput("{(1,2),(3,4)}");
+		ShowObjectProperty property = new ShowObjectProperty(getLocalization(), list);
+		property.setValue(true);
+		assertThat(property.getValue(), is(true));
+		property.setValue(false);
+		assertThat(property.getValue(), is(false));
 	}
 }

@@ -59,4 +59,16 @@ class FillCategoryPropertyTest extends BaseAppTestSetup {
 		element.setFillType(FillType.IMAGE);
 		assertEquals(FillCategory.IMAGE, property.getValue());
 	}
+
+	@Test
+	void testListRoundTrip() throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{Circle((0,0),1), Circle((1,1),2)}");
+		FillCategoryProperty property = new FillCategoryProperty(getLocalization(), list);
+
+		list.setFillType(FillType.DOTTED);
+		property.setValue(FillCategory.SYMBOL);
+		assertEquals(FillType.SYMBOLS, list.getFillType());
+		assertEquals(FillCategory.SYMBOL, property.getValue());
+	}
 }

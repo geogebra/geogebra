@@ -16,7 +16,6 @@
 
 package org.geogebra.common.properties.factory;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,12 +28,14 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
@@ -52,42 +53,10 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	void testPoint() {
+	void testBasicPointProperties() {
 		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
 		GeoPoint onePoint = evaluateGeoElement("(1,1)");
-		PropertiesArray propertiesArray = new GeoElementPropertiesFactory()
-				.createGeoElementProperties(
-						getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(),
-						List.of(zeroPoint, onePoint));
-		Property[] pointProperties = propertiesArray.getProperties();
-
-		assertAll(
-				() -> assertEquals("Name", pointProperties[0].getName()),
-				() -> assertEquals("Show Object", pointProperties[1].getName()),
-				() -> assertEquals("Set color", pointProperties[2].getName()),
-				() -> assertEquals("Point Style", pointProperties[3].getName()),
-				() -> assertEquals("Size", pointProperties[4].getName()),
-				() -> assertEquals("Set caption style", pointProperties[5].getName()),
-				() -> assertEquals("Show trace", pointProperties[6].getName()),
-				() -> assertEquals("Fixed", pointProperties[7].getName()),
-				() -> assertEquals("Show in Algebra View", pointProperties[8].getName()));
-	}
-
-	@Test
-	void testPointProperties() {
-		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
-		GeoPoint onePoint = evaluateGeoElement("(1,1)");
-		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createProperties(
-						getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(),
-						getApp().getImageManager(),
-						true,
-						List.of(zeroPoint, onePoint));
-		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
-				.map(Property::getName)
-				.collect(Collectors.toList());
+		List<String> basicProperties = getPropertiesList(List.of(zeroPoint, onePoint), 0);
 		assertEquals(
 				List.of(
 						"Name",
@@ -101,18 +70,25 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	}
 
 	@Test
+	void testPointStyleProperties() {
+		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
+		List<String> basicProperties = getPropertiesList(List.of(zeroPoint), 1);
+		assertEquals(List.of("Style"), basicProperties);
+	}
+
+	@Test
+	void testPointAdvancedProperties() {
+		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
+		List<String> basicProperties = getPropertiesList(List.of(zeroPoint), 2);
+		assertEquals(
+				List.of("Interaction", "Algebra", "Visibility", "Dynamic Colors", "Layer"),
+				basicProperties);
+	}
+
+	@Test
 	void testAngleProperties() {
 		GeoAngle angle = evaluateGeoElement("Angle[(0,1), (0,0), (1,0)]");
-		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createProperties(
-						getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(),
-						getApp().getImageManager(),
-						true,
-						List.of(angle));
-		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
-				.map(Property::getName)
-				.collect(Collectors.toList());
+		List<String> basicProperties = getPropertiesList(List.of(angle), 0);
 		assertEquals(
 				List.of("Name", "Definition", "Caption", "Label", "Show Object", "Auxiliary Object"),
 				basicProperties);
@@ -121,16 +97,7 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	@Test
 	void testNumberProperties() {
 		GeoNumeric number = evaluateGeoElement("a=1.5");
-		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createProperties(
-						getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(),
-						getApp().getImageManager(),
-						true,
-						List.of(number));
-		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
-				.map(Property::getName)
-				.collect(Collectors.toList());
+		List<String> basicProperties = getPropertiesList(List.of(number), 0);
 		assertEquals(
 				List.of(
 						"Name",
@@ -167,16 +134,18 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 		GeoLine line = evaluateGeoElement("Line((-1,-1),(1,2))");
-		PropertiesArray lineProperties = propertiesFactory.createGeoElementProperties(
-				getAlgebraProcessor(), getApp().getLocalization(), List.of(line));
-		assertTrue(containsLinearEquationFormProperty(lineProperties));
-		assertFalse(containsQuadraticEquationFormProperty(lineProperties));
+		List<PropertiesArray> lineProperties = propertiesFactory.createProperties(
+				getAlgebraProcessor(), getApp().getLocalization(), null, false, List.of(line));
+		PropertiesArray advanced = lineProperties.get(2);
+		assertTrue(containsLinearEquationFormProperty(advanced));
+		assertFalse(containsQuadraticEquationFormProperty(advanced));
 
 		GeoConic circle = evaluateGeoElement("xx+yy=1");
-		PropertiesArray circleProperties = propertiesFactory.createGeoElementProperties(
-				getAlgebraProcessor(), getApp().getLocalization(), List.of(circle));
-		assertFalse(containsLinearEquationFormProperty(circleProperties));
-		assertTrue(containsQuadraticEquationFormProperty(circleProperties));
+		List<PropertiesArray> circleProperties = propertiesFactory.createProperties(
+				getAlgebraProcessor(), getApp().getLocalization(), null, false, List.of(circle));
+		advanced = circleProperties.get(2);
+		assertFalse(containsLinearEquationFormProperty(advanced));
+		assertTrue(containsQuadraticEquationFormProperty(advanced));
 	}
 
 	@Test
@@ -216,6 +185,7 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 
 	private boolean containsLinearEquationFormProperty(PropertiesArray array) {
 		return Arrays.stream(array.getProperties())
+				.flatMap(collection -> Arrays.stream(((PropertyCollection<?>) collection).getProperties()))
 				.anyMatch(property -> property instanceof NamedEnumeratedPropertyListFacade<?, ?>
 						&& ((NamedEnumeratedPropertyListFacade<?, ?>) property).getFirstProperty()
 								instanceof LinearEquationFormProperty);
@@ -223,8 +193,22 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 
 	private boolean containsQuadraticEquationFormProperty(PropertiesArray array) {
 		return Arrays.stream(array.getProperties())
+				.flatMap(collection -> Arrays.stream(((PropertyCollection<?>) collection).getProperties()))
 				.anyMatch(property -> property instanceof NamedEnumeratedPropertyListFacade<?, ?>
 						&& ((NamedEnumeratedPropertyListFacade<?, ?>) property).getFirstProperty()
 								instanceof QuadraticEquationFormProperty);
+	}
+
+	private List<String> getPropertiesList(List<GeoElement> zeroPoint, int tab) {
+		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
+				.createProperties(
+						getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(),
+						getApp().getImageManager(),
+						true,
+						zeroPoint);
+		return Arrays.stream(propertiesArray.get(tab).getProperties())
+				.map(Property::getName)
+				.collect(Collectors.toList());
 	}
 }

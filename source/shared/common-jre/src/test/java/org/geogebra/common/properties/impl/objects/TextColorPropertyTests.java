@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
@@ -73,5 +74,15 @@ class TextColorPropertyTests extends BaseAppTestSetup {
 		geoText.setObjColor(GColor.YELLOW);
 		assertEquals(GColor.YELLOW, textColorProperty.getValue());
 		assertEquals(GColor.YELLOW, geoText.getObjectColor());
+	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{\"text\"}");
+		TextColorProperty property =
+				assertDoesNotThrow(() -> new TextColorProperty(getLocalization(), list));
+		property.setValue(GColor.BLACK);
+		assertEquals(GColor.BLACK, property.getValue());
 	}
 }

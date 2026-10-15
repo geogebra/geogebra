@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
@@ -326,16 +327,20 @@ final class CvteExamTests extends BaseExamTestSetup {
 	@Test
 	void testEquationFormPropertyFrozen() {
 		GeoElement line = evaluateGeoElement("y = 4");
-		PropertiesArray properties = geoElementPropertiesFactory.createGeoElementProperties(
-				getAlgebraProcessor(), getApp().getLocalization(), List.of(line));
+		PropertiesArray advanced = geoElementPropertiesFactory
+				.createProperties(
+						getAlgebraProcessor(), getApp().getLocalization(), null, false, List.of(line))
+				.get(2);
 		LinearEquationFormProperty equationFormProperty = null;
-		for (Property property : properties.getProperties()) {
-			if (property instanceof NamedEnumeratedPropertyListFacade) {
-				Property firstProperty =
-						((NamedEnumeratedPropertyListFacade<?, ?>) property).getFirstProperty();
-				if (firstProperty instanceof LinearEquationFormProperty) {
-					equationFormProperty = (LinearEquationFormProperty) firstProperty;
-					break;
+		for (Property collections : advanced.getProperties()) {
+			for (Property property : ((PropertyCollection) collections).getProperties()) {
+				if (property instanceof NamedEnumeratedPropertyListFacade) {
+					Property firstProperty =
+							((NamedEnumeratedPropertyListFacade<?, ?>) property).getFirstProperty();
+					if (firstProperty instanceof LinearEquationFormProperty) {
+						equationFormProperty = (LinearEquationFormProperty) firstProperty;
+						break;
+					}
 				}
 			}
 		}

@@ -16,6 +16,8 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -42,5 +44,14 @@ class ThicknessPropertyTest extends BaseUnitTest {
 		assertThrows(
 				NotApplicablePropertyException.class,
 				() -> new ThicknessProperty(getLocalization(), point));
+	}
+
+	@Test
+	void testListRoundTrip() {
+		GeoElement list = addAvInput("{Line((1,1),(2,2)), Line((3,3),(4,4))}");
+		ThicknessProperty property =
+				assertDoesNotThrow(() -> new ThicknessProperty(getLocalization(), list));
+		property.setValue(9);
+		assertEquals(9, property.getValue());
 	}
 }

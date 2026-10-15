@@ -16,8 +16,8 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -31,6 +31,16 @@ class ShowInAVPropertyTest extends BaseUnitTest {
 		element.setEuclidianVisible(false);
 
 		ShowInAVProperty property = new ShowInAVProperty(getLocalization(), element);
-		assertThat(property.isEnabled(), is(true));
+		assertTrue(property.isEnabled(), "property should be available when hidden in graphics");
+	}
+
+	@Test
+	void testListRoundTrip() {
+		GeoElement list = addAvInput("{(1,2),(3,4)}");
+		ShowInAVProperty property = new ShowInAVProperty(getLocalization(), list);
+		property.setValue(false);
+		assertFalse(property.getValue(), "object should not be selectable");
+		property.setValue(true);
+		assertTrue(property.getValue(), "object should be selectable");
 	}
 }

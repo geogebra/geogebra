@@ -34,10 +34,10 @@ public class DrawArrowsProperty extends AbstractValuedProperty<Boolean> implemen
 	public DrawArrowsProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "DrawArrows");
-		if (!(element instanceof GeoLocus locus && locus.hasDrawArrows())) {
+		if (!(element instanceof GeoLocus asLocus && asLocus.hasDrawArrows())) {
 			throw new NotApplicablePropertyException(element);
 		}
-		this.locus = (GeoLocus) element;
+		this.locus = asLocus;
 	}
 
 	@Override

@@ -16,9 +16,10 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
 import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
@@ -54,10 +55,8 @@ public class OpacityProperty extends AbstractRangeProperty<Integer> {
 	@Override
 	protected void setValueSafe(Integer value) {
 		GeoElement element = delegate.getElement();
-		App app = element.getApp();
 		double alpha = value / 100.0;
-		EuclidianStyleBarStatic.applyColor(
-				element.getObjectColor(), alpha, app.getSelectionManager().getSelectedGeos());
+		EuclidianStyleBarStatic.applyColor(element.getObjectColor(), alpha, List.of(element));
 	}
 
 	@Override

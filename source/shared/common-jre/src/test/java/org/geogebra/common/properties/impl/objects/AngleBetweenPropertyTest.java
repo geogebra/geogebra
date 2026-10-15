@@ -17,9 +17,12 @@
 package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
@@ -30,5 +33,15 @@ class AngleBetweenPropertyTest extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement("Angle((1,2), (3,4))");
 		assertDoesNotThrow(() -> new AngleBetweenProperty(getLocalization(), geoElement));
+	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoList list = evaluateGeoElement("{Angle((1,2), (3,4)), Angle((5,6), (7,8))}");
+		AngleBetweenProperty property =
+				assertDoesNotThrow(() -> new AngleBetweenProperty(getLocalization(), list));
+		property.setValue(GeoAngle.AngleStyle.ISREFLEX);
+		assertEquals(GeoAngle.AngleStyle.ISREFLEX, property.getValue());
 	}
 }

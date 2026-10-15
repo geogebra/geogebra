@@ -257,15 +257,19 @@ class PropertyViewTests extends BaseAppTestSetup {
 
 		GeoElement line = evaluateGeoElement("Line((-1,-1),(1,1))");
 		GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
-		PropertiesArray properties = propertiesFactory.createGeoElementProperties(
-				getAlgebraProcessor(), getLocalization(), List.of(line));
+		PropertiesArray advanced = propertiesFactory
+				.createProperties(getAlgebraProcessor(), getLocalization(), null, false, List.of(line))
+				.get(2);
 		LinearEquationFormProperty linearEquationFormProperty = null;
-		for (Property property : properties.getProperties()) {
-			if (property instanceof NamedEnumeratedPropertyListFacade) {
-				Property firstProperty = ((NamedEnumeratedPropertyListFacade) property).getFirstProperty();
-				if (firstProperty instanceof LinearEquationFormProperty) {
-					linearEquationFormProperty = (LinearEquationFormProperty) firstProperty;
-					break;
+		for (Property collections : advanced.getProperties()) {
+			for (Property property : ((PropertyCollection) collections).getProperties()) {
+				if (property instanceof NamedEnumeratedPropertyListFacade) {
+					Property firstProperty =
+							((NamedEnumeratedPropertyListFacade) property).getFirstProperty();
+					if (firstProperty instanceof LinearEquationFormProperty) {
+						linearEquationFormProperty = (LinearEquationFormProperty) firstProperty;
+						break;
+					}
 				}
 			}
 		}

@@ -59,4 +59,13 @@ class NameCaptionPropertyTest extends BaseUnitTest {
 		Assertions.assertEquals("A", point.getLabelSimple());
 		Assertions.assertEquals(LABEL_NAME, point.getLabelMode());
 	}
+
+	@Test
+	void testListRoundTrip() throws NotApplicablePropertyException {
+		GeoElement list = addAvInput("{(1,2),(3,4)}");
+		NameCaptionProperty property = new NameCaptionProperty(getLocalization(), list);
+		property.doSetValue("list caption");
+		Assertions.assertEquals("list caption", property.getValue());
+		Assertions.assertEquals(LABEL_CAPTION, list.getLabelMode());
+	}
 }

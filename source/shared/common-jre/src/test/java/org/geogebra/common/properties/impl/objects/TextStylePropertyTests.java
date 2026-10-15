@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
@@ -126,5 +127,15 @@ class TextStylePropertyTests extends BaseAppTestSetup {
 		textStyleProperty.getProperties()[2].setValue(false);
 		assertFalse(textStyleProperty.getProperties()[2].getValue());
 		assertFalse(geoText.isSerifFont());
+	}
+
+	@Test
+	void testListRoundTrip() throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{\"text\"}");
+		TextStyleProperty textStyleProperty =
+				new TextStyleProperty(propertiesFactory, getLocalization(), List.of(list));
+		textStyleProperty.getProperties()[0].setValue(true);
+		assertTrue(textStyleProperty.getProperties()[0].getValue());
 	}
 }

@@ -39,7 +39,9 @@ public class OpacityPropertyDelegate extends AbstractGeoElementDelegate {
 			return false;
 		}
 		if (element instanceof GeoList) {
-			return isApplicableToGeoList((GeoList) element);
+			// check both isFillable (=not all children labeled)
+			// and child applicability (e.g. does not contain buttons)
+			return element.isFillable() && isApplicableToGeoList((GeoList) element);
 		}
 		return element.isFillable();
 	}

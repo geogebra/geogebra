@@ -17,11 +17,13 @@
 package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
@@ -40,5 +42,14 @@ class LabelPropertyTests extends BaseAppTestSetup {
 		GeoText geoText = evaluateGeoElement("\"\"");
 		assertThrows(
 				NotApplicablePropertyException.class, () -> new LabelProperty(getLocalization(), geoText));
+	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{(1,2),(3,4)}");
+		LabelProperty property = assertDoesNotThrow(() -> new LabelProperty(getLocalization(), list));
+		property.setValue(GeoElementND.LABEL_VALUE);
+		assertEquals(GeoElementND.LABEL_VALUE, property.getValue());
 	}
 }

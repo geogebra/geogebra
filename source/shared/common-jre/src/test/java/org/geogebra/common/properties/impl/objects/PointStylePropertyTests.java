@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.impl.objects.PointStyleProperty.PointStyle;
@@ -68,5 +69,15 @@ class PointStylePropertyTests extends BaseAppTestSetup {
 		pointStyleProperty.setValue(PointStyle.WEST_TRIANGLE);
 		assertEquals(PointStyle.WEST_TRIANGLE, pointStyleProperty.getValue());
 		assertEquals(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST, geoPoint.getPointStyle());
+	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoList list = evaluateGeoElement("{(1,2),(3,4)}");
+		PointStyleProperty property =
+				assertDoesNotThrow(() -> new PointStyleProperty(getLocalization(), list));
+		property.setValue(PointStyle.NO_OUTLINE);
+		assertEquals(PointStyle.NO_OUTLINE, property.getValue());
 	}
 }

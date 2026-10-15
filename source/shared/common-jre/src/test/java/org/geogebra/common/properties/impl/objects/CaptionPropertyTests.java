@@ -104,4 +104,13 @@ class CaptionPropertyTests extends BaseAppTestSetup {
 		captionProperty.setValue("caption");
 		assertEquals(GeoElementND.LABEL_CAPTION_VALUE, element.getLabelMode());
 	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{(1,2),(3,4)}");
+		CaptionProperty captionProperty = new CaptionProperty(getLocalization(), list);
+		captionProperty.setValue("list caption");
+		assertEquals("list caption", captionProperty.getValue());
+	}
 }

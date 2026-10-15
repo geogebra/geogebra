@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.BaseAppTestSetup;
@@ -121,5 +122,17 @@ class LineOpacityPropertyTests extends BaseAppTestSetup {
 		assertEquals(56, opacityProperty.getValue());
 		assertEquals(Math.round(56 / 100f * 255), slider.getLineOpacity());
 		assertEquals(255, slider.getBackgroundColor().getAlpha());
+	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{Line((0,0),(1,1)), Line((2,2),(3,3))}");
+		LineOpacityProperty property =
+				assertDoesNotThrow(() -> LineOpacityProperty.forLine(getLocalization(), list));
+
+		property.setValue(50);
+		assertEquals(50, property.getValue());
+		assertEquals(128, list.getLineOpacity());
 	}
 }

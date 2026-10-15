@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -86,5 +87,17 @@ class StartingPointPositionPropertyTests extends BaseAppTestSetup {
 		assertEquals("A", startingPointPositionProperty.getValue());
 		assertEquals(1.0, ((GeoPoint) geoText.getStartPoint()).getX());
 		assertEquals(2.0, ((GeoPoint) geoText.getStartPoint()).getY());
+	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoList list = evaluateGeoElement("{(1,2),(3,4)}");
+		list.setDrawAsComboBox(true);
+		StartingPointPositionProperty property =
+				assertDoesNotThrow(() -> new StartingPointPositionProperty(getLocalization(), list));
+
+		property.setValue("(1, 2)");
+		assertEquals("(1, 2)", property.getValue());
 	}
 }

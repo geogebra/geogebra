@@ -16,7 +16,9 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
@@ -51,5 +53,14 @@ class ShowTracePropertyTest extends BaseUnitTest {
 		GeoText text = addAvInput("\"\"");
 		assertThrows(
 				NotApplicablePropertyException.class, () -> new ShowTraceProperty(getLocalization(), text));
+	}
+
+	@Test
+	void testListRoundTrip() {
+		GeoElement list = addAvInput("{(1,2),(3,4)}");
+		ShowTraceProperty property =
+				assertDoesNotThrow(() -> new ShowTraceProperty(getLocalization(), list));
+		property.setValue(true);
+		assertTrue(property.getValue());
 	}
 }

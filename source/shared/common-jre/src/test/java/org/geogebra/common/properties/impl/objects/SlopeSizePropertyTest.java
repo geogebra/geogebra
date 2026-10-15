@@ -16,8 +16,8 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -29,11 +29,7 @@ class SlopeSizePropertyTest extends BaseUnitTest {
 	@Test
 	void testConstructorSucceeds() {
 		GeoNumeric slope = addAvInput("Slope( Line((1,1), (2,2)) )");
-		try {
-			new SlopeSizeProperty(getLocalization(), slope);
-		} catch (NotApplicablePropertyException e) {
-			fail(e.getMessage());
-		}
+		assertDoesNotThrow(() -> new SlopeSizeProperty(getLocalization(), slope));
 	}
 
 	@Test

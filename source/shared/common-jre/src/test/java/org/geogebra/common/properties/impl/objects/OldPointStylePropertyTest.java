@@ -16,11 +16,14 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.jupiter.api.Test;
 
@@ -42,5 +45,14 @@ class OldPointStylePropertyTest extends BaseUnitTest {
 		assertThrows(
 				NotApplicablePropertyException.class,
 				() -> new OldPointStyleProperty(getLocalization(), f));
+	}
+
+	@Test
+	void testListRoundTrip() {
+		GeoElement list = addAvInput("{(1,2),(3,4)}");
+		OldPointStyleProperty property =
+				assertDoesNotThrow(() -> new OldPointStyleProperty(getLocalization(), list));
+		property.setValue(EuclidianStyleConstants.POINT_STYLE_CROSS);
+		assertEquals(EuclidianStyleConstants.POINT_STYLE_CROSS, property.getValue());
 	}
 }

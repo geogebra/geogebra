@@ -85,4 +85,14 @@ class FixObjectPropertyTests extends BaseAppTestSetup {
 		getKernel().redo();
 		assertTrue(getKernel().lookupLabel("A").isLocked());
 	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{x^2, x^3}");
+		FixObjectProperty property =
+				assertDoesNotThrow(() -> new FixObjectProperty(getLocalization(), list));
+		property.setValue(true);
+		assertTrue(property.getValue());
+	}
 }

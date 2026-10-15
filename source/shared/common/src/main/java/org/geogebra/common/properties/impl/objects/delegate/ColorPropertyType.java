@@ -40,7 +40,7 @@ public enum ColorPropertyType {
 		if (element instanceof GeoWidget || element instanceof GeoPieChart || element.isGeoImage()) {
 			return DEFAULT;
 		}
-		if (element instanceof TextStyle || element instanceof GeoFormula) {
+		if ((element instanceof TextStyle && !element.isGeoList()) || element instanceof GeoFormula) {
 			return TEXT;
 		}
 		if (element.isFillable() && !element.isMask() && !(element instanceof GeoLocusStroke)) {

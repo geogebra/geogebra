@@ -17,6 +17,7 @@
 package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.SuiteSubApp;
@@ -52,5 +53,14 @@ class PointSizePropertyTest extends BaseAppTestSetup {
 		GeoElement f = evaluateGeoElement("f: x");
 		assertThrows(
 				NotApplicablePropertyException.class, () -> new PointSizeProperty(getLocalization(), f));
+	}
+
+	@Test
+	void testListRoundTrip() {
+		GeoElement list = evaluateGeoElement("{(1,2),(3,4)}");
+		PointSizeProperty property =
+				assertDoesNotThrow(() -> new PointSizeProperty(getLocalization(), list));
+		property.setValue(7);
+		assertEquals(7, property.getValue());
 	}
 }

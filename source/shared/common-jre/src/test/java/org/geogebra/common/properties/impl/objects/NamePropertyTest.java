@@ -46,4 +46,13 @@ class NamePropertyTest extends BaseUnitTest {
 		property.setValue("line");
 		assertThat(element.getLabel(StringTemplate.defaultTemplate), is("line"));
 	}
+
+	@Test
+	void testListRoundTrip() throws NotApplicablePropertyException {
+		GeoElement list = addAvInput("{(1,2),(3,4)}");
+		NameProperty property = new NameProperty(getLocalization(), list);
+		property.setValue("myList");
+		assertThat(list.getLabel(StringTemplate.defaultTemplate), is("myList"));
+		assertThat(property.getValue(), is("myList"));
+	}
 }

@@ -16,10 +16,8 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
 import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
@@ -82,13 +80,7 @@ public class ThicknessProperty extends AbstractRangeProperty<Integer> {
 	}
 
 	private void setThickness(GeoElement element, int size) {
-		if (element instanceof GeoList list) {
-			for (int i = 0; i < list.size(); i++) {
-				setThickness(list.get(i), size);
-			}
-		} else if (LineStyleModel.match(element)) {
-			element.setLineThickness(size);
-		}
+		element.setLineThickness(size);
 		element.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 

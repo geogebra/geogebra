@@ -18,7 +18,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -58,14 +57,7 @@ public class PointSizeProperty extends AbstractRangeProperty<Integer> {
 	}
 
 	private void setSize(GeoElement element, int size) {
-		if (element instanceof GeoList) {
-			GeoList list = (GeoList) element;
-			for (int i = 0; i < list.size(); i++) {
-				setSize(list.get(i), size);
-			}
-		} else if (element instanceof PointProperties) {
-			((PointProperties) element).setPointSize(size);
-		}
+		((PointProperties) element).setPointSize(size);
 	}
 
 	@Override

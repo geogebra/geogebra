@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty.ScriptEvent;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
@@ -76,5 +77,15 @@ class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
 
 		property.setValue(ScriptEvent.OnDragEnd);
 		assertEquals(ScriptEvent.OnDragEnd, property.getValue());
+	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{(1,2),(3,4)}");
+		ScriptEventSelectionProperty property =
+				new ScriptEventSelectionProperty(getLocalization(), list, true);
+		property.setValue(ScriptEvent.GlobalJavascript);
+		assertEquals(ScriptEvent.GlobalJavascript, property.getValue());
 	}
 }

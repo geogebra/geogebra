@@ -134,4 +134,15 @@ class PlacementPropertyTests extends BaseAppTestSetup {
 		placementProperty.setValue(CENTER_IMAGE);
 		assertEquals(CENTER_IMAGE, placementProperty.getValue());
 	}
+
+	@Test
+	void testListRoundTrip() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement list = evaluateGeoElement("{(1,2),(3,4)}");
+		PlacementProperty placementProperty =
+				assertDoesNotThrow(() -> new PlacementProperty(getLocalization(), list));
+
+		placementProperty.setValue(ABSOLUTE_POSITION_ON_SCREEN);
+		assertEquals(ABSOLUTE_POSITION_ON_SCREEN, placementProperty.getValue());
+	}
 }

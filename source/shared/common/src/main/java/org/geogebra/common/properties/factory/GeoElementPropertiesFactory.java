@@ -53,7 +53,6 @@ import org.geogebra.common.properties.impl.facade.StringPropertyWithSuggestionsL
 import org.geogebra.common.properties.impl.objects.AlgebraPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AnimatingProperty;
 import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
-import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.properties.impl.objects.AuxiliaryObjectProperty;
 import org.geogebra.common.properties.impl.objects.BackgroundAndBorderPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundImageProperty;
@@ -63,7 +62,6 @@ import org.geogebra.common.properties.impl.objects.BorderColorProperty;
 import org.geogebra.common.properties.impl.objects.BorderWidthProperty;
 import org.geogebra.common.properties.impl.objects.ButtonIconPropertyCollection;
 import org.geogebra.common.properties.impl.objects.CaptionProperty;
-import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderThicknessProperty;
 import org.geogebra.common.properties.impl.objects.ChartDataPropertyCollection;
@@ -91,10 +89,7 @@ import org.geogebra.common.properties.impl.objects.LabelProperty;
 import org.geogebra.common.properties.impl.objects.LabelStyleProperty;
 import org.geogebra.common.properties.impl.objects.LayerPropertyCollection;
 import org.geogebra.common.properties.impl.objects.LineStyleProperty;
-import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.ListAsComboBoxProperty;
-import org.geogebra.common.properties.impl.objects.MaxProperty;
-import org.geogebra.common.properties.impl.objects.MinProperty;
 import org.geogebra.common.properties.impl.objects.NameCaptionProperty;
 import org.geogebra.common.properties.impl.objects.NameProperty;
 import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty;
@@ -109,20 +104,16 @@ import org.geogebra.common.properties.impl.objects.OutlyingIntersectionsProperty
 import org.geogebra.common.properties.impl.objects.PointSizeProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleExtendedProperty;
 import org.geogebra.common.properties.impl.objects.PositionPropertyCollection;
-import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.ScriptPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SegmentEndProperty;
 import org.geogebra.common.properties.impl.objects.SegmentStartProperty;
 import org.geogebra.common.properties.impl.objects.SerifProperty;
-import org.geogebra.common.properties.impl.objects.ShowInAVProperty;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
-import org.geogebra.common.properties.impl.objects.SimplifyCoefficientsProperty;
 import org.geogebra.common.properties.impl.objects.SizePropertyCollection;
 import org.geogebra.common.properties.impl.objects.SliderBlobPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SliderIntervalProperty;
 import org.geogebra.common.properties.impl.objects.SliderTrackPropertyCollection;
-import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 import org.geogebra.common.properties.impl.objects.StylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.StyledNamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
@@ -188,72 +179,11 @@ public final class GeoElementPropertiesFactory {
 		}
 	}
 
-	/**
-	 * Creates properties for a list of GeoElements.
-	 * @param processor algebra processor
-	 * @param localization localization
-	 * @param elements input elements
-	 * @return the list of properties for the GeoElement(s)
-	 */
-	public PropertiesArray createGeoElementProperties(
-			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
-		return createPropertiesArray(
-				localization,
-				elements,
-				keepNonNulls(
-						createNameProperty(localization, elements),
-						createMinProperty(processor, localization, elements),
-						createMaxProperty(processor, localization, elements),
-						createAnimationStepProperty(processor, localization, elements, true),
-						createShowObjectProperty(localization, elements),
-						createColorProperty(localization, elements),
-						createPointStyleProperty(localization, elements),
-						createPointSizeProperty(localization, elements),
-						createOpacityProperty(localization, elements),
-						createLineStyleProperty(localization, elements),
-						createThicknessProperty(localization, elements),
-						createSlopeSizeProperty(localization, elements),
-						createLinearEquationProperty(localization, elements),
-						createQuadraticEquationProperty(localization, elements),
-						createSimplifyCoefficientsProperty(localization, elements),
-						createCaptionStyleProperty(localization, elements),
-						createShowTraceProperty(localization, elements),
-						createIsFixedObjectProperty(localization, elements),
-						createOptionalPropertyFacade(
-								elements,
-								element -> new ShowInAVProperty(localization, element),
-								BooleanPropertyListFacade::new)));
-	}
-
-	private Property createCaptionStyleProperty(
-			Localization localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(
-				elements,
-				element -> new CaptionStyleProperty(localization, element),
-				NamedEnumeratedPropertyListFacade::new);
-	}
-
 	private Property createShowTraceProperty(Localization localization, List<GeoElement> elements) {
 		return createOptionalPropertyFacade(
 				elements,
 				element -> new ShowTraceProperty(localization, element),
 				BooleanPropertyListFacade::new);
-	}
-
-	private Property createMinProperty(
-			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(
-				elements,
-				element -> new MinProperty(processor, localization, element),
-				StringPropertyListFacade::new);
-	}
-
-	private Property createMaxProperty(
-			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(
-				elements,
-				element -> new MaxProperty(processor, localization, element),
-				StringPropertyListFacade::new);
 	}
 
 	private Property createFixObjectProperty(Localization localization, List<GeoElement> elements) {
@@ -279,48 +209,6 @@ public final class GeoElementPropertiesFactory {
 				elements,
 				element -> new FixObjectSizeProperty(localization, element),
 				BooleanPropertyListFacade::new);
-	}
-
-	private Property createAnimationStepProperty(
-			AlgebraProcessor processor,
-			Localization localization,
-			List<GeoElement> elements,
-			boolean forSliders) {
-		return createOptionalPropertyFacade(
-				elements,
-				element -> new AnimationStepProperty(processor, localization, element, forSliders),
-				StringPropertyListFacade::new);
-	}
-
-	private Property createQuadraticEquationProperty(
-			Localization localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(
-				elements,
-				element -> new QuadraticEquationFormProperty(localization, element),
-				NamedEnumeratedPropertyListFacade::new);
-	}
-
-	private Property createLinearEquationProperty(
-			Localization localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(
-				elements,
-				element -> new LinearEquationFormProperty(localization, element),
-				NamedEnumeratedPropertyListFacade::new);
-	}
-
-	private Property createSimplifyCoefficientsProperty(
-			Localization localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(
-				elements,
-				element -> new SimplifyCoefficientsProperty(localization, element),
-				BooleanPropertyListFacade::new);
-	}
-
-	private Property createSlopeSizeProperty(Localization localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(
-				elements,
-				element -> new SlopeSizeProperty(localization, element),
-				RangePropertyListFacade::new);
 	}
 
 	/**
@@ -406,7 +294,7 @@ public final class GeoElementPropertiesFactory {
 	 * @param processor {@link AlgebraProcessor}
 	 * @param imageManager {@link ImageManager}
 	 * @param localization {@link Localization}
-	 * @param elements list of geos
+	 * @param elements list of elements
 	 * @return array of properties for Style tab
 	 */
 	public @NonNull PropertiesArray createStyleProperties(
