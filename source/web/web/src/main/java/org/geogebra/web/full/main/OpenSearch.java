@@ -17,12 +17,10 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.openfileview.HeaderFileView;
-import org.geogebra.web.full.gui.openfileview.OpenFileViewMebis;
 import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -65,10 +63,6 @@ public final class OpenSearch {
 	}
 
 	private void open(String query) {
-		if (hasOpenFileViewOnWhiteboard(query)) {
-			updateMaterials();
-		}
-
 		showBrowserView(query);
 
 		if (hasSearchPerspective()) {
@@ -91,17 +85,6 @@ public final class OpenSearch {
 
 	private boolean isOnMebisWithoutLogin() {
 		return app.isByCS() && !app.getLoginOperation().isLoggedIn();
-	}
-
-	private void updateMaterials() {
-		((OpenFileViewMebis) guiManager.getBrowseView()).updateMaterials();
-	}
-
-	private boolean hasOpenFileViewOnWhiteboard(String query) {
-		return app.isWhiteboardActive()
-				&& guiManager.isOpenFileViewLoaded()
-				&& StringUtil.emptyTrim(query)
-				&& guiManager.getBrowseView() instanceof OpenFileViewMebis;
 	}
 
 	private void showBrowser(HeaderFileView fileView) {

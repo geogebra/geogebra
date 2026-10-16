@@ -121,11 +121,7 @@ public final class SaveControllerW implements SaveController {
 	public void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback, boolean addTempCheckBox) {
 		app.getShareController().setAssign(false);
 		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveCheckDialog();
-		AsyncOperation<Boolean> callback = saved -> {
-			app.getShareController().disconnectMultiuser();
-			saveCallback.callback(saved);
-		};
-		showDialogIfNeeded(callback, !app.isSaved(), true, addTempCheckBox);
+		showDialogIfNeeded(saveCallback, !app.isSaved(), true, addTempCheckBox);
 
 		if (!addTempCheckBox) {
 			saveDialog.setDiscardMode();

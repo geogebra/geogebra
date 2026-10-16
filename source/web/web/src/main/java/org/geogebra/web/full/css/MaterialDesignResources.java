@@ -446,7 +446,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
 	SVGResource gear();
 
-	// @Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/gridSVG.svg")
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/point_capturing.svg")
 	SVGResource snap_to_grid();
 
@@ -523,19 +522,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/move_white.svg")
 	SVGResource mode_move();
 
-	// Notes Toolbox
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/mouse_cursor.svg")
-	SVGResource mouse_cursor();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/tool_shapes.svg")
-	SVGResource shapes();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/add_box.svg")
-	SVGResource apps();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/text_fields.svg")
-	SVGResource texts();
-
 	// Burger Menu resources
 	@Source(
 			"org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_content_copy_black_24px.svg")
@@ -550,9 +536,6 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/scientific.svg")
 	SVGResource scientific();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/mebis-logo.png")
-	ImageResource mebis();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_search_black_24px.svg")
 	SVGResource search_black();
@@ -591,9 +574,6 @@ public interface MaterialDesignResources extends ClientBundle {
 			"org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_info_outline_black_24px.svg")
 	SVGResource info_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/report.svg")
-	SVGResource error();
-
 	@Source(
 			"org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_bug_report_black_24px.svg")
 	SVGResource bug_report_black();
@@ -623,18 +603,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource person_black();
 
 	// MOW resources
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/arrow-alt-circle-down.svg")
-	SVGResource download();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/file_plus.svg")
-	SVGResource file_plus();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/file.svg")
-	SVGResource file();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_add_white_24px.svg")
-	SVGResource add_white();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-folder_open-24px.svg")
 	SVGResource mow_pdf_open_folder();
 
@@ -668,10 +636,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source(
 			"org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_insert_drive_file_black_24px.svg")
 	SVGResource fileMenu();
-
-	@Source(
-			"org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
-	SVGResource downloadMenu();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/statistics.svg")
 	SVGResource statistics();

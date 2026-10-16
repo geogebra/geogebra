@@ -25,7 +25,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
  * Ggb specific settings
@@ -35,11 +34,6 @@ public class GgbSettings implements VendorSettings {
 	@Override
 	public String getAppTitle(AppConfig config) {
 		return config.getAppTitle();
-	}
-
-	@Override
-	public FullScreenHandler getFullscreenHandler() {
-		return null;
 	}
 
 	@Override
@@ -55,11 +49,6 @@ public class GgbSettings implements VendorSettings {
 	@Override
 	public String getStyleName(String styleName) {
 		return styleName;
-	}
-
-	@Override
-	public boolean canSessionExpire() {
-		return false;
 	}
 
 	@Override

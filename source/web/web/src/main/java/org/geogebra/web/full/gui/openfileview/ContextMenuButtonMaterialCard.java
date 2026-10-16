@@ -23,11 +23,8 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
-import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.MaterialRenameDialog;
-import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconResources;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -36,7 +33,6 @@ import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.geogebra.web.html5.main.general.GeneralIconResource;
-import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -94,9 +90,6 @@ public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 			case COPY:
 				card.copy();
 				break;
-			case SHARE:
-				onShare();
-				break;
 			case DELETE:
 				card.onDelete();
 				break;
@@ -128,47 +121,9 @@ public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 			case INSERT_ACTIVITY, VIEW ->
 				new ImageIconSpec(MaterialDesignResources.INSTANCE.visibility());
 			case COPY -> generalIconResource.getImageResource(GeneralIcon.COPY);
-			case SHARE -> new ImageIconSpec(DefaultMenuIconResources.INSTANCE.exportFile());
 			case DELETE -> generalIconResource.getImageResource(GeneralIcon.DELETE);
 			case RENAME -> generalIconResource.getImageResource(GeneralIcon.RENAME);
 		};
-	}
-
-	/**
-	 * execute share action
-	 */
-	private void onShare() {
-		Material activeMaterial = app.getActiveMaterial();
-		if (activeMaterial != null
-				&& activeMaterial.getSharingKeySafe().equals(material.getSharingKeySafe())) {
-			app.getShareController().share(); // make sure we save unsaved changes
-			return;
-		}
-		DialogData data = new DialogData("Share", "Cancel", "Save");
-		ShareDialogMow dialog =
-				new ShareDialogMow(app, data, app.getCurrentURL(material.getSharingKey(), true), material);
-		dialog.setCallback(new MaterialCallbackI() {
-
-			@Override
-			public void onLoaded(List<Material> result, Pagination meta) {
-				updateCardVisibility(result);
-			}
-
-			@Override
-			public void onError(Throwable exception) {
-				Log.debug(exception);
-			}
-		});
-		dialog.show();
-	}
-
-	/**
-	 * @param result
-	 *            single material after visibility change
-	 */
-	private void updateCardVisibility(List<Material> result) {
-		card.updateVisibility(result.get(0));
-		card.setThumbnail(result.get(0));
 	}
 
 	/**

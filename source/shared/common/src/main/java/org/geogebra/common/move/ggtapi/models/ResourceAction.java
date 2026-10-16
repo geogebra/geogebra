@@ -24,7 +24,6 @@ public enum ResourceAction {
 	VIEW("ViewMaterial"),
 	INSERT_ACTIVITY("insert_worksheet"), // old key, translated as Insert Activity
 	COPY("makeACopy"),
-	SHARE("Share"),
 	DELETE("Delete"),
 	RENAME("Rename");
 

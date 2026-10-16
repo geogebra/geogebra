@@ -27,7 +27,6 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.full.gui.laf.ChromeLookAndFeel;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
-import org.geogebra.web.full.gui.laf.MebisLookAndFeel;
 import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
 import org.geogebra.web.html5.bridge.AttributeProvider;
@@ -125,8 +124,6 @@ public abstract class Web implements EntryPoint {
 					return new OfficeLookAndFeel();
 				case "bundle":
 					return new BundleLookAndFeel();
-				case "mebis":
-					return new MebisLookAndFeel();
 				case "chrome":
 					return new ChromeLookAndFeel();
 			}

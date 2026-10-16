@@ -18,7 +18,6 @@ package org.geogebra.common.move.ggtapi.models;
 
 import java.util.Collection;
 
-import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.util.HttpRequest;
 
 /**
@@ -50,18 +49,9 @@ public interface Service {
 	/**
 	 * Get available actions for a resource.
 	 * @param owns whether current user owns it
-	 * @param isTeacher whether current user is a teacher
 	 * @return available actions
 	 */
-	Collection<ResourceAction> getActions(boolean owns, boolean isTeacher);
-
-	/**
-	 * Get endpoint for group sharing info.
-	 * @param materialId resource ID
-	 * @param category group category
-	 * @return endpoint listing group sharing info for given resource
-	 */
-	String getGroupsEndpoint(String materialId, GroupIdentifier.GroupCategory category);
+	Collection<ResourceAction> getActions(boolean owns);
 
 	/**
 	 * @return whether multiuser is supported.

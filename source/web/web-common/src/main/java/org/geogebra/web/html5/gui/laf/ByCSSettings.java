@@ -24,8 +24,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
-import org.geogebra.web.html5.gui.zoompanel.MebisFullscreenHandler;
 
 /**
  * ByCS specific settings
@@ -35,11 +33,6 @@ public class ByCSSettings implements VendorSettings {
 	@Override
 	public String getAppTitle(AppConfig config) {
 		return "Board";
-	}
-
-	@Override
-	public FullScreenHandler getFullscreenHandler() {
-		return new MebisFullscreenHandler();
 	}
 
 	@Override
@@ -55,11 +48,6 @@ public class ByCSSettings implements VendorSettings {
 	@Override
 	public String getStyleName(String styleName) {
 		return styleName + "Mebis";
-	}
-
-	@Override
-	public boolean canSessionExpire() {
-		return true;
 	}
 
 	@Override

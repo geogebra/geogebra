@@ -31,7 +31,6 @@ import java.util.Set;
 
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.jre.util.Base64;
-import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -51,7 +50,6 @@ import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.util.UtilD;
 import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class MaterialRestAPITest {
@@ -65,7 +63,6 @@ class MaterialRestAPITest {
 		LoginOperationD loginOp = buildLoginOperation();
 		authorise(usr, loginOp);
 		assertEquals("GGBTest-Student", usr.getUserName());
-		assertEquals(0, usr.getGroups().size(), "GGBTest-Student");
 	}
 
 	private LoginOperationD buildLoginOperation() {
@@ -119,35 +116,6 @@ class MaterialRestAPITest {
 				false);
 		t.await(5);
 		t.verifyError(".*401.*");
-	}
-
-	/**
-	 * TODO groups are shibboleth feature and can't be tested with simple login
-	 */
-	@Test
-	@Disabled
-	void testmaterialGroup() {
-		needsAuth();
-		final MaterialRestAPI api = authAPI();
-		final String[] success = new String[1];
-		final TestAsyncOperation<List<GroupIdentifier>> groupCallback =
-				new TestAsyncOperation<List<GroupIdentifier>>() {
-
-					@Override
-					public void callback(List<GroupIdentifier> obj) {
-						success[0] = obj == null ? "FAIL" : obj.size() + "";
-					}
-				};
-		doUpload(api, "Test material", new TestMaterialCallback() {
-			@Override
-			public boolean handleMaterial(Material mat) {
-
-				api.getGroups(mat.getSharingKey(), null, groupCallback);
-				return true;
-			}
-		});
-		groupCallback.await(5);
-		assertEquals("0", success[0]);
 	}
 
 	private static void doUpload(

@@ -336,11 +336,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	}
 
 	@Override
-	public boolean canUserShare(boolean student) {
-		return true;
-	}
-
-	@Override
 	public boolean anonymousOpen() {
 		return true;
 	}

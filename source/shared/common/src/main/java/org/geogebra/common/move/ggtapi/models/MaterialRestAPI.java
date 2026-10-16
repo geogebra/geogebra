@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
@@ -32,7 +31,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.HttpMethod;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
@@ -105,44 +103,13 @@ public class MaterialRestAPI implements BackendAPI {
 			guser.setUserName(user.getString("displayname"));
 			guser.setUserId(user.getInt("id"));
 			guser.setIdentifier("");
-			guser.setStudent(!"1".equals(user.getString("isTeacher")));
 			guser.setLanguage(user.optString("langUi"));
 			guser.setJWTToken(user.optString("jwtToken"));
-			ArrayList<GroupIdentifier> allGroups = new ArrayList<>();
-			addGroups(user, "allClasses", allGroups, GroupIdentifier.GroupCategory.CLASS);
-			addGroups(user, "allCourses", allGroups, GroupIdentifier.GroupCategory.COURSE);
-			guser.setGroups(allGroups);
 			return true;
 		} catch (Exception e) {
 			Log.warn(e.getMessage());
 		}
 		return false;
-	}
-
-	private void addGroups(
-			JSONObject user,
-			String allClasses,
-			ArrayList<GroupIdentifier> allGroups,
-			GroupIdentifier.GroupCategory cat)
-			throws JSONException {
-		if (user.has(allClasses)) {
-			JSONArray classList = user.getJSONArray(allClasses);
-			allGroups.addAll(stringList(classList, cat));
-		}
-	}
-
-	/**
-	 * @param classList JSON array
-	 * @return Java array
-	 * @throws JSONException if array contains objects other than strings
-	 */
-	private static ArrayList<GroupIdentifier> stringList(
-			JSONArray classList, GroupIdentifier.GroupCategory category) throws JSONException {
-		ArrayList<GroupIdentifier> groups = new ArrayList<>();
-		for (int i = 0; i < classList.length(); i++) {
-			groups.add(new GroupIdentifier(classList.getString(i), category));
-		}
-		return groups;
 	}
 
 	/**
@@ -612,66 +579,6 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	/**
-	 * @param m material
-	 * @param groupID group ID
-	 * @param shared whether to share
-	 * @param callback callback
-	 */
-	public void setShared(
-			Material m, GroupIdentifier groupID, boolean shared, final AsyncOperation<Boolean> callback) {
-		performWithAuthentication(
-				shared ? HttpMethod.POST : HttpMethod.DELETE,
-				"/materials/" + m.getSharingKeySafe() + "/groups/" + groupID.name + "?category="
-						+ groupID.getCategory(),
-				null,
-				new AjaxCallback() {
-					@Override
-					public void onSuccess(String responseStr) {
-						callback.callback(true);
-					}
-
-					@Override
-					public void onError(String error) {
-						callback.callback(false);
-					}
-				});
-	}
-
-	/**
-	 * @param materialID material ID
-	 * @param category group category
-	 * @param callback get list of groups in given category the material is shared with
-	 */
-	public void getGroups(
-			String materialID,
-			GroupIdentifier.GroupCategory category,
-			AsyncOperation<List<GroupIdentifier>> callback) {
-		String path = service.getGroupsEndpoint(materialID, category);
-		if (path == null) {
-			return;
-		}
-		HttpRequest request = service.createRequest(model);
-
-		request.sendRequestPost(HttpMethod.GET.name(), baseURL + path, null, new AjaxCallback() {
-			@Override
-			public void onSuccess(String responseStr) {
-				JSONArray groups;
-				try {
-					groups = new JSONArray(new JSONTokener(responseStr));
-					callback.callback(stringList(groups, category));
-				} catch (JSONException e) {
-					callback.callback(null);
-				}
-			}
-
-			@Override
-			public void onError(String error) {
-				callback.callback(null);
-			}
-		});
-	}
-
-	/**
 	 * @param mat material
 	 * @return true if user owns the given material
 	 */
@@ -680,11 +587,6 @@ public class MaterialRestAPI implements BackendAPI {
 			return false;
 		}
 		return mat.getCreator().getId() <= 0 || mat.getCreator().getId() == model.getUserId();
-	}
-
-	@Override
-	public boolean canUserShare(boolean student) {
-		return !student;
 	}
 
 	@Override
@@ -769,9 +671,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @return actions available for given resource
 	 */
 	public Collection<ResourceAction> getActions(Material material) {
-		return service.getActions(
-				owns(material),
-				model.getLoggedInUser() != null && !model.getLoggedInUser().isStudent());
+		return service.getActions(owns(material));
 	}
 
 	/**

@@ -102,7 +102,6 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.action.SaveExamAction;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
-import org.geogebra.web.full.gui.openfileview.OpenFileViewMebis;
 import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
@@ -1707,12 +1706,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Set
 			return new OpenTemporaryFileView(app);
 		} else {
 			BrowserDevice.FileOpenButton fileOpenButton = new BrowserDevice.FileOpenButton(app);
-			BrowseViewI openFileView;
-			if (app.isByCS()) {
-				openFileView = new OpenFileViewMebis(app, fileOpenButton);
-			} else {
-				openFileView = new OpenFileView(app, fileOpenButton);
-			}
+			BrowseViewI openFileView = new OpenFileView(app, fileOpenButton);
 			fileOpenButton.setOpenFileView(openFileView);
 			return openFileView;
 		}

@@ -21,7 +21,6 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
  * Vendor dependent settings
@@ -36,14 +35,6 @@ public interface VendorSettings {
 	 * @return app title translation key
 	 */
 	String getAppTitle(AppConfig config);
-
-	/**
-	 * Gets helper for toggling emulated fullscreen when running in an iframe,
-	 * only available for specific cases.
-	 *
-	 * @return helper for fullscreen or null.
-	 */
-	FullScreenHandler getFullscreenHandler();
 
 	/**
 	 * Returns the primary color.
@@ -67,12 +58,6 @@ public interface VendorSettings {
 	 * @return the vendor specific style name
 	 */
 	String getStyleName(String styleName);
-
-	/**
-	 * after session expired user will be logged out
-	 * @return if the user session can expire (only mebis)
-	 */
-	boolean canSessionExpire();
 
 	/**
 	 *

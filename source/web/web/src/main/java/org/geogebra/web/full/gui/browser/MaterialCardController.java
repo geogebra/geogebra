@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
-import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
@@ -28,7 +27,6 @@ import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.SaveControllerW;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.openfileview.MaterialCard;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.openfileview.RemoveDialog;
@@ -68,8 +66,6 @@ public final class MaterialCardController implements OpenFileListener {
 		app.getArchiveLoader().processFileName(material.getFileName());
 		updateActiveMaterial();
 		app.getGuiManager().getBrowseView().close();
-		((GeoGebraFrameFull) app.getAppletFrame())
-				.updateUndoRedoButtonVisibility(!material.isMultiuser());
 	}
 
 	private void updateActiveMaterial() {
@@ -77,8 +73,6 @@ public final class MaterialCardController implements OpenFileListener {
 		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 		if (material.getType() == MaterialType.ggsTemplate) {
 			app.registerOpenFileListener(this);
-		} else {
-			app.registerOpenFileListener(this::checkMultiuser);
 		}
 	}
 
@@ -167,9 +161,6 @@ public final class MaterialCardController implements OpenFileListener {
 							.delete(toDelete, true, MaterialCardController.this.deleteCallback);
 					showSnackbar(
 							app.getLocalization().getPlain("ContextMenu.ConfirmDeleteA", toDelete.getTitle()));
-					if (toDelete.isMultiuser()) {
-						app.getShareController().terminateMultiuser(toDelete, null);
-					}
 				}
 
 				@Override
@@ -277,15 +268,6 @@ public final class MaterialCardController implements OpenFileListener {
 	public boolean onOpenFile() {
 		app.getKernel().getConstruction().setTitle(null);
 		app.setActiveMaterial(material);
-		return true; // one time only
-	}
-
-	private boolean checkMultiuser() {
-		String paramMultiplayerUrl = app.getAppletParameters().getParamMultiplayerUrl();
-		GeoGebraTubeUser loggedInUser = app.getLoginOperation().getModel().getLoggedInUser();
-		if (material.isMultiuser() && !StringUtil.empty(paramMultiplayerUrl) && loggedInUser != null) {
-			app.getShareController().startMultiuser(material.getSharingKeySafe());
-		}
 		return true; // one time only
 	}
 

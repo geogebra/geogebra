@@ -338,42 +338,10 @@ public final class FileViewCommon extends AnimatingPanel implements Persistable 
 	}
 
 	/**
-	 * @return whether it's empty.
-	 */
-	public boolean hasNoMaterials() {
-		return materialCount() == 0;
-	}
-
-	/**
 	 * @return Number of widgets (material cards + more button).
 	 */
 	public int materialCount() {
 		return materialPanel.getWidgetCount();
-	}
-
-	/**
-	 * @param index index
-	 * @return material card at given position
-	 */
-	public Widget materialAt(int index) {
-		return materialPanel.getWidget(index);
-	}
-
-	/**
-	 * Add a widget (material card or more button) to the panel.
-	 * @param widget widget
-	 */
-	public void addMaterialOrLoadMoreFilesPanel(Widget widget) {
-		materialPanel.add(widget);
-	}
-
-	/**
-	 * Insert a material card at given position.
-	 * @param widget material card
-	 * @param idx index
-	 */
-	public void insertMaterial(Widget widget, int idx) {
-		materialPanel.insert(widget, idx);
 	}
 
 	public HeaderView getHeader() {

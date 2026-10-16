@@ -245,20 +245,6 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	}
 
 	/**
-	 * @return whether current user can share materials
-	 */
-	public boolean canUserShare() {
-		return getGeoGebraTubeAPI().canUserShare(!isTeacherLoggedIn());
-	}
-
-	/**
-	 * @return whether a user is logged in and is a teacher
-	 */
-	public boolean isTeacherLoggedIn() {
-		return getModel().getLoggedInUser() != null && !getModel().getLoggedInUser().isStudent();
-	}
-
-	/**
 	 * Initiate login without user interaction, does not need token
 	 */
 	public void passiveLogin() {

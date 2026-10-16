@@ -225,7 +225,6 @@ public class ZoomController {
 				// delay scaling to make sure scrollbars disappear
 				t.schedule(50);
 			}
-			handleIframeFullscreen(fullscreenBtnSelectCB);
 		} else {
 			GeoGebraElement geoGebraElement = app.getGeoGebraElement();
 			final Element scaler = geoGebraElement.getParentElement();
@@ -256,16 +255,6 @@ public class ZoomController {
 		if (!state.emulated) {
 			setFullScreenActive(!isFullScreenActive(), fullscreenBtnSelectCB);
 			Browser.toggleFullscreen(isFullScreenActive(), container);
-		}
-	}
-
-	private void handleIframeFullscreen(Consumer<Boolean> fullscreenBtnSelectCB) {
-		if (isRunningInIframe() && state.emulated) {
-			FullScreenHandler fullScreenHandler = app.getVendorSettings().getFullscreenHandler();
-			if (fullScreenHandler != null) {
-				fullScreenHandler.toggleFullscreen();
-				setFullScreenActive(!state.fullScreenActive, fullscreenBtnSelectCB);
-			}
 		}
 	}
 

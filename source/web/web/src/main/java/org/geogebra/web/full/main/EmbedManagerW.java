@@ -661,7 +661,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 	}
 
 	private boolean isJsEnabled() {
-		return !app.isByCS() || app.getLoginOperation().isTeacherLoggedIn();
+		return !app.isByCS();
 	}
 
 	private boolean isJsRunningEnabled() {

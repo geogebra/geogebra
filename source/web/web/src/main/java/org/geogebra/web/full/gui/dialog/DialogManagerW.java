@@ -49,7 +49,6 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.AccessibilityAnalytics;
 import org.geogebra.common.util.debug.AccessibilityAnalyticsContext;
 import org.geogebra.common.util.debug.Log;
@@ -696,15 +695,5 @@ public class DialogManagerW extends DialogManager implements LoadingApplication 
 	@Override
 	public void closeTemplateChooser() {
 		templateChooser.hide();
-	}
-
-	/**
-	 * @return session expire dialog listener
-	 */
-	public GTimerListener getSessionExpireDialog() {
-		return () -> {
-			DialogData data = new DialogData(null, "Cancel", "Save");
-			new SessionExpireNotifyDialog((AppW) app, data).show();
-		};
 	}
 }

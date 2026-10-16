@@ -123,13 +123,6 @@ public interface BackendAPI {
 			boolean isMultiuser);
 
 	/**
-	 * @param student
-	 *            whether user is a student
-	 * @return whether user can share files
-	 */
-	boolean canUserShare(boolean student);
-
-	/**
 	 * @return whether anonymous user can open shared links
 	 */
 	boolean anonymousOpen();

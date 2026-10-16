@@ -20,15 +20,12 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.MD5Checksum;
 import org.geogebra.gwtutil.Cookies;
-import org.geogebra.web.html5.MebisGlobal;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 
 import elemental2.dom.DomGlobal;
-import jsinterop.base.Js;
 
 /**
  * @author gabor
@@ -118,21 +115,5 @@ public final class AuthenticationModelW extends AuthenticationModel {
 	@Override
 	public String getCookie(String cookieName) {
 		return Cookies.getCookie(cookieName);
-	}
-
-	@Override
-	public void refreshToken(HttpRequest request, Runnable afterRefresh) {
-		if (app.isByCS()) {
-			MebisGlobal.refreshToken(token -> {
-				if (Js.isTruthy(token)) {
-					request.setAuth(token);
-					// just update the token, no need to fire event
-					authToken = token;
-				}
-				afterRefresh.run();
-			});
-		} else {
-			afterRefresh.run();
-		}
 	}
 }

@@ -55,7 +55,6 @@ import org.geogebra.common.exam.ExamOptions;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.factories.CASFactory;
-import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.gui.inputfield.HasLastItem;
@@ -99,7 +98,6 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
-import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.views.EventRenderable;
@@ -669,12 +667,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void initMenu() {
 		if (isFloatingMenu()) {
 			ensureLoginOperation();
-			if (getVendorSettings().canSessionExpire()) {
-				AuthenticationModel model = getLoginOperation().getModel();
-				model.setSessionExpireTimer(UtilFactory.getPrototype()
-						.newTimer(
-								getDialogManager().getSessionExpireDialog(), AuthenticationModel.SESSION_TIME));
-			}
 			MenuViewController menuController = new MenuViewController(this);
 			menuController.setMenuViewListener(this);
 			menuViewController = menuController;
@@ -1121,9 +1113,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						getGgbApi().setBase64(material.getBase64());
 					}
 					setActiveMaterial(material);
-					if (material.isMultiuser()) {
-						getShareController().startMultiuser(material.getSharingKeySafe());
-					}
 					ensureSupportedModeActive();
 				} else {
 					onError.callback(Errors.LoadFileFailed.getKey());
