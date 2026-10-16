@@ -86,6 +86,14 @@
 	align-items: center;
 }
 
+.GeoGebraFrame.suiteHeader.scientificHeader .buttons {
+	height: 64px;
+}
+
+.GeoGebraFrame.suiteHeader.scientificHeader.compact .buttons {
+	height: 44px;
+}
+
 .GeoGebraFrame button {
 	border: initial;
 	background: initial;
