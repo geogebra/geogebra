@@ -20,28 +20,60 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
- * Checks if the original screen was bigger when file was saved or not. If so,
- * some widgets needs to be adjusted to fit the smaller screen.
+ * Fits the saved visible canvas area into the current viewport using uniform
+ * scaling and centering. Objects outside the saved area may also become visible
+ * when the viewport aspect ratio differs from the saved area.
  *
  * @author laszlo
  *
  */
 public class AdjustScreen {
 
+	record CoordinateSystem(double xZero, double yZero, double xScale, double yScale) {}
 	/**
-	 * Adjust the coordinate system to the screen size
+	 * Adjusts the coordinate system to fit and center the saved visible area in the
+	 * current viewport, preserving its aspect ratio without cropping.
 	 *
 	 * @param view
-	 *            {@link EuclidianView}
+	 *            view whose coordinate system is adjusted
 	 */
 	public static void adjustCoordSystem(EuclidianView view) {
-		EuclidianSettings s = view.getSettings();
-		double rX = (double) view.getWidth() / s.getFileWidth();
-		double rY = (double) view.getHeight() / s.getFileHeight();
+		EuclidianSettings settings = view.getSettings();
 
-		double ox = s.getFileXZero() * rX;
-		double oy = s.getFileYZero() * rY;
-		double scale = s.getFileYScale() * rY;
-		view.setCoordSystem(ox, oy, scale, scale);
+		if (settings.getFileWidth() <= 0 || settings.getFileHeight() <= 0) {
+			return;
+		}
+
+		CoordinateSystem adjustedCoordSys = fitToViewport(
+				new CoordinateSystem(
+						settings.getFileXZero(),
+						settings.getFileYZero(),
+						settings.getFileXScale(),
+						settings.getFileYScale()),
+				settings.getFileWidth(),
+				settings.getFileHeight(),
+				view.getWidth(),
+				view.getHeight());
+		view.setCoordSystem(
+				adjustedCoordSys.xZero,
+				adjustedCoordSys.yZero,
+				adjustedCoordSys.xScale,
+				adjustedCoordSys.yScale);
+	}
+
+	static CoordinateSystem fitToViewport(
+			CoordinateSystem source,
+			double sourceWidth,
+			double sourceHeight,
+			double targetWidth,
+			double targetHeight) {
+		double ratio = Math.min(targetWidth / sourceWidth, targetHeight / sourceHeight);
+		double dx = (targetWidth - ratio * sourceWidth) / 2;
+		double dy = (targetHeight - ratio * sourceHeight) / 2;
+		return new CoordinateSystem(
+				dx + ratio * source.xZero,
+				dy + ratio * source.yZero,
+				ratio * source.xScale,
+				ratio * source.yScale);
 	}
 }
