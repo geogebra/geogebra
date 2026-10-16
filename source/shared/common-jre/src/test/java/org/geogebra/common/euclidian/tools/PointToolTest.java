@@ -18,11 +18,14 @@ package org.geogebra.common.euclidian.tools;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.test.TestEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -112,5 +115,47 @@ class PointToolTest extends BaseToolTest {
 		assertEquals("E = (2, -2)", point.toString(StringTemplate.editTemplate));
 		assertFalse(point.isPointOnPath());
 		assertFalse(point.isPointInRegion());
+	}
+
+	@Test
+	void undoCreationByDrag() {
+		getApp().setUndoActive(true);
+		getKernel().initUndoInfo();
+		dragStart(0, 0);
+		drag(100, 100);
+		dragEnd(100, 100);
+		assertInstanceOf(GeoPoint.class, lookup("A"));
+		getConstruction().getUndoManager().undo();
+		assertNull(lookup("A"));
+	}
+
+	@Test
+	void undoCreationsAndDrags() {
+		getApp().setUndoActive(true);
+		getKernel().initUndoInfo();
+		// create A, B
+		click(100, 100);
+		click(200, 100);
+		// drag A to (2,-4)
+		dragStart(100, 100);
+		drag(100, 200);
+		dragEnd(100, 200);
+		// drag B to (4,-4)
+		dragStart(200, 100);
+		drag(200, 200);
+		dragEnd(200, 200);
+		assertEquals("(2, -4)", lookup("A").toValueString(StringTemplate.testTemplate));
+		assertEquals("(4, -4)", lookup("B").toValueString(StringTemplate.testTemplate));
+		getConstruction().getUndoManager().undo();
+		assertEquals("(2, -4)", lookup("A").toValueString(StringTemplate.testTemplate));
+		assertEquals("(4, -2)", lookup("B").toValueString(StringTemplate.testTemplate));
+		getConstruction().getUndoManager().undo();
+		assertEquals("(2, -2)", lookup("A").toValueString(StringTemplate.testTemplate));
+		assertEquals("(4, -2)", lookup("B").toValueString(StringTemplate.testTemplate));
+		getConstruction().getUndoManager().undo();
+		assertEquals("(2, -2)", lookup("A").toValueString(StringTemplate.testTemplate));
+		assertNull(lookup("B"));
+		getConstruction().getUndoManager().undo();
+		assertNull(lookup("A"));
 	}
 }
