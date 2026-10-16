@@ -91,10 +91,10 @@ public class BaseContourTestSetup extends BaseAppTestSetup {
 			double xMin = dir.getDouble("xMin");
 			double yMin = dir.getDouble("yMin");
 			int width = dir.getInt("width");
-			int heigh = dir.getInt("height");
+			int height = dir.getInt("height");
 			double xMax = xMin + (width * dir.getDouble("invXscale"));
-			double yMax = yMin + (heigh * dir.getDouble("invYscale"));
-			return newBounds(xMin, xMax, yMin, yMax, width, heigh);
+			double yMax = yMin + (height * dir.getDouble("invYscale"));
+			return newBounds(xMin, xMax, yMin, yMax, width, height);
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}

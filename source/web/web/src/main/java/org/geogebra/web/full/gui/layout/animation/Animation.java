@@ -43,7 +43,7 @@ public final class Animation {
 	}
 
 	/**
-	 * @param fadeAnimation whether to this is a fase animation
+	 * @param fadeAnimation whether to this is a fade animation
 	 */
 	public void setFadeAnimation(boolean fadeAnimation) {
 		isFadeAnimation = fadeAnimation;
