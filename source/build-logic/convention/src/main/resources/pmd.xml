@@ -17,7 +17,6 @@
     <exclude-pattern>.*/org/geogebra/desktop/gui/editor/.*</exclude-pattern>
     <!-- We'll use the entire 'strings' ruleset -->
     <rule ref="category/java/bestpractices.xml">
-        <exclude name="AccessorMethodGeneration"/>
         <exclude name="UseCollectionIsEmpty"/>
         <exclude name="ConstantsInInterface"/>
         <exclude name="UseVarargs"/>
@@ -125,7 +124,6 @@
         <exclude name="LawOfDemeter"/>
         <exclude name="SwitchDensity"/>
         <exclude name="InstantiableUtilityClass"/>
-        <exclude name="AbstractClassWithoutAnyMethod"/>
         <exclude name="DoNotExtendJavaLangError"/>
         <exclude name="AvoidUncheckedExceptionsInSignatures"/>
         <exclude name="MutableStaticState"/>
