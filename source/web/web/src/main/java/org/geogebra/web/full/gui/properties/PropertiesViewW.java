@@ -32,6 +32,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.properties.PropertyViewFactory;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
@@ -392,7 +393,9 @@ public final class PropertiesViewW extends PropertiesView
 					app.getImageManager(),
 					app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT),
 					showableGeos);
-			titleKey = showableGeos.size() == 1 ? showableGeos.get(0).getTypeString() : "Selection";
+			titleKey = showableGeos.size() == 1
+					? PropertyViewFactory.getObjectSettingsTitleKey(showableGeos.get(0))
+					: "Selection";
 		} else {
 			titleKey = "Settings";
 			propLists = app.getConfig()

@@ -433,6 +433,30 @@ class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
+	@CsvSource(
+			delimiterString = "->",
+			value = {
+				"PieChart({1,2,3}) -> Pie chart",
+				"BarChart({1,2,3},{2,3,1}) -> Bar chart",
+				"LineGraph({1,2,3},{2,3,1}) -> Line chart",
+				"Histogram({0,1,2},{2,1}) -> Histogram",
+				"HistogramRight({0,1,2},{2,1}) -> Histogram",
+				"BoxPlot(0,1,{1,2,3,4,5}) -> Boxplot",
+				"42 -> Number",
+				"{1,2,3} -> List",
+				"Polyline({(0,0),(1,1)}) -> Polyline",
+			})
+	void testTabbedPageSelectorTitle(String command, String expectedTitle) {
+		setupApp(SuiteSubApp.GRAPHING);
+		getApp().setImageManager(new ImageManagerCommon());
+		GeoElement chart = evaluateGeoElement(command);
+		PropertyView.TabbedPageSelector settings =
+				PropertyViewFactory.propertyViewOfObjectSettings(getApp(), List.of(chart));
+		assertNotNull(settings);
+		assertEquals(expectedTitle, settings.getTitle());
+	}
+
+	@ParameterizedTest
 	@Issue("APPS-7499")
 	@CsvSource(
 			delimiterString = "->",

@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -107,7 +108,7 @@ public class PropertyViewFactory {
 		if (elements.isEmpty()) {
 			return null;
 		}
-		String title = app.getLocalization().getMenu(getTypeString(elements.get(0)));
+		String title = app.getLocalization().getMenu(getObjectSettingsTitleKey(elements.get(0)));
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
 		assert suiteScope != null;
 		boolean jsEnabled = !app.getPlatform().isMobile()
@@ -226,15 +227,33 @@ public class PropertyViewFactory {
 		return properties.stream().map(PropertyView::of).toList();
 	}
 
-	private static String getTypeString(GeoElement geoElement) {
-		if (!(geoElement instanceof GeoSymbolic geoSymbolic)) {
-			return geoElement.getTypeString();
+	/**
+	 * Returns the translation key for an object's settings title, using the chart name
+	 * for supported charts and falling back to the object's type name otherwise.
+	 * @param geo the object whose settings are shown
+	 * @return the menu translation key for the settings title
+	 */
+	public static @NonNull String getObjectSettingsTitleKey(@NonNull GeoElement geo) {
+		GeoElement geoElement = geo;
+		if (geoElement instanceof GeoSymbolic geoSymbolic) {
+			GeoElementND twinGeo = geoSymbolic.getTwinGeo();
+			if (twinGeo == null) {
+				return "Settings";
+			}
+			geoElement = twinGeo.toGeoElement();
 		}
-		GeoElementND twinGeo = geoSymbolic.getTwinGeo();
-		if (twinGeo == null) {
-			return "Settings";
+		if (geoElement.getParentAlgorithm() != null
+				&& geoElement.getParentAlgorithm().getClassName() instanceof Commands command) {
+			return switch (command) {
+				case BarChart -> "ContextMenu.BarChart";
+				case BoxPlot -> "Boxplot";
+				case Histogram, HistogramRight -> "Histogram";
+				case LineGraph -> "ContextMenu.LineChart";
+				case PieChart -> "PieChart";
+				default -> geoElement.getTypeString();
+			};
 		}
-		return twinGeo.toGeoElement().getTypeString();
+		return geoElement.getTypeString();
 	}
 
 	private static int calculateInitialSelectedTabIndex(
