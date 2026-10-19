@@ -198,4 +198,9 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 			tableController.setHitCell(p.x, p.y);
 		}
 	}
+
+	@Override
+	public double getScale() {
+		return rectangle.realWidth() / table.getContentWidth();
+	}
 }

@@ -16,7 +16,6 @@
 
 package org.geogebra.common.euclidian.inline;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawInline;
 
@@ -43,14 +42,10 @@ public interface InlineFormulaController {
 
 	/**
 	 * @param angle rotation angle
-	 */
-	void setAngle(double angle);
-
-	/**
 	 * @param sx horizontal scale
 	 * @param sy vertical scale
 	 */
-	void setScale(double sx, double sy);
+	void setTransform(double angle, double sx, double sy);
 
 	/**
 	 * Bring to foreground and move the caret.
@@ -59,7 +54,10 @@ public interface InlineFormulaController {
 	 */
 	void toForeground(int x, int y);
 
-	@MissingDoc
+	/**
+	 * Bring widget to the background.
+	 * @param trigger cause of the suspension
+	 */
 	void toBackground(DrawInline.SuspensionTrigger trigger);
 
 	/**
@@ -77,13 +75,19 @@ public interface InlineFormulaController {
 	 */
 	void setFontSize(int fontSize);
 
-	@MissingDoc
+	/**
+	 * @return whether the widget is in the foreground (editable)
+	 */
 	boolean isInForeground();
 
-	@MissingDoc
+	/**
+	 * Remove widget from the UI completely.
+	 */
 	void discard();
 
-	@MissingDoc
+	/**
+	 * @return editor content, using GGB syntax
+	 */
 	String getText();
 
 	/**

@@ -7987,6 +7987,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		resizedInline = null;
 		for (Drawable dr : view.getAllDrawableList()) {
 			if (dr instanceof DrawInline drawInline) {
+				if (evt != null && view.getHits().contains(dr.getGeoElement())) {
+					continue;
+				}
 				if (drawInline != handlerHit) {
 					drawInline.toBackground(DrawInline.SuspensionTrigger.BLUR);
 				} else {
@@ -9177,7 +9180,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.setLabelHitNeedsRefresh();
 		pressedInputBox = null;
 
-		widgetsToBackground(event);
 		view.hideSymbolicEditor();
 		storeUndo.clear();
 
@@ -9191,6 +9193,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		updateFocusedPanel(event);
 
 		updateHits(event);
+		widgetsToBackground(event);
 
 		setMoveModeForFurnitures();
 

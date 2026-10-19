@@ -71,6 +71,9 @@ public final class InlineTextControllerW implements InlineTextController {
 	private final GeoInline geo;
 
 	private final Element parent;
+	/** Widget element (wrapper of the Murok canvas). */
+	private Element element;
+
 	private Editor editor;
 	private Style style;
 
@@ -156,7 +159,8 @@ public final class InlineTextControllerW implements InlineTextController {
 		final Widget widget = editor.getWidget();
 		widget.addStyleName(INVISIBLE);
 		EventUtil.stopPointerEvents(widget.getElement(), btn -> btn <= 0);
-		style = widget.getElement().getStyle();
+		element = widget.getElement();
+		style = element.getStyle();
 		style.setPosition(Position.ABSOLUTE);
 		Element editorElement = editor.getWidget().getElement();
 		parent.appendChild(editorElement);
@@ -460,6 +464,7 @@ public final class InlineTextControllerW implements InlineTextController {
 	public void setTransform(double angle, double sx, double sy) {
 		updateVerticalAlign();
 		style.setProperty("transform", "rotate(" + angle + "rad) scale(" + sx + "," + sy + ")");
+		element.setAttribute("data-transform-label", geo.getLabelSimple());
 		editor.setExternalScale(sx);
 	}
 

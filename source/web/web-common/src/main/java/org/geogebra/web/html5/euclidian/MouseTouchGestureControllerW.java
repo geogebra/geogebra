@@ -18,9 +18,11 @@ package org.geogebra.web.html5.euclidian;
 
 import java.util.LinkedList;
 
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.StringUtil;
@@ -317,5 +319,16 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	public boolean isDragging() {
 		return dragModeMustBeSelected;
+	}
+
+	@Override
+	public void getCanvasCoords(double x, double y, double[] coords, String transformLabel) {
+		DrawableND drawable = ec.getView().getDrawableFor(app.getKernel().lookupLabel(transformLabel));
+		if (drawable instanceof DrawInline drawInline) {
+			double contentScale = drawInline.getScale();
+			drawInline
+					.getTransform()
+					.transform(new double[] {x * contentScale, y * contentScale}, 0, coords, 0, 1);
+		}
 	}
 }

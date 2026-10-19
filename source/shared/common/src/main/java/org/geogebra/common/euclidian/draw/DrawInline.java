@@ -75,4 +75,9 @@ public interface DrawInline extends RemoveNeeded, HasTransformation {
 	 * Save content of the editor in the construction element.
 	 */
 	void saveContent();
+
+	/**
+	 * @return scaling factor (real width / content width)
+	 */
+	double getScale();
 }

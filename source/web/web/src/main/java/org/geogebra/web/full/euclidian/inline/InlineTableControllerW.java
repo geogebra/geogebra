@@ -513,6 +513,7 @@ public final class InlineTableControllerW implements InlineTableController {
 	public void setTransform(double angle, double sx, double sy) {
 		style.setProperty("transform", "rotate(" + angle + "rad) scale(" + sx + "," + sy + ")");
 		tableImpl.setExternalScale(sx);
+		tableElement.setAttribute("data-transform-label", table.getLabelSimple());
 	}
 
 	@Override

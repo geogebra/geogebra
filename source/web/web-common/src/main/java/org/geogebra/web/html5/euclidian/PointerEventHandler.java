@@ -32,6 +32,7 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLElement;
 import jsinterop.base.Js;
 
 /**
@@ -45,6 +46,8 @@ public class PointerEventHandler {
 	private final IsEuclidianController tc;
 	private static Element pointerCapture;
 	private final HasOffsets off;
+	/* Used for converting event coordinates to canvas coordinates.*/
+	private final PointerState converter;
 
 	private @Nullable PointerState first;
 	private @Nullable PointerState second;
@@ -63,9 +66,27 @@ public class PointerEventHandler {
 
 		private PointerState(elemental2.dom.PointerEvent e) {
 			id = e.pointerId;
+			type = e.pointerType;
+			setCoords(e);
+		}
+
+		private PointerState(int id, String type) {
+			this.id = id;
+			this.type = type;
+		}
+
+		private void setCoords(elemental2.dom.PointerEvent e) {
 			x = e.offsetX / off.getZoomLevel();
 			y = e.offsetY / off.getZoomLevel();
-			type = e.pointerType;
+			if (e.target instanceof HTMLElement element) {
+				HTMLElement parentElement = Js.uncheckedCast(element.parentElement);
+				if (parentElement != null && parentElement.dataset.get("transformLabel") != null) {
+					double[] coords = {x, y};
+					off.getCanvasCoords(x, y, coords, parentElement.dataset.get("transformLabel"));
+					x = coords[0];
+					y = coords[1];
+				}
+			}
 		}
 	}
 
@@ -78,6 +99,7 @@ public class PointerEventHandler {
 	public PointerEventHandler(IsEuclidianController tc, @NonNull HasOffsets off) {
 		this.tc = tc;
 		this.off = off;
+		this.converter = new PointerState(0, "");
 	}
 
 	private void twoPointersDown(PointerState pointer1, PointerState pointer2) {
@@ -210,15 +232,14 @@ public class PointerEventHandler {
 	}
 
 	private PointerEvent convertEvent(elemental2.dom.PointerEvent e) {
-		PointerEvent ex = new PointerEvent(
-				e.offsetX / off.getZoomLevel(), e.offsetY / off.getZoomLevel(), getType(e), off);
+		converter.setCoords(e);
+		PointerEvent ex = new PointerEvent(converter.x, converter.y, getType(e), off);
 		adjust(ex, e);
 		return ex;
 	}
 
 	private PointerEvent convertWithCoords(elemental2.dom.PointerEvent e, GPoint2D coords) {
-		PointerEvent ex = new PointerEvent(
-				coords.x / off.getZoomLevel(), coords.y / off.getZoomLevel(), getType(e), off);
+		PointerEvent ex = new PointerEvent(coords.x, coords.y, getType(e), off);
 		adjust(ex, e);
 		return ex;
 	}
@@ -246,7 +267,8 @@ public class PointerEventHandler {
 
 	private void onPointerOut(elemental2.dom.PointerEvent event) {
 		lastOutId = event.pointerId;
-		lastOutCoords = new GPoint2D(event.offsetX, event.offsetY);
+		converter.setCoords(event);
+		lastOutCoords = new GPoint2D(converter.x, converter.y);
 		resetPointer(event);
 		setPointerType(event, false);
 	}

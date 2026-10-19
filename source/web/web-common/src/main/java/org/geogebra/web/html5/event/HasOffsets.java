@@ -40,4 +40,16 @@ public interface HasOffsets {
 
 	@MissingDoc
 	double getZoomLevel();
+
+	/**
+	 * Transforms from widget coordinates to canvas coordinates.
+	 * @param x x-coord within widget
+	 * @param y y-coord within widget
+	 * @param coords coordinates within a floating widget
+	 * @param transformLabel label associated with the widget
+	 */
+	default void getCanvasCoords(double x, double y, double[] coords, String transformLabel) {
+		coords[0] = x;
+		coords[1] = y;
+	}
 }

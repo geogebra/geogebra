@@ -115,6 +115,11 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	}
 
 	@Override
+	public double getScale() {
+		return rectangle.realWidth() / text.getContentWidth();
+	}
+
+	@Override
 	public GAffineTransform getTransform() {
 		return rectangle.getDirectTransform();
 	}
