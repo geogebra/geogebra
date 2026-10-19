@@ -223,6 +223,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 				getWrappedPopup().addSeparator();
 			}
 			addFixForUnbundledOrNotes();
+			addFixedSize();
 		}
 
 		// SHOW, HIDE
@@ -456,25 +457,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		}
 	}
 
-	private void addFixForUnbundledOrNotes() {
-		ArrayList<GeoElement> selection = app.getSelectionManager().getSelectedGeos();
-		if (selection.size() > 1) {
-			addFixForSelection(selection);
-		} else {
-			addFixObjectForOneGeo();
-		}
-	}
-
-	private void addFixObjectForOneGeo() {
-		final GeoElement geo = getGeo();
-		// change back to old name-> Fix instead of Lock
-		if (geo.isFixable()
-				&& (!app.getSettings().getAlgebra().isEquationChangeByDragRestricted()
-						|| !geo.isFunctionOrEquationFromUser())) {
-			addFixObjectMenuItem(geo.isLocked(), () -> fixObjectCmd(!geo.isLocked()));
-		}
-	}
-
 	private void addFixObjectMenuItem(boolean locked, Runnable command) {
 		final GCheckmarkMenuItem cmItem = factory.newCheckmarkMenuItem(
 				generalIconResource.getImageResource(GeneralIcon.LOCK),
@@ -484,10 +466,18 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		wrappedPopup.addItem(cmItem);
 	}
 
-	private void addFixForSelection(ArrayList<GeoElement> selectedGeos) {
+	private void addFixSizeMenuItem(boolean fixedSize, boolean isFixedSizeEnabled, Runnable command) {
+		final GCheckmarkMenuItem cmItem = factory.newCheckmarkMenuItem(
+				null, loc.getMenu("ObjectProperties.FixSize"), fixedSize, command::run);
+		cmItem.getMenuItem().removeStyleName("no-image");
+		cmItem.getMenuItem().setEnabled(isFixedSizeEnabled);
+		wrappedPopup.addItem(cmItem);
+	}
+
+	private void addFixForUnbundledOrNotes() {
 		boolean fixable = true;
 		boolean locked = !app.getSettings().getAlgebra().isEquationChangeByDragRestricted();
-		for (GeoElement geo : selectedGeos) {
+		for (GeoElement geo : checkOneGeo()) {
 			fixable = fixable && geo.isFixable();
 			locked = locked && geo.isLocked();
 		}
@@ -498,6 +488,18 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 
 		final boolean fix = !locked;
 		addFixObjectMenuItem(locked, () -> fixObjectCmd(fix));
+	}
+
+	private void addFixedSize() {
+		boolean fixedSize = false;
+		boolean isFixedSizeEnabled = true;
+		for (GeoElement geo : checkOneGeo()) {
+			fixedSize = fixedSize || geo.isFixedSize();
+			isFixedSizeEnabled = isFixedSizeEnabled && !geo.isLocked();
+		}
+
+		boolean finalFixedSize = !fixedSize;
+		addFixSizeMenuItem(fixedSize, isFixedSizeEnabled, () -> fixSizeCmd(finalFixedSize));
 	}
 
 	private void addCutCopyPaste() {

@@ -202,6 +202,10 @@
 		opacity: 0.38;
 	}
 
+	.gwt-MenuItem.listMenuItem.gwt-MenuItem-disabled {
+		cursor: default;
+	}
+
 	.listMenuItem.settingsItem {
 		padding: 0;
 		background-color: white;

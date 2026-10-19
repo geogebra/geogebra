@@ -381,6 +381,24 @@ public class ContextMenuGeoElement {
 		}
 	}
 
+	/**
+	 * Command to fix size of geo and store undo point
+	 * @param fixedSize whether geo should be fixed size
+	 */
+	public void fixSizeCmd(boolean fixedSize) {
+		ArrayList<GeoElement> geoList = checkOneGeo();
+		UpdateStyleActionStore store = new UpdateStyleActionStore(geoList, app.getUndoManager());
+		for (int i = geoList.size() - 1; i >= 0; i--) {
+			GeoElement geoItem = geoList.get(i);
+			geoItem.setFixedSize(fixedSize);
+			geoItem.updateVisualStyle(GProperty.COMBINED);
+		}
+		app.getKernel().notifyRepaint();
+		if (store.needUndo()) {
+			store.storeUndo();
+		}
+	}
+
 	private void fixGeo(GeoElement geo, boolean fixed) {
 		if (geo.isFixable()) {
 			geo.setFixed(fixed);

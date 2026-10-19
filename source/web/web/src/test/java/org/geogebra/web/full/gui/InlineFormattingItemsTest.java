@@ -85,6 +85,7 @@ public class InlineFormattingItemsTest {
 				"General.Order",
 				"SEPARATOR",
 				"FixObject",
+				"ObjectProperties.FixSize",
 				"Settings");
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
@@ -152,6 +153,7 @@ public class InlineFormattingItemsTest {
 				"General.Order",
 				"SEPARATOR",
 				"FixObject",
+				"ObjectProperties.FixSize",
 				"Settings");
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
@@ -171,6 +173,7 @@ public class InlineFormattingItemsTest {
 				"General.Order",
 				"SEPARATOR",
 				"FixObject",
+				"ObjectProperties.FixSize",
 				"Settings");
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
@@ -192,6 +195,7 @@ public class InlineFormattingItemsTest {
 				"General.Order",
 				"SEPARATOR",
 				"FixObject",
+				"ObjectProperties.FixSize",
 				"Settings");
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
@@ -212,6 +216,7 @@ public class InlineFormattingItemsTest {
 				"General.Order",
 				"SEPARATOR",
 				"FixObject",
+				"ObjectProperties.FixSize",
 				"Settings");
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
@@ -223,7 +228,15 @@ public class InlineFormattingItemsTest {
 		geos.add(createTextInline("text1", new InlineTextControllerMock(LINK_URL)));
 		geos.add(createPolygon("poly1"));
 		List<String> expected = Arrays.asList(
-				"Cut", "Copy", "Paste", "SEPARATOR", "General.Order", "SEPARATOR", "FixObject", "Settings");
+				"Cut",
+				"Copy",
+				"Paste",
+				"SEPARATOR",
+				"General.Order",
+				"SEPARATOR",
+				"FixObject",
+				"ObjectProperties.FixSize",
+				"Settings");
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
@@ -233,7 +246,15 @@ public class InlineFormattingItemsTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createPolygon("Poly1"));
 		List<String> expected = Arrays.asList(
-				"Cut", "Copy", "Paste", "SEPARATOR", "General.Order", "SEPARATOR", "FixObject", "Settings");
+				"Cut",
+				"Copy",
+				"Paste",
+				"SEPARATOR",
+				"General.Order",
+				"SEPARATOR",
+				"FixObject",
+				"ObjectProperties.FixSize",
+				"Settings");
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
@@ -242,8 +263,8 @@ public class InlineFormattingItemsTest {
 	public void testMaskContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createMask());
-		List<String> expected =
-				Arrays.asList("Cut", "Copy", "Paste", "SEPARATOR", "FixObject", "Settings");
+		List<String> expected = Arrays.asList(
+				"Cut", "Copy", "Paste", "SEPARATOR", "FixObject", "ObjectProperties.FixSize", "Settings");
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
