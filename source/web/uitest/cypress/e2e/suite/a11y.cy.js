@@ -52,10 +52,22 @@ describe('Accessibility test', () => {
         cy.get("[data-test='zoomOutButton']").should("be.focused");
         pressTab();
         cy.get("[data-test='fullscreenButton']").should("be.focused");
-        // check accessibility *before* focusing AV input
-        cy.checkA11y(null, {includedImpacts: ["critical"]}, terminalLog);
         pressTab();
         cy.wait(1000);
         cy.get("#hiddenCopyPasteLatexArea0").should("be.focused");
+        cy.checkA11y(null, {includedImpacts: ["critical"]}, terminalLog);
+    });
+
+    it("Linear notation", () => {
+        cy.window().then(win => {
+            win.ggbApplet.setXML('<geogebra format="5.0"><kernel><algebraStyle val="4"/></kernel></geogebra>');
+            win.ggbApplet.evalCommand('a=1+2');
+        })
+        selectors.euclidianView.get()
+            .mouseEvent('down', 100, 40)
+        pressTab();
+        cy.focused().type("{ctrl}{rightArrow}");
+        cy.get(".AutoCompleteTextFieldW input").first().type("{leftArrow}3");
+        cy.get(".AutoCompleteTextFieldW input").first().should('have.value', 'a = 1 + 32');
     });
 });

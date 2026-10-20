@@ -1556,6 +1556,11 @@ public final class AlgebraViewW extends Tree
 		}
 	}
 
+	@Override
+	protected void updateAriaAttributes() {
+		// the default implementation results in invalid roles
+	}
+
 	private void hideAlgebraInput() {
 		if (!isAlgebraInputVisible()) {
 			return;

@@ -787,8 +787,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			} else {
 				handleDownArrow();
 			}
-			e.stopPropagation();
 			e.preventDefault();
+		}
+		// make sure parent arrow handlers do not interfere, e.g. the algebra view
+		if (keyCode >= GWTKeycodes.KEY_LEFT && keyCode <= GWTKeycodes.KEY_DOWN) {
+			e.stopPropagation();
 		}
 		textFieldController.handleKeyboardEvent(e);
 	}
