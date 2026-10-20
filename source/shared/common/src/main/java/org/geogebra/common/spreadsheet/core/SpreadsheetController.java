@@ -1540,13 +1540,14 @@ public final class SpreadsheetController<T> {
 		if (copyPasteCut == null) {
 			return;
 		}
+		List<TabularRange> destinationSnapshot = destinations.toList();
 		copyPasteCut.readExternalClipboard(externalContent -> {
 			int oldColumns = getLayout().numberOfColumns();
 			int oldRows = getLayout().numberOfRows();
 			String[][] data = externalContent == null
 					? null
 					: DataImport.parseExternalData(null, externalContent, true);
-			destinations.forEach(destination -> copyPasteCut.paste(destination, data));
+			destinationSnapshot.forEach(destination -> copyPasteCut.paste(destination, data));
 			if (copyPasteCut != null) {
 				copyPasteCut.selectPastedContent();
 			}

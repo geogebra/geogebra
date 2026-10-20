@@ -60,6 +60,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -341,6 +343,41 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		List<GeoElement> selectedGeos = getApp().getSelectionManager().getSelectedGeos();
 		assertEquals(1, selectedGeos.size());
 		assertEquals("A10", selectedGeos.get(0).getLabelSimple());
+	}
+
+	@ParameterizedTest
+	@ValueSource(booleans = {false, true})
+	@Issue("APPS-8028")
+	void testPasteExpandingSpreadsheet(boolean internalClipboard) {
+		SpreadsheetController<GeoElement> controller = spreadsheet.getController();
+		TestClipboard clipboard = new TestClipboard();
+		CopyPasteCutTabularDataImpl<GeoElement> copyPasteCut = new CopyPasteCutTabularDataImpl<>(
+				tabularData, clipboard, controller.getLayout(), controller.selectionController);
+		controller.setCopyPasteCut(copyPasteCut);
+		if (internalClipboard) {
+			evaluate("A1 = 1");
+			evaluate("B1 = 2");
+			evaluate("A2 = 3");
+			evaluate("B2 = 4");
+			copyPasteCut.copyDeep(new TabularRange(0, 0, 1, 1));
+		} else {
+			clipboard.setContent("1\t2\n3\t4", null);
+		}
+		int row = tabularData.numberOfRows() - 1;
+		int column = tabularData.numberOfColumns() - 1;
+		controller.selectCell(row, column, false, false);
+
+		controller.pasteCells(row, column);
+
+		assertEquals(row + 2, tabularData.numberOfRows());
+		assertEquals(column + 2, tabularData.numberOfColumns());
+		assertEquals(1, tabularData.contentAt(row, column).evaluateDouble());
+		assertEquals(2, tabularData.contentAt(row, column + 1).evaluateDouble());
+		assertEquals(3, tabularData.contentAt(row + 1, column).evaluateDouble());
+		assertEquals(4, tabularData.contentAt(row + 1, column + 1).evaluateDouble());
+		assertEquals(
+				List.of(new TabularRange(row, column, row + 1, column + 1)),
+				controller.getSelections().map(Selection::getRange).toList());
 	}
 
 	private GGraphicsCommon getColorCollectingGraphics(Set<GColor> colors) {
