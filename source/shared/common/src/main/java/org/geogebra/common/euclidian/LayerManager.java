@@ -590,7 +590,7 @@ public class LayerManager {
 	public String getOrder() {
 		StringBuilder sb = new StringBuilder();
 		for (GeoElement geo : drawingOrder) {
-			if (!sb.isEmpty()) {
+			if (sb.length() != 0) {
 				sb.append(",");
 			}
 			sb.append(geo.getLabelSimple());

@@ -26,6 +26,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -368,7 +369,7 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 							.append(format.format(pt.y))
 							.append(",");
 				case CURVE_TO -> {
-					assert !control.isEmpty();
+					assertNotEquals(0, control.length());
 					path.append("C")
 							.append(control)
 							.append(format.format(pt.x))

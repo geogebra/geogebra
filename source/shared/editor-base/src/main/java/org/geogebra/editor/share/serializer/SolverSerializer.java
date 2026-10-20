@@ -54,7 +54,7 @@ public class SolverSerializer extends SerializerAdapter {
 		return characterNode.getUnicode() == Unicode.DEGREE_CHAR
 				&& parent != null
 				&& parent.indexOf(characterNode) > 0
-				&& !stringBuilder.isEmpty();
+				&& stringBuilder.length() != 0;
 	}
 
 	private void serializeDegree(CharacterNode characterNode, StringBuilder stringBuilder) {

@@ -2055,8 +2055,7 @@ public class GeoImplicitCurve extends GeoElement
 	}
 
 	private static void appendMultiply(StringBuilder sb) {
-
-		if (sb.isEmpty()) {
+		if (sb.length() == 0) {
 			return;
 		}
 

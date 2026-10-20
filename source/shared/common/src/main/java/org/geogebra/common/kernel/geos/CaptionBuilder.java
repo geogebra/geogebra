@@ -108,7 +108,7 @@ public class CaptionBuilder {
 			}
 		}
 
-		if (captionSB.isEmpty()) {
+		if (captionSB.length() == 0) {
 			// can't return empty string
 			// eg if %c used when not a spreadsheet cell
 			return geo.getLabel(tpl);

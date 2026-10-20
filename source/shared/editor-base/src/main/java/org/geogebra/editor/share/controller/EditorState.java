@@ -530,7 +530,7 @@ public class EditorState {
 			while (MathFieldInternal.appendChar(sb, currentNode, i, CharacterNode::isCharacter)) {
 				i--;
 			}
-			if (!sb.isEmpty() && !isInsideQuotes()) {
+			if (sb.length() != 0 && !isInsideQuotes()) {
 				try {
 					return er.localize(ExpRelation.AFTER, convertCharacters(sb.reverse().toString(), er));
 				} catch (Exception e) {
@@ -548,7 +548,7 @@ public class EditorState {
 			while (MathFieldInternal.appendChar(sb, currentNode, i, CharacterNode::isCharacter)) {
 				i++;
 			}
-			if (!sb.isEmpty() && !isInsideQuotes()) {
+			if (sb.length() != 0 && !isInsideQuotes()) {
 				try {
 					return er.localize(ExpRelation.BEFORE, convertCharacters(sb.toString(), er));
 				} catch (Exception expected) {
