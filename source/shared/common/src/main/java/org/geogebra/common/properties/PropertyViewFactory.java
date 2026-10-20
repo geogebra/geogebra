@@ -108,7 +108,9 @@ public class PropertyViewFactory {
 		if (elements.isEmpty()) {
 			return null;
 		}
-		String title = app.getLocalization().getMenu(getObjectSettingsTitleKey(elements.get(0)));
+		String titleKey =
+				elements.size() > 1 ? "Selection" : getObjectSettingsTitleKey(elements.get(0));
+		String title = app.getLocalization().getMenu(titleKey);
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
 		assert suiteScope != null;
 		boolean jsEnabled = !app.getPlatform().isMobile()

@@ -457,6 +457,26 @@ class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
+	@CsvSource(
+			delimiter = ';',
+			value = {
+				"(1,2); (3,4)",
+				"(1,2); 42",
+				"42; (1,2)",
+				"PieChart({1,2,3}); (1,2)",
+				"(1,2); PieChart({1,2,3})",
+			})
+	void testTabbedPageSelectorTitleForMultipleElements(String first, String second) {
+		setupApp(SuiteSubApp.GRAPHING);
+		getApp().setImageManager(new ImageManagerCommon());
+		List<GeoElement> elements = List.of(evaluateGeoElement(first), evaluateGeoElement(second));
+		PropertyView.TabbedPageSelector settings =
+				PropertyViewFactory.propertyViewOfObjectSettings(getApp(), elements);
+		assertNotNull(settings);
+		assertEquals(getLocalization().getMenu("Selection"), settings.getTitle());
+	}
+
+	@ParameterizedTest
 	@Issue("APPS-7499")
 	@CsvSource(
 			delimiterString = "->",
