@@ -177,7 +177,9 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 			String varName = var instanceof GeoDummyVariable
 					? ((GeoDummyVariable) var).getVarName()
 					: var.getLabelSimple();
-			varStrings.add(varName);
+			if (varName != null) {
+				varStrings.add(varName);
+			}
 		}
 		// An equation taken from the definition holds function variables rather than dummies,
 		// and those are not reported by getVariables.

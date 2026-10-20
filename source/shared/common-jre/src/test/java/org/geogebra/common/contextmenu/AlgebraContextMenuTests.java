@@ -34,17 +34,23 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Solve;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.SpecialPoints;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Statistics;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.view.algebra.contextmenu.impl.CreateSlider;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.MockedCasValues;
 import org.geogebra.common.util.MockedCasValuesExtension;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -349,5 +355,18 @@ class AlgebraContextMenuTests extends BaseAppTestSetup {
 						CAS_APPCODE,
 						getAlgebraSettings(),
 						Set.of()));
+	}
+
+	@Test
+	@Issue("APPS-8029")
+	void testSolveIsAvailableForEquationWithUnlabelledPointInCasApp() {
+		setupApp(SuiteSubApp.CAS);
+		GeoPoint point = new GeoPoint(getConstruction(), 1, 0, 1);
+		Equation equation = new Equation(getKernel(), point, new FunctionVariable(getKernel()));
+		GeoSymbolic symbolic = new GeoSymbolic(getConstruction(), equation.wrap());
+		symbolic.setUndefined();
+		assertTrue(ContextMenuFactory.makeAlgebraContextMenu(
+						symbolic, getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings(), Set.of())
+				.contains(Solve));
 	}
 }
