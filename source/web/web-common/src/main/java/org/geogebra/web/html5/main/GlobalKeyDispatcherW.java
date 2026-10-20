@@ -271,20 +271,28 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
-		setDownKeys(event);
+		onKeyPressNative(event.getNativeEvent());
+	}
+
+	/**
+	 * Handle native key press event.
+	 * @param event key press event
+	 */
+	public void onKeyPressNative(NativeEvent event) {
+		updateKeyDownFlags(isSpaceDown(), event.getCtrlKey(), event.getShiftKey());
 		boolean nativeFocusInComposite = app.getAccessibilityManager().handlesEnterInComposite();
 		if (shouldNotEventPassThrough(event) && !nativeFocusInComposite) {
 			event.preventDefault();
 			event.stopPropagation();
 		}
 
-		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.isWhiteboardActive()) {
-			keyPressedOnGeo(event.getCharCode());
+		if (!event.getAltKey() && !event.getCtrlKey() && !app.isWhiteboardActive()) {
+			keyPressedOnGeo((char) event.getCharCode());
 		}
 	}
 
-	private static boolean shouldNotEventPassThrough(KeyPressEvent event) {
-		KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getNativeEvent().getKeyCode());
+	private static boolean shouldNotEventPassThrough(NativeEvent event) {
+		KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getKeyCode());
 		// Do not prevent default for the v key, otherwise paste events are not fired
 		return kc != KeyCodes.TAB
 				&& event.getCharCode() != 'v'

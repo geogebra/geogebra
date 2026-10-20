@@ -67,6 +67,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.shared.SharedResources;
@@ -74,6 +75,7 @@ import org.gwtproject.animation.client.AnimationScheduler;
 import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Node;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.MouseDownEvent;
@@ -232,9 +234,17 @@ public final class AlgebraViewW extends Tree
 
 		// needed to have tabindex >= 0 with focus to catch keyboard events
 		getElement().setTabIndex(0);
-		addKeyDownHandler(this.app.getGlobalKeyDispatcher());
-		addKeyUpHandler(this.app.getGlobalKeyDispatcher());
-		addKeyPressHandler(this.app.getGlobalKeyDispatcher());
+		GlobalKeyDispatcherW keyDispatcher = this.app.getGlobalKeyDispatcher();
+		addKeyDownHandler(keyDispatcher);
+		addKeyUpHandler(keyDispatcher);
+		addKeyPressHandler(keyDispatcher);
+		Node focusable = getElement().getChild(0);
+		if (focusable instanceof Element focusableElement) {
+			Dom.addEventListener(
+					focusableElement,
+					"keypress",
+					evt -> keyDispatcher.onKeyPressNative(Js.uncheckedCast(evt)));
+		}
 		if (!app.getAppletParameters().preventFocus()) {
 			setFocus(true);
 		}

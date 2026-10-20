@@ -1323,9 +1323,6 @@ public abstract class GlobalKeyDispatcher {
 		double changeValY = 0; // later: changeVal = base or -base
 		double changeValZ = 0; // later: changeVal = base or -base
 		switch (key) {
-			default:
-				// do nothing
-				break;
 			case UP:
 				// make sure arrow keys work in menus
 				if (app.getGuiManager() != null
@@ -1415,6 +1412,9 @@ public abstract class GlobalKeyDispatcher {
 
 			case PAGEDOWN:
 				changeValZ = -base;
+				break;
+			default:
+				// do nothing
 				break;
 		}
 
