@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.jre.headless.FlushableTimer;
 import org.geogebra.common.main.PreviewFeature;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,6 +55,17 @@ class PathTrackerTest extends BaseEuclidianControllerTest {
 		assertInstanceOf(DrawParametricCurve.class, allDrawableList.get(0));
 		assertInstanceOf(DrawPoint.class, allDrawableList.get(1));
 		dragEnd(50, 50);
+		assertEquals(1, allDrawableList.size());
+	}
+
+	@Test
+	@Issue("APPS-8033")
+	void clickingABoxPlotShouldNotCreateAnyTrackingPoint() {
+		evaluate("BoxPlot(0,2,{1,1,1,1,1,1,2,2,2,2,3,3,4,0})");
+		dragStart(55, 50);
+		DrawableList allDrawableList = ec.getView().getAllDrawableList();
+		assertEquals(1, allDrawableList.size());
+		FlushableTimer.flush();
 		assertEquals(1, allDrawableList.size());
 	}
 }
