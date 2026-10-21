@@ -595,6 +595,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if ("Tab".equals(keyboardEvent.code)) {
 			return JavaKeyCodes.VK_TAB;
 		}
+		if ("ContextMenu".equals(keyboardEvent.code)) {
+			return JavaKeyCodes.VK_CONTEXT_MENU;
+		}
 		// eg Delete has a different code
 		KeyCodes keyCode = KeyCodeUtil.translateGWTCode(keyCodeGWT);
 

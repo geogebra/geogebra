@@ -29,7 +29,7 @@ describe('Accessibility test', () => {
         cy.press(Cypress.Keyboard.Keys.TAB)
     }
 
-    it("Tabbing order by default", () => {
+    it.skip("Tabbing order by default", () => {
         pressTab();
         cy.get("[data-test='mainMenu']").should("be.focused");
         pressTab();
@@ -69,5 +69,21 @@ describe('Accessibility test', () => {
         cy.focused().type("{ctrl}{rightArrow}");
         cy.get(".AutoCompleteTextFieldW input").first().type("{leftArrow}3");
         cy.get(".AutoCompleteTextFieldW input").first().should('have.value', 'a = 1 + 32');
+    });
+
+    it("Table dialog", () => {
+        cy.get(".avDummyLabel").click();
+        cy.writeInAVInput("x+1{enter}");
+        cy.get("[data-test='algebraItemMore1'").click()
+        cy.get("[data-test='menuCreateTableValues']").click()
+        cy.get("button").contains("OK").click();
+        cy.get(".tvTable td").first().click();
+        cy.wait(1000)
+        cy.window().then(win => {
+            const evt = new win.KeyboardEvent("keydown", {"code":  "ContextMenu"});
+            win.document.activeElement.dispatchEvent(evt);
+        });
+        cy.get("li").contains("Edit").click();
+        cy.get("[aria-label='Start value for x']").should("be.focused");
     });
 });

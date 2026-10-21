@@ -24,6 +24,7 @@ import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.contextmenu.TableValuesContextMenuActionHandler;
 import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
+import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -39,12 +40,14 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.Command;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Context menu which is opened with the table of values header 3dot button
  */
 public final class ContextMenuTV implements TableValuesContextMenuActionHandler.Delegate {
 	private final TableValuesView view;
+	private final Runnable closeHandler;
 	/**
 	 * popup for the context menu
 	 */
@@ -57,23 +60,19 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 	private final int columnIdx;
 
 	/**
-	 * @param app see {@link AppW}
-	 * @param view {@link TableValuesView}
+	 * @param app application
+	 * @param view table view
 	 * @param column index of column
-	 * @param closeHandler should run when popup is closed
+	 * @param closeHandler runs when popup is closed and focus is not explicitly moved
 	 */
-	public ContextMenuTV(AppWFull app, TableValuesView view, int column, Runnable closeHandler) {
+	public ContextMenuTV(
+			AppWFull app, TableValuesView view, int column, @NonNull Runnable closeHandler) {
 		this.app = app;
 		this.view = view;
 		this.columnIdx = column;
-		buildGui();
+		buildGui(closeHandler);
 		app.registerPopup(wrappedPopup.getPopupPanel());
-		wrappedPopup.getPopupPanel().addCloseHandler(event -> {
-			if (closeHandler != null) {
-				closeHandler.run();
-			}
-			app.unregisterPopup(wrappedPopup.getPopupPanel());
-		});
+		this.closeHandler = closeHandler;
 	}
 
 	/**
@@ -90,8 +89,13 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 		return columnIdx;
 	}
 
-	private void buildGui() {
-		wrappedPopup = new GPopupMenuW(app);
+	private void buildGui(@NonNull Runnable onFocusReturn) {
+		wrappedPopup = new GPopupMenuW(app) {
+			@Override
+			protected void returnFocus(FocusableComponent component) {
+				onFocusReturn.run();
+			}
+		};
 		wrappedPopup.getPopupPanel().addStyleName("tvContextMenu");
 		GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
@@ -113,10 +117,20 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 				wrappedPopup.addVerticalSeparator();
 			} else {
 				addCommand(
-						() -> tableValuesContextMenuActionHandler.handleSelectedItem(item),
+						() -> {
+							tableValuesContextMenuActionHandler.handleSelectedItem(item);
+							returnFocusIfNeeded(item.getItem());
+						},
 						item.getLocalizedTitle(app.getLocalization()),
 						getTestTitle(item.getItem()));
 			}
+		}
+	}
+
+	private void returnFocusIfNeeded(TableValuesContextMenuItem.Item item) {
+		if (item != TableValuesContextMenuItem.Item.Edit
+				&& item != TableValuesContextMenuItem.Item.ImportData) {
+			closeHandler.run();
 		}
 	}
 

@@ -372,7 +372,9 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	}
 
 	private void onHeaderClick(Element source, int column) {
-		contextMenu = new ContextMenuTV(app, view, column, null);
+		// return focus to menu button on Esc and actions that don't move focus themselves
+		// or rebuild DOM
+		contextMenu = new ContextMenuTV(app, view, column, source::focus);
 		contextMenu.show(source, 0, source.getClientHeight() + CONTEXT_MENU_OFFSET);
 	}
 
