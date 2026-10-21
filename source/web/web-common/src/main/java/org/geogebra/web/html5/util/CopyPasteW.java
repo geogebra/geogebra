@@ -194,12 +194,13 @@ public class CopyPasteW extends CopyPaste {
 					.write(JsArray.of(new ClipboardItem(mimeMap)))
 					.then(
 							ignore -> {
-								Log.debug("successfully wrote gegeobra data to clipboard" + mimeMap);
+								Log.debug("successfully wrote data to clipboard: "
+										+ elemental2.core.JsObject.keys(mimeMap));
 								return null;
 							},
-							(ignore) -> {
-								Log.warn(ignore);
-								Log.debug("writing geogebra data to clipboard failed");
+							(error) -> {
+								Log.warn(error);
+								Log.debug("writing data to clipboard failed");
 								return null;
 							});
 		} else if (clipboardSupports("writeText")) {

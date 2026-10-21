@@ -26,6 +26,7 @@ import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel.Content;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigationController;
+import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigationController.Key;
 import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigationControllerDelegate;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -242,8 +243,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 			if (!cell.hasClassName("keyboardFocusedCell")) {
 				return false;
 			}
-			TableValuesKeyboardNavigationController.Key key =
-					getNavigationKey(Js.<KeyboardEvent>uncheckedCast(evt).key);
+			Key key = getActionKey(Js.uncheckedCast(evt));
 			if (key == null) {
 				return false;
 			}
@@ -338,19 +338,17 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 		}
 	}
 
-	private TableValuesKeyboardNavigationController.Key getNavigationKey(String key) {
-		switch (key) {
-			case "ArrowLeft":
-				return TableValuesKeyboardNavigationController.Key.ARROW_LEFT;
-			case "ArrowRight":
-				return TableValuesKeyboardNavigationController.Key.ARROW_RIGHT;
-			case "ArrowUp":
-				return TableValuesKeyboardNavigationController.Key.ARROW_UP;
-			case "ArrowDown":
-				return TableValuesKeyboardNavigationController.Key.ARROW_DOWN;
-			default:
-				return null;
-		}
+	private Key getActionKey(KeyboardEvent event) {
+		return switch (event.key) {
+			case "ArrowLeft" -> Key.ARROW_LEFT;
+			case "ArrowRight" -> Key.ARROW_RIGHT;
+			case "ArrowUp" -> Key.ARROW_UP;
+			case "ArrowDown" -> Key.ARROW_DOWN;
+			case "c" -> (event.ctrlKey || event.metaKey) ? Key.COPY : null;
+			case "ContextMenu" -> Key.CONTEXT_MENU;
+			case "F10" -> event.shiftKey ? Key.CONTEXT_MENU : null;
+			default -> null;
+		};
 	}
 
 	@Override
