@@ -40,6 +40,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements DependentA
 	/**
 	 * @param cons construction
 	 * @param fun input function
+	 * @implNote the inequality tree and construction defaults are not set, up to the caller
 	 */
 	public AlgoDependentFunctionNVar(Construction cons, FunctionNVar fun) {
 		super(cons, false);
@@ -56,7 +57,6 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements DependentA
 		}
 		setInputOutput(); // for AlgoElement
 		compute();
-		f.setConstructionDefaults();
 	}
 
 	@Override

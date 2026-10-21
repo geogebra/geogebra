@@ -17,12 +17,20 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.Objects;
+
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class GeoFunctionNVarTest extends BaseUnitTest {
 
@@ -49,5 +57,36 @@ class GeoFunctionNVarTest extends BaseUnitTest {
 		add("eq1:x+y");
 		GeoElement element = add("eq1(x=5 x^(2)-4 y^(2)=5)");
 		assertNotNull(element.toOutputValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	void shouldNotInitInequalityIfNotNeeded() {
+		add("k=1");
+		GeoElement text = add("Text(y<k*x)");
+		GeoFunctionNVar inequality =
+				(GeoFunctionNVar) Objects.requireNonNull(text.getParentAlgorithm()).getInput(0);
+		assertFalse(inequality.isInequality(), "Inequality flag should not be initialized");
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"y<x", "y<k*x"})
+	@Issue("APPS-8021")
+	void shouldHaveCorrectStyleStandalone(String definition) {
+		add("k=1");
+		GeoElement function = add(definition);
+		assertEquals(5, function.getLineThickness());
+		assertEquals(.25, function.getAlphaValue(), Kernel.STANDARD_PRECISION);
+		assertEquals(GColor.BLUE, function.getObjectColor());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"{y<x}", "{y<k*x}"})
+	@Issue("APPS-8021")
+	void shouldHaveCorrectStyleInList(String definition) {
+		add("k=1");
+		GeoElement function = add(definition);
+		assertEquals(5, function.getLineThickness());
+		assertEquals(.25, function.getAlphaValue(), Kernel.STANDARD_PRECISION);
+		assertEquals(GeoGebraColorConstants.GGB_GREEN, function.getObjectColor());
 	}
 }

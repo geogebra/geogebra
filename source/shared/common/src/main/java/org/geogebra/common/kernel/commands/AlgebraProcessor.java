@@ -2708,6 +2708,9 @@ public class AlgebraProcessor {
 			gf.setForceInequality(forceInequality(en, gf));
 		} else {
 			gf = dependentFunctionNVar(fun);
+			if (info.isLabelOutput() || !info.isScripting()) {
+				gf.ensureStyleInitialized();
+			}
 		}
 		gf.setShortLHS(fun.getShortLHS());
 		gf.setLabel(label);
@@ -2722,6 +2725,8 @@ public class AlgebraProcessor {
 	/**
 	 * Multivariate Function depending on coefficients of arithmetic expressions
 	 * with variables, e.g. f(x,y) = a x^2 + b y^2
+	 *
+	 * @implNote the inequality tree and construction defaults are not set, up to the caller
 	 */
 	private GeoFunctionNVar dependentFunctionNVar(FunctionNVar fun) {
 		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar(cons, fun);

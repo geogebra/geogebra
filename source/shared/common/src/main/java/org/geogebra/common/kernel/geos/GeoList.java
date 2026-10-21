@@ -769,6 +769,9 @@ public class GeoList extends GeoElement
 		updateDrawableFlag(geo);
 
 		// set visual style of this list
+		if (!geo.isLabelSet() && geo instanceof GeoFunctionNVar functionNVar) {
+			functionNVar.ensureStyleInitialized();
+		}
 		applyVisualStyle(geo.toGeoElement());
 		if (!geo.isLabelSet()) {
 			geo.setViewFlags(getViewSet());

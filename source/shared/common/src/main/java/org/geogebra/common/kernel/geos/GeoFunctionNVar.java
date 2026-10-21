@@ -115,6 +115,8 @@ public class GeoFunctionNVar extends GeoElement
 	private CoordsDouble3 p1 = new CoordsDouble3();
 	private CoordsDouble3 p2 = new CoordsDouble3();
 	private String shortLHS;
+	/** whether style was initialized from defaults */
+	private boolean styleInitialized;
 
 	/**
 	 * Creates new GeoFunction
@@ -1366,7 +1368,7 @@ public class GeoFunctionNVar extends GeoElement
 	public void setAllVisualPropertiesExceptEuclidianVisible(
 			GeoElement geo, boolean keepAdvanced, boolean setAuxiliaryProperty) {
 		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced, setAuxiliaryProperty);
-
+		styleInitialized = true;
 		if (hasLevelOfDetail() && geo.hasLevelOfDetail()) {
 			levelOfDetail = ((SurfaceEvaluable) geo).getLevelOfDetail();
 		}
@@ -1465,5 +1467,16 @@ public class GeoFunctionNVar extends GeoElement
 			other.fun.setExpression(fun.getExpression().deepCopyGeo());
 		}
 		return other;
+	}
+
+	/**
+	 * Make sure style is initialized; recomputes inequality tree if needed.
+	 */
+	public void ensureStyleInitialized() {
+		if (!styleInitialized) {
+			getIneqs();
+			setConstructionDefaults();
+			assert styleInitialized;
+		}
 	}
 }
