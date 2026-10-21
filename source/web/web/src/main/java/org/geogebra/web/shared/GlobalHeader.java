@@ -354,6 +354,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 					if (focusableWidget != null) {
 						app.getAccessibilityManager().setAnchor(focusableWidget);
 					}
+					app.closeMenuHideKeyboard(); // same as settings button in GraphicsControlPanel
 					app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null);
 				});
 			}
