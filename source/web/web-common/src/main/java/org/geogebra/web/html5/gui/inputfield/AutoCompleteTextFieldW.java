@@ -772,7 +772,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				}
 			}
 			elemental2.dom.Element element = Js.uncheckedCast(getElement());
-			if (element.closest(".popupContent") == null) {
+			if (isInMainFrame(element)) {
 				app.getGlobalKeyDispatcher().handleTab(e.isShiftKeyDown());
 				e.stopPropagation(); // avoid conflict with GeoTabber
 			}
@@ -794,6 +794,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			e.stopPropagation();
 		}
 		textFieldController.handleKeyboardEvent(e);
+	}
+
+	/**
+	 * Check that element is in app's main frame, rather than in a popup.
+	 * @param element element associated with input component
+	 * @return whether the element is in the main frame
+	 */
+	public static boolean isInMainFrame(elemental2.dom.Element element) {
+		return element.closest(".popupContent") == null;
 	}
 
 	@Override

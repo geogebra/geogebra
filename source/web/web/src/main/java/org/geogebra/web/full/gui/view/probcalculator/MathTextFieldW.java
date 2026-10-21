@@ -27,7 +27,10 @@ import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.JsRunnable;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.gwtproject.dom.style.shared.Unit;
+
+import jsinterop.base.Js;
 
 public final class MathTextFieldW extends MathFieldEditor
 		implements MathFieldListener, ErrorHandler {
@@ -92,7 +95,11 @@ public final class MathTextFieldW extends MathFieldEditor
 
 	@Override
 	public boolean onTab(boolean shiftDown) {
-		getGlobalKeyDispatcher().handleTab(shiftDown);
+		// don't tab through main frame if math input is in a popup
+		if (AutoCompleteTextFieldW.isInMainFrame(
+				Js.uncheckedCast(getMathField().asWidget().getElement()))) {
+			getGlobalKeyDispatcher().handleTab(shiftDown);
+		}
 		return true;
 	}
 
