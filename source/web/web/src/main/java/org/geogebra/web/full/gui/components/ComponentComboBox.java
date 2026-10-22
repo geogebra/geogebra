@@ -130,6 +130,7 @@ public final class ComponentComboBox extends FlowPanel
 		AriaHelper.setAriaExpanded(inputTextField.getTextBox(), false);
 		AriaHelper.setAutocomplete(inputTextField.getTextBox(), "none");
 		AriaHelper.setControls(inputTextField.getTextBox(), controlsID);
+		AriaHelper.setTabIndex(this, 0);
 		inputTextField.addBlurHandler(event -> controller.onInputChange(inputTextField.getText()));
 
 		optionHolder.add(inputTextField);

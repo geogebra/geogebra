@@ -279,6 +279,8 @@ public final class PropertiesPanelAdapter {
 			Checkbox leadProperty = expandable.getCheckbox();
 			ComponentExpandableList expandableList =
 					new ComponentExpandableList(app, leadProperty, expandable.getTitle());
+			// add only the header of the expandable list
+			widgets.add(expandableList.getWidget(0));
 			for (PropertyView prop : expandable.getItems()) {
 				expandableList.addToContent(getWidget(prop));
 			}

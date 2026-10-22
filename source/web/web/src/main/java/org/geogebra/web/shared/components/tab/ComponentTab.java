@@ -167,6 +167,7 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 
 	private void initTabList() {
 		tabList = new FlowPanel();
+		AriaHelper.setTabIndex(tabList, 0);
 		AriaHelper.setRole(tabList, "tablist");
 		AriaHelper.setLabel(tabList, loc.getMenu(ariaLabel));
 		tabList.addStyleName("tabList");
