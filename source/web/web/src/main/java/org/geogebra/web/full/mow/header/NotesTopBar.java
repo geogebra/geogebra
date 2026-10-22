@@ -150,7 +150,7 @@ public final class NotesTopBar extends FlowPanel
 				app.getKernel().getAlgebraProcessor(), app.getLocalization(), app.getActiveEuclidianView());
 		PropertyView.ComboBoxWithIcons zoomPropView = new PropertyView.ComboBoxWithIcons(zoomProperty);
 		view.getEuclidianController().addZoomerListener(zoomPropView);
-		sizeBox = new InlineComboBox(app, zoomPropView, () -> {}, "Zoom");
+		sizeBox = new InlineComboBox(app, zoomPropView, ignore -> {}, "Zoom");
 		zoomPropView.setConfigurationUpdateDelegate(sizeBox::updateValue);
 		sizeBox.addPopupClassName("zoomItemsPopup");
 		sizeBox.addStyleName("zoomComboBox");

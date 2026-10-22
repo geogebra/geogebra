@@ -281,6 +281,14 @@ public final class ComponentDropDownPopup {
 	}
 
 	/**
+	 * @param mayMoveFocus Whether hiding the popup may move focus to the global focus anchor.
+	 * {@code false} if keyboard focus stays in the anchor input while the popup is open.
+	 */
+	public void setMayMoveFocus(boolean mayMoveFocus) {
+		menu.getPopupPanel().setMayMoveFocus(mayMoveFocus);
+	}
+
+	/**
 	 * @param index index
 	 * @return DOM ID of given item
 	 */

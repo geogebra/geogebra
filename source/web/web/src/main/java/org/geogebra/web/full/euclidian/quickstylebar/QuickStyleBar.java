@@ -79,6 +79,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 	GeoElementPropertiesFactory geoElementPropertiesFactory;
 	private final PropertiesIconResource propertiesIconResource;
 	private boolean focusFontSizeBoxAfterUpdateRequested;
+	private int comboBoxCaretPositionAfterUpdate = -1;
 
 	/**
 	 * @param ev - parent view
@@ -624,8 +625,9 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		fontSizeBoxes.forEach(InlineComboBox::closePopup);
 	}
 
-	private void requestFontSizeBoxFocusAfterUpdate() {
+	private void requestFontSizeBoxFocusAfterUpdate(int caretPos) {
 		focusFontSizeBoxAfterUpdateRequested = true;
+		comboBoxCaretPositionAfterUpdate = caretPos;
 	}
 
 	private void focusFontSizeBoxAfterUpdateIfNeeded() {
@@ -634,7 +636,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		}
 		focusFontSizeBoxAfterUpdateRequested = false;
 		if (!fontSizeBoxes.isEmpty()) {
-			fontSizeBoxes.get(0).focusWithoutPopup();
+			fontSizeBoxes.get(0).focusWithoutPopup(comboBoxCaretPositionAfterUpdate);
 		}
 	}
 }

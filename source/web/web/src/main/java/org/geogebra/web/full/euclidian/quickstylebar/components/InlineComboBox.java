@@ -17,6 +17,7 @@
 package org.geogebra.web.full.euclidian.quickstylebar.components;
 
 import java.util.List;
+import java.util.function.IntConsumer;
 import java.util.function.Supplier;
 
 import org.geogebra.common.gui.SetLabels;
@@ -44,23 +45,24 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 	private final AutoCompleteTextFieldW inputTextField;
 	private final DropDownComboBoxController controller;
 	private final PropertyView.PropertyViewWithSuggestions property;
-	private final Runnable requestFocusAfterUpdate;
+	private final IntConsumer requestFocusAfterUpdate;
 	private String previousValue;
 	private boolean handlingBlur;
 	private boolean suppressPopupOnFocus;
+	private int caretPosAfterCommit = -1;
 	private final String titleKey;
 
 	/**
 	 * @param app application
 	 * @param property combo box property
 	 * @param requestFocusAfterUpdate called before an Enter commit so the rebuilt toolbar can
-	 * focus the input
+	 * focus the input; receives the caret position to restore
 	 * @param titleKey translation key for title / ARIA label
 	 */
 	public InlineComboBox(
 			@NonNull AppW app,
 			PropertyView.@NonNull PropertyViewWithSuggestions property,
-			@NonNull Runnable requestFocusAfterUpdate,
+			@NonNull IntConsumer requestFocusAfterUpdate,
 			@NonNull String titleKey) {
 		this.app = app;
 		this.property = property;
@@ -74,6 +76,7 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 		controller = new DropDownComboBoxController(
 				app, dividers, this, property::getItems, property.getLabel(), this::onClose, styler);
 		controller.getPopup().addStyleName("inlineComboBoxPopup");
+		controller.getPopup().setMayMoveFocus(false);
 
 		addStyleName("inlineComboBox");
 		buildGUI();
@@ -117,11 +120,14 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 		inputTextField.prepareShowSymbolButton(false);
 		inputTextField.enableGGBKeyboard();
 		inputTextField.addStyleName("inlineComboBoxInput");
+		inputTextField.getInputElement().setId(DOM.createUniqueId());
 
 		AriaHelper.setRole(inputTextField.getTextBox(), "combobox");
 		setExpanded(false);
 		AriaHelper.setAutocomplete(inputTextField.getTextBox(), "none");
 		AriaHelper.setControls(inputTextField.getTextBox(), controlsID);
+		controller.addHighlightingListener(id -> AriaHelper.setActiveDescendant(
+				inputTextField.getTextBox(), controller.isOpened() ? id : null));
 		setLabels();
 
 		add(inputTextField);
@@ -130,6 +136,9 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 	private void setExpanded(boolean expanded) {
 		AriaHelper.setAriaExpanded(inputTextField.getTextBox(), expanded);
 		AriaHelper.setAriaExpanded(this, expanded);
+		if (!expanded) {
+			AriaHelper.setActiveDescendant(inputTextField.getTextBox(), null);
+		}
 	}
 
 	private void addHandlers() {
@@ -171,16 +180,24 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 				controller.setSelectedOption(controller.possibleSelectedIndex(inputTextField.getText())));
 
 		inputTextField.getTextBox().addKeyDownHandler(event -> {
-			if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER) {
+			int keyCode = event.getNativeKeyCode();
+			if (keyCode == GWTKeycodes.KEY_ENTER) {
 				event.preventDefault();
 				event.stopPropagation();
+				if (controller.isOpened()) {
+					applyHighlightedOption();
+				}
 				commitAndKeepFocus();
-			}
-		});
-
-		inputTextField.addKeyUpHandler(event -> {
-			if (event.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
-				cancelAndStopEditing();
+			} else if (keyCode == GWTKeycodes.KEY_ESCAPE) {
+				event.preventDefault();
+				event.stopPropagation();
+				if (controller.isOpened()) {
+					closePopup();
+				} else {
+					revertToCommittedValue();
+				}
+			} else if (keyCode == GWTKeycodes.KEY_TAB && controller.isOpened()) {
+				commitAndClosePopup();
 			}
 		});
 
@@ -188,6 +205,7 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 	}
 
 	private void openPopup() {
+		controller.getPopup().forceKeyboardFocus(false);
 		controller.setSelectedOption(controller.possibleSelectedIndex(inputTextField.getText()));
 		controller.showAsComboBox();
 		addStyleName("active");
@@ -205,12 +223,34 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 		setExpanded(false);
 	}
 
+	/**
+	 * Copies the highlighted option (item) into the input that it gets committed.
+	 */
+	private void applyHighlightedOption() {
+		String highlighted = controller.getSelectedText();
+		if (!highlighted.isEmpty()) {
+			inputTextField.setText(highlighted);
+		}
+	}
+
+	/**
+	 * Commits the input, closes the popup, and ends editing.
+	 */
+	private void commitAndClosePopup() {
+		handlingBlur = true;
+		commitInputValue(false);
+		closePopup();
+		stopEditing();
+		handlingBlur = false;
+	}
+
 	private void commitAndKeepFocus() {
 		handlingBlur = true;
+		caretPosAfterCommit = inputTextField.getCaretPosition();
 		commitInputValue(true);
 		closePopup();
 		property.stopEditing();
-		Scheduler.get().scheduleDeferred(this::focusWithoutPopup);
+		Scheduler.get().scheduleDeferred(() -> focusWithoutPopup(caretPosAfterCommit));
 		handlingBlur = false;
 	}
 
@@ -223,13 +263,12 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 		handlingBlur = false;
 	}
 
-	private void cancelAndStopEditing() {
-		handlingBlur = true;
-		inputTextField.setText(previousValue);
-		inputTextField.setFocus(false);
-		closePopup();
-		stopEditing();
-		handlingBlur = false;
+	/**
+	 * Replaces the currently typed text with the last committed value and puts the caret at the end.
+	 */
+	private void revertToCommittedValue() {
+		updateFromProperty();
+		inputTextField.setCaretPosition(inputTextField.getText().length());
 	}
 
 	private void commitInputValue(boolean keepFocus) {
@@ -248,13 +287,15 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 	private void commitSelectedValue(String value, boolean keepFocus) {
 		if (!value.equals(property.getValue())) {
 			if (keepFocus) {
-				requestFocusAfterUpdate.run();
+				requestFocusAfterUpdate.accept(caretPosAfterCommit);
 			}
 			property.setValue(value);
 			previousValue = property.getValue();
 		}
 		updateFromProperty();
-		Dom.toggleClass(this, "error", property.getErrorMessage() != null);
+		String errorMessage = property.getErrorMessage();
+		Dom.toggleClass(this, "error", errorMessage != null);
+		AriaHelper.setErrorMessage(inputTextField.getTextBox(), errorMessage);
 	}
 
 	private void stopEditing() {
@@ -281,10 +322,14 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 	/**
 	 * Focuses the input without reopening the dropdown.
 	 */
-	public void focusWithoutPopup() {
+	public void focusWithoutPopup(int caretPos) {
 		suppressPopupOnFocus = true;
 		inputTextField.setFocus(true);
 		addStyleName("focusState");
+		if (caretPos > -1) {
+			inputTextField.setCaretPosition(
+					Math.min(caretPos, inputTextField.getText().length()));
+		}
 	}
 
 	@Override
