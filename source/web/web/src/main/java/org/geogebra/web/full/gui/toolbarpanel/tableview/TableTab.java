@@ -61,9 +61,7 @@ public final class TableTab extends ToolbarTab {
 	protected void onActive() {
 		ensureTableExists().setHeight(getTabHeight());
 		setWidget(table);
-		if (table != null && !app.hasPopup()) {
-			table.selectFirstCell();
-		}
+		focusFirstCell();
 	}
 
 	private StickyTable<?> ensureTableExists() {
@@ -163,6 +161,15 @@ public final class TableTab extends ToolbarTab {
 	public void dispose() {
 		if (table instanceof StickyValuesTable valuesTable) {
 			valuesTable.dispose();
+		}
+	}
+
+	/**
+	 * Focus first cell of TV, if no dialog is shown.
+	 */
+	public void focusFirstCell() {
+		if (table != null && !app.hasPopup()) {
+			table.selectFirstCell();
 		}
 	}
 }

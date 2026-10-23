@@ -28,6 +28,8 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentInputField;
+import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
@@ -133,6 +135,7 @@ public final class InputDialogTableView extends ComponentDialog implements HasKe
 				initTableValuesView(inputFieldValues[0], inputFieldValues[1], inputFieldValues[2]);
 				app.storeUndoInfo();
 				hide();
+				focusTableAfterClosingDialog();
 			} catch (InvalidValuesException ex) {
 				errorLabel.setText(ex.getLocalizedMessage(app.getLocalization()));
 				errorLabel.getElement().scrollIntoView();
@@ -175,5 +178,14 @@ public final class InputDialogTableView extends ComponentDialog implements HasKe
 	private void dispatchSetTVValues(double valuesMin, double valuesMax, double valuesStep) {
 		String values = valuesMin + "," + valuesMax + "," + valuesStep;
 		app.dispatchEvent(new Event(EventType.SET_VALUES_TV, null, values));
+	}
+
+	private void focusTableAfterClosingDialog() {
+		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
+		ToolbarTab toolbarTab =
+				gui.getUnbundledToolbar().getTab(gui.getUnbundledToolbar().getSelectedTabId());
+		if (toolbarTab instanceof TableTab tableTab) {
+			tableTab.focusFirstCell();
+		}
 	}
 }
