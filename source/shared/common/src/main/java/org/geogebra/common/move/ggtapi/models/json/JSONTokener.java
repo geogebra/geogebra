@@ -17,6 +17,8 @@
 
 package org.geogebra.common.move.ggtapi.models.json;
 
+import java.util.Objects;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 // Note: this class was written without inspecting the non-free org.json sourcecode.
@@ -552,10 +554,7 @@ public class JSONTokener {
 	 * @return a possibly-empty string
 	 */
 	public String nextTo(String excluded) {
-		if (excluded == null) {
-			throw new NullPointerException("excluded == null");
-		}
-		return nextToInternal(excluded).trim();
+		return nextToInternal(Objects.requireNonNull(excluded, "excluded == null")).trim();
 	}
 
 	/**

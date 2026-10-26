@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.geogebra.common.util.debug.Log;
@@ -154,10 +155,7 @@ public class JSONObject {
 			 * of the proper type. (We still defer validating the values).
 			 */
 			String key = (String) entry.getKey();
-			if (key == null) {
-				throw new NullPointerException("key == null");
-			}
-			nameValuePairs.put(key, wrap(entry.getValue()));
+			nameValuePairs.put(Objects.requireNonNull(key, "key == null"), wrap(entry.getValue()));
 		}
 	}
 

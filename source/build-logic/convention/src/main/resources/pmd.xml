@@ -105,7 +105,6 @@
         <exclude name="TooManyFields"/>
         <exclude name="AvoidRethrowingException"/>
         <exclude name="ExcessivePublicCount"/>
-        <exclude name="AvoidThrowingNullPointerException"/>
         <exclude name="LoosePackageCoupling"/>
         <exclude name="ExcessiveParameterList"/>
         <exclude name="SignatureDeclareThrowsException"/>
