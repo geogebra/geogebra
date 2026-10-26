@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestEvent;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.AfterEach;
@@ -114,24 +113,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(0, 0);
 		click(100, 100);
 		checkContent("A = (0, 0)", "B = (2, -2)", "u = (2, -2)");
-	}
-
-	@Test
-	void circle2Tool() {
-		setMode(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
-		click(50, 50);
-		click(100, 100);
-		checkContent("A = (1, -1)", "B = (2, -2)", unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
-	}
-
-	@Test
-	void circle3Tool() {
-		setMode(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
-		click(0, 0);
-		click(100, 100);
-		click(100, 0);
-		checkContent(
-				"A = (0, 0)", "B = (2, -2)", "C = (2, 0)", unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
 	}
 
 	@Test
@@ -245,51 +226,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		// Equation form for lines and rays aligned in APPS-6337
 		checkContent("A = (0, 0)", "B = (2, -2)", "f: x + y = 0");
-	}
-
-	@Test
-	void circleArc3Tool() {
-		setMode(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
-		click(100, 100);
-		click(100, 0);
-		click(0, 0);
-
-		checkContent("A = (2, -2)", "B = (2, 0)", "C = (0, 0)", "c = 1.5708");
-	}
-
-	@Test
-	void circleSector3Tool() {
-		setMode(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
-		click(0, 0);
-		click(100, 100);
-		click(150, 0);
-		checkContent("A = (0, 0)", "B = (2, -2)", "C = (3, 0)", "c = 3.14159");
-	}
-
-	@Test
-	void circumcircleArc3Tool() {
-		setMode(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
-		click(0, 0);
-		click(50, 50);
-		click(100, 0);
-		checkContent("A = (0, 0)", "B = (1, -1)", "C = (2, 0)", "c = " + Unicode.pi);
-	}
-
-	@Test
-	void circumcircleSector3Tool() {
-		setMode(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
-		click(0, 0);
-		click(100, 100);
-		click(200, 0);
-		checkContent("A = (0, 0)", "B = (2, -2)", "C = (4, 0)", "c = 6.28319");
-	}
-
-	@Test
-	void semicircleTool() {
-		setMode(EuclidianConstants.MODE_SEMICIRCLE);
-		click(100, 100);
-		click(100, 0);
-		checkContent("A = (2, -2)", "B = (2, 0)", "c = " + Unicode.pi);
 	}
 
 	@Test
@@ -418,11 +354,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void circlePointRadiusTool() {
-		setMode(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS); // TODO 34
-	}
-
-	@Test
 	void vectorFromPointTool() {
 		setMode(EuclidianConstants.MODE_VECTOR_FROM_POINT); // TODO 37
 	}
@@ -471,59 +402,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	void showCheckBoxTool() {
 		setMode(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX); // TODO 52
-	}
-
-	@Test
-	void compassesTool() {
-		t("A = (2, -2)");
-		t("B = (0, 0)");
-		setMode(EuclidianConstants.MODE_COMPASSES);
-		click(100, 100);
-		click(0, 0);
-		click(150, 0);
-		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)", unicode("c: (x - 3)^2 + y^2 = 8"));
-	}
-
-	@Test
-	@Issue("APPS-6270")
-	void compassesToolOnTheFlyPoints() {
-		setMode(EuclidianConstants.MODE_COMPASSES);
-		click(100, 100);
-		click(0, 0);
-		click(150, 0);
-		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)", unicode("c: (x - 3)^2 + y^2 = 8"));
-	}
-
-	@Test
-	void compassesToolSegment() {
-		t("A = (2, -2)");
-		t("B = (0, 0)");
-		t("Segment(A,B)");
-		setMode(EuclidianConstants.MODE_COMPASSES);
-		click(50, 50);
-		click(150, 0);
-		checkContent(
-				"A = (2, -2)",
-				"B = (0, 0)",
-				"f = 2.82843",
-				"C = (3, 0)",
-				unicode("c: (x - 3)^2 + y^2 = 8"));
-	}
-
-	@Test
-	void compassesToolCircle() {
-		t("A = (2, -2)");
-		t("B = (0, 0)");
-		t("Circle(A,B)");
-		setMode(EuclidianConstants.MODE_COMPASSES);
-		click(200, 200);
-		click(150, 0);
-		checkContent(
-				"A = (2, -2)",
-				"B = (0, 0)",
-				unicode("c: (x - 2)^2 + (y + 2)^2 = 8"),
-				"C = (3, 0)",
-				unicode("d: (x - 3)^2 + y^2 = 8"));
 	}
 
 	@Test

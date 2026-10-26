@@ -37,6 +37,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 
 /**
@@ -164,7 +165,16 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 	@Override
 	public void showNumberInputDialogCirclePointRadius(
 			String title, GeoPointND geoPointND, EuclidianView view) {
-		// TODO Auto-generated method stub
+		String input = getInput();
+		if (input == null) {
+			return;
+		}
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+		handler.processInput(input, ErrorHelper.silent(), success -> {
+			if (success) {
+				app.getKernel().getAlgoDispatcher().circle(null, geoPointND, handler.getNum());
+			}
+		});
 	}
 
 	@Override
