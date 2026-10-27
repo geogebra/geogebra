@@ -89,7 +89,8 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 		SpreadsheetCellReference fromCell = cellRange.fromCell;
 		SpreadsheetCellReference toCell = cellRange.toCell == null ? fromCell : cellRange.toCell;
 		if (algo == null) {
-			return new AlgoCellRange(kernel.getConstruction(), fromCell.toString(), toCell.toString());
+			return new AlgoCellRange(
+					kernel.getConstruction(), fromCell.toString(), toCell.toString(), false);
 		}
 		algo.setRange(new TabularRange(
 				fromCell.rowIndex, fromCell.columnIndex, toCell.rowIndex, toCell.columnIndex));

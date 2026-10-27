@@ -68,7 +68,25 @@ public class AlgoCellRange extends AlgoElement {
 	 *            e.g. B2
 	 */
 	public AlgoCellRange(Construction cons, String startCell, String endCell) {
-		super(cons);
+		this(cons, startCell, endCell, true);
+	}
+
+	/**
+	 * Creates an algorithm that produces a list of GeoElements for a range of
+	 * cells in the spreadsheet.
+	 *
+	 * @param startCell
+	 *            e.g. A1
+	 * @param endCell
+	 *            e.g. B2
+	 * @param addToConstructionList
+	 *            whether to add the algorithm to the construction list; use
+	 *            {@code false} for helper ranges that must not be saved
+	 *            to XML (and thus to undo points)
+	 */
+	public AlgoCellRange(
+			Construction cons, String startCell, String endCell, boolean addToConstructionList) {
+		super(cons, addToConstructionList);
 		this.startCell = startCell;
 		this.endCell = endCell;
 		setInputOutput();

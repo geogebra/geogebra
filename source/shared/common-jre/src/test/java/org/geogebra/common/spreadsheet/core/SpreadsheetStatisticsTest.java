@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1112,6 +1113,28 @@ class SpreadsheetStatisticsTest {
 		kernelBackedController.closeStatisticsView();
 
 		assertNull(kernelBackedController.getStatisticsView());
+	}
+
+	@Test
+	@Issue("APPS-8060")
+	void testStatisticsViewDoesNotCreateListsOnUndoRedo() {
+		app.setUndoActive(true);
+		setupColumn(0, 1, 2, 3);
+		setupColumn(1, 4, 5, 6);
+		app.storeUndoInfo();
+		kernelBackedController.select(new TabularRange(0, 0, 2, 1), false, false);
+		kernelBackedController.showTwoVarStatistics();
+		assertInstanceOf(Result.GroupList.class, twoVarStatisticsView().getResult());
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand("LineGraph(A1:A3,B1:B3)", true);
+
+		app.getUndoManager().undo();
+		app.getUndoManager().redo();
+
+		assertTrue(app.getKernel().getConstruction().getGeoSetConstructionOrder().stream()
+				.noneMatch(GeoElement::isGeoList));
+		assertEquals(
+				"LineGraph(A1:A3, B1:B3)",
+				app.getKernel().lookupLabel("f").getDefinition(StringTemplate.testTemplate));
 	}
 
 	/**
