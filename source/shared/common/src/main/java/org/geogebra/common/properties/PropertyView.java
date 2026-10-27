@@ -845,6 +845,13 @@ public abstract class PropertyView {
 		public void setSelectedColorIndex(int newSelectedColorIndex) {
 			property.setIndex(newSelectedColorIndex);
 		}
+
+		/**
+		 * @return the underlying color property
+		 */
+		public @NonNull ColorProperty getColorProperty() {
+			return property;
+		}
 	}
 
 	/**

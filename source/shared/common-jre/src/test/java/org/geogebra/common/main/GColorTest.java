@@ -21,6 +21,7 @@ import static org.geogebra.test.OrderingComparison.greaterThan;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -29,25 +30,27 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.AutoColor;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class GColorTest {
 
 	@Test
 	void colorParserShouldAcceptRGB() {
 		GColor color = GColor.parseHexColor("#123");
-		assertEquals(16, color.getRed());
-		assertEquals(32, color.getGreen());
-		assertEquals(48, color.getBlue());
+		assertEquals(0x11, color.getRed());
+		assertEquals(0x22, color.getGreen());
+		assertEquals(0x33, color.getBlue());
 		assertEquals(255, color.getAlpha());
 	}
 
 	@Test
 	void colorParserShouldAcceptRGBA() {
 		GColor color = GColor.parseHexColor("#1234");
-		assertEquals(16, color.getRed());
-		assertEquals(32, color.getGreen());
-		assertEquals(48, color.getBlue());
-		assertEquals(64, color.getAlpha());
+		assertEquals(0x11, color.getRed());
+		assertEquals(0x22, color.getGreen());
+		assertEquals(0x33, color.getBlue());
+		assertEquals(0x44, color.getAlpha());
 	}
 
 	@Test
@@ -66,6 +69,37 @@ class GColorTest {
 		assertEquals(2, color.getGreen());
 		assertEquals(3, color.getBlue());
 		assertEquals(4, color.getAlpha());
+	}
+
+	@ParameterizedTest
+	@ValueSource(
+			strings = {
+				"",
+				"123456",
+				"#",
+				"#12",
+				"#12345",
+				"#1234567",
+				"#GGGGGG",
+				"#+1+2+3",
+				"#123456789",
+				"#\uFF14\uFF14\uFF14"
+			})
+	void colorParserShouldRejectInvalidInput(String text) {
+		assertNull(GColor.parseHexColor(text));
+	}
+
+	@Test
+	void channelParserShouldAcceptZeroTo255() {
+		assertEquals(0, GColor.parseChannel("0"));
+		assertEquals(255, GColor.parseChannel("255"));
+		assertEquals(12, GColor.parseChannel(" 12 "));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"", "256", "-1", "+1", "abc", "1.5", "1000"})
+	void channelParserShouldRejectInvalidInput(String text) {
+		assertNull(GColor.parseChannel(text));
 	}
 
 	@Test

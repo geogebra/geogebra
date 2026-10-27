@@ -22,11 +22,16 @@ import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.ValuedProperty;
 
 /**
- * Saves an undo point when a property value has changed.
+ * Saves an undo point when a property value has changed. Changes between
+ * {@code beginSetValue()} and {@code endSetValue()} are saved as one undo point.
+ * <p>
+ * When observing several properties, their begin/end pairs must not overlap.
  */
 public class UndoSavingPropertyObserver implements PropertyValueObserver {
 
 	private final UndoManager undoManager;
+	private boolean inBatch;
+	private boolean batchChanged;
 
 	public UndoSavingPropertyObserver(UndoManager undoManager) {
 		this.undoManager = undoManager;
@@ -34,20 +39,35 @@ public class UndoSavingPropertyObserver implements PropertyValueObserver {
 
 	@Override
 	public void onBeginSetValue(ValuedProperty property) {
-		// Ignore
+		if (!(property instanceof RangeProperty)) {
+			inBatch = true;
+			batchChanged = false;
+		}
 	}
 
 	@Override
 	public void onEndSetValue(ValuedProperty property) {
 		if (property instanceof RangeProperty) {
 			undoManager.storeUndoInfo();
+			return;
+		}
+		boolean store = inBatch && batchChanged;
+		inBatch = false;
+		batchChanged = false;
+		if (store) {
+			undoManager.storeUndoInfo();
 		}
 	}
 
 	@Override
 	public void onDidSetValue(ValuedProperty property) {
-		if (!(property instanceof RangeProperty)) {
-			undoManager.storeUndoInfo();
+		if (property instanceof RangeProperty) {
+			return;
 		}
+		if (inBatch) {
+			batchChanged = true;
+			return;
+		}
+		undoManager.storeUndoInfo();
 	}
 }

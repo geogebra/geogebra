@@ -127,13 +127,15 @@ public final class SpreadsheetStyling {
 
 	/**
 	 * Set the font traits for a list of ranges.
+	 * @return whether the styling changed
 	 */
-	public void setFontTraits(@NonNull Set<FontTrait> traits, @NonNull List<TabularRange> ranges) {
+	public boolean setFontTraits(@NonNull Set<FontTrait> traits, @NonNull List<TabularRange> ranges) {
 		boolean changed =
 				cellFormat.setFormat(ranges, CellFormat.FORMAT_FONTSTYLE, cellFormatFromFontTraits(traits));
 		if (changed) {
 			stylingChanged.notifyListeners(ranges);
 		}
+		return changed;
 	}
 
 	// Text alignment
@@ -174,14 +176,16 @@ public final class SpreadsheetStyling {
 
 	/**
 	 * Set the text alignment for a list of ranges.
+	 * @return whether the styling changed
 	 */
-	public void setTextAlignment(
+	public boolean setTextAlignment(
 			@NonNull TextAlignment textAlignment, @NonNull List<TabularRange> ranges) {
 		boolean changed = cellFormat.setFormat(
 				ranges, CellFormat.FORMAT_ALIGN, cellFormatFromTextAlignment(textAlignment));
 		if (changed) {
 			stylingChanged.notifyListeners(ranges);
 		}
+		return changed;
 	}
 
 	// Text color
@@ -206,12 +210,14 @@ public final class SpreadsheetStyling {
 	 * Set the text color for a range of cells.
 	 * @param color text color
 	 * @param ranges list of ranges
+	 * @return whether the styling changed
 	 */
-	public void setTextColor(GColor color, List<TabularRange> ranges) {
+	public boolean setTextColor(GColor color, List<TabularRange> ranges) {
 		boolean changed = cellFormat.setFormat(ranges, CellFormat.FORMAT_FGCOLOR, color);
 		if (changed) {
 			stylingChanged.notifyListeners(ranges);
 		}
+		return changed;
 	}
 
 	// Cell & header colors
@@ -238,12 +244,14 @@ public final class SpreadsheetStyling {
 	 * Set the background color for a range of cells.
 	 * @param color background color
 	 * @param ranges list of ranges
+	 * @return whether the styling changed
 	 */
-	public void setBackgroundColor(GColor color, List<TabularRange> ranges) {
+	public boolean setBackgroundColor(GColor color, List<TabularRange> ranges) {
 		boolean changed = cellFormat.setFormat(ranges, CellFormat.FORMAT_BGCOLOR, color);
 		if (changed) {
 			stylingChanged.notifyListeners(ranges);
 		}
+		return changed;
 	}
 
 	/**

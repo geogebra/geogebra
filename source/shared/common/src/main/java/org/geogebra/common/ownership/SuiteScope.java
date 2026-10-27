@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.gui.colorpicker.ColorHistory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
@@ -57,6 +58,9 @@ public final class SuiteScope implements PropertyValueObserver {
 	@Property
 	public final @NonNull ExamController examController = new ExamController(restrictionsController);
 
+	@Property
+	public final @NonNull ColorHistory colorHistory = new ColorHistory();
+
 	final Set<App> apps = new HashSet<>();
 	private final Map<App, LanguageProperty> languageProperties = new HashMap<>();
 	private boolean synchronizingLanguage;
@@ -64,7 +68,9 @@ public final class SuiteScope implements PropertyValueObserver {
 	/**
 	 * Prevent instantiation outside package.
 	 */
-	SuiteScope() {}
+	SuiteScope() {
+		examController.addListener(colorHistory);
+	}
 
 	/**
 	 * Register an app instance with this suite scope. It's Ok to register an app instance more

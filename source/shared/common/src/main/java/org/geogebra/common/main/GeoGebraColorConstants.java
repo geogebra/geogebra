@@ -172,6 +172,8 @@ public class GeoGebraColorConstants {
 	public static final GColor DISABLED_BORDER = rgb(0x949494);
 	public static final GColor DEFAULT_BORDER = rgb(0x757575);
 
+	public static final GColor NEUTRAL_0 = rgb(0xFFFFFF);
+	public static final GColor NEUTRAL_100 = rgb(0xFAFAFC);
 	public static final GColor NEUTRAL_200 = rgb(0xF3F2F7);
 	public static final GColor NEUTRAL_300 = rgb(0xE6E6EB);
 	public static final GColor NEUTRAL_400 = rgb(0xD1D0D6);
@@ -185,8 +187,21 @@ public class GeoGebraColorConstants {
 	public static final GColor PURPLE_600 = rgb(0x6557D2); // primary purple
 	public static final GColor PURPLE_700 = rgb(0x5145A8);
 
+	public static final GColor ACCENT_700 = rgb(0x388C83);
+
 	/** MEBIS PURPLE A400 */
 	public static final GColor MEBIS_PURPLE_A400 = GColor.newColorRGB(0x723B86);
+
+	public static final GColor MEBIS_PURPLE_300 = rgb(0x975FA8); // primary Mebis purple
+	public static final GColor MEBIS_PURPLE_100 = rgb(0xEADFEE);
+
+	public static final GColor APPLET_BLUE_BACKGROUND = rgb(0xCAD5ED);
+	public static final GColor APPLET_TEAL_PRIMARY = rgb(0x006758);
+	public static final GColor APPLET_TEAL_BACKGROUND = rgb(0xD2E4E2);
+	public static final GColor APPLET_ORANGE_PRIMARY = rgb(0xC75000);
+	public static final GColor APPLET_ORANGE_BACKGROUND = rgb(0xF5E0D2);
+	public static final GColor APPLET_RED_PRIMARY = rgb(0xB00020);
+	public static final GColor APPLET_RED_BACKGROUND = rgb(0xF1D2D8);
 
 	/**
 	 * HashMap recording RGB color values with named colors key = color name

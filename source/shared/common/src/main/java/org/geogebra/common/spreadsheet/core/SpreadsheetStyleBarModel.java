@@ -141,7 +141,7 @@ public final class SpreadsheetStyleBarModel {
 	@Property("readonly")
 	public final MulticastEvent<SpreadsheetStyleBarModel.State> stateChanged;
 
-	/** Needed only for {@link SpreadsheetController#getVisibleSelections()}. */
+	/** Needed for {@link SpreadsheetController#getVisibleSelections()} and undo. */
 	private final SpreadsheetController spreadsheetController;
 	/** Spreadsheet (cell) styling API and backing store. */
 	private final SpreadsheetStyling styling;
@@ -177,7 +177,7 @@ public final class SpreadsheetStyleBarModel {
 	public void setBold(boolean bold) {
 		Set<SpreadsheetStyling.FontTrait> newTraits =
 				state.modifyingFontTraits(bold, SpreadsheetStyling.FontTrait.BOLD);
-		styling.setFontTraits(newTraits, getSelectedRanges());
+		storeUndoInfoIfChanged(styling.setFontTraits(newTraits, getSelectedRanges()));
 	}
 
 	/**
@@ -187,7 +187,7 @@ public final class SpreadsheetStyleBarModel {
 	public void setItalic(boolean italic) {
 		Set<SpreadsheetStyling.FontTrait> newTraits =
 				state.modifyingFontTraits(italic, SpreadsheetStyling.FontTrait.ITALIC);
-		styling.setFontTraits(newTraits, getSelectedRanges());
+		storeUndoInfoIfChanged(styling.setFontTraits(newTraits, getSelectedRanges()));
 	}
 
 	// Text alignment
@@ -197,7 +197,7 @@ public final class SpreadsheetStyleBarModel {
 	 * @param alignment Text alignment.
 	 */
 	public void setTextAlignment(SpreadsheetStyling.@NonNull TextAlignment alignment) {
-		styling.setTextAlignment(alignment, getSelectedRanges());
+		storeUndoInfoIfChanged(styling.setTextAlignment(alignment, getSelectedRanges()));
 	}
 
 	// Text & cell colors
@@ -207,7 +207,7 @@ public final class SpreadsheetStyleBarModel {
 	 * @param textColor Cell text color. Pass {@code null} to clear use the default text color.
 	 */
 	public void setTextColor(GColor textColor) {
-		styling.setTextColor(textColor, getSelectedRanges());
+		storeUndoInfoIfChanged(styling.setTextColor(textColor, getSelectedRanges()));
 	}
 
 	/**
@@ -216,7 +216,15 @@ public final class SpreadsheetStyleBarModel {
 	 * background color.
 	 */
 	public void setBackgroundColor(@Nullable GColor backgroundColor) {
-		styling.setBackgroundColor(backgroundColor, getSelectedRanges());
+		storeUndoInfoIfChanged(styling.setBackgroundColor(backgroundColor, getSelectedRanges()));
+	}
+
+	// Undo
+
+	private void storeUndoInfoIfChanged(boolean changed) {
+		if (changed) {
+			spreadsheetController.storeUndoInfo();
+		}
 	}
 
 	// Change notification

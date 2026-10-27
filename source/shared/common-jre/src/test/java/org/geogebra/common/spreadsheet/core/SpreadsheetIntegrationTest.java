@@ -39,6 +39,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.GuiManager;
+import org.geogebra.common.gui.colorpicker.ColorHistory;
+import org.geogebra.common.gui.colorpicker.ColorPickerModel;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.kernel.Construction;
@@ -48,6 +50,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.main.undo.UndoManager;
+import org.geogebra.common.properties.aliases.ColorProperty;
+import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
 import org.geogebra.common.spreadsheet.StringCapturingGraphics;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
@@ -192,6 +196,29 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 		simulateCellMouseClick(spreadsheet.getController(), 0, 0, 1);
 		assertTrue(styleBarModel.getState().fontTraits.contains(SpreadsheetStyling.FontTrait.ITALIC));
+	}
+
+	@Test
+	@Issue("MOW-1928")
+	void testColorPickerSessionStoresOneUndoPoint() {
+		UndoManager undoManager = getApp().getUndoManager();
+		simulateCellMouseClick(spreadsheet.getController(), 0, 0, 1);
+		int historySize = undoManager.getHistorySize();
+
+		ColorProperty property = spreadsheet.createCellBackgroundColorProperty(getLocalization());
+		property.addValueObserver(new UndoSavingPropertyObserver(undoManager));
+		ColorPickerModel picker = new ColorPickerModel(property, new ColorHistory());
+		picker.selectColor(GColor.RED);
+		picker.selectColor(GColor.BLUE);
+		// live preview, but no undo point yet
+		assertEquals(GColor.BLUE, spreadsheet.getStyling().getBackgroundColor(0, 0, null));
+		assertEquals(historySize, undoManager.getHistorySize());
+
+		picker.finish();
+		assertEquals(historySize + 1, undoManager.getHistorySize());
+
+		undoManager.undo();
+		assertNull(spreadsheet.getStyling().getBackgroundColor(0, 0, null));
 	}
 
 	@Test

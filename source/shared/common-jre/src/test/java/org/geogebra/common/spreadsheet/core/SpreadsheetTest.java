@@ -304,6 +304,19 @@ class SpreadsheetTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("MOW-1928")
+	void testColorChangesFromStyleBarShouldCreateUndoPoints() {
+		SpreadsheetStyleBarModel styleBarModel = spreadsheet.getStyleBarModel();
+		simulateCellMouseClick(spreadsheet.getController(), 0, 0, 1);
+		styleBarModel.setBackgroundColor(GColor.RED);
+		verify(undoProvider, times(1)).storeUndoInfo();
+		styleBarModel.setBackgroundColor(GColor.RED); // no change, should not create undo point
+		verify(undoProvider, times(1)).storeUndoInfo();
+		styleBarModel.setTextColor(GColor.BLUE);
+		verify(undoProvider, times(2)).storeUndoInfo();
+	}
+
+	@Test
 	@Issue("APPSS-6803")
 	void deleteShouldUpdateStyleForXML() {
 		SpreadsheetSettings settings = new SpreadsheetSettings();

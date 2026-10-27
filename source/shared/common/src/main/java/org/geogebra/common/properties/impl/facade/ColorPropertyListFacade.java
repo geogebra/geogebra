@@ -17,6 +17,7 @@
 package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.properties.aliases.ColorProperty;
@@ -38,5 +39,16 @@ public class ColorPropertyListFacade<T extends ColorProperty>
 	@Override
 	public @NonNull List<GColor> getValues() {
 		return getFirstProperty().getValues();
+	}
+
+	@Override
+	public boolean hasUniformValue() {
+		GColor first = getFirstProperty().getValue();
+		for (T property : getPropertyList()) {
+			if (!property.hasUniformValue() || !Objects.equals(first, property.getValue())) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.annotation.TestOnly;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.MulticastEvent;
@@ -226,8 +227,7 @@ public final class Spreadsheet<T>
 		// style bar -> SpreadsheetSettings
 		cellFormatXmlChanged.notifyListeners(styling.getCellFormatXml());
 
-		controller.storeUndoInfo();
-
+		// undo points are stored by the initiator of the change (style bar, property observer)
 		ranges.forEach(range -> range.forEach(renderer::invalidate));
 		notifyRepaintNeeded();
 	}
@@ -600,6 +600,29 @@ public final class Spreadsheet<T>
 	 */
 	public List<ContextMenuItem> getMobileContextMenuItemsForSelection() {
 		return controller.getMobileContextMenuItemsForSelection();
+	}
+
+	// Properties
+
+	/**
+	 * Creates a property for the background color of the currently selected cells.
+	 * @param localization localization
+	 * @return background color property of the selected cells
+	 */
+	public @NonNull CellBackgroundColorProperty createCellBackgroundColorProperty(
+			@NonNull Localization localization) {
+		return new CellBackgroundColorProperty(
+				styling, controller.getVisibleSelections(), localization);
+	}
+
+	/**
+	 * Creates a property for the text color of the currently selected cells.
+	 * @param localization localization
+	 * @return text color property of the selected cells
+	 */
+	public @NonNull CellTextColorProperty createCellTextColorProperty(
+			@NonNull Localization localization) {
+		return new CellTextColorProperty(styling, controller.getVisibleSelections(), localization);
 	}
 
 	// -- SpreadsheetControllerDelegate

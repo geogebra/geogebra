@@ -16,6 +16,7 @@
 
 package org.geogebra.common.ownership;
 
+import org.geogebra.common.gui.settings.SettingsViewModel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
@@ -47,6 +48,10 @@ public final class AppScope {
 	@Property("readonly")
 	public final @NonNull PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 
+	/** The shared view model of the settings sheet. */
+	@Property("readonly")
+	public final @NonNull SettingsViewModel settingsViewModel;
+
 	private @Nullable RememberedProperties rememberedProperties;
 
 	/**
@@ -55,6 +60,7 @@ public final class AppScope {
 	 */
 	public AppScope(App app) {
 		this.app = app;
+		this.settingsViewModel = new SettingsViewModel(app);
 	}
 
 	/**

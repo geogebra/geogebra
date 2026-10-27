@@ -22,4 +22,15 @@ import org.geogebra.common.properties.EnumeratedProperty;
 /**
  * A property whose value is a color.
  */
-public interface ColorProperty extends EnumeratedProperty<GColor> {}
+public interface ColorProperty extends EnumeratedProperty<GColor> {
+
+	/**
+	 * Whether {@link #getValue()} is known to be shared by every target of this property.
+	 * Properties returning a representative value for multiple targets should return false
+	 * unless they can establish that all targets have the same value.
+	 * @return whether the current value is known to be uniform
+	 */
+	default boolean hasUniformValue() {
+		return true;
+	}
+}

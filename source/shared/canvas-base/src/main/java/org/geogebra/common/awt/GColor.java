@@ -18,6 +18,9 @@ package org.geogebra.common.awt;
 
 import java.util.HashMap;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -593,9 +596,17 @@ public final class GColor implements GPaint {
 		if (colorString == null || !colorString.startsWith("#")) {
 			return null;
 		}
+		int length = colorString.length() - 1;
+		if (length != 3 && length != 4 && length != 6 && length != 8) {
+			return null;
+		}
+		for (int i = 1; i <= length; i++) {
+			if (!isAsciiHexDigit(colorString.charAt(i))) {
+				return null;
+			}
+		}
 
 		try {
-			int length = colorString.length() - 1;
 
 			int red = 0;
 			int green = 0;
@@ -603,13 +614,13 @@ public final class GColor implements GPaint {
 			int alpha = 255;
 
 			if (length == 3 || length == 4) {
-				red = 16 * Integer.parseInt(colorString.substring(1, 2), 16);
-				green = 16 * Integer.parseInt(colorString.substring(2, 3), 16);
-				blue = 16 * Integer.parseInt(colorString.substring(3, 4), 16);
+				red = 17 * Integer.parseInt(colorString.substring(1, 2), 16);
+				green = 17 * Integer.parseInt(colorString.substring(2, 3), 16);
+				blue = 17 * Integer.parseInt(colorString.substring(3, 4), 16);
 			}
 
 			if (length == 4) {
-				alpha = 16 * Integer.parseInt(colorString.substring(4, 5), 16);
+				alpha = 17 * Integer.parseInt(colorString.substring(4, 5), 16);
 			}
 
 			if (length == 6 || length == 8) {
@@ -626,6 +637,30 @@ public final class GColor implements GPaint {
 		} catch (NumberFormatException e) {
 			return null;
 		}
+	}
+
+	private static boolean isAsciiHexDigit(char ch) {
+		return (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F');
+	}
+
+	/**
+	 * Parses a single decimal RGB channel value.
+	 * @param text the text to parse (surrounding whitespace ignored)
+	 * @return the value in [0, 255], or {@code null} if the text is not a valid channel value
+	 */
+	public static @Nullable Integer parseChannel(@NonNull String text) {
+		String trimmed = text.trim();
+		if (trimmed.isEmpty() || trimmed.length() > 3) {
+			return null;
+		}
+		for (int i = 0; i < trimmed.length(); i++) {
+			char ch = trimmed.charAt(i);
+			if (ch < '0' || ch > '9') {
+				return null;
+			}
+		}
+		int channel = Integer.parseInt(trimmed);
+		return channel > 255 ? null : channel;
 	}
 
 	/**
