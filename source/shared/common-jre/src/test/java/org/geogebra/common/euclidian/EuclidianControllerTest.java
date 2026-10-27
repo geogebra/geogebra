@@ -88,14 +88,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void joinTool() {
-		setMode(EuclidianConstants.MODE_JOIN);
-		click(0, 0);
-		click(100, 100);
-		checkContent("A = (0, 0)", "B = (2, -2)", "f: x + y = 0");
-	}
-
-	@Test
 	void deleteTool() {
 		setMode(EuclidianConstants.MODE_DELETE);
 		t("a:x=1");
@@ -105,14 +97,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		resetMouseLocation();
 		click(50, 50);
 		checkContent();
-	}
-
-	@Test
-	void vectorTool() {
-		setMode(EuclidianConstants.MODE_VECTOR);
-		click(0, 0);
-		click(100, 100);
-		checkContent("A = (0, 0)", "B = (2, -2)", "u = (2, -2)");
 	}
 
 	@Test
@@ -138,63 +122,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void segmentTool() {
-		setMode(EuclidianConstants.MODE_SEGMENT);
-		click(0, 0);
-		click(100, 100);
-		checkContent("A = (0, 0)", "B = (2, -2)", "f = 2.82843");
-	}
-
-	@Test
-	@Issue("APPS-5779")
-	void segmentWithDrag3Points() {
-		setMode(EuclidianConstants.MODE_SEGMENT);
-		click(0, 0);
-		dragStart(100, 100);
-		pointerRelease(200, 150);
-		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
-		events.clear();
-	}
-
-	@Test
-	@Issue("APPS-5779")
-	void segmentWithDrag3PointsFixed() {
-		getApp()
-				.getSettings()
-				.getEuclidian(1)
-				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_ON_GRID);
-		setMode(EuclidianConstants.MODE_SEGMENT);
-		click(10, 10);
-		dragStart(110, 110);
-		pointerRelease(210, 160);
-		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
-		events.clear();
-	}
-
-	@Test
-	@Issue("APPS-5779")
-	void segmentWithDragPreExisting() {
-		add("B=(2,-2)");
-		setMode(EuclidianConstants.MODE_SEGMENT);
-		click(0, 0);
-		dragStart(100, 100);
-		pointerRelease(200, 150);
-		checkContent("B = (4, -3)", "A = (0, 0)", "f = 5");
-		events.clear();
-	}
-
-	@Test
-	void segmentWithDrag() {
-		setMode(EuclidianConstants.MODE_SEGMENT);
-		dragStart(0, 0);
-		dragEnd(200, 150);
-		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
-		dragStart(0, 0);
-		dragEnd(400, 300);
-		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5", "C = (8, -6)", "g = 10");
-	}
-
-	@Test
 	void polygonTool() {
 		setMode(EuclidianConstants.MODE_POLYGON);
 		click(0, 0);
@@ -217,15 +144,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	void textTool() {
 		setMode(EuclidianConstants.MODE_TEXT); // TODO 17
-	}
-
-	@Test
-	void rayTool() {
-		setMode(EuclidianConstants.MODE_RAY);
-		click(0, 0);
-		click(100, 100);
-		// Equation form for lines and rays aligned in APPS-6337
-		checkContent("A = (0, 0)", "B = (2, -2)", "f: x + y = 0");
 	}
 
 	@Test
@@ -354,26 +272,8 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void vectorFromPointTool() {
-		setMode(EuclidianConstants.MODE_VECTOR_FROM_POINT); // TODO 37
-	}
-
-	@Test
 	void selectionListenerTool() {
 		setMode(EuclidianConstants.MODE_SELECTION_LISTENER); // TODO 43
-	}
-
-	@Test
-	void polarDiameterTool() {
-		setMode(EuclidianConstants.MODE_POLAR_DIAMETER); // TODO 44
-	}
-
-	@Test
-	void segmentFixedTool() {
-		setMode(EuclidianConstants.MODE_SEGMENT_FIXED);
-		prepareInput("2");
-		click(100, 100);
-		checkContent("A = (2, -2)", "B = (4, -2)", "f = 2");
 	}
 
 	@Test
@@ -483,16 +383,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	void rigidPolygonTool() {
 		setMode(EuclidianConstants.MODE_RIGID_POLYGON); // TODO 64
-	}
-
-	@Test
-	void polyLineTool() {
-		setMode(EuclidianConstants.MODE_POLYLINE);
-		click(50, 50);
-		click(100, 50);
-		click(100, 100);
-		click(50, 50);
-		checkContent("A = (1, -1)", "B = (2, -1)", "C = (2, -2)", "f = 2");
 	}
 
 	@Test

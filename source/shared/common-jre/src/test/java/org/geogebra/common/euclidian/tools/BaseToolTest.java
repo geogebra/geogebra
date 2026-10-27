@@ -78,6 +78,28 @@ class BaseToolTest extends BaseEuclidianControllerTest {
 	}
 
 	/**
+	 * Press the mouse at the given real-world coordinates without releasing it.
+	 *
+	 * @param xRW real-world x-coordinate
+	 * @param yRW real-world y-coordinate
+	 */
+	protected void pressRW(double xRW, double yRW) {
+		EuclidianView view = getApp().getActiveEuclidianView();
+		dragStart(view.toScreenCoordX(xRW), view.toScreenCoordY(yRW));
+	}
+
+	/**
+	 * Release the mouse at the given real-world coordinates without sending a drag event.
+	 *
+	 * @param xRW real-world x-coordinate
+	 * @param yRW real-world y-coordinate
+	 */
+	protected void releaseRW(double xRW, double yRW) {
+		EuclidianView view = getApp().getActiveEuclidianView();
+		pointerRelease(view.toScreenCoordX(xRW), view.toScreenCoordY(yRW));
+	}
+
+	/**
 	 * Initialize the headless dialog manager with the given inputs.
 	 *
 	 * @param inputs inputs returned by consecutive dialogs
