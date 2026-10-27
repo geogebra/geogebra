@@ -601,7 +601,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 
 		number.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
 		number.setAlphaValue(DEFAULT_NUMBER_ALPHA);
-		number.setLineOpacity(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY);
+		number.setLineOpacity(GeoNumeric.DEFAULT_LINE_OPACITY);
 		number.setDefaultGeoType(DEFAULT_NUMBER);
 		number.setLineThickness(
 				number.isSlider() ? GeoNumeric.DEFAULT_SLIDER_THICKNESS : GeoNumeric.DEFAULT_THICKNESS);

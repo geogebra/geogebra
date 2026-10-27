@@ -262,6 +262,7 @@ public class EuclidianDraw {
 									consDef.getDefaultGeo(ConstructionDefaults.DEFAULT_NUMBER).getObjectColor();
 							geo.setObjColor(col);
 							geo.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+							geo.setLineOpacity(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY);
 							geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 						} else {
 							GColor col =

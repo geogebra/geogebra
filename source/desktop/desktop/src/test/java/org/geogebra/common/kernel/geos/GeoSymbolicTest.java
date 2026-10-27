@@ -82,6 +82,8 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class GeoSymbolicTest extends BaseSymbolicTest {
 
@@ -863,6 +865,26 @@ class GeoSymbolicTest extends BaseSymbolicTest {
 
 		assertEquals(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT, f.getLineType());
 		assertEquals(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT, f.getLineType());
+	}
+
+	@ParameterizedTest
+	@ValueSource(
+			strings = {
+				"Integral(x^2, 0, 1)",
+				"IntegralBetween(x^2, x, 0, 1)",
+				"Histogram({0, 1, 2}, {1, 2})",
+				"UpperSum(x^2, 0, 1, 4)",
+				"TrapezoidalSum(x^2, 0, 1, 4)",
+				"BarChart({1, 2}, {3, 4})",
+				"BinomialDist(5, 0.5)",
+				"StepGraph({(1, 1), (2, 2)})"
+			})
+	@Issue("APPS-8055")
+	void chartsShouldHaveDefaultLineStyle(String command) {
+		GeoSymbolic chart = add(command);
+		assertEquals(GeoNumeric.DEFAULT_THICKNESS, chart.getLineThickness());
+		assertEquals(GeoNumeric.DEFAULT_LINE_OPACITY, chart.getLineOpacity());
+		assertEquals(GeoNumeric.DEFAULT_LINE_OPACITY, chart.getTwinGeo().getLineOpacity());
 	}
 
 	@Test

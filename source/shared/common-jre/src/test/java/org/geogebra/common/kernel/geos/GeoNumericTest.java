@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -40,6 +41,8 @@ import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class GeoNumericTest extends BaseAppTestSetup {
 
@@ -383,6 +386,56 @@ class GeoNumericTest extends BaseAppTestSetup {
 
 		addAvInput("a = 3");
 		assertTrue(slider.isDefined(), "slider should be defined again");
+	}
+
+	@ParameterizedTest
+	@ValueSource(
+			strings = {
+				"BoxPlot(0, 1, {1, 2, 3, 4})",
+				"Integral(x^2, 0, 1)",
+				"IntegralBetween(x^2, x, 0, 1)",
+				"Histogram({0, 1, 2}, {1, 2})",
+				"HistogramRight({0, 1, 2}, {1, 2})",
+				"LeftSum(x^2, 0, 1, 4)",
+				"RectangleSum(x^2, 0, 1, 4, 1)",
+				"UpperSum(x^2, 0, 1, 4)",
+				"LowerSum(x^2, 0, 1, 4)",
+				"TrapezoidalSum(x^2, 0, 1, 4)",
+				"Bernoulli(0.5, false)",
+				"BarChart({1, 2}, {3, 4})",
+				"BinomialDist(5, 0.5)",
+				"Poisson(2)",
+				"HyperGeometric(10, 5, 3)",
+				"Pascal(5, 0.5)",
+				"Zipf(10, 1)",
+				"StepGraph({(1, 1), (2, 2)})",
+				"Slope(y = 2x)"
+			})
+	@Issue("APPS-8055")
+	void chartsShouldHaveDefaultLineStyleInGraphing(String command) {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoNumeric chart = addAvInput(command);
+		assertEquals(GeoNumeric.DEFAULT_THICKNESS, chart.getLineThickness());
+		assertEquals(GeoNumeric.DEFAULT_LINE_OPACITY, chart.getLineOpacity());
+	}
+
+	@Test
+	@Issue("APPS-8055")
+	void sliderShouldKeepSliderLineStyleInGraphing() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoNumeric slider = addAvInput("Slider(1, 10)");
+		assertEquals(GeoNumeric.DEFAULT_SLIDER_THICKNESS, slider.getLineThickness());
+		assertEquals(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY, slider.getLineOpacity());
+	}
+
+	@Test
+	@Issue("APPS-8055")
+	void numberShownInGraphicsViewShouldGetSliderLineStyle() {
+		GeoNumeric number = addAvInput("a = 1");
+		number.setEuclidianVisible(true);
+		number.updateRepaint();
+		assertEquals(GeoNumeric.DEFAULT_SLIDER_THICKNESS, number.getLineThickness());
+		assertEquals(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY, number.getLineOpacity());
 	}
 
 	private GeoNumeric addAvInput(String s) {

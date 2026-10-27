@@ -87,7 +87,9 @@ public class GeoNumeric extends GeoElement
 	private PVariable[] botanaVars;
 
 	/** eg boxplot */
-	public static final int DEFAULT_THICKNESS = 2;
+	public static final int DEFAULT_THICKNESS = 4;
+
+	public static final int DEFAULT_LINE_OPACITY = 204; // 0.8 * 255
 	/** sliders */
 	public static final int DEFAULT_SLIDER_THICKNESS = 10;
 
