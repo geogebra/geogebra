@@ -74,6 +74,7 @@ import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropert
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AlignmentPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
+import org.geogebra.common.properties.impl.objects.BarChartBoundsPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BorderStylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.ChartDataPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentFillCategoryProperty;
@@ -1816,6 +1817,10 @@ public abstract class PropertyView {
 							new HorizontalSplitView(
 									new TextField(dimensionPropertyMinZ), new TextField(dimensionPropertyMaxZ))),
 					10);
+		} else if (property instanceof BarChartBoundsPropertyCollection collection) {
+			return new HorizontalSplitView(
+					new TextField(collection.getProperties()[0]),
+					new TextField(collection.getProperties()[1]));
 		} else if (property instanceof AbsoluteScreenPositionPropertyCollection collection) {
 			return new HorizontalSplitView(
 					new TextField(collection.getProperties()[0]),
