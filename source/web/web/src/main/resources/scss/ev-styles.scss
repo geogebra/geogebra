@@ -703,6 +703,69 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	@keyframes blink {
 		0% {opacity: 0}
 	}
+
+	.cursor_wait {
+		cursor: wait;
+	}
+
+	.cursor_default {
+		cursor: crosshair;
+	}
+
+	.cursor_hit {
+		cursor: default;
+	}
+
+	.cursor_drag {
+		cursor: pointer;
+	}
+
+	.cursor_resizeNESW {
+		cursor: nesw-resize;
+	}
+
+	.cursor_resizeNWSE {
+		cursor: nwse-resize;
+	}
+
+	.cursor_resizeEW {
+		cursor: ew-resize;
+	}
+
+	.cursor_resizeNS {
+		cursor: ns-resize;
+	}
+
+	.cursor_move {
+		cursor: move;
+	}
+
+	.cursor_transparent {
+		cursor: none;
+	}
+
+	.cursor_text {
+		cursor: text;
+	}
+
+	.cursor_crosshair {
+		cursor: crosshair;
+	}
+
+
+	.cursor_grabbing {
+		cursor: grabbing;
+	}
+
+	.cursor_grab {
+		cursor: grab;
+	}
+
+	.cursor_pen {
+		cursor: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNiIgaGVpZ2h0PSIyNyIgZmlsbD0ibm9uZSI+PGcgZmlsdGVyPSJ1cmwoI2EpIj48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Im0xOC40OTYgNC4yOTMgMi44MjggMi44MjhhMSAxIDAgMCAxIDAgMS40MTVMOC4yNDMgMjEuNjE3SDR2LTQuMjQzTDE3LjA4MSA0LjI5M2ExIDEgMCAwIDEgMS40MTUgMFpNMTcuNDM5IDUuMzUgMTYuMDIgNi43NjhsMi44MjggMi44MjggMS40MTgtMS40MTdhLjQ5Ni40OTYgMCAwIDAtLjAwMy0uNzA0TDE4LjE0NiA1LjM1YS41LjUgMCAwIDAtLjcwNyAwWk01LjA2IDIwLjU1NnYtMi44MjhMMTUuMzE0IDcuNDc1bDIuODI4IDIuODI4TDcuODkgMjAuNTU2SDUuMDYxWiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTE2LjAyIDYuNzY4IDE3LjQ0IDUuMzVhLjUuNSAwIDAgMSAuNzA3IDBsMi4xMTcgMi4xMjVhLjQ5Ni40OTYgMCAwIDEgLjAwNC43MDRsLTEuNDE4IDEuNDE3LTIuODI4LTIuODI4Wk01LjA2IDE3LjcyOHYyLjgyOGgyLjgzbDEwLjI1Mi0xMC4yNTMtMi44MjgtMi44MjhMNS4wNiAxNy43MjhaIi8+PC9nPjxkZWZzPjxmaWx0ZXIgaWQ9ImEiIHdpZHRoPSIyNS42MTciIGhlaWdodD0iMjUuNjE3IiB4PSIwIiB5PSIxIiBjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM9InNSR0IiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PGZlRmxvb2QgZmxvb2Qtb3BhY2l0eT0iMCIgcmVzdWx0PSJCYWNrZ3JvdW5kSW1hZ2VGaXgiLz48ZmVDb2xvck1hdHJpeCBpbj0iU291cmNlQWxwaGEiIHJlc3VsdD0iaGFyZEFscGhhIiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEyNyAwIi8+PGZlT2Zmc2V0IGR5PSIxIi8+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMSIvPjxmZUNvbXBvc2l0ZSBpbjI9ImhhcmRBbHBoYSIgb3BlcmF0b3I9Im91dCIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCAwIDAgMCAwLjUyMTU2OSAwIDAgMCAwIDAuNTE3NjQ3IDAgMCAwIDAgMC41NDExNzYgMCAwIDAgMC4xNCAwIi8+PGZlQmxlbmQgaW4yPSJCYWNrZ3JvdW5kSW1hZ2VGaXgiIHJlc3VsdD0iZWZmZWN0MV9kcm9wU2hhZG93XzE2MzA5XzMiLz48ZmVDb2xvck1hdHJpeCBpbj0iU291cmNlQWxwaGEiIHJlc3VsdD0iaGFyZEFscGhhIiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEyNyAwIi8+PGZlT2Zmc2V0IGR5PSIxIi8+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMiIvPjxmZUNvbXBvc2l0ZSBpbjI9ImhhcmRBbHBoYSIgb3BlcmF0b3I9Im91dCIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCAwIDAgMCAwLjUyMTU2OSAwIDAgMCAwIDAuNTE3NjQ3IDAgMCAwIDAgMC41NDExNzYgMCAwIDAgMC4xIDAiLz48ZmVCbGVuZCBpbjI9ImVmZmVjdDFfZHJvcFNoYWRvd18xNjMwOV8zIiByZXN1bHQ9ImVmZmVjdDJfZHJvcFNoYWRvd18xNjMwOV8zIi8+PGZlQmxlbmQgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0iZWZmZWN0Ml9kcm9wU2hhZG93XzE2MzA5XzMiIHJlc3VsdD0ic2hhcGUiLz48L2ZpbHRlcj48L2RlZnM+PC9zdmc+
+		) 3 21, crosshair;
+	}
+
 }
 
 /* Outside of GeoGebraFrame */
