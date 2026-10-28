@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.table.TableUtil;
+import org.geogebra.common.gui.view.table.TableValuesCellDescriptionBuilder;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel.Content;
@@ -33,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.states.State;
 import org.geogebra.common.util.AttributedString;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
@@ -80,6 +82,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	private boolean transitioning;
 	private ContextMenuTV contextMenu;
 	private final TableEditor editor;
+	private final TableValuesCellDescriptionBuilder cellDescriptionBuilder;
 
 	private int rowsChange = 0;
 	private int columnsChange = 0;
@@ -147,6 +150,8 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 		this.app = app;
 		this.view = view;
 		this.tableModel = view.getTableValuesModel();
+		this.cellDescriptionBuilder =
+				new TableValuesCellDescriptionBuilder(tableModel, app.getLocalization());
 		tableModel.registerListener(this);
 		addAttachHandler(evt -> {
 			tableModel.unregisterListener(this);
@@ -166,10 +171,22 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 		controller = new TableValuesKeyboardNavigationController(
 				app.getGuiManager().getTableValuesView(),
 				new TableValuesKeyboardNavigationControllerDelegate() {
+					private boolean transferringFocus;
+
 					@Override
 					public void focusCell(int row, int column) {
 						app.closePopups();
 						StickyValuesTable.this.focusCell(row, column, false);
+						// On macOS, focus the editable cell's labeled editor directly.
+						// The temporary cell focus is followed by hiding its content
+						// and inserting the editor, changing VoiceOver's focus target.
+						if (transferringFocus
+								&& (!NavigatorUtil.isMacOS() || !controller.isColumnEditable(column))) {
+							if (transferringFocus) {
+								String alt = cellDescriptionBuilder.getCellDescription(row, column);
+								focusCellNow(row, column, alt);
+							}
+						}
 					}
 
 					@Override
@@ -179,7 +196,13 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 
 					@Override
 					public void unfocusCell(int row, int column, boolean isTransferringFocus) {
-						editor.stopEditing();
+						this.transferringFocus = isTransferringFocus;
+						if (!isTransferringFocus) {
+							editor.stopEditing();
+						} else {
+							editor.stopEditPending = true;
+							flush();
+						}
 						unfocusNonEditableCell();
 					}
 
@@ -277,17 +300,22 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 		if (!isSelectedCell(row, column)) {
 			return;
 		}
+		String description = cellDescriptionBuilder.getCellDescription(row, column);
 		if (controller.isColumnEditable(column)) {
-			unfocusNonEditableCell();
+			if (!refocus) {
+				// on refocus the cell must stay focusable until its editor has started,
+				// otherwise screen readers skip the announcement of the cell
+				unfocusNonEditableCell();
+			}
 			lastEdit = new GPoint(column, row);
-			editor.startEditing(row, column, refocus);
+			editor.startEditing(row, column, refocus, description);
 		} else {
 			editor.stopEditing();
-			focusNonEditableCell(row, column);
+			focusNonEditableCell(row, column, description);
 		}
 	}
 
-	private void focusNonEditableCell(int row, int column) {
+	private void focusNonEditableCell(int row, int column, String description) {
 		app.invokeLater(() -> {
 			if (!isSelectedCell(row, column)) {
 				return;
@@ -303,17 +331,25 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 				controller.select(row, column);
 				return;
 			}
-			Element cell = getCellIfExists(row, column);
-			if (cell == null) {
-				return;
-			}
 			unfocusNonEditableCell();
-			focusedNonEditableCell = cell;
-			focusedNonEditableCell.setTabIndex(-1);
-			focusedNonEditableCell.addClassName("keyboardFocusedCell");
-			scrollIntoView(focusedNonEditableCell);
-			focusedNonEditableCell.focus();
+			focusCellNow(row, column, description);
 		});
+	}
+
+	private void focusCellNow(int row, int column, String description) {
+		Element cell = getCellIfExists(row, column);
+		if (cell == null) {
+			return;
+		}
+
+		focusedNonEditableCell = cell;
+		focusedNonEditableCell.setTabIndex(-1);
+		if (!NavigatorUtil.isMacOS()) {
+			focusedNonEditableCell.setAttribute("aria-label", description);
+		}
+		focusedNonEditableCell.addClassName("keyboardFocusedCell");
+		scrollIntoView(focusedNonEditableCell);
+		focusedNonEditableCell.focus();
 	}
 
 	private boolean isSelectedCell(int row, int column) {

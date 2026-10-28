@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigationController;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.editor.share.editor.UnhandledKeyListener;
 import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.util.JavaKeyCodes;
@@ -29,6 +30,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Node;
 import org.gwtproject.dom.client.NodeList;
 import org.gwtproject.user.client.DOM;
+import org.jspecify.annotations.NonNull;
 
 import elemental2.dom.Event;
 import elemental2.dom.MouseEvent;
@@ -43,6 +45,7 @@ public final class TableEditor implements UnhandledKeyListener {
 	Element wrapper;
 	private Event event;
 	private boolean wasError;
+	boolean stopEditPending;
 
 	/**
 	 * @param table table
@@ -57,10 +60,15 @@ public final class TableEditor implements UnhandledKeyListener {
 	 * @param row row
 	 * @param column column
 	 * @param keepFocusIfEditing if set and the editor is already active, do not reset
+	 * @param description Accessible description of the table cell
 	 */
-	public void startEditing(int row, int column, boolean keepFocusIfEditing) {
+	public void startEditing(
+			int row, int column, boolean keepFocusIfEditing, @NonNull String description) {
 		ensureMathTextFieldExists();
 		app.invokeLater(() -> {
+			if (stopEditPending) {
+				stopEditing();
+			}
 			if (row != controller.getSelectedRow() || column != controller.getSelectedColumn()) {
 				return;
 			}
@@ -100,6 +108,8 @@ public final class TableEditor implements UnhandledKeyListener {
 			editingRow = row;
 			editingColumn = column;
 
+			// Set before focusing the editor, so that it is announced with this label
+			mathTextField.setLabel(description);
 			mathTextField.editorClicked();
 			if (event != null) {
 				mathTextField.adjustCaret(((MouseEvent) event).x, ((MouseEvent) event).y);
@@ -132,6 +142,7 @@ public final class TableEditor implements UnhandledKeyListener {
 		editingRow = -1;
 		editingColumn = -1;
 		table.flush();
+		stopEditPending = false;
 	}
 
 	private void ensureMathTextFieldExists() {
@@ -141,7 +152,7 @@ public final class TableEditor implements UnhandledKeyListener {
 			mathTextField.addChangeHandler((enter) -> {
 				if (enter) {
 					controller.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
-				} else {
+				} else if (!stopEditPending) {
 					controller.deselect();
 				}
 			});
@@ -167,6 +178,9 @@ public final class TableEditor implements UnhandledKeyListener {
 
 	@Override
 	public void onArrow(int keyCode, KeyEvent.KeyboardType keyboardType) {
+		mathTextField.getMathField().setExpressionReader(null);
+		app.invokeLater(() ->
+				mathTextField.getMathField().setExpressionReader(ScreenReader.getExpressionReader(app)));
 		switch (keyCode) {
 			case JavaKeyCodes.VK_LEFT:
 				controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);

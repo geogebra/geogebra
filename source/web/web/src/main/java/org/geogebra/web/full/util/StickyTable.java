@@ -282,6 +282,9 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 * Flush the changes in the model.
 	 */
 	public void flush() {
+		if (dataProvider != null) {
+			dataProvider.flush();
+		}
 		cellTable.flush();
 	}
 

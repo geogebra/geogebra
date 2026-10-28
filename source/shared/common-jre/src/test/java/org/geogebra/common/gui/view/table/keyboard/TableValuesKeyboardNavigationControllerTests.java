@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
 import org.geogebra.common.gui.view.table.ScientificDataTableController;
+import org.geogebra.common.gui.view.table.TableValuesCellDescriptionBuilder;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -33,6 +34,7 @@ import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,6 +43,7 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 
 	private TableValuesView tableValuesView;
 	private TableValuesKeyboardNavigationController keyboardController;
+	private TableValuesCellDescriptionBuilder cellDescriptionBuilder;
 	private CellIndex focusedCell;
 	private boolean focusedCellEditable;
 	private String cellContent;
@@ -57,6 +60,8 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		kernel.attach(tableValuesView);
 
 		keyboardController = new TableValuesKeyboardNavigationController(tableValuesView, this);
+		cellDescriptionBuilder = new TableValuesCellDescriptionBuilder(
+				tableValuesView.getTableValuesModel(), getLocalization());
 
 		focusedCell = null;
 		focusedCellEditable = false;
@@ -1006,6 +1011,46 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		// next arrow right selects y2 (now at column 2)
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertEquals(new CellIndex(0, 2), focusedCell);
+	}
+
+	@Test
+	@Issue("APPS-7898")
+	void testDescriptionOfEmptyCell() {
+		assertTrue(tableValuesView.isEmpty());
+
+		assertEquals("Empty cell", cellDescriptionBuilder.getCellDescription(0, 0));
+	}
+
+	@Test
+	@Issue("APPS-7898")
+	void testDescriptionOfPlaceholderColumn() {
+		assertTrue(tableValuesView.isEmpty());
+
+		keyboardController.select(0, 1);
+
+		assertEquals(new CellIndex(0, 1), focusedCell);
+		assertEquals("Empty cell", cellDescriptionBuilder.getCellDescription(0, 1));
+	}
+
+	@Test
+	@Issue("APPS-7898")
+	void testDescriptionOfCellWithValue() throws Exception {
+		tableValuesView.setValues(0, 1, 1);
+
+		assertTrue(cellDescriptionBuilder.getCellDescription(1, 0).startsWith("1"));
+	}
+
+	@Test
+	@Issue("APPS-7898")
+	void testDescriptionOfErroneousCellContainsError() {
+		keyboardController.select(0, 1);
+		cellContent = "#3";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+		assertTrue(didReportInvalidCellContent);
+
+		String description = cellDescriptionBuilder.getCellDescription(0, 1);
+		assertTrue(description.startsWith("#3"));
+		assertTrue(description.contains("Use numbers only"));
 	}
 
 	// TableValuesKeyboardControllerDelegate
