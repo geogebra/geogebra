@@ -31,6 +31,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.properties.PropertyView;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -152,7 +153,7 @@ public final class ContextMenuAVItemMore
 
 	@Override
 	public void showTableValuesDialog(GeoElement geoElement) {
-		mApp.getDialogManager().openTableViewDialog(geoElement);
+		DialogManagerW.openTableViewDialog(geoElement, mApp, null);
 	}
 
 	@Override

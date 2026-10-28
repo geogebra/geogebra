@@ -671,10 +671,13 @@ public class DialogManagerW extends DialogManager implements LoadingApplication 
 		}
 	}
 
-	@Override
-	public void openTableViewDialog(GeoElement geo) {
+	/**
+	 * @param geo
+	 *            function to add to the table view after success
+	 */
+	public static void openTableViewDialog(GeoElement geo, AppW app, Runnable returnFocus) {
 		DialogData data = new DialogData("TableOfValues");
-		InputDialogTableView tableViewDialog = new InputDialogTableView((AppW) app, data);
+		InputDialogTableView tableViewDialog = new InputDialogTableView(app, data, returnFocus);
 		tableViewDialog.show(geo);
 	}
 

@@ -43,6 +43,7 @@ import org.gwtproject.user.client.ui.Label;
  *
  */
 public final class InputDialogTableView extends ComponentDialog implements HasKeyboardPopup {
+	private final Runnable returnFocus;
 	private ComponentInputField startValue;
 	private ComponentInputField endValue;
 	private ComponentInputField step;
@@ -57,15 +58,20 @@ public final class InputDialogTableView extends ComponentDialog implements HasKe
 	 *            see {@link AppW}
 	 * @param data
 	 *            dialog translation keys
+	 * @param returnFocus action that moves focus after the dialog is closed in any way
 	 */
-	public InputDialogTableView(final AppW app, DialogData data) {
+	public InputDialogTableView(final AppW app, DialogData data, Runnable returnFocus) {
 		super(app, data, false, true);
 		addStyleName("tableOfValuesDialog");
 		buildContent();
 		validator = new TableValuesDialogValidator(app);
+		this.returnFocus = returnFocus;
 		this.addCloseHandler(event -> {
 			app.unregisterPopup(this);
 			app.hideKeyboard();
+			if (this.returnFocus != null) {
+				this.returnFocus.run();
+			}
 		});
 	}
 
@@ -181,6 +187,10 @@ public final class InputDialogTableView extends ComponentDialog implements HasKe
 	}
 
 	private void focusTableAfterClosingDialog() {
+		if (returnFocus != null) {
+			returnFocus.run();
+			return;
+		}
 		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
 		ToolbarTab toolbarTab =
 				gui.getUnbundledToolbar().getTab(gui.getUnbundledToolbar().getSelectedTabId());

@@ -1168,14 +1168,6 @@ public abstract class DialogManager {
 	}
 
 	/**
-	 * @param geo
-	 *            function to add to able view after success
-	 */
-	public void openTableViewDialog(GeoElement geo) {
-		// only needed in web
-	}
-
-	/**
 	 * @param view
 	 *            exported view
 	 * @return dialog for export 3D settings
