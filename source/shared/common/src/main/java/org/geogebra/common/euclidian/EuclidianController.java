@@ -21,6 +21,7 @@ import static org.geogebra.common.euclidian.EuclidianCursor.DRAG;
 import static org.geogebra.common.euclidian.EuclidianCursor.HIT;
 import static org.geogebra.common.euclidian.EuclidianCursor.MINDMAP;
 import static org.geogebra.common.euclidian.EuclidianCursor.MOVE;
+import static org.geogebra.common.euclidian.EuclidianCursor.STICKY_NOTE;
 import static org.geogebra.common.euclidian.EuclidianCursor.TABLE;
 import static org.geogebra.common.euclidian.EuclidianCursor.TEXT;
 import static org.geogebra.common.euclidian.EuclidianCursor.ZOOM_IN;
@@ -5277,6 +5278,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// consider kernel *not* changed, undo point should only come when equation is nonempty
 				createInlineObject(selectionPreview, GeoFormula::new);
 				break;
+
+			case EuclidianConstants.MODE_STICKY_NOTE:
+				view.setCursor(STICKY_NOTE);
+				break;
+
 			case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 			case EuclidianConstants.MODE_SHAPE_CIRCLE:
 			case EuclidianConstants.MODE_SHAPE_ELLIPSE:

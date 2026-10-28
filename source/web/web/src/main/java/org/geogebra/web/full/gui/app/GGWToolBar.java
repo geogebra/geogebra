@@ -46,6 +46,7 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.toolbox.DefaultToolboxIconResources;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SVGResourcePrototype;
 import org.gwtproject.animation.client.AnimationScheduler;
@@ -953,6 +954,9 @@ public final class GGWToolBar extends Composite
 
 			case EuclidianConstants.MODE_MIND_MAP:
 				return resourceBundle.mode_mindmap();
+
+			case EuclidianConstants.MODE_STICKY_NOTE:
+				return DefaultToolboxIconResources.INSTANCE.sticky_note();
 
 			case EuclidianConstants.MODE_RULER:
 				return resourceBundle.mode_ruler();

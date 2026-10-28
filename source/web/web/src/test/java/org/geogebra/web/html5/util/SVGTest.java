@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
+import org.geogebra.web.html5.main.toolbox.DefaultToolboxIconResources;
 import org.gwtproject.resources.client.ClientBundle;
 import org.junit.Test;
 
@@ -50,9 +51,11 @@ public class SVGTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		Stream.concat(
-						Arrays.stream(ToolbarSvgResources.class.getMethods()),
-						Arrays.stream(ToolbarSvgResourcesSync.class.getMethods()))
+		Stream.of(
+						ToolbarSvgResources.class.getMethods(),
+						ToolbarSvgResourcesSync.class.getMethods(),
+						DefaultToolboxIconResources.class.getMethods())
+				.flatMap(Arrays::stream)
 				.forEach(m -> {
 					ClientBundle.Source a = m.getAnnotation(ClientBundle.Source.class);
 					if (a != null) {

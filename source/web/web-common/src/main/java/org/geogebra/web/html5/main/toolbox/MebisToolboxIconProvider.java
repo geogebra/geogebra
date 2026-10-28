@@ -83,6 +83,8 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 				return new FaIconSpec("fa-circle");
 			case LINE:
 				return new FaIconSpec("fa-horizontal-rule");
+			case STICKY_NOTE:
+				return new FaIconSpec("fa-note-sticky");
 			case ELLIPSE:
 			case FREEFORM:
 			case PENTAGON:

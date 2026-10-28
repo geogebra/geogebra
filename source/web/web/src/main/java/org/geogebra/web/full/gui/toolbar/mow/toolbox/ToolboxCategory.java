@@ -41,6 +41,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_RECTAN
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_SQUARE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_STADIUM;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_TRIANGLE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_STICKY_NOTE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TABLE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_VIDEO;
 
@@ -68,6 +69,7 @@ public enum ToolboxCategory {
 			MODE_SHAPE_FREEFORM,
 			MODE_MASK),
 	TEXT("text", MODE_MEDIA_TEXT, MODE_EQUATION),
+	STICKY_NOTE("stickyNote", MODE_STICKY_NOTE),
 	UPLOAD("upload", MODE_IMAGE, MODE_CAMERA, MODE_PDF),
 	LINK("link", MODE_EXTENSION, MODE_VIDEO, MODE_AUDIO),
 	MORE("more", MODE_CALCULATOR, MODE_MIND_MAP, MODE_TABLE, MODE_GRASPABLE_MATH),

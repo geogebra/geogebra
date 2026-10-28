@@ -39,7 +39,11 @@ public enum PreviewFeature {
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
 	/** APPS-5641 */
-	IB_EXAM;
+	IB_EXAM,
+	/**
+	 * MOW-1935
+	 */
+	STICKY_NOTES;
 
 	/**
 	 * Global flag to activate preview features.

@@ -107,6 +107,8 @@ public class DefaultToolboxIconProvider implements ToolboxIconProvider {
 				return res.curve();
 			case MASK:
 				return res.mask();
+			case STICKY_NOTE:
+				return res.sticky_note();
 			default:
 				return null;
 		}

@@ -41,6 +41,7 @@ public enum ToolboxIcon {
 	TEXTS,
 	TEXT,
 	EQUATION,
+	STICKY_NOTE,
 	UPLOAD,
 	IMAGE,
 	CAMERA,

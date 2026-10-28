@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_STICKY_NOTE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMenu;
@@ -88,6 +90,9 @@ public final class NotesToolbox extends FlowPanel
 		addPenModeButton();
 		addShapeButton();
 		addTextButton();
+		if (PreviewFeature.isAvailable(PreviewFeature.STICKY_NOTES)) {
+			addStickyNoteButton();
+		}
 		addUploadButton();
 		addLinkButton();
 		addAppsButton();
@@ -203,6 +208,24 @@ public final class NotesToolbox extends FlowPanel
 			add(textButton);
 			buttons.add(textButton);
 		}
+	}
+
+	private void addStickyNoteButton() {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.STICKY_NOTE.getName())) {
+			return;
+		}
+
+		IconButton stickyNoteButton = new ToolIconButton(
+				MODE_STICKY_NOTE,
+				appW,
+				toolboxIconResource.getImageResource(ToolboxIcon.STICKY_NOTE),
+				() -> {
+					appW.setMode(MODE_STICKY_NOTE);
+					appW.closePopups();
+				});
+		stickyNoteButton.setActive(true);
+		add(stickyNoteButton);
+		buttons.add(stickyNoteButton);
 	}
 
 	private void addUploadButton() {

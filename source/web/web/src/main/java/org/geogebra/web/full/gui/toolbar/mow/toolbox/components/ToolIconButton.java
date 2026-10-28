@@ -31,6 +31,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_RECTAN
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_SQUARE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_STADIUM;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_TRIANGLE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_STICKY_NOTE;
 
 import java.util.function.Consumer;
 
@@ -158,6 +159,7 @@ public class ToolIconButton extends IconButton {
 						toolboxIconResource.getImageResource(ToolboxIcon.PARALLELOGRAM);
 					case MODE_SHAPE_STADIUM -> toolboxIconResource.getImageResource(ToolboxIcon.STADIUM);
 					case MODE_SHAPE_CURVE -> toolboxIconResource.getImageResource(ToolboxIcon.CURVE);
+					case MODE_STICKY_NOTE -> toolboxIconResource.getImageResource(ToolboxIcon.STICKY_NOTE);
 					default -> {
 						GGWToolBar.getImageResource(mode, appW, toolImg -> {
 							callback.accept(new ImageIconSpec((SVGResource) toolImg));

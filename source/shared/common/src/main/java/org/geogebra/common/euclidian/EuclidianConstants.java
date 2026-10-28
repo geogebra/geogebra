@@ -449,6 +449,7 @@ public final class EuclidianConstants {
 	public static final int MODE_SHAPE_STADIUM = 130;
 	public static final int MODE_SHAPE_PARALLELOGRAM = 131;
 	public static final int MODE_SHAPE_CURVE = 132;
+	public static final int MODE_STICKY_NOTE = 133;
 
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
@@ -940,6 +941,8 @@ public final class EuclidianConstants {
 				return "Curve";
 			case EuclidianConstants.MODE_SHAPE_PARALLELOGRAM:
 				return "Parallelogram";
+			case EuclidianConstants.MODE_STICKY_NOTE:
+				return "StickyNote";
 			default:
 				return "";
 		}
@@ -1022,6 +1025,7 @@ public final class EuclidianConstants {
 			case EuclidianConstants.MODE_SELECT_MOW:
 			case EuclidianConstants.MODE_SHAPE_CURVE:
 			case EuclidianConstants.MODE_SHAPE_PARALLELOGRAM:
+			case EuclidianConstants.MODE_STICKY_NOTE:
 				return true;
 			default:
 				return false;

@@ -1035,6 +1035,10 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		setCursorClass("cursor_text");
 	}
 
+	private void setStickyNoteCursor() {
+		setCursorClass("cursor_sticky_note");
+	}
+
 	private void setCrosshairCursor() {
 		setCursorClass("cursor_crosshair");
 	}
@@ -1292,6 +1296,9 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 				return;
 			case TEXT:
 				setTextCursor();
+				return;
+			case STICKY_NOTE:
+				setStickyNoteCursor();
 				return;
 			case CROSSHAIR:
 				setCrosshairCursor();

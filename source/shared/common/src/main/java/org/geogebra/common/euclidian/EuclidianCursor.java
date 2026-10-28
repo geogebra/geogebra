@@ -60,6 +60,10 @@ public enum EuclidianCursor {
 	TABLE,
 	/** Text */
 	TEXT,
+	/**
+	 * Sticky note
+	 */
+	STICKY_NOTE,
 	/** Indicates grabbing is possible */
 	GRAB,
 	/** Grabbing is ongoing */
