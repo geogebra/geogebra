@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.util.StringUtil;
+import org.jspecify.annotations.NonNull;
 
 public abstract class AbstractTableValuesColumn implements TableValuesColumn {
 
@@ -107,6 +108,11 @@ public abstract class AbstractTableValuesColumn implements TableValuesColumn {
 	@Override
 	public GeoEvaluatable getEvaluatable() {
 		return element;
+	}
+
+	@Override
+	public boolean isColumnFor(@NonNull GeoEvaluatable evaluatable) {
+		return element == evaluatable;
 	}
 
 	@Override

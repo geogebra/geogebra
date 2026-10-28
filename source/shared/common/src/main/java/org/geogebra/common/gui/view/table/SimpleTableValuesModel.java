@@ -202,7 +202,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		GeoElementND unwrapped = evaluatable.unwrapSymbolic();
 		if (unwrapped != null && unwrapped.isGeoList()) {
 			GeoList list = (GeoList) unwrapped;
-			return new TableValuesListColumn(list);
+			return new TableValuesListColumn(list, evaluatable);
 		}
 		return new TableValuesFunctionColumn(evaluatable, getValueList());
 	}
@@ -279,7 +279,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	 */
 	int getEvaluatableIndex(GeoEvaluatable evaluatable) {
 		for (int i = 0; i < columns.size(); i++) {
-			if (columns.get(i).getEvaluatable() == evaluatable) {
+			if (columns.get(i).isColumnFor(evaluatable)) {
 				return i;
 			}
 		}

@@ -17,13 +17,19 @@
 package org.geogebra.common.gui.view.table;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.util.MockedCasValues;
+import org.geogebra.common.util.MockedCasValuesExtension;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(MockedCasValuesExtension.class)
 class TableValuesTests extends BaseAppTestSetup {
 	@Test
 	@Issue("APPS-7435")
@@ -40,5 +46,21 @@ class TableValuesTests extends BaseAppTestSetup {
 		assertNull(tableValuesPoints.getPointListForColumn(2));
 		// Checking visibility points on a non-existent column shouldn't cause a crash.
 		assertDoesNotThrow(() -> tableValuesPoints.setPointsVisible(2, false));
+	}
+
+	@Test
+	@Issue("APPS-8069")
+	@MockedCasValues({"Evaluate({1, 2, 3}) -> {1,2,3}"})
+	void showingSymbolicListColumnTwiceDoesNotDuplicateColumn() {
+		setupApp(SuiteSubApp.CAS);
+		TableValues tableValues = new TableValuesView(getKernel());
+		getKernel().attach(tableValues);
+		GeoSymbolic list = evaluateGeoElement("{1, 2, 3}");
+
+		tableValues.showColumn(list);
+		tableValues.showColumn(list);
+
+		assertEquals(2, tableValues.getTableValuesModel().getColumnCount());
+		assertEquals(1, tableValues.getColumn(list));
 	}
 }

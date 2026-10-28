@@ -19,6 +19,7 @@ package org.geogebra.common.gui.view.table.column;
 import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Table values column.
@@ -55,4 +56,13 @@ public interface TableValuesColumn extends TableValuesListener {
 	 * @return evaluatable
 	 */
 	GeoEvaluatable getEvaluatable();
+
+	/**
+	 * Checks if this column shows the given evaluatable. This can be true even if
+	 * {@link #getEvaluatable()} returns a different object, for example for a symbolic list
+	 * the column holds the twin list of the symbolic element.
+	 * @param evaluatable evaluatable
+	 * @return true if this column was created for the evaluatable
+	 */
+	boolean isColumnFor(@NonNull GeoEvaluatable evaluatable);
 }

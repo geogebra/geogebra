@@ -20,18 +20,37 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.jspecify.annotations.NonNull;
 
 public class TableValuesListColumn extends AbstractTableValuesColumn {
 
 	private final GeoList list;
+	private final GeoEvaluatable source;
 
 	/**
 	 * Creates a list column.
 	 * @param list list
 	 */
 	public TableValuesListColumn(GeoList list) {
+		this(list, list);
+	}
+
+	/**
+	 * Creates a list column for an evaluatable that is shown as a list
+	 * (e.g. a symbolic element with a list twin).
+	 * @param list list with the values of the column
+	 * @param source evaluatable for which the column is created
+	 */
+	public TableValuesListColumn(@NonNull GeoList list, @NonNull GeoEvaluatable source) {
 		super(list);
 		this.list = list;
+		this.source = source;
+	}
+
+	@Override
+	public boolean isColumnFor(@NonNull GeoEvaluatable evaluatable) {
+		return super.isColumnFor(evaluatable) || source == evaluatable;
 	}
 
 	@Override
