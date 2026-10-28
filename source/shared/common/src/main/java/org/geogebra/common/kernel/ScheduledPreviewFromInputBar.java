@@ -60,6 +60,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private String[] sliders;
 
 	private final Set<GeoElementSetup> geoElementSetups = new HashSet<>();
+	private GeoElementND @Nullable [] redefineGeos;
 
 	/**
 	 * @param kernel
@@ -194,7 +195,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 						buildPreviewGeos(inputGeos, ve.getLabel());
 					}
 					this.kernel.notifyUpdatePreviewFromInputBar(previewGeos);
-				} else if (PreviewFeature.isAvailable(PreviewFeature.MOB_PREVIEW_WHEN_EDITING)
+				} else if (PreviewFeature.MOB_PREVIEW_WHEN_EDITING.isAvailable()
 						&& !existingGeo.hasChildren()
 						&& existingGeo.isIndependent()) {
 					previewRedefine(ve, existingGeo, info);
@@ -257,14 +258,17 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private void previewRedefine(ValidExpression ve, GeoElement existingGeo, EvalInfo info) {
 		ve.setLabels(null);
 		resetIfValid(); // reset if no syntax error, command errors triggered below
-		GeoElementND[] inputGeos = evalValidExpression(ve, info);
-		if (inputGeos != null && inputGeos.length == 1) {
-			GeoElementND redefined = inputGeos[0];
+		redefineGeos = evalValidExpression(ve, info);
+		if (redefineGeos != null && redefineGeos.length > 0) {
+			GeoElementND redefined = redefineGeos[0];
 			if (redefined.getGeoClassType() == existingGeo.getGeoClassType()) {
 				existingGeo.set(redefined);
 				geoElementSetups.forEach(setup -> setup.applyTo(existingGeo));
 				kernel.notifyUpdatePreviewFromInputBar(new GeoElement[] {existingGeo});
 			}
+		} else {
+			existingGeo.setUndefined();
+			kernel.notifyUpdatePreviewFromInputBar(new GeoElement[] {existingGeo});
 		}
 	}
 
@@ -294,6 +298,13 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		if (previewGeos != null) {
 			for (GeoElementND geo : previewGeos) {
 				geo.remove();
+				if (geo.getParentAlgorithm() != null) {
+					geo.getParentAlgorithm().remove();
+				}
+			}
+		}
+		if (redefineGeos != null) {
+			for (GeoElementND geo : redefineGeos) {
 				if (geo.getParentAlgorithm() != null) {
 					geo.getParentAlgorithm().remove();
 				}

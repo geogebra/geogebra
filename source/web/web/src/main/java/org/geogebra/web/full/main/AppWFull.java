@@ -1337,6 +1337,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final void closePopups() {
 		super.closePopups();
+		if (!isUnbundled() && getGuiManager() != null && getGuiManager().hasAlgebraView()) {
+			getAlgebraView().resetItems(false);
+		}
 		PopupMenuButtonW.resetCurrentPopup();
 		if (getToolbar() != null && getToolbar().isMobileToolbar()) {
 			getToolbar().getToolBar().closeAllSubmenu();

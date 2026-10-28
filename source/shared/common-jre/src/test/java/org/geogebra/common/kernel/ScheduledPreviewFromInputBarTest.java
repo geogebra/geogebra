@@ -22,8 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.ErrorAccumulator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +38,12 @@ class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 	void setupPreview() {
 		preview = new ScheduledPreviewFromInputBar(getKernel(), Integer.MAX_VALUE);
 		errorHandler = new ErrorAccumulator();
+		PreviewFeature.setPreviewFeaturesEnabled(true);
+	}
+
+	@AfterEach
+	void tearDown() {
+		PreviewFeature.setPreviewFeaturesEnabled(false);
 	}
 
 	@Test
@@ -64,6 +72,17 @@ class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 	}
 
 	@Test
+	void shouldRemovePreviousPreviewAfterRedefine() {
+		add("R=(1,1)");
+		assertEquals(0, getConstruction().getAlgoList().size());
+		preview.updatePreviewFromInputBar("R=Root(x-4)", errorHandler);
+		preview.updatePreviewFromInputBar("R=Root(x^2-4)", errorHandler);
+		assertEquals(1, getConstruction().getAlgoList().size());
+		preview.clear();
+		assertEquals(0, getConstruction().getAlgoList().size());
+	}
+
+	@Test
 	void shouldValidateRedefinition() {
 		add("a=2");
 		preview.updatePreviewFromInputBar("a=1", errorHandler);
@@ -71,8 +90,16 @@ class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 		preview.updatePreviewFromInputBar("a=1+", errorHandler);
 		assertEquals("Please check your input", errorHandler.getErrors());
 		preview.updatePreviewFromInputBar("a=1/(1,1,1)", errorHandler);
-		// TODO with APPS-76 we should notice the invalid syntax
-		assertEquals("", errorHandler.getErrorsSinceReset());
+		assertEquals("Illegal division \n1 / (1, 1, 1) ", errorHandler.getErrorsSinceReset());
+	}
+
+	@Test
+	void shouldUpdateMultiValued() {
+		GeoElement point = add("A=(1,1)");
+		preview.updatePreviewFromInputBar("A=Root(x-4)", errorHandler);
+		assertEquals("(4, 0)", point.toValueString(StringTemplate.editTemplate));
+		preview.updatePreviewFromInputBar("A=Root(x^2-4)", errorHandler);
+		assertEquals("(-2, 0)", point.toValueString(StringTemplate.editTemplate));
 	}
 
 	@Test

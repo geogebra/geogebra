@@ -457,17 +457,21 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected boolean updateValuePanel(String text) {
+		return updateValuePanel(text, geo);
+	}
+
+	protected boolean updateValuePanel(String text, GeoElement geoElement) {
 		if (outputPanel == null) {
 			return false;
 		}
-		boolean ret = outputPanel.updateValuePanel(geo, text, latex, getFontSize());
-		if (geo != null && shouldShowOutputButton(geo)) {
+		boolean ret = outputPanel.updateValuePanel(geoElement, text, latex, getFontSize());
+		if (geoElement != null && shouldShowOutputButton(geoElement)) {
 			addControls();
 			createOutputButtonIfNeeded();
 			AlgebraOutputPanel.updateOutputPanelButton(
 					symbolicButton,
 					controls,
-					geo,
+					geoElement,
 					isEngineeringNotationEnabled(),
 					getAlgebraOutputFormatFilters());
 
@@ -565,7 +569,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		ariaPreview = null;
 		outputPanel.reset();
-		definitionValuePanel.removeFromParent();
+		if (isInputTreeItem()) {
+			definitionValuePanel.removeFromParent();
+		}
 	}
 
 	/**
@@ -582,7 +588,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 */
 	public void previewValue(GeoElement previewGeo) {
 
-		if (previewGeo.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE
+		if (previewGeo.getDescriptionMode() == DescriptionMode.DEFINITION
 				|| getController().isInputAsText()
 				|| !previewGeo.isAllowedToShowValue()) {
 			clearPreview();
@@ -608,7 +614,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				content.add(definitionValuePanel);
 			}
 		} else {
-			if (updateOutputValuePanel()) {
+			if (updateOutputValuePanel(previewGeo)) {
 				outputPanel.addValuePanel();
 			}
 		}
@@ -621,14 +627,19 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected boolean updateOutputValuePanel() {
-		initIfRationazableFraction();
-		return updateValuePanel(
-				geo.getLaTeXDescriptionRHS(true, app.getConfig().getOutputStringTemplate()));
+		return updateOutputValuePanel(geo);
 	}
 
-	private void initIfRationazableFraction() {
-		if (geo.isGeoNumeric() && geo.getDefinition() != null) {
-			geo.getDefinition().isRationalizableFraction();
+	protected boolean updateOutputValuePanel(GeoElement geoElement) {
+		initIfRationazableFraction(geoElement);
+		return updateValuePanel(
+				geoElement.getLaTeXDescriptionRHS(true, app.getConfig().getOutputStringTemplate()),
+				geoElement);
+	}
+
+	private void initIfRationazableFraction(GeoElement geoElement) {
+		if (geoElement.isGeoNumeric() && geoElement.getDefinition() != null) {
+			geoElement.getDefinition().isRationalizableFraction();
 		}
 	}
 

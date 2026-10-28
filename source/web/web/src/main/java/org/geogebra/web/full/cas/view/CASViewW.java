@@ -102,12 +102,6 @@ public final class CASViewW extends CASView implements PrintableW {
 	}
 
 	@Override
-	public boolean isShowing() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public CASTableW getConsoleTable() {
 		return consoleTable;
 	}
@@ -217,11 +211,6 @@ public final class CASViewW extends CASView implements PrintableW {
 	public void attachView() {
 		super.attachView();
 		maybeOpenKeyboard(false);
-	}
-
-	@Override
-	public void resetItems(boolean unselectAll) {
-		this.getConsoleTable().getEditor().onEnter(false);
 	}
 
 	/**

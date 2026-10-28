@@ -110,12 +110,9 @@ public class AlgebraViewD extends AlgebraTree
 
 	/** Creates new AlgebraView */
 	public AlgebraViewD(AlgebraControllerD algCtrl) {
-
 		super(algCtrl, true);
-
 		// Initialize settings and register listener
 		getSettings().addListener(this);
-
 		settingsChanged(getSettings());
 	}
 
@@ -1013,14 +1010,7 @@ public class AlgebraViewD extends AlgebraTree
 		// only used in web
 	}
 
-	@Override
-	public void resetItems(boolean clear) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void cancelEditItem() {
+	void cancelEditItem() {
 		cancelEditing();
 	}
 

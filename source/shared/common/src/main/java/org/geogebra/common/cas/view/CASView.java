@@ -20,11 +20,11 @@ import java.util.Collections;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -37,7 +37,8 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Platform independent abstract CAS view
  */
-public abstract class CASView implements Editing, SetLabels {
+public abstract class CASView implements View, SetLabels {
+
 	/** Default CAS toolbar */
 	public static final String TOOLBAR_DEFINITION_D =
 			"1001 | 1002 | 1003 " + " || 1005 | 1004 || 1006 | 1007 | 1010 || 1008 1009 || 66 68 || 6";
@@ -550,7 +551,9 @@ public abstract class CASView implements Editing, SetLabels {
 		return null;
 	}
 
-	@Override
+	/**
+	 * Cancel editing an item.
+	 */
 	public void cancelEditItem() {
 		CASTable table = getConsoleTable();
 		table.stopEditing();

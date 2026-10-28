@@ -2203,4 +2203,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Set
 		NotesLayout notesLayout = getNotesLayout();
 		notesLayout.addCustomTool(icon, name, category, callback);
 	}
+
+	@Override
+	public void cancelCasEditing() {
+		if (casView != null) {
+			casView.cancelEditItem();
+		}
+	}
 }

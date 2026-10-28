@@ -17,22 +17,23 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
-import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.jspecify.annotations.Nullable;
 
 /**
  * Algebra view -- shows algebraic representation of the objects either as
- * value, definition or command
+ * value, definition or command.
  */
-public interface AlgebraView extends Editing, SetLabels {
+public interface AlgebraView extends View, SetLabels {
+
 	/**
-	 * Returns whether this view is currently visible
+	 * Returns whether this view is currently visible.
 	 *
 	 * @return whether this view is currently visible
 	 */
-	boolean isVisible();
+	boolean isShowing();
 
 	/**
 	 * Start editing an element

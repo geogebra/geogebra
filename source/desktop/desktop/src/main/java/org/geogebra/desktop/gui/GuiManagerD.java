@@ -3019,4 +3019,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				loc.getMenu("General.ImportSuccessful"),
 				JOptionPane.INFORMATION_MESSAGE);
 	}
+
+	@Override
+	public void cancelCasEditing() {
+		if (casView != null) {
+			casView.cancelEditItem();
+		}
+	}
 }

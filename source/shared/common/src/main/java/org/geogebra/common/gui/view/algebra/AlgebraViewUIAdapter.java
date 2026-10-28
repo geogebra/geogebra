@@ -142,7 +142,7 @@ public class AlgebraViewUIAdapter {
 		// -- org.geogebra.common.gui.view.algebra.AlgebraView --
 
 		@Override
-		public boolean isVisible() {
+		public boolean isShowing() {
 			return isVisible;
 		}
 
@@ -307,19 +307,6 @@ public class AlgebraViewUIAdapter {
 			if (uiDelegate != null) {
 				uiDelegate.updatePreviewFromInputBar(geos);
 			}
-		}
-
-		// -- org.geogebra.common.gui.Editing --
-
-		@Override
-		public void cancelEditItem() {}
-
-		@Override
-		public void resetItems(boolean unselectAll) {}
-
-		@Override
-		public boolean isShowing() {
-			return isVisible;
 		}
 
 		// -- org.geogebra.common.gui.SetLabels --

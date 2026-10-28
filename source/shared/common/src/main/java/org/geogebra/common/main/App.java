@@ -1482,9 +1482,8 @@ public abstract class App
 	public LabelVisibility getCurrentLabelingStyle() {
 		LabelVisibility userValue = getSettings().getLabelSettings().getLabelVisibility();
 		if (userValue == LabelVisibility.Automatic) {
-			if ((getGuiManager() != null)
-					&& getGuiManager().hasAlgebraViewShowing()
-					&& getAlgebraView().isVisible()) {
+			// check for AV.isVisible() removed in APPS-76, hasAlgebraViewShowing should imply it
+			if ((getGuiManager() != null) && getGuiManager().hasAlgebraViewShowing()) {
 				// default behaviour for other views
 				return LabelVisibility.UseDefaults;
 			}

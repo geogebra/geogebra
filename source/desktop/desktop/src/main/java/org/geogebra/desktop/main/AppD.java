@@ -1495,7 +1495,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (guiManager == null) {
 			return null;
 		}
-		return (AlgebraView) guiManager.getAlgebraView();
+		return guiManager.getAlgebraView();
 	}
 
 	@Override

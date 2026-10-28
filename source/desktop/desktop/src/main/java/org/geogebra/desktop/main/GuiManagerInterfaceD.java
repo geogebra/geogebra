@@ -22,6 +22,7 @@ import java.util.Set;
 
 import javax.swing.ListCellRenderer;
 
+import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.GuiManagerInterface;
@@ -204,4 +205,9 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	 * Reset th spreadsheet.
 	 */
 	void resetSpreadsheet();
+
+	/**
+	 * @return the algebra view (lazily loaded)
+	 */
+	AlgebraView getAlgebraView();
 }

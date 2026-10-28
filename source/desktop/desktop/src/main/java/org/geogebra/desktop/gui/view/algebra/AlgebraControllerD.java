@@ -87,7 +87,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		getView().cancelEditItem();
+		((AlgebraViewD) getView()).cancelEditItem();
 		boolean rightClick = app.isRightClickEnabled() && MouseEventUtil.isRightClick(e);
 		if (rightClick) { // RIGHT CLICK
 			GPoint mouseCoords = new GPoint(e.getPoint().x, e.getPoint().y);

@@ -795,4 +795,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void scrollSpreadsheetToCell(GeoElement geo, String labelNew) {
 		// only in desktop and web
 	}
+
+	@Override
+	public void cancelCasEditing() {
+		// only in desktop and web
+	}
 }

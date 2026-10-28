@@ -1348,7 +1348,7 @@ public final class AlgebraViewW extends Tree
 		scrollOnRepaint = false;
 		latexLoaded = false;
 		clearTree();
-		activeItem = null;
+		clearActiveItem();
 		if (inputPanelLatex != null) {
 			inputPanelLatex.setText("");
 		}
@@ -1700,7 +1700,6 @@ public final class AlgebraViewW extends Tree
 		if (activeItem != null && !selectionCtrl.isMultiSelect()) {
 			selectRow(activeItem.getGeo(), false);
 		}
-
 		this.activeItem = item;
 		//
 		if (activeItem != null) {
@@ -1722,7 +1721,7 @@ public final class AlgebraViewW extends Tree
 			activeItem.removeCloseButton();
 			stopCurrentEditor();
 			// use setter to make sure current item is reset correctly
-			activeItem = null;
+			clearActiveItem();
 		}
 	}
 
@@ -1764,10 +1763,13 @@ public final class AlgebraViewW extends Tree
 
 	@Override
 	public void updatePreviewFromInputBar(GeoElement @NonNull [] geos) {
-		if (geos.length > 0 && getActiveTreeItem() != null) {
-			getActiveTreeItem().previewValue(geos[0]);
-		} else if (inputPanelLatex != null) {
-			inputPanelLatex.clearPreviewAndSuggestions();
+		RadioTreeItem activeTreeItem = getActiveTreeItem();
+		if (activeTreeItem != null) {
+			if (geos.length > 0) {
+				activeTreeItem.previewValue(geos[0]);
+			} else {
+				activeTreeItem.clearPreviewAndSuggestions();
+			}
 		}
 	}
 
@@ -1776,8 +1778,7 @@ public final class AlgebraViewW extends Tree
 		return Dom.isAttachedAndVisible(this);
 	}
 
-	@Override
-	public void cancelEditItem() {
+	void cancelEditItem() {
 		editItem = false;
 		setAnimationEnabled(true);
 	}
@@ -1843,7 +1844,6 @@ public final class AlgebraViewW extends Tree
 		RadioTreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-			cancelEditItem();
 			editItem = true;
 			setAnimationEnabled(false);
 			expandAVToItem(node);
@@ -1876,10 +1876,7 @@ public final class AlgebraViewW extends Tree
 		RadioTreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-			cancelEditItem();
-			// FIXMEWEB select and show node
 			editItem = true;
-
 			setAnimationEnabled(false);
 			expandAVToItem(node);
 			if (!node.enterEditMode(false)) {
@@ -2098,8 +2095,10 @@ public final class AlgebraViewW extends Tree
 		activeItem = null;
 	}
 
-	@Override
-	public void resetItems(boolean unselectAll) {
+	/**
+	 * Finish editing and update currently edited item.
+	 */
+	public void resetItems(boolean unused) {
 		MinMaxPanel.closeMinMaxPanel();
 
 		cancelEditItem();

@@ -36,17 +36,6 @@ public class CASViewNoGui extends CASView {
 	}
 
 	@Override
-	public void resetItems(boolean unselectAll) {
-		// mock implementation
-	}
-
-	@Override
-	public boolean isShowing() {
-		// mock implementation
-		return false;
-	}
-
-	@Override
 	public void repaintView() {
 		// mock implementation
 	}

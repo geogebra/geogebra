@@ -339,12 +339,6 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		return false;
 	}
 
-	@Override
-	public boolean isShowing() {
-		Log.debug("unimplemented");
-		return false;
-	}
-
 	/**
 	 * @return this casView
 	 */
@@ -376,10 +370,5 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	 */
 	public ListSelectionModel getListSelModel() {
 		return listSelModel;
-	}
-
-	@Override
-	public void resetItems(boolean unselectAll) {
-		// nothing to do in desktop
 	}
 }

@@ -119,7 +119,7 @@ public class HTML5Export {
 		sb.append(useWeb3D ? "1" : "0");
 		if (gui != null) {
 			sb.append(",'AV': ");
-			sb.append(gui.hasAlgebraView() && gui.getAlgebraView().isShowing() ? "1" : "0");
+			sb.append(gui.hasAlgebraView() && app.showView(App.VIEW_ALGEBRA) ? "1" : "0");
 			sb.append(",'SV': ");
 			sb.append(gui.hasSpreadsheetView() && app.showView(App.VIEW_SPREADSHEET) ? "1" : "0");
 			sb.append(",'CV': ");

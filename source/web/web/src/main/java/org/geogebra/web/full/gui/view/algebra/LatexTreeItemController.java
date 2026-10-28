@@ -154,7 +154,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 		// make sure editing flag is up to date e.g. after failed redefine
 		setEditing(true);
 		onEnter(true);
-		item.getAV().clearActiveItem();
+		if (!isEditing()) {
+			item.getAV().clearActiveItem();
+		}
 		dispatchKeyTypeEvent("\n");
 	}
 

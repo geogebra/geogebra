@@ -2241,10 +2241,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		closePopupsNoTooltips();
 		getToolTipManager().hideTooltip();
 
-		if (!isUnbundled() && getGuiManager() != null && getGuiManager().hasAlgebraView()) {
-			getAlgebraView().resetItems(false);
-		}
-
 		if (getActiveEuclidianView() != null) {
 			getActiveEuclidianView().getEuclidianController().setObjectMenuActive(false);
 		}

@@ -1247,7 +1247,7 @@ public class AlgebraProcessor {
 
 	private GeoCasCell casEval(int row, String rhs) {
 		if (app.getGuiManager() != null) {
-			app.getGuiManager().getCasView().cancelEditItem();
+			app.getGuiManager().cancelCasEditing();
 		}
 		StringBuilder oldXML = cons.getCurrentUndoXML(false);
 		GeoCasCell cell = cons.getCasCell(row);

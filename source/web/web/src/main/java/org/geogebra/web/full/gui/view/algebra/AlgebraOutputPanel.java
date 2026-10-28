@@ -178,14 +178,14 @@ public final class AlgebraOutputPanel extends FlowPanel {
 	}
 
 	/**
-	 * @param geo1 geoelement
+	 * @param geo1 construction element
 	 * @param text text content
 	 * @param latex whether the text is LaTeX
 	 * @param fontSize size in pixels
 	 * @return whether update was successful (AV has value panel)
 	 */
 	boolean updateValuePanel(GeoElement geo1, String text, boolean latex, int fontSize) {
-		if (geo1 == null || geo1.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE) {
+		if (geo1 == null || geo1.getDescriptionMode() == DescriptionMode.DEFINITION) {
 			return false;
 		}
 		clear();

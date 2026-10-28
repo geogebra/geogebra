@@ -24,7 +24,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
@@ -194,7 +193,7 @@ public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 	View getConstructionProtocolData();
 
 	@MissingDoc
-	Editing getCasView();
+	View getCasView();
 
 	@MissingDoc
 	boolean hasCasView();
@@ -418,11 +417,6 @@ public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 	boolean hasEuclidianView2EitherShowingOrNot(int idx);
 
 	/**
-	 * @return algebra view
-	 */
-	Editing getAlgebraView();
-
-	/**
 	 * Apply algebra view settings.
 	 */
 	void applyAlgebraViewSettings();
@@ -640,4 +634,9 @@ public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 	 * @param labelNew new label
 	 */
 	void scrollSpreadsheetToCell(GeoElement geo, String labelNew);
+
+	/**
+	 * Cancel editing of current Classic CAS cell.
+	 */
+	void cancelCasEditing();
 }

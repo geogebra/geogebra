@@ -56,7 +56,7 @@ public final class AlgebraControllerW extends AlgebraController
 	}
 
 	private void mousePressed(AbstractEvent e) {
-		getView().cancelEditItem();
+		((AlgebraViewW) getView()).cancelEditItem();
 		boolean rightClick = app.isRightClickEnabled() && e.isRightClick();
 
 		// RIGHT CLICK: no global menu; per-item menu handled elsewhere

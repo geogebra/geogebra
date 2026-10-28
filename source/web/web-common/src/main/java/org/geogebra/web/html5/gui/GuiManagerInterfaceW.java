@@ -261,7 +261,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void resetMenuIfScreenChanged();
 
-	@Override
+	/**
+	 * @return the algebra view
+	 */
 	AlgebraView getAlgebraView();
 
 	/**
