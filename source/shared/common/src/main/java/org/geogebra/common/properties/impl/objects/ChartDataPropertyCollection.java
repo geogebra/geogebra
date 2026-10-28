@@ -54,7 +54,21 @@ public class ChartDataPropertyCollection extends AbstractPropertyCollection<Prop
 		super(localization, "Data");
 		HistogramDataPropertyFactory histogramFactory =
 				new HistogramDataPropertyFactory(algebraProcessor, localization, elements);
+		BoxPlotDataPropertyFactory boxPlotFactory =
+				new BoxPlotDataPropertyFactory(localization, elements);
 		setProperties(Stream.<Property>of(
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								boxPlotFactory::createInputTypeProperty,
+								NamedEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements, boxPlotFactory::createDataProperty, StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements, boxPlotFactory::createFrequenciesProperty, StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								boxPlotFactory::createShowOutliersProperty,
+								BooleanPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
 								histogramFactory::createInputTypeProperty,
