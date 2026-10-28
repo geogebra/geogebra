@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
-import org.geogebra.common.kernel.cas.CasTestJsonCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -231,9 +230,7 @@ class ArbitraryConstIntegrationTest {
 
 			result = getOutput(f);
 		} catch (Throwable t) {
-			String sts = CasTestJsonCommon.stacktrace(t);
-
-			result = t.getClass().getName() + ":" + t.getMessage() + sts;
+			throw new AssertionError("CAS update failed", t);
 		}
 
 		assertThat(result, equalToIgnoreWhitespaces(logger, input, expectedResult, validResults));
