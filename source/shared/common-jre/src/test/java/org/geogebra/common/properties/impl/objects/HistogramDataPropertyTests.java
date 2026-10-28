@@ -26,11 +26,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
@@ -38,6 +40,7 @@ import org.geogebra.common.properties.impl.facade.AbstractPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.HistogramDataPropertyFactory.HistogramInputType;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -80,6 +83,32 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 
 		collection.getUseDensityProperty().setValue(true);
 		assertTrue(collection.getDensityScaleFactorProperty().isEnabled());
+	}
+
+	@Test
+	@Issue("APPS-8062")
+	void switchingInputTypeWithoutStoredListUpdatesOtherViews() {
+		GeoElement histogram = evaluateGeoElement("Histogram({0,1,2,3},{2,3,1})");
+		String label = histogram.getLabelSimple();
+		ChartDataPropertyCollection chartData =
+				assertDoesNotThrow(() -> createChartData(List.of(histogram)));
+		List<PropertyView> views = ((PropertyView.RelatedPropertyViewCollection)
+						PropertyView.of(chartData))
+				.getPropertyViews();
+		PropertyView rawDataView = views.get(3);
+		AtomicBoolean rawDataVisibilityUpdated = new AtomicBoolean();
+		rawDataView.setVisibilityUpdateDelegate(() -> rawDataVisibilityUpdated.set(true));
+		HistogramProperties collection = new HistogramProperties(chartData);
+
+		collection.getInputTypeProperty().setValue(HistogramInputType.RAW_DATA);
+		assertEquals("Histogram({0, 1, 2, 3}, {}, false, 1)", getDefinition(label));
+		assertTrue(rawDataVisibilityUpdated.get());
+		assertTrue(rawDataView.isVisible());
+
+		collection.getRawDataProperty().setValue("{1,2}");
+		collection.getInputTypeProperty().setValue(HistogramInputType.HEIGHTS);
+		assertEquals("Histogram({0, 1, 2, 3}, {2, 3, 1})", getDefinition(label));
+		assertFalse(rawDataView.isVisible());
 	}
 
 	@Test

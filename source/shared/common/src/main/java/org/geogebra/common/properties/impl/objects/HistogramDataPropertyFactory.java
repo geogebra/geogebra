@@ -302,23 +302,27 @@ final class HistogramDataPropertyFactory {
 
 		private @NonNull List<String> getCommandParameters() {
 			if (data.inputType == HistogramInputType.HEIGHTS) {
-				return List.of(data.classBoundaries, data.heights == null ? "" : data.heights);
+				return List.of(toListInput(data.classBoundaries), toListInput(data.heights));
 			}
 			// Raw-data edits intentionally emit an explicit density factor;
 			// omitted factors default to 1.
 			if (data.cumulative) {
 				return List.of(
 						"true",
-						data.classBoundaries,
-						data.rawData == null ? "" : data.rawData,
+						toListInput(data.classBoundaries),
+						toListInput(data.rawData),
 						Boolean.toString(data.useDensity),
 						data.densityScaleFactor);
 			}
 			return List.of(
-					data.classBoundaries,
-					data.rawData == null ? "" : data.rawData,
+					toListInput(data.classBoundaries),
+					toListInput(data.rawData),
 					Boolean.toString(data.useDensity),
 					data.densityScaleFactor);
+		}
+
+		private static @NonNull String toListInput(@Nullable String list) {
+			return list == null || list.isEmpty() ? "{}" : list;
 		}
 	}
 
