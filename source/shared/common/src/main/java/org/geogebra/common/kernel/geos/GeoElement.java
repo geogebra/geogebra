@@ -4664,13 +4664,22 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		sb.attr("thickness", lineThickness);
 		sb.attr("type", lineType);
 		sb.attr("typeHidden", lineTypeHidden);
-		if (hasLineOpacity() && getLineOpacity() < 255) {
+		if (shouldSaveLineOpacity()) {
 			sb.attr("opacity", lineOpacity);
 		}
 		if (isDrawArrows()) {
 			sb.attr("drawArrow", true);
 		}
 		sb.endTag();
+	}
+
+	/**
+	 * Decides whether to store line opacity, may not be invoked if
+	 * {@link #getStyleXML(XMLStringBuilder)} overridden.
+	 * @return whether line opacity should be stored in XML, assuming styles are stored at all
+	 */
+	protected boolean shouldSaveLineOpacity() {
+		return hasLineOpacity() && getLineOpacity() < 255;
 	}
 
 	/**

@@ -1763,6 +1763,11 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
+	protected boolean shouldSaveLineOpacity() {
+		return true;
+	}
+
+	@Override
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric copy = this.copy(); // should handle GeoAngle too
 		spreadsheetTraceList.add(copy);

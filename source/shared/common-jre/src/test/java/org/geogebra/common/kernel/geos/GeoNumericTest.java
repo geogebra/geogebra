@@ -322,6 +322,15 @@ class GeoNumericTest extends BaseAppTestSetup {
 	}
 
 	@Test
+	@Issue("APPS-8042")
+	void sliderShouldKeepOpacityOnReload() {
+		evaluate("n=Slider(0,1)");
+		evaluate("SetLineOpacity(n,1)");
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals(255, lookup("n").getLineOpacity());
+	}
+
+	@Test
 	void sliderShouldSaveVariableToXMLWhenMinIsGreaterOrEqualToMax() {
 		addAvInput("a = Slider(1, 10)");
 		addAvInput("b = Slider(2, a)");
