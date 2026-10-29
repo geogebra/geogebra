@@ -6248,6 +6248,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					view.toRealWorldCoordY(inlinePreviewRectangle.getY()));
 			inlineObject = factory.newInlineObject(kernel.getConstruction(), initPoint);
 
+			// Synchronize screen dimensions with zoom before resizing the preview
+			inlineObject.zoomIfNeeded();
+
 			int width = (int) Math.max(inlineObject.getMinWidth(), inlinePreviewRectangle.getWidth());
 			int height = (int) Math.max(inlineObject.getMinHeight(), inlinePreviewRectangle.getHeight());
 

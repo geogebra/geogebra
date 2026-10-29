@@ -49,6 +49,8 @@ public class LocalizationCommonUTF extends LocalizationCommon {
 		if (key.startsWith("_")
 				|| List.of(
 								"InlineText",
+								"Formula",
+								"MindMap",
 								"Function.npr",
 								"Function.ncr",
 								"Name.l",

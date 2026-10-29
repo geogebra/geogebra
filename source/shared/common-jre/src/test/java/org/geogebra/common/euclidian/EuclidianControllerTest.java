@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -37,6 +38,8 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @SuppressWarnings("javadoc")
 class EuclidianControllerTest extends BaseEuclidianControllerTest {
@@ -531,6 +534,38 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		assertEquals(140, b.getHeight(), Kernel.MAX_PRECISION);
 	}
 
+	@ParameterizedTest
+	@ValueSource(doubles = {25, 50, 100, 200, 400})
+	@Issue("MOW-1945")
+	void inlineTextToolKeepsDraggedSizeWhenZoomed(double scale) {
+		EuclidianView view = getApp().getActiveEuclidianView();
+		view.setCoordSystem(0, 0, scale, scale);
+		setMode(EuclidianConstants.MODE_MEDIA_TEXT);
+		dragStart(0, 0);
+		dragEnd(220, 140);
+
+		GeoInline text = (GeoInline) getApp().getKernel().getConstruction().getLastGeoElement();
+		assertDraggedSize(text, 220, 140, scale);
+
+		view.setCoordSystem(0, 0, scale * 2, scale * 2);
+		getDrawable(text).update();
+		assertEquals(440, text.getWidth());
+		assertEquals(280, text.getHeight());
+	}
+
+	@ParameterizedTest
+	@ValueSource(ints = {EuclidianConstants.MODE_EQUATION, EuclidianConstants.MODE_MIND_MAP})
+	@Issue("MOW-1945")
+	void inlineToolsKeepDraggedSizeWhenZoomed(int mode) {
+		getApp().getActiveEuclidianView().setCoordSystem(0, 0, 25, 25);
+		setMode(mode);
+		dragStart(50, 30);
+		dragEnd(350, 130);
+
+		GeoInline geo = (GeoInline) getApp().getKernel().getConstruction().getLastGeoElement();
+		assertDraggedSize(geo, 300, 100, 25);
+	}
+
 	@Test
 	@Issue("MOW-1911")
 	void onlyHttpsHttpAndMailtoLinksCanBeOpened() {
@@ -563,5 +598,15 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 				(GeoConic) getApp().getKernel().getAlgebraProcessor().evaluateToGeoElement(string, false);
 		c.setToImplicitForm();
 		return unicode(c.toValueString(StringTemplate.editTemplate));
+	}
+
+	private void assertDraggedSize(GeoInline geo, double width, double height, double scale) {
+		getDrawable(geo).update();
+		assertEquals(width, geo.getWidth());
+		assertEquals(height, geo.getHeight());
+
+		double zoom = scale / EuclidianView.SCALE_STANDARD;
+		assertEquals(width / zoom, geo.getContentWidth());
+		assertEquals(height / zoom, geo.getContentHeight());
 	}
 }
