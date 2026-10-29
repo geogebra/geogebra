@@ -47,7 +47,7 @@ public class ContextMenuItem {
 		STATISTICS_TWO_VARIABLES("2VariableStatistics"),
 		STATISTICS_REGRESSION("Regression"),
 		STATISTICS_FREQUENCY_TABLE("FrequencyTable"),
-		CREATE_CHART("ContextMenu.CreateChart"),
+		CREATE_CHART("ContextMenu.Charts"),
 		LINE_CHART("ContextMenu.LineChart"),
 		BAR_CHART("ContextMenu.BarChart"),
 		HISTOGRAM("Histogram"),
