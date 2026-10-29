@@ -7852,7 +7852,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		if (changed) {
 			selection.setSelectedGeos(newSelection);
-			updateBoundingBoxFromSelection(false);
 			showDynamicStylebar();
 			startBoundingBoxState = null;
 			if (removeOriginal) {
@@ -9631,7 +9630,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						// hit found
 						if (hits != null && hits.size() > 0) {
 							selection.addSelectedGeos(hits.getHitsGrouped(), true);
-							updateBoundingBoxFromSelection(false);
 						}
 					}
 				} else {
@@ -9680,6 +9678,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            whether the box should be in crop mode
 	 */
 	public void updateBoundingBoxFromSelection(boolean crop) {
+		if (!app.isWhiteboardActive()) {
+			return;
+		}
 		List<GeoElement> sel = selection.getSelectedGeos();
 		BoundingBox<? extends GShape> boundingBox = getSpecialBoundingBox();
 		if (boundingBox != null) {
@@ -9687,10 +9688,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				((MediaBoundingBox) boundingBox).setCropMode(crop);
 			}
 			view.setBoundingBox(boundingBox);
-			view.repaintView();
 		} else { // multi-selection
 			setBoundingBoxFromList(sel);
 		}
+		view.repaintView();
 	}
 
 	private BoundingBox<? extends GShape> getSpecialBoundingBox() {
@@ -9882,7 +9883,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& topHit.getParentGroup() == null)) {
 				selection.clearSelectedGeos(false, false);
 				selection.addSelectedGeoWithGroup(topHit);
-				updateBoundingBoxFromSelection(false);
 			}
 		}
 
@@ -12153,13 +12153,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * set the view attached to this
+	 * Set the view attached to this.
+	 * @implNote Initiates listener for selection updates: that can't happen in the constructor
+	 * since it only works once the view is attached.
 	 *
 	 * @param view
 	 *            view
 	 */
 	public void setView(EuclidianView view) {
 		this.view = view;
+		app.getSelectionManager().addListener((geos) -> updateBoundingBoxFromSelection(false));
 	}
 
 	public GPoint getMovePosition() {
@@ -12470,7 +12473,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& view.getBoundingBox() != null) {
 			return;
 		}
-
+		if (geos.isEmpty()) {
+			view.setBoundingBox(null);
+			return;
+		}
 		boolean hasRotationHandler = true;
 		boolean fixed = false;
 
@@ -12559,7 +12565,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 		clearSelections(false, false);
 		selection.addSelectedGeoWithGroup(geoElement);
-		updateBoundingBoxFromSelection(false);
 	}
 
 	boolean isLockedForMultiuser(GeoElement geo) {

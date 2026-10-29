@@ -18,8 +18,10 @@ package org.geogebra.common.euclidian;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
 import org.geogebra.common.kernel.StringTemplate;
@@ -36,12 +38,12 @@ class BoundingBoxTest extends BaseEuclidianControllerTest {
 	void setupNotes() {
 		setUpController();
 		getApp().setConfig(new AppConfigNotes());
+		getApp().setMode(EuclidianConstants.MODE_SELECT_MOW);
 	}
 
 	@Test
 	@Issue("MOW-1518")
 	void hittingHandlerShouldHavePriority() {
-		getApp().setMode(EuclidianConstants.MODE_SELECT_MOW);
 		GeoConic circle = add("Circle((1,-1),1)");
 		circle.setAlphaValue(1);
 		click(50, 50);
@@ -83,7 +85,6 @@ class BoundingBoxTest extends BaseEuclidianControllerTest {
 	@Test
 	@Issue("MOW-1820")
 	void fixedSizeGeoHasNoHandler() {
-		getApp().setMode(EuclidianConstants.MODE_SELECT_MOW);
 		GeoConic circle = add("Circle((1,-1),1)");
 		circle.setAlphaValue(1);
 		circle.setFixedSize(true);
@@ -105,7 +106,6 @@ class BoundingBoxTest extends BaseEuclidianControllerTest {
 	@Test
 	@Issue("MOW-1820")
 	void fixedSizeGeoStillMovable() {
-		getApp().setMode(EuclidianConstants.MODE_SELECT_MOW);
 		GeoConic circle = add("Circle((1,-1),1)");
 		circle.setAlphaValue(1);
 		circle.setFixedSize(true);
@@ -116,5 +116,15 @@ class BoundingBoxTest extends BaseEuclidianControllerTest {
 		dragStart(50, 50);
 		dragEnd(100, 100);
 		assertEquals("Circle((2, -2), 1)", circle.getDefinition(StringTemplate.algebraTemplate));
+	}
+
+	@Test
+	@Issue("APPS-1930")
+	void boundingBoxAfterSelectAll() {
+		add("BezierCurve((0,0),(2,0),(1,2),(3,2))");
+		EuclidianView view = getApp().getActiveEuclidianView();
+		getApp().getSelectionManager().selectAll(-1);
+		view.paint(new GGraphicsCommon());
+		assertInstanceOf(CurveBoundingBox.class, view.getBoundingBox());
 	}
 }

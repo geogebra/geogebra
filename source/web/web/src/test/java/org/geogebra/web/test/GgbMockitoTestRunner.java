@@ -25,6 +25,7 @@ import org.geogebra.regexp.client.NativeRegExp;
 import org.geogebra.web.awt.GGraphics2DW;
 import org.geogebra.web.awt.JLMContext2D;
 import org.geogebra.web.awt.JLMContextHelper;
+import org.geogebra.web.awt.MyImageW;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
@@ -151,6 +152,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
 		StubGenerator.replaceMethodWithMock(MathFieldW.class, "setForegroundColor", Void.class);
 		StubGenerator.replaceMethodWithMock(MathFieldW.class, "setAriaValue", Void.class);
 		StubGenerator.replaceMethodWithMock(MathFieldW.class, "requestViewFocus", Void.class);
+		StubGenerator.replaceMethodWithMock(MyImageW.class, "getSizesFromDOM", Void.class);
 	}
 
 	@Override
