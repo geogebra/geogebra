@@ -62,8 +62,9 @@ final class BoundarySegment {
 		this.maxX = Math.max(startX, endX);
 		this.minY = Math.min(startY, endY);
 		this.maxY = Math.max(startY, endY);
-		params[paramCount++] = 0.0;
-		params[paramCount++] = 1.0;
+		params[0] = 0.0;
+		params[1] = 1.0;
+		paramCount = 2;
 	}
 
 	void addParam(double t) {

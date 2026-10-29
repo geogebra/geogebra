@@ -28,8 +28,8 @@ import org.gwtproject.user.client.ui.Widget;
  * and the updateAnimateOutStyle() method has to be called before animating the widget out.
  */
 public class Animator {
-	private GeoGebraFrameW frame;
-	private Widget animatable;
+	private final GeoGebraFrameW frame;
+	private final Widget animatable;
 	protected Animation largeScreenAnimation;
 	protected Animation smallScreenAnimation;
 
