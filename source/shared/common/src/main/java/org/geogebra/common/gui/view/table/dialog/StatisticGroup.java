@@ -28,7 +28,13 @@ import org.jspecify.annotations.Nullable;
  * @param rows the rows of the group to display
  */
 public record StatisticGroup(
-		@Nullable AttributedString heading, @NonNull List<Row> rows) {
+		@Nullable AttributedString heading,
+		@NonNull List<Row> rows,
+		@NonNull StatisticKind kind) {
+
+	public StatisticGroup(@Nullable AttributedString heading, @NonNull List<Row> rows) {
+		this(heading, rows, StatisticKind.UNSPECIFIED);
+	}
 	/**
 	 * A labeled statistic value with an optional value for copying to the clipboard.
 	 * @param label label shown in the first half of the row

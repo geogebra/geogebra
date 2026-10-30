@@ -89,7 +89,10 @@ public class RegressionBuilder {
 				modelRows.add(
 						new StatisticGroup.Row(String.valueOf(coeffName), value, false, clipboardValue));
 			}
-			stats.add(new StatisticGroup(new AttributedString(loc.getMenu("Stats.Model")), modelRows));
+			stats.add(new StatisticGroup(
+					new AttributedString(loc.getMenu("Stats.Model")),
+					modelRows,
+					StatisticKind.REGRESSION_MODEL));
 			List<StatisticGroup.Row> fitQualityRows = new ArrayList<>();
 			if (regression.hasCoefficientOfDetermination()) {
 				addResidual(

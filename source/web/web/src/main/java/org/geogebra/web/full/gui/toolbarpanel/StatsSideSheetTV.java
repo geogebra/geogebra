@@ -23,6 +23,7 @@ import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel;
 import org.geogebra.common.gui.view.table.TableValuesStatisticsViewModel.Content;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.gui.view.table.dialog.StatisticKind;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.states.State;
 import org.geogebra.common.util.AttributedString;
@@ -110,6 +111,10 @@ public final class StatsSideSheetTV {
 		for (StatisticGroup statisticGroup : statistics) {
 			FlowPanel group = new FlowPanel();
 			group.addStyleName("group");
+
+			if (statisticGroup.kind() == StatisticKind.REGRESSION_MODEL) {
+				group.addStyleName("regressionModel");
+			}
 
 			addHeadingIfExists(statisticGroup.heading(), parent);
 
