@@ -19,6 +19,7 @@ package org.geogebra.web.cas.giac;
 import java.util.ArrayList;
 
 import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.cas.CasEvaluation;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.debug.Log;
@@ -75,8 +76,13 @@ public class CASgiacW extends CASgiac {
 
 	@Override
 	public String evaluateCAS(String exp) {
+		return evaluateCASResult(exp).getValue();
+	}
+
+	@Override
+	public CasEvaluation evaluateCASResult(String exp) {
 		if (!casLoaded()) {
-			return "?";
+			return CasEvaluation.value("?");
 		}
 		try {
 			// replace Unicode when sending to JavaScript
@@ -84,13 +90,13 @@ public class CASgiacW extends CASgiac {
 			String processedExp = CASparser.replaceIndices(exp, true);
 			String ret = evaluateRaw(processedExp);
 
-			return postProcess(ret);
+			return CasEvaluation.fromGiac(ret, postProcess(ret));
 
 			// } catch (TimeoutException toe) {
 			// throw new Error(toe.getMessage());
 		} catch (Throwable e) {
 			Log.debug("evaluateGiac: " + e.getMessage());
-			return "?";
+			return CasEvaluation.value("?");
 		}
 	}
 

@@ -21,6 +21,7 @@ import static org.geogebra.common.cas.giac.CASgiac.MAX_ALLOWED_STRING_LENGTH;
 import org.geogebra.common.cas.giac.binding.CASGiacBinding;
 import org.geogebra.common.cas.giac.binding.Gen;
 import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Task representing Giac expression evaluation.
@@ -30,6 +31,7 @@ public class EvalFunction implements Runnable {
 	protected boolean canceled;
 	private final String exp;
 	private final long timeoutMillis;
+	private volatile @Nullable String result;
 
 	/**
 	 * @param casGiac Giac CAS
@@ -51,10 +53,15 @@ public class EvalFunction implements Runnable {
 
 	@Override
 	public void run() {
-		String result = evalRaw(exp, timeoutMillis);
+		result = evalRaw(exp, timeoutMillis);
 		if (!canceled) {
 			casGiac.threadResult = result;
 		}
+	}
+
+	/** @return raw output produced by this worker, including Giac failure text */
+	public @Nullable String getResult() {
+		return result;
 	}
 
 	/**

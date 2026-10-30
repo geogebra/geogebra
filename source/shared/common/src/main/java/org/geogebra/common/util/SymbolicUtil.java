@@ -73,6 +73,9 @@ public class SymbolicUtil {
 	 *
 	 */
 	public static boolean isSymbolicSolveDiffers(GeoSymbolic symbolic) {
+		if (symbolic.isBinomialStepResult() || containsUndefinedOrIsEmpty(symbolic)) {
+			return false;
+		}
 		GeoSymbolic opposite = getOpposite(symbolic);
 		String textOriginal = getValueString(symbolic);
 		String textOpposite = getValueString(opposite);
@@ -127,7 +130,7 @@ public class SymbolicUtil {
 	 *
 	 */
 	public static void handleSolveNSolve(GeoSymbolic symbolic) {
-		if (isSolve(symbolic)) {
+		if (isSolve(symbolic) && !symbolic.isBinomialStepResult()) {
 			if (containsUndefinedOrIsEmpty(symbolic)
 					&& !containsUndefinedOrIsEmpty(getOpposite(symbolic))) {
 				toggleNumericSolve(symbolic);

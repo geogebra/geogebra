@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.annotations.HasNativeSubclass;
 import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.cas.CasEvaluation;
 import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.binding.CASGiacBinding;
 import org.geogebra.common.cas.giac.binding.Context;
@@ -121,29 +122,45 @@ public abstract class CASgiacB extends CASgiac {
 
 	@Override
 	public String evaluateCAS(String input) {
+		return evaluateCASResult(input).getValue();
+	}
+
+	@Override
+	public CasEvaluation evaluateCASResult(String input) {
 		// don't need to replace Unicode when sending to JNI
 		String exp = CASparser.replaceIndices(input, false);
 
 		try {
-			return evaluate(exp, timeoutMillis);
+			return evaluateResult(exp, timeoutMillis);
 		} catch (TimeoutException te) {
 			throw te;
 		} catch (Throwable e) {
 			Log.debug(e);
 		}
 
-		return null;
+		return CasEvaluation.value(null);
 	}
 
 	@Override
 	protected String evaluate(final String exp, final long timeoutMillis0) throws Throwable {
+		return evaluateResult(exp, timeoutMillis0).getValue();
+	}
+
+	protected CasEvaluation evaluateResult(String exp, long timeoutMillis0) throws Throwable {
 		EvalFunction evalFunction = new EvalFunction(this, exp, timeoutMillis0);
 
 		threadResult = null;
 
 		callEvaluateFunction(evalFunction);
 
-		String ret = postProcess(threadResult);
+		String raw = evalFunction.getResult();
+		if (raw == null && FORCE_ERROR.equals(threadResult)) {
+			raw = FORCE_ERROR;
+		}
+		if (raw == null) {
+			throw new TimeoutException("No result from Giac worker");
+		}
+		String ret = postProcess(raw);
 
 		// Log.debug("giac output: " + ret);
 		if (ret.contains("user interruption")) {
@@ -151,7 +168,7 @@ public abstract class CASgiacB extends CASgiac {
 			throw new TimeoutException("Standard timeout from Giac");
 		}
 
-		return ret;
+		return CasEvaluation.fromGiac(raw, ret);
 	}
 
 	/**

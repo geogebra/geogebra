@@ -28,6 +28,7 @@ import java.util.Objects;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.cas.CasEvaluation;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.CASGenericInterface;
@@ -225,13 +226,13 @@ class DelayedCasLoadingTest {
 		}
 
 		@Override
-		public String evaluateCAS(String exp) {
-			return active ? super.evaluateCAS(exp) : "?";
+		public CasEvaluation evaluateCASResult(String exp) {
+			return active ? super.evaluateCASResult(exp) : CasEvaluation.value("?");
 		}
 
 		@Override
-		protected String evaluate(String exp, long timeoutMilliseconds) throws Throwable {
-			return active ? super.evaluate(exp, timeoutMilliseconds) : "?";
+		protected CasEvaluation evaluateResult(String exp, long timeoutMilliseconds) throws Throwable {
+			return active ? super.evaluateResult(exp, timeoutMilliseconds) : CasEvaluation.value("?");
 		}
 
 		@Override

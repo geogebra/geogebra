@@ -156,13 +156,34 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			GeoCasCell cell,
 			Kernel kernel)
 			throws CASException {
+		return evaluateGeoGebraCASResult(casInput, arbconst, tpl, cell, kernel).getValue();
+	}
+
+	@Override
+	public CasEvaluation evaluateGeoGebraCASResult(
+			ValidExpression casInput,
+			ArbitraryConstantRegistry arbconst,
+			StringTemplate tpl,
+			GeoCasCell cell,
+			Kernel kernel)
+			throws CASException {
 		if (!app.getSettings().getCasSettings().isEnabled() && getCurrentCAS() != null) {
-			return "?";
+			return CasEvaluation.value("?");
+		}
+		Command command = casInput.getTopLevelCommand();
+		if (command != null) {
+			String stepResult = BinomialStepSolver.trySolve(kernel, casInput, command);
+			if (stepResult != null) {
+				resetCounter();
+				return CasEvaluation.value(stepResult);
+			}
 		}
 		String result = null;
+		CasEvaluation evaluation = CasEvaluation.value(null);
 		CASException exception = null;
 		try {
-			result = getCurrentCAS().evaluateGeoGebraCAS(casInput, arbconst, tpl, cell, kernel);
+			evaluation = getCurrentCAS().evaluateGeoGebraCASResult(casInput, arbconst, tpl, cell, kernel);
+			result = evaluation.getValue();
 		} catch (CASException ce) {
 			exception = ce;
 		}
@@ -172,10 +193,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// otherwise return input
 		if (cell != null && cell.isKeepInputUsed() && (exception != null || "?".equals(result))) {
 			// return original input
-			return casInput.toString(tpl);
+			return CasEvaluation.value(casInput.toString(tpl));
 		}
 		if (exception instanceof TimeoutException) {
-			return "?";
+			return CasEvaluation.value("?");
 		}
 
 		// pass on exception
@@ -192,7 +213,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		resetCounter();
-		return result;
+		return evaluation.withValue(result);
 	}
 
 	@Override

@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.geogebra.common.cas.BinomialStepSolver;
+import org.geogebra.common.cas.CasEvaluation;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -113,6 +115,7 @@ public class GeoSymbolic extends GeoElement
 	private ConditionalSerializer conditionalSerializer;
 	private ExpressionNode excludedEquation;
 	private boolean computedNumerically;
+	private boolean binomialStepSolution;
 
 	/**
 	 * @param c construction
@@ -165,6 +168,7 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public void set(GeoElementND geo) {
+		binomialStepSolution = false;
 		reuseDefinition(geo);
 		fVars.clear();
 		if (geo instanceof GeoSymbolic) {
@@ -176,6 +180,7 @@ public class GeoSymbolic extends GeoElement
 		fVars.addAll(symbolic.fVars);
 		value = symbolic.getValue();
 		casOutputString = symbolic.casOutputString;
+		binomialStepSolution = symbolic.binomialStepSolution;
 		numericValue = symbolic.numericValue;
 		numericPrintFigures = symbolic.numericPrintFigures;
 		numericPrintDecimals = symbolic.numericPrintDecimals;
@@ -193,6 +198,7 @@ public class GeoSymbolic extends GeoElement
 		// rendering / toggle code observes the failure immediately instead of using stale data.
 		setValue(new ExpressionNode(kernel, Double.NaN));
 		casOutputString = "?";
+		binomialStepSolution = false;
 		numericValue = null;
 		asFunction = null;
 		fVars.clear();
@@ -380,6 +386,7 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public void computeOutput() {
+		binomialStepSolution = false;
 		// `computeOutput()` is the central place where GeoSymbolic state is rebuilt.
 		// Validating the structural invariants here turns latent corruption into a
 		// deterministic failure close to the source of the problem.
@@ -458,8 +465,22 @@ public class GeoSymbolic extends GeoElement
 			return "?";
 		}
 
-		String casResult = evaluateGeoGebraCAS(casInput, constant);
-		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput)) {
+		String stepResult = BinomialStepSolver.trySolve(kernel, getDefinition(), casInput);
+		if (stepResult != null) {
+			binomialStepSolution = true;
+			return stepResult;
+		}
+
+		CasEvaluation evaluation = kernel
+				.getGeoGebraCAS()
+				.evaluateGeoGebraCASResult(
+						casInput.wrap(), constant, getStringTemplate(casInput), null, kernel);
+		String casResult = evaluation.getValue();
+		boolean unsupportedNumericSum = Commands.NSolve.name().equals(casInput.getName())
+				&& evaluation.getFailure() == CasEvaluation.Failure.UNSUPPORTED_SUM_DERIVATIVE;
+		if (GeoFunction.isUndefined(casResult)
+				&& argumentsDefined(casInput)
+				&& !unsupportedNumericSum) {
 			casResult = tryNumericCommand(casInput, casResult);
 		}
 
@@ -467,6 +488,11 @@ public class GeoSymbolic extends GeoElement
 			return normalizeSolveODE(casResult, casInput);
 		}
 		return casResult;
+	}
+
+	/** @return whether finite binomial level matching produced the current result */
+	public boolean isBinomialStepResult() {
+		return binomialStepSolution;
 	}
 
 	private boolean isUndefined(Command command) {
@@ -860,6 +886,10 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionNode getTwinFallbackInput() throws ParseException {
+		if (binomialStepSolution) {
+			// Do not restart root finding if drawing a computed interval fails.
+			return getNodeFromOutput();
+		}
 		if (useOutputAsMainTwin()) {
 			return getNodeFromInput();
 		}
@@ -867,7 +897,8 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean useOutputAsMainTwin() {
-		return (constant != null && constant.getTotalNumberOfConsts() > 0)
+		return binomialStepSolution
+				|| (constant != null && constant.getTotalNumberOfConsts() > 0)
 				|| (getDefinition() != null && isFullyComputedByCAS(getDefinition().unwrap()));
 	}
 

@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.cas.CasEvaluation;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -185,13 +186,13 @@ class CasValueExtractor {
 		}
 
 		@Override
-		protected String translateAndEvaluateCAS(ValidExpression casInput, StringTemplate tpl) {
+		protected CasEvaluation translateAndEvaluateCAS(ValidExpression casInput, StringTemplate tpl) {
 			String input = casParser.translateToCAS(casInput, StringTemplate.defaultTemplate, this);
 			if (!inputOrder.contains(input)) {
 				inputOrder.add(input);
 			}
-			String output = super.translateAndEvaluateCAS(casInput, tpl);
-			inputOutputPairs.put(input, output);
+			CasEvaluation output = super.translateAndEvaluateCAS(casInput, tpl);
+			inputOutputPairs.put(input, output.getValue());
 			return output;
 		}
 

@@ -19,6 +19,7 @@ package org.geogebra.common.kernel;
 import java.util.ArrayList;
 import java.util.Set;
 
+import org.geogebra.common.cas.CasEvaluation;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -112,6 +113,25 @@ public interface GeoGebraCasInterface {
 	String evaluateGeoGebraCAS(
 			String exp, ArbitraryConstantRegistry arbConst, StringTemplate tpl, Kernel kernel)
 			throws CASException;
+
+	/**
+	 * Evaluates an expression while preserving failure information when supported.
+	 * @param casInput expression in GeoGebra CAS syntax
+	 * @param arbconst arbitrary constants
+	 * @param tpl output template
+	 * @param cell CAS cell, if present
+	 * @param kernel owning kernel
+	 * @return converted value and failure information
+	 */
+	default CasEvaluation evaluateGeoGebraCASResult(
+			ValidExpression casInput,
+			ArbitraryConstantRegistry arbconst,
+			StringTemplate tpl,
+			GeoCasCell cell,
+			Kernel kernel)
+			throws CASException {
+		return CasEvaluation.value(evaluateGeoGebraCAS(casInput, arbconst, tpl, cell, kernel));
+	}
 
 	/**
 	 * Evaluates a valid expression and returns the resulting String in GeoGebra

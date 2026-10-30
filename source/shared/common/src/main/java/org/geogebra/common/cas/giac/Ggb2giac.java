@@ -32,6 +32,9 @@ import org.geogebra.editor.share.util.Unicode;
  * DOM_INT = 2 DOM_IDENT = 6 DOM_LIST = 7 DOM_RAT = 10
  */
 public class Ggb2giac {
+	/** Internal Giac index; user variables are serialized with the ggbtmpvar prefix. */
+	private static final String BINOMIAL_SUM_INDEX = "ggbsumindex";
+
 	/** Giac syntax for Element(list,index) */
 	public static final String ELEMENT_2 =
 			"when(%1>0&&%1<=size(%0),(%0)[%1-when(type(%0)==DOM_LIST,1,0)],?)";
@@ -100,7 +103,10 @@ public class Ggb2giac {
 						// use
 						// Sum[BinomialCoefficient[n,i]p^i(1-p)^(n-i),i,0,k]
 						+ "when(type(ggbbinarg02)==DOM_IDENT,"
-						+ " expand(sum(binomial(ggbbinarg00,ggbtmpvari)*pow(ggbbinarg1,ggbtmpvari)*pow(1-ggbbinarg1,ggbbinarg0-ggbtmpvari),ggbtmpvari,0,ggbbinarg02)),"
+						+ " expand(sum(binomial(ggbbinarg00," + BINOMIAL_SUM_INDEX + ")"
+						+ "*pow(ggbbinarg1," + BINOMIAL_SUM_INDEX + ")"
+						+ "*pow(1-ggbbinarg1,ggbbinarg0-" + BINOMIAL_SUM_INDEX + "),"
+						+ BINOMIAL_SUM_INDEX + ",0,ggbbinarg02)),"
 						+ " binomial_cdf(ggbbinarg00,ggbbinarg1,ggbbinarg02))"
 						+ "else binomial(ggbbinarg00,ggbbinarg02,ggbbinarg1) fi][1]");
 

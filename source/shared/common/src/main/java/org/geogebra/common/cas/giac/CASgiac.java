@@ -27,6 +27,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.cas.CasEvaluation;
 import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
@@ -535,6 +536,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	private static final String EVALFA = "evalfa(";
 	private final StringBuilder expSB = new StringBuilder(EVALFA);
+
 	private final Map<String, String> casGiacCache =
 			new MaxSizeHashMap<>(Kernel.GEOGEBRA_CAS_CACHE_SIZE);
 
@@ -592,6 +594,15 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	@Override
 	public abstract String evaluateCAS(String exp);
+
+	/**
+	 * Evaluates Giac syntax with failure metadata when provided by the backend.
+	 * @param input expression in Giac syntax
+	 * @return expression and its failure classification
+	 */
+	public CasEvaluation evaluateCASResult(String input) {
+		return CasEvaluation.value(evaluateCAS(input));
+	}
 
 	@Override
 	public final String evaluateRaw(final String input) throws Throwable {
@@ -659,11 +670,25 @@ public abstract class CASgiac implements CASGenericInterface {
 			Kernel kernel)
 			throws CASException {
 
+		return evaluateGeoGebraCASResult(inputExpression, arbconst, tpl, cell, kernel)
+				.getValue();
+	}
+
+	@Override
+	public final synchronized CasEvaluation evaluateGeoGebraCASResult(
+			final ValidExpression inputExpression,
+			ArbitraryConstantRegistry arbconst,
+			StringTemplate tpl,
+			GeoCasCell cell,
+			Kernel kernel)
+			throws CASException {
+
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
 		boolean keepInput = (cell != null && cell.isKeepInputUsed())
 				|| (cmd != null && "KeepInput".equals(cmd.getName()));
-		String plainResult = getPlainResult(casInput, kernel);
+		CasEvaluation evaluation = getPlainResult(casInput, kernel);
+		String plainResult = evaluation.getValue();
 
 		if (keepInput) {
 			// remove KeepInput[] command and take argument
@@ -680,7 +705,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			// delayed function definition f(x)::= Derivative[x^2] should return
 			// Derivative[x^2]
 			if (cell != null && cell.getAssignmentType() == AssignmentType.DELAYED) {
-				return casInput.toString(StringTemplate.numericNoLocal);
+				return CasEvaluation.value(casInput.toString(StringTemplate.numericNoLocal));
 			}
 			// function definition f(x) := x^2 should return x^2
 			// f(x):=Derivative[x^2] should return 2x
@@ -694,7 +719,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		if (keepInput && (cell == null || !cell.isSubstitute())) {
 			// assume keepinput was not treated in CAS
-			return casParser.toGeoGebraString(casInput, tpl);
+			return CasEvaluation.value(casParser.toGeoGebraString(casInput, tpl));
 		}
 
 		if (keepInput && cell != null && cell.isSubstitute()) {
@@ -709,15 +734,16 @@ public abstract class CASgiac implements CASGenericInterface {
 				substArg = subst(substArg, substList, cell.getKernel());
 			}
 			if (substArg != null) {
-				return casParser.toGeoGebraString(substArg, tpl);
+				return CasEvaluation.value(casParser.toGeoGebraString(substArg, tpl));
 			}
 		}
 
 		// standard case
 		if (plainResult == null || plainResult.isEmpty()) {
-			return null;
+			return evaluation.withValue(null);
 		}
-		return toGeoGebraString(plainResult, arbconst, tpl, kernel, inputExpression);
+		return evaluation.withValue(
+				toGeoGebraString(plainResult, arbconst, tpl, kernel, inputExpression));
 	}
 
 	private static ExpressionValue subst(
@@ -740,7 +766,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	public final synchronized ExpressionValue evaluateToExpression(
 			final ValidExpression inputExpression, ArbitraryConstantRegistry arbconst, Kernel kernel)
 			throws CASException {
-		String result = getPlainResult(inputExpression, kernel);
+		String result = getPlainResult(inputExpression, kernel).getValue();
 		// standard case
 		if ("".equals(result)) {
 			return null;
@@ -748,7 +774,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		return replaceRoots(casParser.parseGiac(result), arbconst, kernel);
 	}
 
-	private String getPlainResult(ValidExpression casInput, Kernel kernel) {
+	private CasEvaluation getPlainResult(ValidExpression casInput, Kernel kernel) {
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
 		Command cmd = casInput.getTopLevelCommand();
@@ -768,19 +794,21 @@ public abstract class CASgiac implements CASGenericInterface {
 			if (geo != null) {
 				geo.remove();
 			}
-			return "true";
+			return CasEvaluation.value("true");
 		}
 
 		// convert parsed input to Giac string
 		// evaluate in Giac
-		String plainResult = translateAndEvaluateCAS(casInput, StringTemplate.giacTemplate);
+		CasEvaluation evaluation = translateAndEvaluateCAS(casInput, StringTemplate.giacTemplate);
+		String plainResult = evaluation.getValue();
 
 		// try again for undefined result
 		// eg Numeric(0.99999874^(16500))
 		// doesn't work in "exact" mode
 		if (isUndefined(plainResult) && cmd != null && "Numeric".equals(cmd.getName())) {
 			// evaluate in Giac
-			plainResult = translateAndEvaluateCAS(casInput, StringTemplate.giacNumeric13);
+			evaluation = translateAndEvaluateCAS(casInput, StringTemplate.giacNumeric13);
+			plainResult = evaluation.getValue();
 		}
 
 		// get initial nr of vars
@@ -808,14 +836,14 @@ public abstract class CASgiac implements CASGenericInterface {
 			newPlainResult.append("}");
 			// reset nrOfVars
 			casParser.setNrOfVars(0);
-			return newPlainResult.toString();
+			return evaluation.withValue(newPlainResult.toString());
 		}
-		return plainResult;
+		return evaluation;
 	}
 
-	protected String translateAndEvaluateCAS(ValidExpression casInput, StringTemplate tpl) {
+	protected CasEvaluation translateAndEvaluateCAS(ValidExpression casInput, StringTemplate tpl) {
 		String giacInput = casParser.translateToCAS(casInput, tpl, this);
-		return evaluateCAS(giacInput);
+		return evaluateCASResult(giacInput);
 	}
 
 	/**
