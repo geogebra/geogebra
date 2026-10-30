@@ -16,6 +16,9 @@
 
 package org.geogebra.web.full.gui;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -66,7 +69,7 @@ public class InlineFormattingItemsTest {
 	}
 
 	private void enableSettingsItem() {
-		app.setShowMenuBar(true);
+		app.getAppletParameters().setAttribute("showMenuBar", "true");
 		app.setRightClickEnabled(true);
 	}
 
@@ -267,6 +270,43 @@ public class InlineFormattingItemsTest {
 				"Cut", "Copy", "Paste", "SEPARATOR", "FixObject", "ObjectProperties.FixSize", "Settings");
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
+	}
+
+	@Test
+	public void testSettingsHiddenIfMenuBarAndStyleBarAreDisabled() {
+		setMenuParameters("false", "false");
+		assertThat(getPolygonContextMenu(), not(hasItem("Settings")));
+	}
+
+	@Test
+	public void testSettingsShownIfOnlyStyleBarIsEnabled() {
+		setMenuParameters("false", "true");
+		assertThat(getPolygonContextMenu(), hasItem("Settings"));
+	}
+
+	@Test
+	public void testSettingsShownIfOnlyMenuBarIsEnabled() {
+		setMenuParameters("true", "false");
+		assertThat(getPolygonContextMenu(), hasItem("Settings"));
+	}
+
+	@Test
+	public void testSettingsHiddenIfSettingsViewIsDisabled() {
+		setMenuParameters("true", "true");
+		app.getAppletParameters().setAttribute("allowSettingsView", "false");
+		assertThat(getPolygonContextMenu(), not(hasItem("Settings")));
+	}
+
+	private void setMenuParameters(String showMenuBar, String allowStyleBar) {
+		app.getAppletParameters()
+				.setAttribute("showMenuBar", showMenuBar)
+				.setAttribute("allowStyleBar", allowStyleBar);
+	}
+
+	private List<String> getPolygonContextMenu() {
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		geos.add(createPolygon("poly1"));
+		return contextMenu.getEntriesFor(geos);
 	}
 
 	private GeoElement createMask() {

@@ -42,6 +42,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +52,7 @@ import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -158,6 +161,32 @@ final class ContextMenuBuilderTest {
 						DELETE_COLUMN,
 						DIVIDER,
 						OBJECT_PROPERTIES));
+	}
+
+	@Test
+	@Issue("MOW-1941")
+	void testCellMenuWithoutProperties() {
+		SpreadsheetControlsDelegate<String> controlsDelegate = mock();
+		when(controlsDelegate.canShowProperties()).thenReturn(false);
+		controller.setControlsDelegate(controlsDelegate);
+		testMenuOrder(
+				1,
+				1,
+				List.of(
+						CUT,
+						COPY,
+						PASTE,
+						DIVIDER,
+						CALCULATE,
+						CREATE_CHART,
+						DIVIDER,
+						INSERT_ROW_ABOVE,
+						INSERT_ROW_BELOW,
+						INSERT_COLUMN_LEFT,
+						INSERT_COLUMN_RIGHT,
+						DIVIDER,
+						DELETE_ROW,
+						DELETE_COLUMN));
 	}
 
 	@Test

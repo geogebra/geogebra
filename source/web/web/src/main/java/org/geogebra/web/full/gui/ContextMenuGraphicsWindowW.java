@@ -113,6 +113,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	protected void addSettingsButton(OptionType optionType) {
+		if (!app.letShowSettingsInContextMenu()) {
+			return;
+		}
 		StandardButton settingsButton =
 				BaseWidgetFactory.INSTANCE.newTextButton(loc.getMenu("General.OpenSettings"));
 		settingsButton.addFastClickHandler(source -> openSettings(optionType));
@@ -170,6 +173,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * @param type of option
 	 */
 	protected void addMiProperties(final OptionType type) {
+		if (!app.letShowSettingsInContextMenu()) {
+			return;
+		}
 		IconSpec gearIcon =
 				((AppWFull) app).getTopBarIconResource().getImageResource(TopBarIcon.SETTINGS);
 

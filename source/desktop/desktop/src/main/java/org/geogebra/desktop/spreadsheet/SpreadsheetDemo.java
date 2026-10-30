@@ -316,6 +316,11 @@ public class SpreadsheetDemo {
 				public void showProperties(@NonNull List<@NonNull Object> objects) {
 					// not needed
 				}
+
+				@Override
+				public boolean canShowProperties() {
+					return true;
+				}
 			});
 		}
 

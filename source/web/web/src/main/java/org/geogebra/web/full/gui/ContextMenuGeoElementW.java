@@ -243,7 +243,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 				addLockForClassic();
 				addPinItem();
 			}
-			if (!app.isWhiteboardActive()) {
+			if (!app.isWhiteboardActive() && (!app.isUnbundled() || hasPropertiesItem())) {
 				wrappedPopup.addSeparator();
 			}
 		}
@@ -288,9 +288,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		return items.addAvailableItems(wrappedPopup);
 	}
 
+	private boolean hasPropertiesItem() {
+		return app.letShowSettingsInContextMenu() && getGeo().hasProperties();
+	}
+
 	private void addPropertiesItem() {
 		// Object properties menuitem
-		if (app.showMenuBar() && app.letShowPropertiesDialog() && getGeo().hasProperties()) {
+		if (hasPropertiesItem()) {
 			if (!app.isUnbundledOrWhiteboard()) {
 				wrappedPopup.addSeparator();
 			}

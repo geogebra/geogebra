@@ -1599,6 +1599,11 @@ class SpreadsheetControllerTest
 		// not needed in tests
 	}
 
+	@Override
+	public boolean canShowProperties() {
+		return true;
+	}
+
 	// -- SpreadsheetConstructionDelegate --
 
 	@Override

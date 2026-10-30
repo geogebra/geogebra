@@ -173,6 +173,7 @@ public final class ContextMenuBuilder {
 		boolean singleCell = (fromRow == toRow)
 				&& (fromCol == toCol)
 				&& spreadsheetController.contentAt(fromRow, fromCol) != null;
+		boolean showProperties = singleCell && spreadsheetController.canShowProperties();
 		return Stream.of(
 						new ActionableItem(CUT, () -> spreadsheetController.cutCells(fromRow, fromCol)),
 						new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, fromCol)),
@@ -194,8 +195,8 @@ public final class ContextMenuBuilder {
 								? null
 								: new ActionableItem(
 										DELETE_COLUMN, () -> spreadsheetController.deleteColumnAt(fromCol)),
-						singleCell ? new Divider() : null,
-						singleCell
+						showProperties ? new Divider() : null,
+						showProperties
 								? new ActionableItem(
 										OBJECT_PROPERTIES, () -> spreadsheetController.showProperties(fromRow, fromCol))
 								: null)

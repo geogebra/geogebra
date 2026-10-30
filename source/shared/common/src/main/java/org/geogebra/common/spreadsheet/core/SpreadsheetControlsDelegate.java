@@ -88,4 +88,9 @@ public interface SpreadsheetControlsDelegate<T> {
 	 * @param objects object whose properties should be shown
 	 */
 	void showProperties(@NonNull List<@NonNull T> objects);
+
+	/**
+	 * @return Whether the properties entry should be shown in the context menu.
+	 */
+	boolean canShowProperties();
 }

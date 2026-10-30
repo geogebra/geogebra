@@ -143,6 +143,13 @@ public final class SpreadsheetController<T> {
 	}
 
 	/**
+	 * @return Whether the properties entry should be shown in the context menu.
+	 */
+	boolean canShowProperties() {
+		return controlsDelegate == null || controlsDelegate.canShowProperties();
+	}
+
+	/**
 	 * @param viewportAdjusterDelegate The viewport adjuster delegate.
 	 */
 	void setViewportAdjustmentHandler(@Nullable ViewportAdjusterDelegate viewportAdjusterDelegate) {

@@ -311,7 +311,7 @@ public abstract class SpreadsheetContextMenu<T> {
 		// Object properties
 		// ===============================================
 
-		if (app.getSelectionManager().selectedGeosSize() > 0 && app.letShowPropertiesDialog()) {
+		if (app.getSelectionManager().selectedGeosSize() > 0 && app.letShowSettingsInContextMenu()) {
 			addSeparator();
 			addMenuItem(MenuCommand.Properties, true);
 		}

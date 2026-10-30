@@ -697,6 +697,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				&& getAppletParameters().getParamAllowSettingsView();
 	}
 
+	/**
+	 * @return True iff showMenuBar = true OR allowStyleBar = true - see {@link #allowStylebar()}.
+	 * allowSettingsView = true is also required.
+	 */
+	@Override
+	public final boolean letShowSettingsInContextMenu() {
+		return allowStylebar() && getAppletParameters().getParamAllowSettingsView();
+	}
+
 	@Override
 	public final void updateKeyboard() {
 		invokeLater(() -> {

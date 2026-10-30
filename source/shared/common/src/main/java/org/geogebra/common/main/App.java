@@ -2966,6 +2966,13 @@ public abstract class App
 	}
 
 	/**
+	 * @return whether the Settings entry should be shown in context menus
+	 */
+	public boolean letShowSettingsInContextMenu() {
+		return letShowPropertiesDialog();
+	}
+
+	/**
 	 * @return preferences XML
 	 */
 	public String getPreferencesXML() {

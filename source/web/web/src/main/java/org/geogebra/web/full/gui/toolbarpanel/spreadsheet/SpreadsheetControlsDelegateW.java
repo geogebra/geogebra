@@ -383,4 +383,9 @@ public final class SpreadsheetControlsDelegateW
 		getApplication().getSelectionManager().setSelectedGeos(objects);
 		getApplication().getDialogManager().showPropertiesDialog(new ArrayList<>(objects));
 	}
+
+	@Override
+	public boolean canShowProperties() {
+		return getApplication().letShowSettingsInContextMenu();
+	}
 }
