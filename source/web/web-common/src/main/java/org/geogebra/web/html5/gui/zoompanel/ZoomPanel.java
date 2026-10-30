@@ -119,7 +119,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	public void updateFullscreen() {
 		AppletParameters ae = app.getAppletParameters();
 		GeoGebraElement element = app.getGeoGebraElement();
-		if (!ae.getDataParamApp() && isFullScreen()) {
+		if (!ae.getDataParamApp() && isFullScreen() && !app.getFullscreenState().isPinnedToViewport()) {
 			getZoomController()
 					.scaleApplet(
 							element.getParentElement(),

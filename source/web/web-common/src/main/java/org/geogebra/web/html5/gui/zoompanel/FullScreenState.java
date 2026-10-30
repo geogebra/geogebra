@@ -38,6 +38,7 @@ public class FullScreenState {
 	private double cssScale = 0;
 	private double scrollTop;
 	private double scrollLeft;
+	private boolean pinnedToViewport;
 
 	/**
 	 * @return css scale
@@ -90,6 +91,34 @@ public class FullScreenState {
 	 */
 	public boolean isFullScreenActive() {
 		return fullScreenActive;
+	}
+
+	/**
+	 * @return Whether the applet is pinned to the viewport
+	 */
+	public boolean isPinnedToViewport() {
+		return pinnedToViewport;
+	}
+
+	protected void pinToViewport(Element element) {
+		containerProps.clear();
+		scrollTop = DomGlobal.document.documentElement.scrollTop;
+		scrollLeft = DomGlobal.document.documentElement.scrollLeft;
+		setContainerProp(element, "position", "fixed");
+		setContainerProp(element, "top", "0px");
+		setContainerProp(element, "left", "0px");
+		setContainerProp(element, "width", "100%");
+		setContainerProp(element, "height", "100%");
+		element.addClassName("GeoGebraFullscreenContainer");
+		pinnedToViewport = true;
+	}
+
+	protected void unpinFromViewport(Element element, AppW app) {
+		pinnedToViewport = false;
+		element.removeClassName("GeoGebraFullscreenContainer");
+		// size is recomputed by fitSizeToScreen
+		oldSize = null;
+		resetStyleAfterFullscreen(element, app);
 	}
 
 	protected void store(Element container, AppW app, double scale) {

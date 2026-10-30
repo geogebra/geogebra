@@ -199,6 +199,9 @@ public class ZoomController {
 				Browser.scale(elem, 1, 0, 0);
 			}
 		} else {
+			if (state.isPinnedToViewport()) {
+				unpinFromViewport();
+			}
 			Browser.scale(elem, 1, 0, 0);
 		}
 	}
@@ -214,7 +217,9 @@ public class ZoomController {
 		state.emulated = useEmulatedFullscreen(app);
 		if (app.getAppletParameters().getDataParamFitToScreen()) {
 			container = null;
-			if (!isFullScreenActive()) {
+			if (shouldPinToViewport()) {
+				toggleViewportFullscreen(fullscreenBtnSelectCB);
+			} else if (!isFullScreenActive()) {
 				Timer t = new Timer() {
 
 					@Override
@@ -301,6 +306,35 @@ public class ZoomController {
 	 */
 	void onFullscreen(Consumer<Boolean> fullscreenBtnSelectCB) {
 		setFullScreenActive(true, fullscreenBtnSelectCB);
+	}
+
+	/**
+	 * Toggles fullscreen by pinning and resizing the applet to the viewport.
+	 */
+	private void toggleViewportFullscreen(Consumer<Boolean> fullscreenBtnSelectCB) {
+		if (state.isPinnedToViewport()) {
+			setFullScreenActive(false, fullscreenBtnSelectCB);
+			unpinFromViewport();
+		} else {
+			state.pinToViewport(app.getGeoGebraElement().getElement());
+			setFullScreenActive(true, fullscreenBtnSelectCB);
+			updateSizeToWindow();
+		}
+	}
+
+	private boolean shouldPinToViewport() {
+		return state.emulated
+				&& StringUtil.empty(app.getAppletParameters().getParamFullscreenContainer());
+	}
+
+	private void unpinFromViewport() {
+		state.unpinFromViewport(app.getGeoGebraElement().getElement(), app);
+		updateSizeToWindow();
+	}
+
+	private void updateSizeToWindow() {
+		app.fitSizeToScreen();
+		app.windowResized();
 	}
 
 	private void setHomeButtonVisible(StandardButton homeBtn, boolean visible) {
