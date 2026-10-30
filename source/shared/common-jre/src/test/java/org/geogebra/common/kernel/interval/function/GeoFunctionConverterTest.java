@@ -23,7 +23,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ class GeoFunctionConverterTest extends BaseUnitTest {
 	@Test
 	void testConvertSinX() {
 		IntervalExpressionNode expression = convert("sin(x)").getRoot();
-		assertTrue(expression.getLeft() instanceof IntervalFunctionVariable);
+		assertInstanceOf(IntervalFunctionVariable.class, expression.getLeft());
 		assertEquals(IntervalOperation.SIN, expression.getOperation());
 	}
 

@@ -17,7 +17,7 @@
 package org.geogebra.common.kernel.statistics;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
@@ -34,7 +34,7 @@ class AlgoRandomElementTest extends BaseUnitTest {
 	}
 
 	private void assertNumberSymbolicMode(GeoElement element, boolean symbolic) {
-		assertTrue(element instanceof HasSymbolicMode);
+		assertInstanceOf(HasSymbolicMode.class, element);
 		HasSymbolicMode elementWithSymbolicMode = (HasSymbolicMode) element;
 		assertEquals(symbolic, elementWithSymbolicMode.isSymbolicMode());
 	}

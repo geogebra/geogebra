@@ -31,7 +31,7 @@
         <exclude name="ImplicitFunctionalInterface"/>
         <exclude name="NonExhaustiveSwitch"/>
         <exclude name="OneDeclarationPerLine"/>
-        <exclude name="ReplaceVectorWithList"/>
+        <exclude name="ReplaceJavaUtilVector"/>
         <exclude name="AvoidReassigningLoopVariables"/>
         <exclude name="LiteralsFirstInComparisons"/>
         <exclude name="ForLoopVariableCount"/>
@@ -78,6 +78,7 @@
         <exclude name="LinguisticNaming"/>
         <exclude name="UseUnderscoresInNumericLiterals"/>
         <exclude name="UseShortArrayInitializer"/>
+        <exclude name="LocalVariableDeclarationShouldBeAtStartOfBlock"/>
     </rule>
     <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName">
         <properties>
@@ -208,7 +209,6 @@
         <exclude name="AvoidArrayLoops"/>
         <exclude name="OptimizableToArrayCall"/>
         <exclude name="ConsecutiveLiteralAppends"/>
-        <exclude name="UseArrayListInsteadOfVector"/>
         <exclude name="UseIndexOfChar"/>
         <exclude name="ConsecutiveAppendsShouldReuse"/>
         <exclude name="UseStringBufferForStringAppends"/>

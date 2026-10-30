@@ -18,6 +18,7 @@ package org.geogebra.common.gui.view.table.keyboard;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -972,7 +973,7 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
 
 		// f(x) has moved to column 1 and should not be editable
-		assertTrue(tableValuesView.getEvaluatable(1) instanceof GeoFunction);
+		assertInstanceOf(GeoFunction.class, tableValuesView.getEvaluatable(1));
 		assertFalse(keyboardController.isColumnEditable(1));
 
 		// column 1 is now non-editable, but remains focused for navigation

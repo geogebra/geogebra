@@ -348,7 +348,7 @@ class PropertyViewTests extends BaseAppTestSetup {
 		property.setValue(new ImageProperty.Value(image, "image"));
 		assertEquals("image", row.getFileName());
 		property.setValue(null);
-		assertEquals(null, row.getFileName());
+		assertNull(row.getFileName());
 	}
 
 	@Test

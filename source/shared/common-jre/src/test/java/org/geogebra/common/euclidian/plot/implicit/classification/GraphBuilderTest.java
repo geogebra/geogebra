@@ -18,6 +18,7 @@ package org.geogebra.common.euclidian.plot.implicit.classification;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -136,8 +137,8 @@ class GraphBuilderTest {
 						.anyMatch(cycle -> Math.abs(cycle.getSignedArea()) > 1e-6),
 				"Open TOP->RIGHT fragment should not collapse into a near-zero extracted cycle: "
 						+ describeCycles(graph.getLastExtractedBoundaryCycles()));
-		assertTrue(
-				!graph.getLastCanonicalBoundaryCycles().isEmpty(),
+		assertFalse(
+				graph.getLastCanonicalBoundaryCycles().isEmpty(),
 				"Open TOP->RIGHT fragment should keep bounded canonical cycles: "
 						+ describeCycles(graph.getLastCanonicalBoundaryCycles()));
 		assertTrue(

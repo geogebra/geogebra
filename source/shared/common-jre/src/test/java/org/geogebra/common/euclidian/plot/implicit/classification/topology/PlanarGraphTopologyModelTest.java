@@ -19,6 +19,7 @@ package org.geogebra.common.euclidian.plot.implicit.classification.topology;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -108,7 +109,7 @@ class PlanarGraphTopologyModelTest {
 		assertEquals(-1, face.getOuterHalfEdgeId());
 		assertTrue(face.getHoleHalfEdgeIds().isEmpty());
 		assertFalse(face.isExterior());
-		assertEquals(null, face.getSamplePoint());
+		assertNull(face.getSamplePoint());
 
 		face.setOuterHalfEdgeId(e0);
 		face.addHoleHalfEdgeId(e1);

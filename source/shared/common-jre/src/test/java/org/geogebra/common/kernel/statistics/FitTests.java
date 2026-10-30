@@ -19,8 +19,8 @@ package org.geogebra.common.kernel.statistics;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.BaseUnitTest;
@@ -225,7 +225,7 @@ class FitTests extends BaseUnitTest {
 		controller.processSelectionRectangle(false, false, false);
 
 		GeoElement geo = getConstruction().getLastGeoElement();
-		assertTrue(geo instanceof GeoLine);
+		assertInstanceOf(GeoLine.class, geo);
 	}
 
 	private GeoElement[] getFitLineGeoElements() {

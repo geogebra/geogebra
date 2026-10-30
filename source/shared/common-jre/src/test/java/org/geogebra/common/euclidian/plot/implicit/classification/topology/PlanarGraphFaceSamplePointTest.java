@@ -16,6 +16,7 @@
 
 package org.geogebra.common.euclidian.plot.implicit.classification.topology;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -212,8 +213,8 @@ class PlanarGraphFaceSamplePointTest {
 				classifyPointInPolygon(graph, sample, graph.outerBoundaryOf(face)),
 				"Sample point should be inside the face outer boundary");
 		for (List<Integer> holeBoundary : graph.holeBoundariesOf(face)) {
-			assertTrue(
-					!classifyPointInPolygon(graph, sample, holeBoundary),
+			assertFalse(
+					classifyPointInPolygon(graph, sample, holeBoundary),
 					"Sample point should stay outside every hole boundary");
 		}
 	}
