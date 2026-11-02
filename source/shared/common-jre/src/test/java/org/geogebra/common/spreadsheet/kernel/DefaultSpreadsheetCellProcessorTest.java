@@ -204,6 +204,14 @@ class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-8099")
+	void testInvalidInputShouldBeAuxiliary() {
+		processor.process("=", "A1");
+		assertEquals(Commands.ParseToNumber, getCommand(lookup("A1")));
+		assertIsAuxiliary();
+	}
+
+	@Test
 	@Issue("APPS-7720")
 	void testInvalidInputWithBrackets() {
 		processor.process("=(", "A1");

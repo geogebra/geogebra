@@ -97,18 +97,19 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		}
 		if (checkCircularDefinition(input, kernel)) {
 			markError();
-			kernel.getApplication().storeUndoInfo();
 			return;
 		}
 		try {
-			processInput(buildProperInput(input, cellName), this, (geos) -> {
-				if (geos != null && geos.length > 0 && geos[0] != null) {
-					Arrays.stream(geos).forEach(this::setInitialProperties);
-					kernel.getApplication().storeUndoInfo();
-				}
-			});
+			processInput(buildProperInput(input, cellName), this, this::onInputProcessed);
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
+		}
+	}
+
+	private void onInputProcessed(GeoElementND[] geos) {
+		if (geos != null && geos.length > 0 && geos[0] != null) {
+			Arrays.stream(geos).forEach(this::setInitialProperties);
+			algebraProcessor.getKernel().getApplication().storeUndoInfo();
 		}
 	}
 
@@ -196,7 +197,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	}
 
 	private void buildNewInputWithErrorMark() {
-		processInput(buildRestoredInput(), ErrorHelper.silent(), null);
+		processInput(buildRestoredInput(), ErrorHelper.silent(), this::onInputProcessed);
 	}
 
 	@Override
