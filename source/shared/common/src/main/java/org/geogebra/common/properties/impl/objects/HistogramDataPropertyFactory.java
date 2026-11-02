@@ -53,7 +53,7 @@ import org.jspecify.annotations.Nullable;
  * operate on one coherent histogram model. This factory therefore keeps one
  * {@link HistogramDataController} per histogram for the lifetime of the surrounding property
  * collection. All properties for each histogram share its controller and
- * {@link HistogramData}, including the remembered values for the inactive input mode.
+ * {@link HistogramData}, including the remembered raw-data settings while in heights mode.
  * <p>
  * The properties are applicable only when every selected element is a {@link GeoNumeric} produced
  * by an {@link AlgoHistogram} with one of the supported command layouts. Changing a property
@@ -181,14 +181,13 @@ final class HistogramDataPropertyFactory {
 	/**
 	 * Plain values that describe the editable histogram command.
 	 * <p>
-	 * The two mode-specific list values are nullable until their mode is initialized. They
-	 * remain independent after initialization so switching modes can restore the previous value.
+	 * The second list holds the heights or the raw data, depending on the input type, so its
+	 * value is kept when switching modes.
 	 */
 	private static final class HistogramData {
 		private @NonNull HistogramInputType inputType = HistogramInputType.HEIGHTS;
 		private @NonNull String classBoundaries = "";
-		private @Nullable String heights = null;
-		private @Nullable String rawData = null;
+		private @NonNull String rawDataOrHeights = "";
 		private boolean cumulative = false;
 		private boolean useDensity = false;
 		private @NonNull String densityScaleFactor = "1";
@@ -198,7 +197,7 @@ final class HistogramDataPropertyFactory {
 	 * Panel-lifetime controller shared by all properties belonging to one histogram.
 	 * <p>
 	 * It synchronizes the active values from the live algorithm before reads and edits while
-	 * retaining the inactive mode's second-list value in {@link HistogramData}. It also generates
+	 * retaining the raw-data settings in {@link HistogramData} in heights mode. It also generates
 	 * histogram commands, manages redefinition, updates references when the output geo is replaced,
 	 * and notifies the registered redefinition observers.
 	 */
@@ -257,13 +256,12 @@ final class HistogramDataPropertyFactory {
 			data.inputType = isRawData ? HistogramInputType.RAW_DATA : HistogramInputType.HEIGHTS;
 			int classBoundariesIndex = inputs[0].isGeoBoolean() ? 1 : 0;
 			data.classBoundaries = CommandRedefineHelper.getInputString(inputs[classBoundariesIndex]);
-			String secondList = CommandRedefineHelper.getInputString(inputs[classBoundariesIndex + 1]);
+			data.rawDataOrHeights =
+					CommandRedefineHelper.getInputString(inputs[classBoundariesIndex + 1]);
 			if (!isRawData) {
-				data.heights = secondList;
 				return;
 			}
 
-			data.rawData = secondList;
 			data.cumulative = classBoundariesIndex == 1 && ((GeoBoolean) inputs[0]).getBoolean();
 			int useDensityIndex = classBoundariesIndex + 2;
 			data.useDensity = ((GeoBoolean) inputs[useDensityIndex]).getBoolean();
@@ -302,7 +300,7 @@ final class HistogramDataPropertyFactory {
 
 		private @NonNull List<String> getCommandParameters() {
 			if (data.inputType == HistogramInputType.HEIGHTS) {
-				return List.of(toListInput(data.classBoundaries), toListInput(data.heights));
+				return List.of(toListInput(data.classBoundaries), toListInput(data.rawDataOrHeights));
 			}
 			// Raw-data edits intentionally emit an explicit density factor;
 			// omitted factors default to 1.
@@ -310,19 +308,19 @@ final class HistogramDataPropertyFactory {
 				return List.of(
 						"true",
 						toListInput(data.classBoundaries),
-						toListInput(data.rawData),
+						toListInput(data.rawDataOrHeights),
 						Boolean.toString(data.useDensity),
 						data.densityScaleFactor);
 			}
 			return List.of(
 					toListInput(data.classBoundaries),
-					toListInput(data.rawData),
+					toListInput(data.rawDataOrHeights),
 					Boolean.toString(data.useDensity),
 					data.densityScaleFactor);
 		}
 
-		private static @NonNull String toListInput(@Nullable String list) {
-			return list == null || list.isEmpty() ? "{}" : list;
+		private static @NonNull String toListInput(@NonNull String list) {
+			return list.isEmpty() ? "{}" : list;
 		}
 	}
 
@@ -451,13 +449,12 @@ final class HistogramDataPropertyFactory {
 
 		@Override
 		public @NonNull String getValue() {
-			String heights = controller.readData(data -> data.heights);
-			return heights != null ? heights : "";
+			return controller.readData(data -> data.rawDataOrHeights);
 		}
 
 		@Override
 		protected void doSetValue(@NonNull String value) {
-			controller.updateData(data -> data.heights = value);
+			controller.updateData(data -> data.rawDataOrHeights = value);
 		}
 
 		@Override
@@ -477,13 +474,12 @@ final class HistogramDataPropertyFactory {
 
 		@Override
 		public @NonNull String getValue() {
-			String rawData = controller.readData(data -> data.rawData);
-			return rawData != null ? rawData : "";
+			return controller.readData(data -> data.rawDataOrHeights);
 		}
 
 		@Override
 		protected void doSetValue(@NonNull String value) {
-			controller.updateData(data -> data.rawData = value);
+			controller.updateData(data -> data.rawDataOrHeights = value);
 		}
 
 		@Override
