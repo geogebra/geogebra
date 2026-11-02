@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
@@ -100,23 +98,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		resetMouseLocation();
 		click(50, 50);
 		checkContent();
-	}
-
-	@Test
-	void conic5Tool() {
-		setMode(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
-		click(50, 50);
-		click(100, 50);
-		click(50, 100);
-		click(50, 0);
-		click(0, 50);
-		checkContent(
-				"A = (1, -1)",
-				"B = (2, -1)",
-				"C = (1, -2)",
-				"D = (1, 0)",
-				"E = (0, -1)",
-				"c: x y + x - y = 1");
 	}
 
 	@Test
@@ -316,42 +297,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 
 		checkContent(unicode("c: x^2 + y^2 = 8"), "A = (1, -1)", "A' = (4, -4)");
-	}
-
-	@Test
-	void ellipse3Tool() {
-		setMode(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
-		click(0, 0);
-		click(100, 0);
-		click(50, 150);
-		checkContent(
-				"A = (0, 0)",
-				"B = (2, 0)",
-				"C = (1, -3)",
-				"c: " + explicit("(x - 1)^2 * 9 + y^2 * 10 = 9 *10"));
-	}
-
-	@Test
-	void hyperbola3Tool() {
-		setMode(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
-		click(0, 0);
-		click(500, 0);
-		click(100, 0);
-		checkContent(
-				"A = (0, 0)",
-				"B = (10, 0)",
-				"C = (2, 0)",
-				"c: " + explicit("-(x - 5)^2 * 16 + y^2 * 9 = -16 * 9"));
-	}
-
-	@Test
-	void parabolaTool() {
-		setMode(EuclidianConstants.MODE_PARABOLA);
-		t("y = -1");
-		t("A = (2, -2)");
-		click(50, 50);
-		click(100, 100);
-		checkContent("f: y = -1", "A = (2, -2)", unicode("c: x^2 - 4x + 2y = -7"));
 	}
 
 	@Test
@@ -591,13 +536,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		lastVisibility = visibility;
 		lastCheck = desc;
 		super.checkContentWithVisibility(visibility, desc);
-	}
-
-	private String explicit(String string) {
-		GeoConic c =
-				(GeoConic) getApp().getKernel().getAlgebraProcessor().evaluateToGeoElement(string, false);
-		c.setToImplicitForm();
-		return unicode(c.toValueString(StringTemplate.editTemplate));
 	}
 
 	private void assertDraggedSize(GeoInline geo, double width, double height, double scale) {

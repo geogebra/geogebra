@@ -49,7 +49,11 @@ class BaseToolTest extends BaseEuclidianControllerTest {
 	 */
 	protected void clickRW(double xRW, double yRW) {
 		EuclidianView view = getApp().getActiveEuclidianView();
-		click(view.toScreenCoordX(xRW), view.toScreenCoordY(yRW));
+		int screenX = view.toScreenCoordX(xRW);
+		int screenY = view.toScreenCoordY(yRW);
+		assertTrue(screenX >= 0 && screenX <= view.getViewWidth(), screenX + " should be on screen");
+		assertTrue(screenY >= 0 && screenY <= view.getViewHeight(), screenY + " should be on screen");
+		click(screenX, screenY);
 	}
 
 	/**
@@ -75,6 +79,21 @@ class BaseToolTest extends BaseEuclidianControllerTest {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		dragStart(view.toScreenCoordX(startXRW), view.toScreenCoordY(startYRW));
 		dragEnd(view.toScreenCoordX(endXRW), view.toScreenCoordY(endYRW));
+	}
+
+	/**
+	 * Drag between the given real-world coordinates in the active Euclidian view,
+	 * using  the right mouse button.
+	 *
+	 * @param startXRW real-world x-coordinate where the drag starts
+	 * @param startYRW real-world y-coordinate where the drag starts
+	 * @param endXRW real-world x-coordinate where the drag ends
+	 * @param endYRW real-world y-coordinate where the drag ends
+	 */
+	protected void dragRWRight(double startXRW, double startYRW, double endXRW, double endYRW) {
+		EuclidianView view = getApp().getActiveEuclidianView();
+		dragStart(view.toScreenCoordX(startXRW), view.toScreenCoordY(startYRW), true);
+		dragEnd(view.toScreenCoordX(endXRW), view.toScreenCoordY(endYRW), true);
 	}
 
 	/**

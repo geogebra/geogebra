@@ -3078,6 +3078,64 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	/**
+	 * @param hits
+	 *            hits
+	 * @param max
+	 *            max size of selected number values after
+	 * @param addMoreThanOneAllowed
+	 *            allow adding more than one
+	 * @param selPreview
+	 *            whether to add to selection preview instead of selection
+	 * @return 0/1/-1 if nothing happened / geo selected / geo unselected
+	 */
+	public final int addSelectedNumberValue(
+			Hits hits, int max, boolean addMoreThanOneAllowed, boolean selPreview) {
+		return handleAddSelected(
+				hits,
+				max,
+				addMoreThanOneAllowed,
+				getSelectedNumberValueList(),
+				TestGeo.NUMBERVALUE,
+				selPreview);
+	}
+
+	final GeoNumberValue[] getSelectedNumberValues() {
+		GeoNumberValue[] selected = getSelectedNumberValueList().toArray(new GeoNumberValue[0]);
+		clearSelection(getSelectedNumberValueList());
+		return selected;
+	}
+
+	protected ArrayList<GeoNumberValue> getSelectedNumberValueList() {
+		return selection.getSelectedNumberValueList();
+	}
+
+	protected final int selNumberValues() {
+		return getSelectedNumberValueList().size();
+	}
+
+	protected final int addSelectedImplicitSurface(
+			Hits hits, int max, boolean addMoreThanOneAllowed, boolean selPreview) {
+		return handleAddSelected(
+				hits,
+				max,
+				addMoreThanOneAllowed,
+				getSelectedImplicitSurfaceList(),
+				TestGeo.GEOIMPLICITSURFACE,
+				selPreview);
+	}
+
+	protected final GeoImplicitSurfaceND[] getSelectedImplicitSurface() {
+		GeoImplicitSurfaceND[] selected =
+				getSelectedImplicitSurfaceList().toArray(new GeoImplicitSurfaceND[0]);
+		clearSelection(getSelectedImplicitSurfaceList());
+		return selected;
+	}
+
+	protected ArrayList<GeoImplicitSurfaceND> getSelectedImplicitSurfaceList() {
+		return selection.getSelectedImplicitSurfaceList();
+	}
+
+	/**
 	 * return selected planes also clear all selected planes.
 	 *
 	 * @return selected planes

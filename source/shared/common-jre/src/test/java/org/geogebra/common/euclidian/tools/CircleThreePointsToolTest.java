@@ -68,4 +68,19 @@ class CircleThreePointsToolTest extends BaseToolTest {
 		assertTrue(circle.isCircle());
 		assertEquals(Math.sqrt(2), circle.getHalfAxis(0), 1e-8);
 	}
+
+	@Test
+	void threeDPointShouldCreateThreeDCircle() {
+		add("A = (0, 0)");
+		add("B = (2, 0, 0)");
+		add("C = (0, -2)");
+		clickRW(0, 0);
+		clickRW(2, 0);
+		clickRW(0, -2);
+		checkContent(
+				"A = (0, 0)",
+				"B = (2, 0, 0)",
+				"C = (0, -2)",
+				"c: X = (1, -1, 0) + (1.41421 cos(t), -1.41421 sin(t), 0)");
+	}
 }

@@ -51,6 +51,17 @@ class FitLineToolTest extends BaseToolTest {
 	}
 
 	@Test
+	void fitLineForPointsSelectedBeforeModeChange() {
+		add("A = (2, -2)");
+		add("B = (3, -5)");
+		add("C = (4, -8)");
+		setMode(EuclidianConstants.MODE_MOVE);
+		dragRWRight(1, -1, 10, -10);
+		setMode();
+		checkContent("A = (2, -2)", "B = (3, -5)", "C = (4, -8)", "f: y = -3x + 4");
+	}
+
+	@Test
 	void fitLineToolTwoPointsByClick() {
 		add("A = (1, -1)");
 		add("B = (2, -3)");

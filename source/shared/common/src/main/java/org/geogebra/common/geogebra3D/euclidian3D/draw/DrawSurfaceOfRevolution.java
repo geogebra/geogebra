@@ -135,12 +135,12 @@ public class DrawSurfaceOfRevolution extends Drawable3DSurfaces implements Previ
 			angleValue = angle.getValue();
 		}
 		hits.add(createAngle(angleValue));
-		getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false, false);
+		getView3D().getEuclidianController3D().addSelectedNumberValue(hits, 1, false, false);
 		cleanUp();
 	}
 
 	private void cleanUp() {
-		((EuclidianController3D) getView3D().getEuclidianController()).disposeHandledGeo();
+		getView3D().getEuclidianController3D().disposeHandledGeo();
 		if (previewSurface != null) {
 			previewSurface.remove();
 		}

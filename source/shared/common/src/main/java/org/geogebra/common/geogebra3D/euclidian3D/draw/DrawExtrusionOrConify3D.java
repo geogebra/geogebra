@@ -237,7 +237,7 @@ public abstract sealed class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 			} else {
 				hits.add(height);
-				getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false, false);
+				getView3D().getEuclidianController3D().addSelectedNumberValue(hits, 1, false, false);
 			}
 
 			if (extrusionComputer != null) {

@@ -2240,10 +2240,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void closePopups() {
 		closePopupsNoTooltips();
 		getToolTipManager().hideTooltip();
-
-		if (getActiveEuclidianView() != null) {
-			getActiveEuclidianView().getEuclidianController().setObjectMenuActive(false);
-		}
 	}
 
 	/**

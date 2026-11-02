@@ -37,6 +37,8 @@ import org.geogebra.test.TestEvent;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class AttachDetachToolTest extends BaseToolTest {
 
@@ -176,10 +178,11 @@ class AttachDetachToolTest extends BaseToolTest {
 		assertPointOnPath("A", line, 1, 0);
 	}
 
-	@Test
-	void draggingPointAwayFromPathShouldDetachIt() {
-		add("g: y = -1");
-		GeoPoint point = add("A = Point(g)");
+	@ParameterizedTest
+	@ValueSource(strings = {"A = Point(g)", "A = PointIn(g)"})
+	void draggingPointAwayFromObjectShouldDetachIt(String definition) {
+		add("g: Circle((0, -1), 1)");
+		GeoPoint point = add(definition);
 
 		dragThroughRW(point.getInhomX(), point.getInhomY(), point.getInhomX(), -2, 2, -3);
 

@@ -149,7 +149,6 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
-import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PolygonFactory;
 import org.geogebra.common.kernel.geos.Rotatable;
 import org.geogebra.common.kernel.geos.TestGeo;
@@ -165,7 +164,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -427,7 +425,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected double newZero;
 	protected double newScale;
-	private boolean objectMenuActive;
 	private final List<CoordSystemListener> zoomerListeners = new LinkedList<>();
 	private final HashMap<GeoElement, CoordSystemAnimationListener> zoomerAnimationListeners =
 			new HashMap<>();
@@ -946,12 +943,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return selected;
 	}
 
-	protected final GeoNumberValue[] getSelectedNumberValues() {
-		GeoNumberValue[] selected = getSelectedNumberValueList().toArray(new GeoNumberValue[0]);
-		clearSelection(getSelectedNumberValueList());
-		return selected;
-	}
-
 	protected final GeoList[] getSelectedLists() {
 		GeoList[] selected = getSelectedListList().toArray(new GeoList[0]);
 		clearSelection(getSelectedListList());
@@ -1039,13 +1030,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected final GeoImplicit[] getSelectedImplicitpoly() {
 		GeoImplicit[] selected = getSelectedImplicitpolyList().toArray(new GeoImplicit[0]);
 		clearSelection(getSelectedImplicitpolyList());
-		return selected;
-	}
-
-	protected final GeoImplicitSurfaceND[] getSelectedImplicitSurface() {
-		GeoImplicitSurfaceND[] selected =
-				getSelectedImplicitSurfaceList().toArray(new GeoImplicitSurfaceND[0]);
-		clearSelection(getSelectedImplicitSurfaceList());
 		return selected;
 	}
 
@@ -1606,10 +1590,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return getSelectedNumberList().size();
 	}
 
-	protected final int selNumberValues() {
-		return getSelectedNumberValueList().size();
-	}
-
 	protected final int selLists() {
 		return getSelectedListList().size();
 	}
@@ -1735,28 +1715,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				hits, max, addMoreThanOneAllowed, getSelectedNumberList(), TestGeo.GEONUMERIC, selPreview);
 	}
 
-	/**
-	 * @param hits
-	 *            hits
-	 * @param max
-	 *            max size of selected number values after
-	 * @param addMoreThanOneAllowed
-	 *            allow adding more than one
-	 * @param selPreview
-	 *            whether to add to selection preview instead of selection
-	 * @return 0/1/-1 if nothing happened / geo selected / geo unselected
-	 */
-	public final int addSelectedNumberValue(
-			Hits hits, int max, boolean addMoreThanOneAllowed, boolean selPreview) {
-		return handleAddSelected(
-				hits,
-				max,
-				addMoreThanOneAllowed,
-				getSelectedNumberValueList(),
-				TestGeo.NUMBERVALUE,
-				selPreview);
-	}
-
 	protected final int addSelectedLine(
 			Hits hits, int max, boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(
@@ -1805,17 +1763,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				addMoreThanOneAllowed,
 				getSelectedImplicitpolyList(),
 				TestGeo.GEOIMPLICIT,
-				selPreview);
-	}
-
-	protected final int addSelectedImplicitSurface(
-			Hits hits, int max, boolean addMoreThanOneAllowed, boolean selPreview) {
-		return handleAddSelected(
-				hits,
-				max,
-				addMoreThanOneAllowed,
-				getSelectedImplicitSurfaceList(),
-				TestGeo.GEOIMPLICITSURFACE,
 				selPreview);
 	}
 
@@ -10862,37 +10809,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * Change opacity of selected geos.
-	 *
-	 * @param alpha
-	 *            opacity
-	 */
-	public void setAlpha(float alpha) {
-		for (GeoElement geo : getAppSelectedGeos()) {
-			geo.setAlphaValue(alpha);
-			geo.updateRepaint();
-		}
-	}
-
-	/**
-	 * Change point size or line thickness of selected geos. TODO seems unused
-	 *
-	 * @param size
-	 *            size
-	 */
-	public void setSize(int size) {
-		for (GeoElement geo : getAppSelectedGeos()) {
-			if (geo instanceof PointProperties) {
-				((PointProperties) geo).setPointSize(size);
-				geo.updateRepaint();
-			} else {
-				geo.setLineThickness(size);
-				geo.updateRepaint();
-			}
-		}
-	}
-
-	/**
 	 * Update preview line endpoint.
 	 *
 	 * @param point
@@ -12083,10 +11999,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return selection.getSelectedNumberList();
 	}
 
-	protected ArrayList<GeoNumberValue> getSelectedNumberValueList() {
-		return selection.getSelectedNumberValueList();
-	}
-
 	protected ArrayList<GeoLineND> getSelectedLineList() {
 		return selection.getSelectedLineList();
 	}
@@ -12113,10 +12025,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected ArrayList<GeoImplicit> getSelectedImplicitpolyList() {
 		return selection.getSelectedImplicitpolyList();
-	}
-
-	protected ArrayList<GeoImplicitSurfaceND> getSelectedImplicitSurfaceList() {
-		return selection.getSelectedImplicitSurfaceList();
 	}
 
 	protected ArrayList<GeoFunction> getSelectedFunctionList() {
@@ -12241,14 +12149,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (pen != null) {
 			pen.remove(geo);
 		}
-	}
-
-	public boolean isObjectMenuActive() {
-		return objectMenuActive;
-	}
-
-	public void setObjectMenuActive(boolean objectMenuActive) {
-		this.objectMenuActive = objectMenuActive;
 	}
 
 	/**
@@ -12572,10 +12472,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	boolean isLockedForMultiuser(GeoElement geo) {
 		return geo instanceof GeoInline && ((GeoInline) geo).isLockedForMultiuser();
-	}
-
-	protected App getApp() {
-		return app;
 	}
 
 	/**

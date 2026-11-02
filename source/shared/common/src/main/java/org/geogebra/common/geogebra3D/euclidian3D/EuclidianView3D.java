@@ -4166,6 +4166,13 @@ public abstract class EuclidianView3D extends EuclidianView
 		return euclidianController;
 	}
 
+	/**
+	 * @return controller, cast to 3D
+	 */
+	public EuclidianController3D getEuclidianController3D() {
+		return (EuclidianController3D) euclidianController;
+	}
+
 	@Override
 	public GeoDirectionND getDirection() {
 		return kernel.getSpace();
