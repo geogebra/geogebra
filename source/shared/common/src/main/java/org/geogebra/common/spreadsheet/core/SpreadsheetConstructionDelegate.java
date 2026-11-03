@@ -27,6 +27,17 @@ import org.jspecify.annotations.NonNull;
 public interface SpreadsheetConstructionDelegate {
 
 	/**
+	 * Create an object from the selected spreadsheet ranges.
+	 * @param type object type
+	 * @param ranges selected ranges
+	 * @return whether an object was created
+	 */
+	default boolean createObject(
+			ContextMenuItem.@NonNull Identifier type, @NonNull List<TabularRange> ranges) {
+		return false;
+	}
+
+	/**
 	 * Check if pie charts are supported (in the current app).
 	 * @return {@code true} if supported, {@code false} otherwise.
 	 */

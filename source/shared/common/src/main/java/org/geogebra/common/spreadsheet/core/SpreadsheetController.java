@@ -1461,12 +1461,14 @@ public final class SpreadsheetController<T> {
 	 */
 	public List<ContextMenuItem> getMenuItems(ContextMenuItem.Identifier identifier) {
 		switch (identifier) {
-			case CREATE_CHART:
-				return contextMenuBuilder.getChartItems();
 			case CALCULATE:
 				return contextMenuBuilder.getCalculateItems();
 			case STATISTICS:
 				return contextMenuBuilder.getStatisticsItems();
+			case CREATE_CHART:
+				return contextMenuBuilder.getChartItems();
+			case CREATE:
+				return contextMenuBuilder.getCreateItems();
 			default:
 				return Collections.emptyList();
 		}
@@ -1782,6 +1784,13 @@ public final class SpreadsheetController<T> {
 		}
 		SpreadsheetReference selectedReference = new SpreadsheetReference(selection.getRange());
 		statisticsView.updateInputRange(selectedReference, activeStatisticsDataRange);
+	}
+
+	void createObject(ContextMenuItem.Identifier type) {
+		if (constructionDelegate != null
+				&& constructionDelegate.createObject(type, getSelectionRanges())) {
+			storeUndoInfo();
+		}
 	}
 
 	// Charts

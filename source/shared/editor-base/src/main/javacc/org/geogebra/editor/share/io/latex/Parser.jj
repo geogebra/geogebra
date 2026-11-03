@@ -95,8 +95,12 @@ public class Parser {
 
 	private int countVerticalBars(String text) {
 		int count = 0;
+		boolean inQuotes = false;
 		for (int i = 0; i < text.length(); i++) {
-			if (text.charAt(i) == '|') {
+			char character = text.charAt(i);
+			if (character == '"') {
+				inQuotes = !inQuotes;
+			} else if (character == '|' && !inQuotes) {
 				count++;
 			}
 		}
@@ -215,6 +219,7 @@ public class Parser {
 	}
 
 	public Formula parse(String text) throws ParseException {
+		absoluteValueDepth = 0;
 		absoluteValueCount = countVerticalBars(text);
 		if (absoluteValueCount % 2 != 0) {
 			text += "|";

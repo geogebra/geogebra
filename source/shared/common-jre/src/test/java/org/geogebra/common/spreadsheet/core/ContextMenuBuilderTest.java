@@ -19,6 +19,7 @@ package org.geogebra.common.spreadsheet.core;
 import static org.geogebra.common.spreadsheet.core.ContextMenuBuilder.HEADER_INDEX;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CALCULATE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.COPY;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CREATE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CREATE_CHART;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CUT;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_COLUMN;
@@ -102,6 +103,7 @@ final class ContextMenuBuilderTest {
 						DIVIDER,
 						CALCULATE,
 						CREATE_CHART,
+						CREATE,
 						DIVIDER,
 						INSERT_ROW_ABOVE,
 						INSERT_ROW_BELOW,
@@ -127,6 +129,7 @@ final class ContextMenuBuilderTest {
 						DIVIDER,
 						CALCULATE,
 						CREATE_CHART,
+						CREATE,
 						DIVIDER,
 						INSERT_ROW_ABOVE,
 						INSERT_ROW_BELOW,
@@ -151,6 +154,7 @@ final class ContextMenuBuilderTest {
 						CALCULATE,
 						STATISTICS,
 						CREATE_CHART,
+						CREATE,
 						DIVIDER,
 						INSERT_ROW_ABOVE,
 						INSERT_ROW_BELOW,
@@ -202,6 +206,13 @@ final class ContextMenuBuilderTest {
 				getIdentifiers(builder.getStatisticsItems()));
 	}
 
+	@Test
+	void testCreateMenuOrder() {
+		assertEquals(
+				List.of(Identifier.LIST_OF_POINTS, Identifier.TABLE, Identifier.POLYLINE),
+				getIdentifiers(builder.getCreateItems()));
+	}
+
 	private void testMenuOrder(int row, int column, List<Identifier> expected) {
 		List<ContextMenuItem> menuItems = builder.build(row, column);
 		assertEquals(expected, getIdentifiers(menuItems));
@@ -223,6 +234,7 @@ final class ContextMenuBuilderTest {
 						DIVIDER,
 						CALCULATE,
 						CREATE_CHART,
+						CREATE,
 						DIVIDER,
 						INSERT_ROW_ABOVE,
 						INSERT_ROW_BELOW,
@@ -241,6 +253,7 @@ final class ContextMenuBuilderTest {
 						DIVIDER,
 						CALCULATE,
 						CREATE_CHART,
+						CREATE,
 						DIVIDER,
 						INSERT_ROW_ABOVE,
 						INSERT_ROW_BELOW),
@@ -253,7 +266,17 @@ final class ContextMenuBuilderTest {
 		testMenuOrder(
 				1,
 				HEADER_INDEX,
-				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER, DIVIDER, DELETE_ROW));
+				List.of(
+						CUT,
+						COPY,
+						PASTE,
+						DIVIDER,
+						CALCULATE,
+						CREATE_CHART,
+						CREATE,
+						DIVIDER,
+						DIVIDER,
+						DELETE_ROW));
 	}
 
 	@Test
@@ -268,6 +291,7 @@ final class ContextMenuBuilderTest {
 						DIVIDER,
 						CALCULATE,
 						CREATE_CHART,
+						CREATE,
 						DIVIDER,
 						INSERT_COLUMN_LEFT,
 						INSERT_COLUMN_RIGHT,
@@ -286,6 +310,7 @@ final class ContextMenuBuilderTest {
 						DIVIDER,
 						CALCULATE,
 						CREATE_CHART,
+						CREATE,
 						DIVIDER,
 						INSERT_COLUMN_LEFT,
 						INSERT_COLUMN_RIGHT),
@@ -299,7 +324,16 @@ final class ContextMenuBuilderTest {
 				HEADER_INDEX,
 				1,
 				List.of(
-						CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER, DIVIDER, DELETE_COLUMN));
+						CUT,
+						COPY,
+						PASTE,
+						DIVIDER,
+						CALCULATE,
+						CREATE_CHART,
+						CREATE,
+						DIVIDER,
+						DIVIDER,
+						DELETE_COLUMN));
 	}
 
 	private void runItemAt(int row, int column, Identifier id) {

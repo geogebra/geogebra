@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
@@ -321,6 +322,21 @@ class AlgebraItemTest extends BaseUnitTest {
 		assertThat(AlgebraItem.evaluatesToFraction(fraction1), is(true));
 		assertThat(AlgebraItem.evaluatesToFraction(fraction2), is(true));
 		assertThat(AlgebraItem.evaluatesToFraction(solve), is(false));
+	}
+
+	@Test
+	@Issue("APPS-8095")
+	void tablePreviewShowsValueWhileEditorKeepsDefinition() {
+		getSettings().getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
+		GeoText table = add("text1=TableText({{1,3},{2,2},{3,1}},\"|_ll\")");
+		assertFalse(AlgebraItem.shouldShowBothRows(table, getSettings().getAlgebra()));
+		String preview = AlgebraItem.getPreviewLatexForGeoElement(table);
+		assertTrue(preview.contains("text1"), preview);
+		assertTrue(preview.contains(table.getTextString()), preview);
+		assertFalse(preview.contains("TableText"), preview);
+		String definition = AlgebraItem.getDefinitionLatexForGeoElement(table);
+		assertTrue(definition.contains("TableText"), definition);
+		assertTrue(definition.contains("|_ll"), definition);
 	}
 
 	@Test

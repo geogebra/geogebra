@@ -91,6 +91,7 @@ public final class SpreadsheetMenuBuilder {
 			case PASTE -> res.paste_black();
 			case DELETE -> res.delete_black();
 			case CALCULATE -> res.calculate();
+			case CREATE -> res.add_black();
 			case CREATE_CHART -> res.insert_chart();
 			case LINE_CHART -> res.table_line_chart();
 			case BAR_CHART -> res.table_bar_chart();
@@ -104,7 +105,10 @@ public final class SpreadsheetMenuBuilder {
 			case INSERT_COLUMN_LEFT -> res.add_column_left();
 			case INSERT_COLUMN_RIGHT -> res.add_column_right();
 			case OBJECT_PROPERTIES -> res.gear();
-			case SUM,
+			case LIST_OF_POINTS,
+					TABLE,
+					POLYLINE,
+					SUM,
 					SD,
 					MIN,
 					Q1,

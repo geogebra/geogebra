@@ -18,6 +18,7 @@ package org.geogebra.common.io;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -140,6 +141,29 @@ class EditorParserTest {
 		assertParsesAs("||x-3| - 4|", "abs(abs(x-3) - 4)");
 		assertParsesAs("|1-|2-|3|||", "abs(1-abs(2-abs(3)))");
 		assertParsesAs("|||1| - 2| - 3|", "abs(abs(abs(1) - 2) - 3)");
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"\"|\"", "\"||\"", "text1=TableText({{1,3},{2,2},{3,1}},\"|_ll\")"})
+	@Issue("APPS-8095")
+	void verticalBarsInQuotedTextAreNotAbsoluteValueDelimiters(String input) {
+		assertParsesAs(input, input);
+	}
+
+	@Test
+	@Issue("APPS-8095")
+	void quotedVerticalBarsDoNotAffectAbsoluteValueBalancing() {
+		assertParsesAs("|1|+\"|\"", "abs(1)+\"|\"");
+		assertParsesAs("|1+\"|\"", "abs(1+\"|\")");
+	}
+
+	@Test
+	@Issue("APPS-8095")
+	void failedParseDoesNotAffectSubsequentAbsoluteValues() throws ParseException {
+		Parser parser = new Parser(new TemplateCatalog());
+		assertThrows(ParseException.class, () -> parser.parse("|1+)"));
+		Formula formula = parser.parse("|2|");
+		assertEquals("abs(2)", new GeoGebraSerializer(null).serialize(formula));
 	}
 
 	@Test

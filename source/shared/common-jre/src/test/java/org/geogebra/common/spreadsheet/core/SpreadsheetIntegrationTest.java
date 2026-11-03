@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GColor;
@@ -44,6 +45,7 @@ import org.geogebra.common.gui.colorpicker.ColorPickerModel;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -53,6 +55,7 @@ import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
 import org.geogebra.common.spreadsheet.StringCapturingGraphics;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
@@ -65,6 +68,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
@@ -109,6 +113,84 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
 		spreadsheet.setViewport(new Rectangle(0, 100, 0, 120));
+	}
+
+	@ParameterizedTest
+	@EnumSource(
+			value = ContextMenuItem.Identifier.class,
+			names = {"LIST_OF_POINTS", "TABLE", "POLYLINE"})
+	void createObjectsPreservesSelectionAndSupportsUndo(ContextMenuItem.Identifier type) {
+		SpreadsheetController<GeoElement> controller = spreadsheet.getController();
+		controller.setSpreadsheetConstructionDelegate(
+				new DefaultSpreadsheetConstructionDelegate(getKernel().getAlgebraProcessor()));
+		evaluate("A1=1");
+		evaluate("A2=2");
+		evaluate("B1=3");
+		evaluate("B2=4");
+		controller.select(new TabularRange(0, 0, 1, 1), false, false);
+		List<TabularRange> selection = spreadsheet.getSelections();
+		getApp().storeUndoInfo();
+		String before = getConstruction().getCurrentUndoXML(false).toString();
+		Set<GeoElement> existing = new HashSet<>(getConstruction().getGeoSetConstructionOrder());
+
+		ContextMenuItem.ActionableItem item = (ContextMenuItem.ActionableItem)
+				spreadsheet.getMenuItems(ContextMenuItem.Identifier.CREATE).stream()
+						.filter(entry -> entry.getIdentifier() == type)
+						.findFirst()
+						.orElseThrow();
+		item.performAction();
+
+		assertEquals(selection, spreadsheet.getSelections());
+		assertTrue(getConstruction().getGeoSetConstructionOrder().stream()
+				.anyMatch(geo -> !existing.contains(geo)
+						&& !geo.isAuxiliaryObject()
+						&& geo.isAlgebraVisible()
+						&& switch (type) {
+							case LIST_OF_POINTS -> geo.isGeoList();
+							case TABLE -> geo.isGeoText();
+							case POLYLINE -> geo.isGeoPolyLine();
+							default -> false;
+						}));
+		List<String> createdValues = constructionValues();
+		String after = getConstruction().getCurrentUndoXML(false).toString();
+		assertNotEquals(before, after);
+		getKernel().undo();
+		assertEquals(before, getConstruction().getCurrentUndoXML(false).toString());
+		getKernel().redo();
+		assertEquals(createdValues, constructionValues());
+	}
+
+	@ParameterizedTest
+	@ValueSource(booleans = {true, false})
+	void createPointsFromEntireRowsOrColumns(boolean columns) {
+		evaluate("A1=1");
+		evaluate("A2=2");
+		evaluate("B1=3");
+		evaluate("B2=4");
+		TabularRange range = columns ? new TabularRange(-1, 0, -1, 1) : new TabularRange(0, -1, 1, -1);
+		DefaultSpreadsheetConstructionDelegate delegate =
+				new DefaultSpreadsheetConstructionDelegate(getKernel().getAlgebraProcessor());
+		assertTrue(delegate.createObject(ContextMenuItem.Identifier.LIST_OF_POINTS, List.of(range)));
+		assertTrue(getConstruction().getGeoSetConstructionOrder().stream()
+				.anyMatch(geo -> geo.isGeoList() && geo.isDefined()));
+	}
+
+	@ParameterizedTest
+	@EnumSource(
+			value = ContextMenuItem.Identifier.class,
+			names = {"LIST_OF_POINTS", "TABLE", "POLYLINE"})
+	void emptySelectionDoesNotCreateObjects(ContextMenuItem.Identifier type) {
+		DefaultSpreadsheetConstructionDelegate delegate =
+				new DefaultSpreadsheetConstructionDelegate(getKernel().getAlgebraProcessor());
+		assertFalse(delegate.createObject(type, List.of()));
+		assertFalse(delegate.createObject(type, List.of(new TabularRange(0, 0))));
+		assertTrue(getConstruction().getGeoSetConstructionOrder().isEmpty());
+	}
+
+	private List<String> constructionValues() {
+		return getConstruction().getGeoSetConstructionOrder().stream()
+				.map(geo -> geo.getLabelSimple() + ":" + geo.toValueString(StringTemplate.defaultTemplate))
+				.collect(Collectors.toList());
 	}
 
 	@Test

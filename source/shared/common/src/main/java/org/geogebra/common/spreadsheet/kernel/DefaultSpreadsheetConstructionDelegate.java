@@ -17,15 +17,22 @@
 package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetToolProcessor;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.statistics.Statistic;
+import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem;
 import org.geogebra.common.spreadsheet.core.SpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.jspecify.annotations.NonNull;
 
 public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstructionDelegate {
@@ -40,6 +47,67 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 	public DefaultSpreadsheetConstructionDelegate(@NonNull AlgebraProcessor algebraProcessor) {
 		this.algebraProcessor = algebraProcessor;
 		this.commandDispatcher = algebraProcessor.getCommandDispatcher();
+	}
+
+	private boolean isAllowed(ContextMenuItem.@NonNull Identifier type) {
+		if (type == ContextMenuItem.Identifier.POLYLINE
+				&& !commandDispatcher.isAllowedByCommandFilters(Commands.PolyLine)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean createObject(
+			ContextMenuItem.@NonNull Identifier type, @NonNull List<TabularRange> ranges) {
+		if (ranges.isEmpty() || !isAllowed(type)) {
+			return false;
+		}
+		App app = algebraProcessor.getKernel().getApplication();
+		List<TabularRange> finiteRanges = ranges.stream()
+				.map(range -> range.restrictInfiniteRangeTo(
+						app.getSpreadsheetTableModel().getRowCount(),
+						app.getSpreadsheetTableModel().getColumnCount()))
+				.collect(Collectors.toList());
+		if (finiteRanges.stream()
+				.allMatch(range -> CellRangeUtil.isEmpty(range, app.getSpreadsheetTableModel()))) {
+			return false;
+		}
+		CellFormat format = new CellFormat(null);
+		format.processXMLString(app.getSettings().getSpreadsheet().getCellFormatXml());
+		SpreadsheetToolProcessor processor = new SpreadsheetToolProcessor(app, format);
+		GeoElementND created;
+		if (type == ContextMenuItem.Identifier.TABLE) {
+			TabularRange range = finiteRanges.get(0);
+			if (!processor.isCreateMatrixPossible(finiteRanges)) {
+				return false;
+			}
+			created = processor.createTableText(
+					range.getMinColumn(),
+					range.getMaxColumn(),
+					range.getMinRow(),
+					range.getMaxRow(),
+					false,
+					false);
+		} else {
+			if (!processor.isCreatePointListPossible(finiteRanges)) {
+				return false;
+			}
+			GeoElement geo;
+			if (type == ContextMenuItem.Identifier.LIST_OF_POINTS) {
+				geo = processor.createPointGeoList(finiteRanges, false, true, false, true);
+			} else if (type == ContextMenuItem.Identifier.POLYLINE) {
+				geo = processor.createPolyLine(finiteRanges, false, true);
+			} else {
+				return false;
+			}
+			if (geo != null) {
+				app.getKernel().getConstruction().addToConstructionList(geo.getParentAlgorithm(), true);
+				geo.setLabel(null);
+			}
+			created = geo;
+		}
+		return created != null;
 	}
 
 	private GeoElementND[] processCommand(@NonNull String command) {

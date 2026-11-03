@@ -228,6 +228,14 @@ public class AlgebraItem {
 	 * @implNote Only used by Android and iOS
 	 */
 	public static String getPreviewLatexForGeoElement(@NonNull GeoElement element) {
+		if (element instanceof GeoText
+				&& ((GeoText) element).isLaTeX()
+				&& element.isAllowedToShowValue()) {
+			String latex = element.getLaTeXAlgebraDescription(true, StringTemplate.numericLatex);
+			if (latex != null) {
+				return latex;
+			}
+		}
 		String latex = getPreviewFormula(element, StringTemplate.numericLatex);
 
 		if (latex != null) {

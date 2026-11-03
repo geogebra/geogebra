@@ -105,6 +105,7 @@ public final class SpreadsheetStyleBar extends FlowPanel {
 		buildMenuButton(res.calculate(), ContextMenuItem.Identifier.CALCULATE);
 		buildMenuButton(res.statistics(), ContextMenuItem.Identifier.STATISTICS);
 		buildMenuButton(res.insert_chart(), ContextMenuItem.Identifier.CREATE_CHART);
+		buildMenuButton(res.add_black(), ContextMenuItem.Identifier.CREATE);
 	}
 
 	private void buildMenuButton(SVGResource icon, ContextMenuItem.Identifier identifier) {
@@ -113,8 +114,7 @@ public final class SpreadsheetStyleBar extends FlowPanel {
 	}
 
 	private IconButton buildIconButton(SVGResource svgResource, String ariaLabel) {
-		IconButton button = new IconButton(
-				appW, () -> {}, new ImageIconSpec(svgResource), appW.getLocalization().getMenu(ariaLabel));
+		IconButton button = new IconButton(appW, () -> {}, new ImageIconSpec(svgResource), ariaLabel);
 		add(button);
 		return button;
 	}
