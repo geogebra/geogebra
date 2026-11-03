@@ -4989,6 +4989,19 @@ public abstract class EuclidianView
 		y0RW -= yGap;
 		y1RW += yGap;
 
+		if (app.isWhiteboardActive()) {
+			// Limit zoom to 800% while keeping the objects centered.
+			double centerX = (x0RW + x1RW) / 2;
+			double centerY = (y0RW + y1RW) / 2;
+			double width = Math.max(
+					x1RW - x0RW, (getVisibleWidth() - (keepRatio ? LEFT_MARGIN_NOTES : 0)) / MAX_SCALE_NOTES);
+			double height = Math.max(y1RW - y0RW, getVisibleHeight() / MAX_SCALE_NOTES);
+			x0RW = centerX - width / 2;
+			x1RW = centerX + width / 2;
+			y0RW = centerY - height / 2;
+			y1RW = centerY + height / 2;
+		}
+
 		// enlarge x/y if we want to keep ratio
 		if (keepRatio) {
 			double visibleWidth = visibleRect.getMaxX() - visibleRect.getMinX();
