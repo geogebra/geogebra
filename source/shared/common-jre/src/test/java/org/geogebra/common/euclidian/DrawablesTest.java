@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.Traceable;
@@ -133,7 +134,8 @@ class DrawablesTest extends BaseUnitTest {
 			"inlinetext",
 			"formula",
 			"table",
-			"mindMap"
+			"mindMap",
+			"stickyNote"
 		};
 
 		add("toolPic=ToolImage[2]");
@@ -156,6 +158,8 @@ class DrawablesTest extends BaseUnitTest {
 		table.setLabel("table");
 		GeoMindMapNode mindMap = new GeoMindMapNode(construction, new GPoint2D());
 		mindMap.setLabel("mindMap");
+		GeoStickyNote stickyNote = new GeoStickyNote(construction, new GPoint2D());
+		stickyNote.setLabel("stickyNote");
 		TreeSet<GeoClass> types = new TreeSet<>();
 		for (String s : def) {
 			GeoElementND geo = add(s);

@@ -143,6 +143,7 @@ import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSpotlight;
 import org.geogebra.common.kernel.geos.GeoStadium;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -5228,6 +5229,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			case EuclidianConstants.MODE_STICKY_NOTE:
 				view.setCursor(STICKY_NOTE);
+				createInlineObject(selectionPreview, GeoStickyNote::new);
 				break;
 
 			case EuclidianConstants.MODE_SHAPE_RECTANGLE:
@@ -8385,9 +8387,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// preview shape for mow text tool
 		if (mode == EuclidianConstants.MODE_MEDIA_TEXT
 				|| mode == EuclidianConstants.MODE_EQUATION
-				|| mode == EuclidianConstants.MODE_MIND_MAP) {
+				|| mode == EuclidianConstants.MODE_MIND_MAP
+				|| mode == EuclidianConstants.MODE_STICKY_NOTE) {
 			view.resetBoundingBoxes();
-			updateInlineRectangle(event);
+			updateInlineRectangle(event, mode == EuclidianConstants.MODE_STICKY_NOTE);
 			view.setShapeRectangle(inlinePreviewRectangle);
 			view.repaintView();
 		}
@@ -8414,15 +8417,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void updateInlineRectangle(AbstractEvent event) {
+	private void updateInlineRectangle(AbstractEvent event, boolean keepAspectRatio) {
 		if (inlinePreviewRectangle == null) {
 			inlinePreviewRectangle = AwtFactory.getPrototype().newRectangle();
 		}
 
-		int left = Math.min(event.getX(), startPosition.getX());
-		int top = Math.min(event.getY(), startPosition.getY());
-		int width = Math.abs(event.getX() - startPosition.getX());
-		int height = Math.abs(event.getY() - startPosition.getY());
+		int dx = event.getX() - startPosition.getX();
+		int width = Math.abs(dx);
+		int dy = event.getY() - startPosition.getY();
+		if (keepAspectRatio) {
+			dy = dy > 0 ? width : -width;
+		}
+		int left = Math.min(startPosition.getX(), startPosition.getX() + dx);
+		int top = Math.min(startPosition.getY(), startPosition.getY() + dy);
+		int height = Math.abs(dy);
 
 		inlinePreviewRectangle.setBounds(left, top, width, height);
 	}

@@ -130,6 +130,8 @@ public final class GColor implements GPaint {
 
 	public static final GColor DEFAULT_PURPLE = newColorRGB(0X6557D2);
 
+	public static final GColor STICKY_NOTE_YELLOW = newColorRGB(0xFFD54F);
+
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer
 	 * directly to

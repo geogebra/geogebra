@@ -50,6 +50,7 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.draw.DrawSlope;
 import org.geogebra.common.euclidian.draw.DrawStadium;
+import org.geogebra.common.euclidian.draw.DrawStickyNote;
 import org.geogebra.common.euclidian.draw.DrawSurface;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.draw.DrawTurtle;
@@ -88,6 +89,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoStadium;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTurtle;
@@ -362,6 +364,10 @@ public class EuclidianDraw {
 				break;
 			case INLINE_TEXT:
 				d = new DrawInlineText(ev, (GeoInlineText) geo);
+				d.update();
+				break;
+			case STICKY_NOTE:
+				d = new DrawStickyNote(ev, (GeoStickyNote) geo);
 				d.update();
 				break;
 			case TABLE:

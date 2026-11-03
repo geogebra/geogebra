@@ -76,8 +76,7 @@ public interface InlineTextController extends HasTextFormat {
 	void updateContent();
 
 	/**
-	 * @param g2
-	 *           graphics
+	 * @param g2  graphics
 	 */
 	void draw(GGraphics2D g2);
 

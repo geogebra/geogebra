@@ -25,7 +25,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInline;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInline;
@@ -33,7 +32,6 @@ import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.HasVerticalAlignment;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
-import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -82,16 +80,15 @@ public final class InlineTextControllerW implements InlineTextController {
 	private final EuclidianView view;
 
 	/**
-	 * @param geo
-	 *            text
-	 * @param parent
-	 *            parent div
+	 * @param geo text
+	 * @param view euclidian view
+	 * @param parent parent div
 	 */
 	public InlineTextControllerW(GeoInline geo, EuclidianView view, Element parent) {
 		this.geo = geo;
 		this.parent = parent;
 		this.view = view;
-		CarotaUtil.ensureInitialized(FontSettings.DEFAULT_FONT_SIZE);
+		CarotaUtil.ensureInitialized(geo.defaultFontSize());
 		if (view.getApplication().isByCS()) {
 			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
 		}
@@ -154,7 +151,7 @@ public final class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void create() {
-		editor = new CarotaEditor(DrawInlineText.PADDING);
+		editor = new CarotaEditor(geo.defaultPadding());
 		editor.addInsertFilter(s -> checkEncodedPaste(s, geo));
 		final Widget widget = editor.getWidget();
 		widget.addStyleName(INVISIBLE);
@@ -178,7 +175,7 @@ public final class InlineTextControllerW implements InlineTextController {
 			@Override
 			public void onInput() {
 				double oldMinHeight = geo.getMinHeight();
-				int actualMinHeight = (int) ((editor.getMinHeight() + 2 * DrawInlineText.PADDING)
+				int actualMinHeight = (int) ((editor.getMinHeight() + 2 * geo.defaultPadding())
 						* geo.getWidth()
 						/ geo.getContentWidth());
 				if (oldMinHeight != actualMinHeight) {
@@ -249,7 +246,7 @@ public final class InlineTextControllerW implements InlineTextController {
 	}
 
 	private void updateVerticalAlign() {
-		style.setPaddingTop(getValignPadding(), Unit.PX);
+		style.setPaddingTop(getValignPadding(geo.defaultPadding()), Unit.PX);
 	}
 
 	@Override
@@ -385,18 +382,19 @@ public final class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		GAffineTransform res = AwtFactory.getTranslateInstance(
-				DrawInlineText.PADDING, DrawInlineText.PADDING + getValignPadding());
+		int padding = geo.defaultPadding();
+		GAffineTransform res =
+				AwtFactory.getTranslateInstance(padding, padding + getValignPadding(padding));
 		g2.transform(res);
 		g2.setColor(GColor.BLACK);
 		editor.draw(((GGraphics2DWI) g2).getContext());
 	}
 
-	private int getValignPadding() {
+	private int getValignPadding(int padding) {
 		if (getVerticalAlignment() == VerticalAlignment.MIDDLE) {
-			return (int) (geo.getContentHeight() - editor.getMinHeight()) / 2 - DrawInlineText.PADDING;
+			return (int) (geo.getContentHeight() - editor.getMinHeight()) / 2 - padding;
 		} else if (getVerticalAlignment() == VerticalAlignment.BOTTOM) {
-			return (int) (geo.getContentHeight() - editor.getMinHeight()) - 2 * DrawInlineText.PADDING;
+			return (int) (geo.getContentHeight() - editor.getMinHeight()) - 2 * padding;
 		} else {
 			return 0;
 		}

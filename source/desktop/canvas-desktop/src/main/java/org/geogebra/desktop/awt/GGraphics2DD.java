@@ -432,6 +432,17 @@ public class GGraphics2DD implements GGraphics2D {
 		impl.drawImage(((ImageD) img).getImage(), dx, dy, dx, dy, null);
 	}
 
+	@Override
+	public void setShadowProperties(
+			String color, double shadowOffsetX, double shadowOffsetY, double shadowBlur) {
+		// only for web
+	}
+
+	@Override
+	public void clearShadow() {
+		// only for web
+	}
+
 	public Graphics2D getNativeImplementation() {
 		return impl;
 	}

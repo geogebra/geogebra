@@ -4997,8 +4997,8 @@ public abstract class App
 	 * Create an inline text controller iff the view supports inline text
 	 * editing.
 	 *
-	 * @param geo
-	 *            inline text
+	 * @param view euclidian view
+	 * @param geo inline text
 	 *
 	 * @return an implementation of the text controller.
 	 */

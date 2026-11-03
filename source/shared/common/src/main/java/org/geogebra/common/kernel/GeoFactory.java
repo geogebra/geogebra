@@ -50,6 +50,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
@@ -161,6 +162,8 @@ public class GeoFactory {
 				return new GeoInputBox(cons1, null);
 			case "table":
 				return new GeoInlineTable(cons1, null);
+			case "stickynote":
+				return new GeoStickyNote(cons1, null);
 			case "video":
 				return new GeoVideo(cons1);
 			case "vector":

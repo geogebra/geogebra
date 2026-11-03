@@ -51,7 +51,7 @@ public class CarotaEditor implements Editor {
 		String origin = "-" + padding + "px ";
 		html.getElement().getStyle().setProperty("transformOrigin", origin + origin);
 		html.getElement().getStyle().setProperty("boxSizing", "border-box");
-		html.getElement().getStyle().setMargin(8, Unit.PX);
+		html.getElement().getStyle().setMargin(padding, Unit.PX);
 		return html;
 	}
 

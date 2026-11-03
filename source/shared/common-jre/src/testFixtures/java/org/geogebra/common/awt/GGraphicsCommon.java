@@ -244,4 +244,15 @@ public class GGraphicsCommon implements GGraphics2D {
 	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		// ignore empty method
 	}
+
+	@Override
+	public void setShadowProperties(
+			String color, double shadowOffsetX, double shadowOffsetY, double shadowBlur) {
+		// ignore empty method
+	}
+
+	@Override
+	public void clearShadow() {
+		// ignore empty method
+	}
 }

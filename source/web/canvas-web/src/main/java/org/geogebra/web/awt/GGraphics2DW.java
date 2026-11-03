@@ -950,6 +950,23 @@ public class GGraphics2DW implements GGraphics2DWI {
 		context.drawImage(((MyImageW) img).getImage(), dx, dy, dw, dh);
 	}
 
+	@Override
+	public void setShadowProperties(
+			String color, double shadowOffsetX, double shadowOffsetY, double shadowBlur) {
+		context.shadowColor = color;
+		context.shadowOffsetX = shadowOffsetX;
+		context.shadowOffsetY = shadowOffsetY;
+		context.shadowBlur = shadowBlur;
+	}
+
+	@Override
+	public void clearShadow() {
+		context.shadowOffsetX = 0;
+		context.shadowOffsetY = 0;
+		context.shadowBlur = 0;
+		context.shadowColor = GColor.BLACK.toString();
+	}
+
 	/**
 	 * @param img image element
 	 * @param x left

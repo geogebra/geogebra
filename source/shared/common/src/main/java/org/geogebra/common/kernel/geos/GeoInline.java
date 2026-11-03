@@ -20,6 +20,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInline;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.util.MyMath;
 
 public abstract class GeoInline extends GeoElement
@@ -298,5 +300,13 @@ public abstract class GeoInline extends GeoElement
 	 */
 	public void setScale(double scale) {
 		this.scale = scale;
+	}
+
+	public int defaultFontSize() {
+		return FontSettings.DEFAULT_FONT_SIZE;
+	}
+
+	public int defaultPadding() {
+		return DrawInlineText.PADDING;
 	}
 }

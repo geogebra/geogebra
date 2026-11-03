@@ -556,4 +556,19 @@ public interface GGraphics2D {
 	 * @param dh destination height
 	 */
 	void drawImage(MyImage img, int dx, int dy, int dw, int dh);
+
+	/**
+	 * Sets the shadow properties.
+	 * @param color shadow color
+	 * @param shadowOffsetX shadow x offset
+	 * @param shadowOffsetY shadow y offset
+	 * @param shadowBlur shadow blur
+	 */
+	void setShadowProperties(
+			String color, double shadowOffsetX, double shadowOffsetY, double shadowBlur);
+
+	/**
+	 * Resets the shadow.
+	 */
+	void clearShadow();
 }

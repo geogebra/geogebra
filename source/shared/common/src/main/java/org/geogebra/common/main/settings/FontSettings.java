@@ -24,6 +24,7 @@ import org.geogebra.common.util.Util;
 public class FontSettings extends AbstractSettings<FontSettings> {
 
 	public static final int DEFAULT_FONT_SIZE = 16;
+	public static final int DEFAULT_STICKY_NOTE_FONT_SIZE = 60;
 
 	private final DefaultSettings defaultSettings;
 	private int appFontSize;

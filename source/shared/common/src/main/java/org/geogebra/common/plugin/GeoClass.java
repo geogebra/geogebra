@@ -193,6 +193,11 @@ public enum GeoClass {
 	/** Inline text */
 	INLINE_TEXT("InlineText", 150, false),
 
+	/**
+	 * Sticky note
+	 */
+	STICKY_NOTE("StickyNote", 150, false),
+
 	/** Inline editable table */
 	TABLE("Table", 150, false),
 
