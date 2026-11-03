@@ -160,7 +160,10 @@ public abstract class PropertiesView implements View {
 	 * @return whether to show object properties for geo
 	 */
 	protected boolean geoHasPropertiesView(GeoElement geo) {
-		return !geo.isMeasurementTool() && !geo.isSpotlight() && !tableValuesPoint(geo);
+		return !geo.isMeasurementTool()
+				&& !geo.isSpotlight()
+				&& !tableValuesPoint(geo)
+				&& geo.hasProperties();
 	}
 
 	/**

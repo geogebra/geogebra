@@ -139,4 +139,9 @@ public class GeoStickyNote extends GeoInline
 	public int defaultPadding() {
 		return DrawStickyNote.PADDING;
 	}
+
+	@Override
+	public boolean hasProperties() {
+		return false;
+	}
 }

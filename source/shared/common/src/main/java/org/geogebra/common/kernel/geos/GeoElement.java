@@ -2068,7 +2068,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *
 	 * @return whether this element has editable properties
 	 */
-	public final boolean hasProperties() {
+	public boolean hasProperties() {
 		// return isDrawable() || isChangeable();
 		return isGeoElement();
 	}
