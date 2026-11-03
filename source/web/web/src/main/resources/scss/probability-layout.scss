@@ -101,13 +101,20 @@
 	}
 
 	.probabilityTab {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		.scrollPanel {
+			flex-shrink: 0;
+		}
 		.tabList {
 			padding: 8px 0;
 		}
 		.panelContainer {
-			height: 100%;
+			flex: 1;
+			min-height: 0;
 			width: 100%;
-			position: absolute;
+			position: relative;
 		}
 		.tabPanel {
 			width: 100%;
@@ -118,6 +125,9 @@
 				margin: 0;
 				padding: 0;
 			}
+		}
+		.StatisticsCalculatorW.tabPanel {
+			overflow-y: auto;
 		}
 		.PlotPanelPlus {
 			position: relative;

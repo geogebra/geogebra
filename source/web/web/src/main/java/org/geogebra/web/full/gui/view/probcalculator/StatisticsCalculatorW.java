@@ -68,7 +68,6 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 	private FlowPanel panelSample2;
 	private FlowPanel panelTestAndCI;
 	private ChiSquarePanelW panelChiSquare;
-	private FlowPanel scroller;
 	private int tabIndex;
 
 	/**
@@ -104,16 +103,12 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 		FlowPanel procedureWrapper = new FlowPanel();
 		procedureWrapper.add(procedurePanel);
 
-		scroller = new FlowPanel();
-		scroller.addStyleName("scroller");
-		scroller.add(procedureWrapper);
+		FlowPanel statsWrapper = new FlowPanel();
+		statsWrapper.addStyleName("statsWrapper");
+		statsWrapper.add(procedureWrapper);
 
-		// main content panel
-		FlowPanel main = new FlowPanel();
-		main.add(panelControl);
-		main.add(scroller);
-
-		wrappedPanel.add(main);
+		wrappedPanel.add(panelControl);
+		wrappedPanel.add(statsWrapper);
 
 		setLabels();
 		updateGUI();
