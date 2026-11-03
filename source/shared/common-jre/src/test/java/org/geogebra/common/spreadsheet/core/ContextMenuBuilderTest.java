@@ -183,6 +183,7 @@ final class ContextMenuBuilderTest {
 						DIVIDER,
 						CALCULATE,
 						CREATE_CHART,
+						CREATE,
 						DIVIDER,
 						INSERT_ROW_ABOVE,
 						INSERT_ROW_BELOW,
