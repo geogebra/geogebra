@@ -636,13 +636,12 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		SequenceNode sel = editorState.getCurrentNode();
 		if (sel != null) {
 			for (int i = Math.min(editorState.getCurrentOffset() - 1, sel.size() - 1); i >= 0; i--) {
-				if (sel.getChild(i) instanceof CharacterNode) {
-					if (!predicate.test((CharacterNode) sel.getChild(i))) {
-						return;
-					}
-					sel.removeChild(i);
-					editorState.decCurrentOffset();
+				if (!(sel.getChild(i) instanceof CharacterNode)
+						|| !predicate.test((CharacterNode) sel.getChild(i))) {
+					return;
 				}
+				sel.removeChild(i);
+				editorState.decCurrentOffset();
 			}
 		}
 	}

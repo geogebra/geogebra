@@ -35,12 +35,14 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
+import org.geogebra.editor.share.controller.EditorState;
 import org.geogebra.editor.share.controller.ExpressionReader;
 import org.geogebra.editor.share.editor.MathFieldInternal;
 import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.input.KeyboardInputAdapter;
 import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
 import org.geogebra.editor.share.tree.CharacterNode;
+import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -94,6 +96,8 @@ public final class SpreadsheetController<T> {
 	private @Nullable SpreadsheetCoords pendingEditorActivationCoords = null;
 
 	private static final int DOT_CATCH_RADIUS = 18;
+	private static final Predicate<CharacterNode> REFERENCE_CHARACTER =
+			w -> (w.isCharacter() && !w.isWordBreak()) || ":".equals(w.getUnicodeString());
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -2089,31 +2093,36 @@ public final class SpreadsheetController<T> {
 
 		private void updateReference(String reference) {
 			Predicate<CharacterNode> predicate = w -> w.isCharacter() || ":".equals(w.getUnicodeString());
-			String[] parts = reference.split(":");
-			String startCell = parts[0].trim();
-			String endCell = parts.length > 1 ? parts[1].trim() : startCell;
-
 			MathFieldInternal mfi = cellEditor.getMathField();
 			String currentWord = mfi.getCharactersLeftOfCursorMatching(predicate);
 			KeyboardInputAdapter.ensureTrailingCommaAsOperator(mfi.getEditorState(), currentWord);
 			boolean spaceNeeded = !currentWord.isEmpty();
 
-			if (currentWord.endsWith(":" + endCell)
-					|| currentWord.startsWith(startCell + ":")
-					|| currentWord.equals(endCell)
-					|| currentWord.equals(startCell)) {
-				mfi.deleteCurrentCharSequence(predicate);
+			String activeReference = getCurrentCellRangeCandidate();
+			if (activeReference != null
+					&& SpreadsheetReferenceParsing.parseReference(activeReference) != null) {
+				moveCursorToEndOfReference();
+				mfi.deleteCurrentCharSequence(REFERENCE_CHARACTER);
 				spaceNeeded = false;
 			}
 
 			type(spaceNeeded ? " " + reference : reference);
 		}
 
+		private void moveCursorToEndOfReference() {
+			EditorState state = cellEditor.getMathField().getEditorState();
+			SequenceNode sequence = state.getCurrentNode();
+			while (state.getCurrentOffset() < sequence.size()
+					&& sequence.getChild(state.getCurrentOffset()) instanceof CharacterNode
+					&& REFERENCE_CHARACTER.test(
+							(CharacterNode) sequence.getChild(state.getCurrentOffset()))) {
+				state.incCurrentOffset();
+			}
+		}
+
 		private @Nullable String getCurrentCellRangeCandidate() {
-			Predicate<CharacterNode> predicate =
-					w -> (w.isCharacter() && !",".equals(w.getUnicodeString()))
-							|| ":".equals(w.getUnicodeString());
-			String candidate = cellEditor.getMathField().getCharactersAroundCursorMatching(predicate);
+			String candidate =
+					cellEditor.getMathField().getCharactersAroundCursorMatching(REFERENCE_CHARACTER);
 			return candidate == null || candidate.isEmpty() ? null : candidate;
 		}
 	}

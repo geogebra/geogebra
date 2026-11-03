@@ -888,6 +888,77 @@ class SpreadsheetControllerTest
 	}
 
 	@Test
+	@Issue("APPS-8098")
+	void testClickingCellReplacesActiveReference() {
+		setViewport(new Rectangle(0, 500, 0, 500));
+		tabularData.setContent(0, 0, "=2");
+		tabularData.setContent(1, 1, "=3");
+		simulateCellMouseClick(3, 0, 2);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+		simulateCellMouseClick(0, 0, 1);
+		simulateCellMouseClick(1, 1, 1);
+		assertEquals("=B2", cellEditor.getMathField().getText());
+	}
+
+	@Test
+	@Issue("APPS-8098")
+	void testClickingCellReplacesActiveRangeReference() {
+		setViewport(new Rectangle(0, 500, 0, 500));
+		tabularData.setContent(0, 0, "=2");
+		tabularData.setContent(1, 0, "=3");
+		tabularData.setContent(0, 1, "=4");
+		simulateCellMouseClick(3, 0, 2);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+		cellEditor.getMathField().insertString("Sum(");
+		Point center = getCenter(0, 0);
+		controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
+		center = getCenter(1, 0);
+		controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
+		simulateCellMouseClick(0, 1, 1);
+		assertEquals("=Sum(B1)", cellEditor.getMathField().getText());
+	}
+
+	@Test
+	@Issue("APPS-8098")
+	void testClickingCellReplacesReferenceAroundCursor() {
+		setViewport(new Rectangle(0, 500, 0, 500));
+		tabularData.setContent(0, 0, "1");
+		tabularData.setContent(1, 0, "2");
+		simulateCellMouseClick(2, 0, 2);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+		simulateCellMouseClick(0, 0, 1);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_LEFT);
+		simulateCellMouseClick(1, 0, 1);
+		assertEquals("=A2", cellEditor.getMathField().getText());
+	}
+
+	@Test
+	@Issue("APPS-8098")
+	void testClickingCellKeepsExpressionBeforeActiveReference() {
+		setViewport(new Rectangle(0, 500, 0, 500));
+		tabularData.setContent(0, 0, "1");
+		tabularData.setContent(1, 1, "2");
+		simulateCellMouseClick(3, 0, 2);
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+		cellEditor.getMathField().insertString("2^3");
+		simulateCellMouseClick(0, 0, 1);
+		simulateCellMouseClick(1, 1, 1);
+		assertEquals("=2^(3)B2", cellEditor.getMathField().getText());
+	}
+
+	@Test
+	@Issue("APPS-8098")
+	void testClickingCellKeepsFactorBeforeReferenceAfterReopen() {
+		setViewport(new Rectangle(0, 500, 0, 500));
+		tabularData.setContent(0, 0, "1");
+		tabularData.setContent(1, 1, "2");
+		tabularData.setContent(3, 0, "=2*3 A1");
+		simulateCellMouseClick(3, 0, 2);
+		simulateCellMouseClick(1, 1, 1);
+		assertEquals("=2*3 B2", cellEditor.getMathField().getText());
+	}
+
+	@Test
 	void testInsertingCellReferenceByDrag() {
 		tabularData.setContent(0, 0, "=2");
 		simulateCellMouseClick(1, 0, 2);
