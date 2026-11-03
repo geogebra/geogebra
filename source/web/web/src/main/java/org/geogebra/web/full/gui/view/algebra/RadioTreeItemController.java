@@ -630,7 +630,7 @@ public class RadioTreeItemController
 			selectionCtrl.select(geo, separated, continuous);
 			if (separated && !selectionCtrl.contains(geo)) {
 				selectionCtrl.setSelectHandled(true);
-				getAV().selectRow(geo, false);
+				getAV().updateRowSelection(geo);
 			} else if (continuous) {
 				getAV().updateSelection();
 			}

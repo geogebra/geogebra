@@ -313,12 +313,9 @@ public final class ItemControls extends FlowPanel
 	}
 
 	/**
-	 * Called when item selected, shows the x button in edit mode
-	 *
-	 * @param value
-	 *            whether this is the only selected item
+	 * Called when item selected, shows the x button in edit mode.
 	 */
-	public void show(boolean value) {
+	public void show() {
 		super.setVisible(true); // radioTreeItem.app.has(Feature.AV_ITEM_DESIGN)
 	}
 

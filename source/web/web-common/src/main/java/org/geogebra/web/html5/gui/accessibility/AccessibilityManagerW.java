@@ -202,7 +202,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void setTabOverGeos() {
 		geoTabber.setFocused(true);
-		app.getSelectionManager().resetKeyboardSelection();
 	}
 
 	@Override

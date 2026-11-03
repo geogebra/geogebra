@@ -9133,6 +9133,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.hideDynamicStylebar();
 		}
 		app.getAccessibilityManager().setTabOverGeos();
+		app.getSelectionManager().resetKeyboardSelection();
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
 		pressedInputBox = null;

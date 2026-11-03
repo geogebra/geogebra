@@ -63,7 +63,6 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Panel;
-import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -311,7 +310,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void setEnabled(boolean flag) {
 		this.enabled = flag;
-		if (parent != null && clip != null) {
+		if (parent != null && clip != null && !parent.getElement().isOrHasChild(clip.getElement())) {
 			parent.add(clip);
 		}
 		if (!flag) {
@@ -967,9 +966,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private Element getHiddenTextArea() {
 		if (clip == null) {
 			clip = new SimplePanel();
-			Element el = getHiddenTextAreaNative(counter++, clip.getElement());
+			styleClipElement(clip.getElement());
+			Element el = getHiddenTextAreaNative(counter++);
 
-			inputTextArea = MyTextArea.wrap(el);
+			inputTextArea = new MyTextArea(el);
 
 			new EditorCompositionHandler(this).attachTo(inputTextArea);
 			addFocusListener(inputTextArea, event -> {
@@ -983,11 +983,24 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			inputTextArea.addBlurHandler(this);
 			clip.setWidget(inputTextArea);
 		}
-		if (parent != null) {
+		if (parent != null && !parent.getElement().isOrHasChild(clip.getElement())) {
 			parent.add(clip);
 		}
 
 		return inputTextArea.getElement();
+	}
+
+	private void styleClipElement(Element clipDiv) {
+		clipDiv.getStyle().setZIndex(-32000);
+		// although clip is for absolute position, necessary!
+		// as it is deprecated, may cause CSS challenges later
+		clipDiv.getStyle().setProperty("clip", "rect(1em 1em 1em 1em)");
+		// top/left will be specified dynamically, depending on scrollbar
+		clipDiv.getStyle().setHeight(1, Unit.PX);
+		clipDiv.getStyle().setWidth(1, Unit.PX);
+		clipDiv.getStyle().setPosition(Position.RELATIVE);
+		clipDiv.getStyle().setTop(-100, Unit.PCT);
+		clipDiv.setClassName("textAreaClip");
 	}
 
 	private void addFocusListener(MyTextArea inputTextArea, EventListener o) {
@@ -1060,28 +1073,17 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.onTextfieldFocus = run;
 	}
 
-	private static Element getHiddenTextAreaNative(int counter, Element clipDiv) {
+	private static Element getHiddenTextAreaNative(int counter) {
 		Element hiddenTextArea = DOM.getElementById("hiddenCopyPasteLatexArea" + counter);
 		if (hiddenTextArea == null) {
 			hiddenTextArea = DOM.createTextArea();
 			hiddenTextArea.setId("hiddenCopyPasteLatexArea" + counter);
 			hiddenTextArea.getStyle().setOpacity(0);
-			clipDiv.getStyle().setZIndex(-32000);
-			// although clip is for absolute position, necessary!
-			// as it is deprecated, may cause CSS challenges later
-			clipDiv.getStyle().setProperty("clip", "rect(1em 1em 1em 1em)");
-			// top/left will be specified dynamically, depending on scrollbar
-			clipDiv.getStyle().setHeight(1, Unit.PX);
-			clipDiv.getStyle().setWidth(1, Unit.PX);
-			clipDiv.getStyle().setPosition(Position.RELATIVE);
-			clipDiv.getStyle().setTop(-100, Unit.PCT);
-			clipDiv.setClassName("textAreaClip");
 			hiddenTextArea.getStyle().setPadding(0, Unit.PX);
 			hiddenTextArea.getStyle().setProperty("border", "0");
 			hiddenTextArea.getStyle().setProperty("minHeight", "0");
 			// prevent messed up scrolling in FF/IE; width must be bigger for NVDA to work
 			hiddenTextArea.getStyle().setHeight(1, Unit.PX);
-			RootPanel.getBodyElement().appendChild(hiddenTextArea);
 			if (NavigatorUtil.isMobile()) {
 				hiddenTextArea.setAttribute("readonly", "true");
 			}

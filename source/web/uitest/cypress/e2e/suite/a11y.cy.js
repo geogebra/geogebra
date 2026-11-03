@@ -86,4 +86,20 @@ describe('Accessibility test', () => {
         cy.get("li").contains("Edit").click();
         cy.get("[aria-label='Start value for x']").should("be.focused");
     });
+
+    it("Redefine input should keep focus", () => {
+        cy.window().then(win => {
+            win.ggbApplet.evalCommand("x+1\nx+2\nx+3");
+        });
+        selectors.euclidianView.get()
+            .mouseEvent('down', 100, 200)
+            .mouseEvent('up', 100, 200);
+        pressTab();
+        pressTab();
+        cy.focused().type("{enter}");
+        cy.wait(1000);
+        cy.writeInAVInput("{enter}");
+        // second AV row is 3rd DOM child
+        cy.get(".avItem:nth-child(3).keyboardFocus").should("be.visible")
+    });
 });

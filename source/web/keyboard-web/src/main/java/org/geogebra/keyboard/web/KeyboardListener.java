@@ -94,7 +94,9 @@ public interface KeyboardListener {
 	void endEditing();
 
 	/**
-	 * @return process field
+	 * Returns the associated widget. If two listeners have the same widget,
+	 * switching keyboard from one to the other will not trigger termination of editing.
+	 * @return the associated widget
 	 */
 	Object getField();
 

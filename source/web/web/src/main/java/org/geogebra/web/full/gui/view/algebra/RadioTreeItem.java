@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import static org.geogebra.web.html5.gui.util.FocusUtil.makeFocusable;
 
+import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -187,7 +188,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected boolean first = false;
 	protected String ariaPreview;
-	private Label ariaLabel = null;
 	InputItemControl inputControl;
 	protected ToastController toastController;
 	protected final SyntaxController syntaxController;
@@ -720,7 +720,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			doUpdate();
 		}
 		// highlight only
-		boolean selected = geo.doHighlighting();
+		boolean selected = geo.doHighlighting() || av.getActiveTreeItem() == this;
 
 		setSelected(selected);
 
@@ -1255,7 +1255,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			enterEditMode(geo == null || isMoveablePoint(geo));
 
 			if (av != null && getAV().isNodeTableEmpty()) {
-				updateGUIfocus(false);
+				updateGUIFocus(false);
 			}
 		}
 	}
@@ -1287,7 +1287,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 */
 	public void selectItem(boolean selected) {
 		if (controls != null) {
-			controls.show(!controller.hasMultiGeosSelected() && selected);
+			controls.show();
 		}
 
 		if (selectedItem == selected) {
@@ -1295,7 +1295,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		selectedItem = selected;
 		setStyleName("avSelectedRow", selected);
-		boolean isKeyboardSelected = app.getSelectionManager().isKeyboardFocused(geo);
+		boolean isKeyboardSelected = !app.getSelectionManager().hasPointerFocus();
 		Dom.toggleClass(this, "keyboardFocus", selected && isKeyboardSelected);
 		if (isKeyboardSelected) {
 			scrollIntoView();
@@ -1430,9 +1430,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (dummyLabel == null) {
 			dummyLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
 					loc.getMenu("InputLabel") + Unicode.ELLIPSIS, "avDummyLabel");
-			ariaLabel = new Label();
-			ariaLabel.addStyleName("hidden");
-			content.add(ariaLabel);
 		}
 		clearUndefinedVariables();
 		updateFont(dummyLabel);
@@ -1875,9 +1872,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	protected void updateGUIfocus(boolean blurtrue) {
+	protected void updateGUIFocus(boolean blurred) {
 		if (geo == null) {
-			updateEditorFocus(blurtrue);
+			updateEditorFocus(blurred);
 		}
 	}
 
@@ -1904,8 +1901,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void updateAfterRedefine(boolean success) {
 		setEnabled(false);
 		doUpdateAfterRedefine(success);
-		if (ariaLabel != null) {
-			ariaLabel.getElement().focus();
+		if (av != null) {
+			// DOM focus has to stay in applet, logical focus goes to GeoTabber
+			app.getSelectionManager().setSelectedGeos(List.of(geo));
+			app.getAccessibilityManager().setTabOverGeos();
+			av.getElement().focus();
 		}
 	}
 

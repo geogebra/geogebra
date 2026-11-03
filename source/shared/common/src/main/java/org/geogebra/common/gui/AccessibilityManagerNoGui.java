@@ -102,7 +102,7 @@ public final class AccessibilityManagerNoGui implements AccessibilityManagerInte
 
 	@Override
 	public void setTabOverGeos() {
-		app.getSelectionManager().resetKeyboardSelection();
+		// not needed
 	}
 
 	@Override

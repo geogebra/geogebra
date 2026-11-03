@@ -37,7 +37,7 @@ class GeoTabberTest extends BaseUnitTest {
 		GeoTabber tab = new GeoTabber(getApp());
 		tab.focusNext();
 		assertThat("highlighted from keyboard", d.isHighlighted(), is(true));
-		getApp().getAccessibilityManager().setTabOverGeos();
+		getApp().getSelectionManager().resetKeyboardSelection();
 		assertThat("not highlighted after click", d.isHighlighted(), is(false));
 		getApp().setShowToolBar(true);
 		assertThat("highlighted in full app", d.isHighlighted(), is(true));

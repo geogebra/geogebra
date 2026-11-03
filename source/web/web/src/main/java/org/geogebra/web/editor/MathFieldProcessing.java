@@ -98,7 +98,7 @@ public class MathFieldProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public MathFieldW getField() {
+	public Object getField() {
 		return mf;
 	}
 

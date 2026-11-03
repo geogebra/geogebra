@@ -25,6 +25,7 @@ public final class AlgebraMathFieldProcessing extends MathFieldProcessing {
 
 	private final RadioTreeItem avInput;
 	private final AnsProvider ansProvider;
+	private final RadioTreeItem treeItem;
 
 	/**
 	 * @param textField AV input
@@ -32,6 +33,7 @@ public final class AlgebraMathFieldProcessing extends MathFieldProcessing {
 	 */
 	public AlgebraMathFieldProcessing(RadioTreeItem textField, HasLastItem lastItemProvider) {
 		super(textField.getMathField());
+		this.treeItem = textField;
 		ansProvider = lastItemProvider != null ? new AnsProvider(lastItemProvider) : null;
 		avInput = textField;
 	}
@@ -60,5 +62,10 @@ public final class AlgebraMathFieldProcessing extends MathFieldProcessing {
 	@Override
 	public boolean requestsAns() {
 		return ansProvider != null && avInput != null;
+	}
+
+	@Override
+	public RadioTreeItem getField() {
+		return treeItem;
 	}
 }

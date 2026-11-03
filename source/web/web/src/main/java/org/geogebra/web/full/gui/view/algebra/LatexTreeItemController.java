@@ -90,7 +90,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 			if (item.getAV().isNodeTableEmpty()) {
 				// #5245#comment:8, cases B and C excluded
-				item.updateGUIfocus(true);
+				item.updateGUIFocus(true);
 			}
 		});
 	}
@@ -100,7 +100,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (isEditing()) {
 			dispatchEditEvent(EventType.EDITOR_STOP);
 		}
-		if (keepFocus) {
+		if (keepFocus && item.geo == null) {
 			app.getAccessibilityManager().resetTabOverGeos();
 		}
 		if (item.isInputTreeItem() && item.isEmpty()) {

@@ -579,7 +579,7 @@ public final class AlgebraViewW extends Tree
 		nodeTable.put(geo, node);
 		if (wasEmpty) {
 			if (this.inputPanelLatex != null) {
-				this.inputPanelLatex.updateGUIfocus(false);
+				this.inputPanelLatex.updateGUIFocus(false);
 			}
 		}
 
@@ -1532,7 +1532,7 @@ public final class AlgebraViewW extends Tree
 
 		if (inputJustCreated) {
 			if (isNodeTableEmpty()) {
-				inputPanel.updateGUIfocus(false);
+				inputPanel.updateGUIFocus(false);
 			}
 		}
 		showAlgebraInput(forceKeyboard);
@@ -1611,7 +1611,7 @@ public final class AlgebraViewW extends Tree
 
 		if (inputJustCreated) {
 			if (isNodeTableEmpty()) {
-				inputPanel.updateGUIfocus(false);
+				inputPanel.updateGUIFocus(false);
 			}
 		}
 
@@ -1697,13 +1697,13 @@ public final class AlgebraViewW extends Tree
 
 		stopCurrentEditor();
 
-		if (activeItem != null && !selectionCtrl.isMultiSelect()) {
-			selectRow(activeItem.getGeo(), false);
+		if (activeItem != null) {
+			updateRowSelection(activeItem.getGeo());
 		}
 		this.activeItem = item;
 		//
 		if (activeItem != null) {
-			selectRow(activeItem.getGeo(), true);
+			updateRowSelection(activeItem.getGeo());
 		}
 	}
 
@@ -1726,18 +1726,17 @@ public final class AlgebraViewW extends Tree
 	}
 
 	/**
+	 * Update the selection state of a row presenting a construction element.
 	 * @param geo
-	 *            geo to be (un)selected
-	 * @param select
-	 *            whether to select or unselect
+	 *            construction element
 	 */
-	public void selectRow(GeoElement geo, boolean select) {
+	public void updateRowSelection(GeoElement geo) {
 		RadioTreeItem node = nodeTable.get(geo);
 		if (node == null) {
 			return;
 		}
 
-		node.selectItem(select);
+		node.selectItem(geo.doHighlighting() || node == activeItem);
 	}
 
 	/**
@@ -1780,6 +1779,7 @@ public final class AlgebraViewW extends Tree
 
 	void cancelEditItem() {
 		editItem = false;
+		activeItem = null;
 		setAnimationEnabled(true);
 	}
 
@@ -2071,7 +2071,7 @@ public final class AlgebraViewW extends Tree
 			if (ti instanceof RadioTreeItem) {
 				GeoElement geo = RadioTreeItem.as(ti).getGeo();
 				if (geo != null) {
-					selectRow(geo, geo.doHighlighting());
+					updateRowSelection(geo);
 				}
 
 			} else if (ti.getWidget() instanceof GroupHeader) {
@@ -2080,7 +2080,7 @@ public final class AlgebraViewW extends Tree
 					if (ti.getChild(j) instanceof RadioTreeItem) {
 						GeoElement geo = RadioTreeItem.as(ti.getChild(j)).getGeo();
 						if (geo != null) {
-							selectRow(geo, geo.doHighlighting());
+							updateRowSelection(geo);
 						}
 					}
 				}
