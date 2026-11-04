@@ -39,6 +39,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App.InputPosition;
@@ -365,11 +366,11 @@ public class AlgebraInputD extends JPanel
 		if (!explicit && autoInput != null && autoInput.equals(getTextField().getText())) {
 			return;
 		}
+		Kernel kernel = app.getKernel();
 		autoInput = null;
-		app.getKernel().clearJustCreatedGeosInViews();
-		boolean valid = app.getKernel().getInputPreviewHelper().isValid();
-		String input =
-				app.getKernel().getInputPreviewHelper().getInput(getTextField().getText());
+		kernel.clearJustCreatedGeosInViews();
+		boolean valid = kernel.getInputPreviewHelper().isValid();
+		String input = kernel.getInputPreviewHelper().getInput(getTextField().getText());
 
 		if (input.isEmpty()) {
 			app.getActiveEuclidianView().requestFocus();
@@ -377,14 +378,15 @@ public class AlgebraInputD extends JPanel
 		}
 
 		app.setScrollToShow(true);
+		kernel.getInputPreviewHelper().removePreview();
 		try {
 			EvalInfo info = new EvalInfo(true, true)
 					.withSliders(true)
-					.addDegree(app.getKernel().getAngleUnitUsesDegrees())
+					.addDegree(kernel.getAngleUnitUsesDegrees())
 					.withSymbolic(true);
 			AsyncOperation<GeoElementND[]> callback =
-					new InputBarCallback(app, inputField, input, app.getKernel().getConstructionStep());
-			app.getKernel()
+					new InputBarCallback(app, inputField, input, kernel.getConstructionStep());
+			kernel
 					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(
 							input, true, getErrorHandler(valid, explicit), info, callback);

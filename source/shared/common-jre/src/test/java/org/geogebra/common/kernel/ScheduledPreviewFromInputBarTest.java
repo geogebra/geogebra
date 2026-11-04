@@ -19,6 +19,7 @@ package org.geogebra.common.kernel;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -114,5 +115,37 @@ class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 		assertNotNull(preview.getPreview("3"));
 		preview.updatePreviewFromInputBar("", errorHandler);
 		assertNull(preview.getPreview(""));
+	}
+
+	@Test
+	@Issue("APPS-8080")
+	void shouldKeepCellRangeListCommittedAfterPreview() {
+		add("A1=1");
+		add("A2=2");
+		preview.updatePreviewFromInputBar("A1:A2", errorHandler);
+		assertNotNull(preview.getPreview("A1:A2"));
+
+		preview.removePreview();
+		assertTrue(preview.isValid());
+
+		add("l1=A1:A2");
+		preview.updatePreviewFromInputBar("", errorHandler);
+		assertEquals("{1, 2}", lookup("l1").toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-8080")
+	void shouldKeepCellRangeRedefinitionAfterPreview() {
+		add("A1=1");
+		add("A2=2");
+		GeoElement a = add("a=5");
+		preview.updatePreviewFromInputBar("A1:A2", errorHandler);
+		assertNotNull(preview.getPreview("A1:A2"));
+
+		preview.removePreview();
+		editGeoElement(a, "A1:A2");
+		preview.updatePreviewFromInputBar("", errorHandler);
+
+		assertEquals("{1, 2}", lookup("a").toValueString(StringTemplate.defaultTemplate));
 	}
 }

@@ -153,7 +153,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	public void run() {
 		cleanOldSliders();
 		removeAlgosFromPreviousEvaluation();
-		previewGeos = null;
 		if (StringUtil.emptyTrim(input)) {
 			if (validation != null) {
 				validation.resetError();
@@ -302,6 +301,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					geo.getParentAlgorithm().remove();
 				}
 			}
+			previewGeos = null;
 		}
 		if (redefineGeos != null) {
 			for (GeoElementND geo : redefineGeos) {
@@ -394,13 +394,21 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	}
 
 	/**
+	 * Removes the current preview while keeping the input and its validation state.
+	 * Called before evaluating input so that the result does not re-use a cached preview algo.
+	 */
+	public void removePreview() {
+		removeAlgosFromPreviousEvaluation();
+		kernel.notifyUpdatePreviewFromInputBar(null);
+	}
+
+	/**
 	 * Clears preview.
 	 */
 	public void clear() {
 		input = "";
 		inputValid = false;
 		removeAlgosFromPreviousEvaluation();
-		previewGeos = null;
 		setInput("", null);
 	}
 }

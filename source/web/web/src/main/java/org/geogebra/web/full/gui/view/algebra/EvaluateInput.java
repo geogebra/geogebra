@@ -112,6 +112,7 @@ public final class EvaluateInput {
 
 	private void processAlgebraInput(
 			String input, ErrorHandler err, EvalInfo info, AsyncOperation<GeoElementND[]> cbEval) {
+		app.getKernel().getInputPreviewHelper().removePreview();
 		app.getKernel()
 				.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, false, err, info, cbEval);

@@ -929,7 +929,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		styleEditor();
 
 		showStyleBarIfNeeded();
-		kernel.notifyUpdatePreviewFromInputBar(null);
+		kernel.getInputPreviewHelper().removePreview();
 		removeCloseButton();
 		controller.setEditing(false);
 
