@@ -179,13 +179,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 		}
 		String result = null;
-		CasEvaluation evaluation = CasEvaluation.value(null);
+		CasEvaluation evaluation;
 		CASException exception = null;
 		try {
 			evaluation = getCurrentCAS().evaluateGeoGebraCASResult(casInput, arbconst, tpl, cell, kernel);
 			result = evaluation.getValue();
 		} catch (CASException ce) {
 			exception = ce;
+			evaluation = CasEvaluation.value(null);
 		}
 
 		// check if keep input command was successful

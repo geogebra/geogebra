@@ -123,7 +123,7 @@ public final class JLaTeXMathCache {
 		CachedTeXFormula cached = (CachedTeXFormula) o;
 		SoftReference<CachedImage> img = cache.get(cached);
 		if (img == null || img.get() == null) {
-			img = makeImage(cached);
+			makeImage(cached);
 		}
 
 		return new int[] {cached.width, cached.height, cached.depth};
@@ -147,7 +147,7 @@ public final class JLaTeXMathCache {
 		CachedTeXFormula cached = new CachedTeXFormula(f, style, type, size, inset, fgcolor);
 		SoftReference<CachedImage> img = cache.get(cached);
 		if (img == null || img.get() == null) {
-			img = makeImage(cached);
+			makeImage(cached);
 		}
 
 		return cached;
