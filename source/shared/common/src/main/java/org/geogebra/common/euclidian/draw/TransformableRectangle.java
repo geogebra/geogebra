@@ -45,7 +45,7 @@ public class TransformableRectangle {
 	private GAffineTransform directTransform;
 	private GAffineTransform inverseTransform;
 	private GAffineTransform inverseScaledTransform;
-	private boolean keepAspectRatio;
+	private final boolean keepAspectRatio;
 	private GPoint2D corner0;
 	private GPoint2D corner1;
 	private GPoint2D corner2;
@@ -224,7 +224,9 @@ public class TransformableRectangle {
 			y = transformed.getY();
 		}
 
-		if (geo instanceof GeoInlineText && height < geo.getMinHeight() && width < geo.getWidth()) {
+		if ((geo instanceof GeoInlineText || geo instanceof GeoStickyNote)
+				&& height < geo.getMinHeight()
+				&& width < geo.getWidth()) {
 			return;
 		}
 

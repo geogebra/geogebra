@@ -30,10 +30,10 @@ public class GeoStickyNote extends GeoInline
 		implements HasVerticalAlignment, HasTextFormatter, TextStyle {
 	public static final int DEFAULT_WIDTH = 160;
 	public static final int DEFAULT_HEIGHT = 160;
-	public static final int MIN_WIDTH = 36;
 	public static final int MIN_HEIGHT = 36;
 	private String content;
 	private VerticalAlignment verticalAlignment = VerticalAlignment.MIDDLE;
+	private double minHeight;
 
 	/**
 	 * Creates a sticky note geo.
@@ -51,7 +51,7 @@ public class GeoStickyNote extends GeoInline
 
 	@Override
 	public void setMinHeight(double minHeight) {
-		// not needed for now
+		this.minHeight = minHeight;
 	}
 
 	@Override
@@ -78,10 +78,9 @@ public class GeoStickyNote extends GeoInline
 	@Override
 	public void set(GeoElementND geo) {
 		cons = geo.getConstruction();
-		if (geo instanceof GeoStickyNote) {
-			GeoStickyNote text = (GeoStickyNote) geo;
-			setLocation(text.getLocation());
-			setSize(text.getWidth(), text.getHeight());
+		if (geo instanceof GeoStickyNote stickyNote) {
+			setLocation(stickyNote.getLocation());
+			setSize(stickyNote.getWidth(), stickyNote.getHeight());
 		}
 	}
 
@@ -102,12 +101,12 @@ public class GeoStickyNote extends GeoInline
 
 	@Override
 	public double getMinWidth() {
-		return MIN_WIDTH;
+		return GeoInlineText.MIN_WIDTH;
 	}
 
 	@Override
 	public double getMinHeight() {
-		return MIN_HEIGHT;
+		return Math.max(minHeight, MIN_HEIGHT);
 	}
 
 	@Override

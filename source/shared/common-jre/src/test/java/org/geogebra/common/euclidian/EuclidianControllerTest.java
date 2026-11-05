@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestEvent;
@@ -509,6 +510,29 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 		GeoInline geo = (GeoInline) getApp().getKernel().getConstruction().getLastGeoElement();
 		assertDraggedSize(geo, 300, 100, 25);
+	}
+
+	@Test
+	@Issue("MOW-1950")
+	void inlineStickyNoteSize() {
+		setMode(EuclidianConstants.MODE_STICKY_NOTE);
+		click(30, 40);
+		setMode(EuclidianConstants.MODE_STICKY_NOTE);
+		dragStart(70, 80);
+		dragEnd(80, 90); // try to make the sticky note 10x10px
+		events.clear();
+
+		checkContent("a", "b");
+
+		Construction cons = getApp().getKernel().getConstruction();
+		GeoStickyNote a = (GeoStickyNote) cons.lookupLabel("a");
+		GeoStickyNote b = (GeoStickyNote) cons.lookupLabel("b");
+
+		assertEquals(GeoStickyNote.DEFAULT_WIDTH, a.getWidth(), Kernel.MAX_PRECISION);
+		assertEquals(GeoStickyNote.DEFAULT_HEIGHT, a.getHeight(), Kernel.MAX_PRECISION);
+
+		assertEquals(GeoInlineText.MIN_WIDTH, b.getWidth(), Kernel.MAX_PRECISION);
+		assertEquals(GeoStickyNote.MIN_HEIGHT, b.getHeight(), Kernel.MAX_PRECISION);
 	}
 
 	@Test
