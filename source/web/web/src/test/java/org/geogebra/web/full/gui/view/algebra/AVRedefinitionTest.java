@@ -81,6 +81,14 @@ public class AVRedefinitionTest {
 		assertEquals(2, a.getKernel().lookupLabel("a").evaluateDouble(), 0);
 	}
 
+	@Test
+	public void cancelEditingInputItemShouldNotThrow() {
+		// APPS-8126
+		RadioTreeItem input = app.getAlgebraView().getInputTreeItem();
+		assertNotNull(input);
+		assertTrue(input.stopEditing("", "", null));
+	}
+
 	private GeoElement add(String command) {
 		return (GeoElement)
 				app.getKernel().getAlgebraProcessor().processAlgebraCommand(command, false)[0];

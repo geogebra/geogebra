@@ -1901,7 +1901,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void updateAfterRedefine(boolean success) {
 		setEnabled(false);
 		doUpdateAfterRedefine(success);
-		if (av != null) {
+		if (av != null && geo != null) {
 			// DOM focus has to stay in applet, logical focus goes to GeoTabber
 			app.getSelectionManager().setSelectedGeos(List.of(geo));
 			app.getAccessibilityManager().setTabOverGeos();
