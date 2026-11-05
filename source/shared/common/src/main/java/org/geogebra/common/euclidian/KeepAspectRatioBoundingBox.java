@@ -17,15 +17,23 @@
 package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.MyImage;
+import org.jspecify.annotations.Nullable;
 
-public class MeasurementToolBoundingBox extends MediaBoundingBox {
+public class KeepAspectRatioBoundingBox extends MediaBoundingBox {
+	private final boolean hasRotationHandler;
 
 	/**
-	 * Ruler bounding box
-	 * @param rotationImage - rotation icon
+	 * Bounding box with only corner handlers (no side handlers), to keep the aspect ratio.
+	 * @param rotationImage rotation icon (optional)
 	 */
-	public MeasurementToolBoundingBox(MyImage rotationImage) {
+	public KeepAspectRatioBoundingBox(@Nullable MyImage rotationImage) {
 		super(rotationImage);
+		hasRotationHandler = rotationImage != null;
+	}
+
+	@Override
+	protected void createHandlers() {
+		initHandlers(4, hasRotationHandler ? 5 : 0);
 	}
 
 	@Override
@@ -36,6 +44,8 @@ public class MeasurementToolBoundingBox extends MediaBoundingBox {
 		setHandlerTransformed(1, 0, height);
 		setHandlerTransformed(2, width, height);
 		setHandlerTransformed(3, width, 0);
-		setHandlerTransformed(8, width / 2, height + BoundingBox.ROTATION_HANDLER_DISTANCE);
+		if (hasRotationHandler) {
+			setHandlerTransformed(8, width / 2, height + BoundingBox.ROTATION_HANDLER_DISTANCE);
+		}
 	}
 }

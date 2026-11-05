@@ -52,7 +52,7 @@ public class DrawStickyNote extends Drawable implements DrawInline {
 	 */
 	public DrawStickyNote(EuclidianView view, GeoInline stickyNote) {
 		super(view, stickyNote);
-		rectangle = new TransformableRectangle(view, stickyNote, false);
+		rectangle = new TransformableRectangle(view, stickyNote, true);
 		this.stickyNote = stickyNote;
 		this.textController = view.getApplication().createInlineTextController(view, stickyNote);
 		createEditor();

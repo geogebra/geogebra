@@ -27,11 +27,12 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.MeasurementToolBoundingBox;
+import org.geogebra.common.euclidian.KeepAspectRatioBoundingBox;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.MindMapBoundingBox;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.util.debug.Log;
 
@@ -295,9 +296,10 @@ public class TransformableRectangle {
 			if (geo instanceof GeoMindMapNode) {
 				boundingBox = new MindMapBoundingBox(
 						view, (GeoMindMapNode) geo, view.getEuclidianController().getRotationImage());
-			} else if (geo.isMeasurementTool()) {
-				boundingBox =
-						new MeasurementToolBoundingBox(view.getEuclidianController().getRotationImage());
+			} else if (geo.isMeasurementTool() || geo instanceof GeoStickyNote) {
+				boolean hasRotationHandler = !(geo instanceof GeoStickyNote);
+				boundingBox = new KeepAspectRatioBoundingBox(
+						hasRotationHandler ? view.getEuclidianController().getRotationImage() : null);
 			} else {
 				boundingBox = new MediaBoundingBox(view.getEuclidianController().getRotationImage());
 			}
