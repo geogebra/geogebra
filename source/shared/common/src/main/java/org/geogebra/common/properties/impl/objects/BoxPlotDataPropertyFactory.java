@@ -19,28 +19,21 @@ package org.geogebra.common.properties.impl.objects;
 import static org.geogebra.common.properties.impl.objects.BoxPlotDataPropertyFactory.BoxPlotInputType.FREQUENCIES;
 import static org.geogebra.common.properties.impl.objects.BoxPlotDataPropertyFactory.BoxPlotInputType.RAW_DATA;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
-import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.kernel.algos.AlgoBoxPlot;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
-import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.CommandRedefineHelper;
-import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty.RedefinitionObserver;
+import org.geogebra.common.properties.impl.objects.CommandData.Controller;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -49,24 +42,22 @@ import org.jspecify.annotations.Nullable;
  * Creates properties for BoxPlot Data settings with state shared for the collection's lifetime.
  * Frequencies are remembered while raw data mode is active.
  */
-final class BoxPlotDataPropertyFactory {
+final class BoxPlotDataPropertyFactory
+		extends CommandData.Factory<BoxPlotDataPropertyFactory.BoxPlotData> {
 	/** Input types supported by the BoxPlot Data properties. */
 	enum BoxPlotInputType {
 		RAW_DATA,
 		FREQUENCIES
 	}
 
-	private final @NonNull Localization localization;
-	private final @NonNull Map<GeoElement, BoxPlotDataController> controllers = new HashMap<>();
-
 	BoxPlotDataPropertyFactory(
 			@NonNull Localization localization, @NonNull List<GeoElement> elements) {
-		this.localization = localization;
+		super(localization);
 		for (GeoElement element : elements) {
 			if (element instanceof GeoNumeric boxPlot
 					&& boxPlot.getParentAlgorithm() instanceof AlgoBoxPlot algorithm
 					&& hasSupportedInput(algorithm)) {
-				controllers.put(element, new BoxPlotDataController(boxPlot));
+				controllers.put(element, new Controller<>(boxPlot, new BoxPlotData()));
 			}
 		}
 	}
@@ -108,17 +99,8 @@ final class BoxPlotDataPropertyFactory {
 		};
 	}
 
-	private @NonNull BoxPlotDataController getController(@NonNull GeoElement element)
-			throws NotApplicablePropertyException {
-		BoxPlotDataController controller = controllers.get(element);
-		if (controller == null) {
-			throw new NotApplicablePropertyException(element);
-		}
-		return controller;
-	}
-
 	/** Editable BoxPlot state, retaining frequencies while raw-data mode is active. */
-	private static final class BoxPlotData {
+	static final class BoxPlotData implements CommandData {
 		private @NonNull BoxPlotInputType inputType = RAW_DATA;
 		private @NonNull String offset = "0";
 		private @NonNull String scale = "1";
@@ -127,7 +109,9 @@ final class BoxPlotDataPropertyFactory {
 		private @Nullable String outliersArgument = null;
 		private boolean outliers = false;
 
-		private void syncFromAlgorithm(@NonNull GeoElement[] parameters) {
+		@Override
+		public void syncFromAlgorithm(@NonNull AlgoElement algorithm) {
+			GeoElement[] parameters = algorithm.getInput();
 			offset = CommandRedefineHelper.getInputString(parameters[0]);
 			scale = CommandRedefineHelper.getInputString(parameters[1]);
 			data = CommandRedefineHelper.getInputString(parameters[2]);
@@ -142,7 +126,8 @@ final class BoxPlotDataPropertyFactory {
 					outliersArgument != null && ((GeoBoolean) parameters[parameters.length - 1]).getBoolean();
 		}
 
-		private @NonNull String getCommand() {
+		@Override
+		public @NonNull String getCommand() {
 			String command = "BoxPlot(" + offset + ", " + scale + ", " + data;
 			if (inputType == FREQUENCIES) {
 				String frequenciesArgument = frequencies != null ? frequencies : "{}";
@@ -155,65 +140,14 @@ final class BoxPlotDataPropertyFactory {
 		}
 	}
 
-	/** Shared controller for reading and redefining a BoxPlot from its Data properties. */
-	private static final class BoxPlotDataController {
-		private @NonNull GeoNumeric boxPlot;
-		private final @NonNull Set<RedefinitionObserver> redefinitionObservers = new HashSet<>();
-		private final @NonNull BoxPlotData data = new BoxPlotData();
-
-		private BoxPlotDataController(@NonNull GeoNumeric boxPlot) {
-			this.boxPlot = boxPlot;
-		}
-
-		private <T> T readData(@NonNull Function<BoxPlotData, T> getter) {
-			syncFromAlgorithm();
-			return getter.apply(data);
-		}
-
-		private void updateData(@NonNull Consumer<BoxPlotData> mutation) {
-			syncFromAlgorithm();
-			mutation.accept(data);
-			redefine();
-		}
-
-		private void syncFromAlgorithm() {
-			data.syncFromAlgorithm(boxPlot.getParentAlgorithm().getInput());
-		}
-
-		private void redefine() {
-			String frequencies = data.frequencies != null ? data.frequencies : "{}";
-			String command = data.getCommand();
-			GeoNumeric previousBoxPlot = boxPlot;
-			RedefineInputHandler handler = new RedefineInputHandler(
-					boxPlot.getApp(), boxPlot, boxPlot.getRedefineString(false, true));
-			handler.processInput(command, ErrorHelper.silent(), success -> {
-				GeoElement updatedElement = handler.getGeoElement().toGeoElement();
-				if (!success
-						|| !(updatedElement instanceof GeoNumeric updatedBoxPlot)
-						|| !(updatedBoxPlot.getParentAlgorithm() instanceof AlgoBoxPlot)) {
-					return;
-				}
-				boxPlot = updatedBoxPlot;
-				data.frequencies = frequencies;
-				if (previousBoxPlot != updatedBoxPlot) {
-					redefinitionObservers.forEach(
-							observer -> observer.onGeoElementRedefined(previousBoxPlot, updatedBoxPlot));
-					updatedBoxPlot.getApp().getSelectionManager().clearSelectedGeos(false, false);
-					updatedBoxPlot.getApp().getSelectionManager().addSelectedGeo(updatedBoxPlot);
-				}
-				updatedBoxPlot.notifyUpdate();
-			});
-		}
-	}
-
 	/** Property for the BoxPlot input type. */
 	private static final class BoxPlotInputTypeProperty
 			extends AbstractNamedEnumeratedProperty<BoxPlotInputType>
 			implements GeoElementDependentProperty {
-		private final @NonNull BoxPlotDataController controller;
+		private final @NonNull Controller<BoxPlotData> controller;
 
 		private BoxPlotInputTypeProperty(
-				@NonNull Localization localization, @NonNull BoxPlotDataController controller) {
+				@NonNull Localization localization, @NonNull Controller<BoxPlotData> controller) {
 			super(localization, "InputType");
 			this.controller = controller;
 			setNamedValues(List.of(
@@ -233,42 +167,30 @@ final class BoxPlotDataPropertyFactory {
 
 		@Override
 		public @NonNull GeoElement getGeoElement() {
-			return controller.boxPlot;
+			return controller.getGeoElement();
 		}
 
 		@Override
 		public void addRedefinitionObserver(@NonNull RedefinitionObserver observer) {
-			controller.redefinitionObservers.add(observer);
+			controller.addRedefinitionObserver(observer);
 		}
 	}
 
 	/** Base class for BoxPlot list properties. */
-	private abstract static class AbstractBoxPlotListProperty extends AbstractValuedProperty<String>
-			implements StringProperty, GeoElementDependentProperty {
-		protected final @NonNull BoxPlotDataController controller;
+	private abstract static class AbstractBoxPlotListProperty
+			extends CommandData.Property<BoxPlotData, String> implements StringProperty {
 
 		private AbstractBoxPlotListProperty(
 				@NonNull Localization localization,
 				@NonNull String name,
-				@NonNull BoxPlotDataController controller) {
-			super(localization, name);
-			this.controller = controller;
-		}
-
-		@Override
-		public @NonNull GeoElement getGeoElement() {
-			return controller.boxPlot;
-		}
-
-		@Override
-		public void addRedefinitionObserver(@NonNull RedefinitionObserver observer) {
-			controller.redefinitionObservers.add(observer);
+				@NonNull Controller<BoxPlotData> controller) {
+			super(localization, name, controller);
 		}
 
 		@Override
 		public @Nullable String validateValue(@NonNull String value) {
 			return value.isEmpty()
-							|| controller.boxPlot.getKernel().getAlgebraProcessor().evaluateToList(value) != null
+							|| getGeoElement().getKernel().getAlgebraProcessor().evaluateToList(value) != null
 					? null
 					: getLocalization().getError("InvalidInput");
 		}
@@ -282,7 +204,7 @@ final class BoxPlotDataPropertyFactory {
 	/** Property for the BoxPlot data list in both input modes. */
 	private static final class BoxPlotDataProperty extends AbstractBoxPlotListProperty {
 		private BoxPlotDataProperty(
-				@NonNull Localization localization, @NonNull BoxPlotDataController controller) {
+				@NonNull Localization localization, @NonNull Controller<BoxPlotData> controller) {
 			super(localization, "ListOfData", controller);
 		}
 
@@ -307,7 +229,7 @@ final class BoxPlotDataPropertyFactory {
 	/** Property for the BoxPlot frequencies list, available only in frequency mode. */
 	private static final class BoxPlotFrequenciesProperty extends AbstractBoxPlotListProperty {
 		private BoxPlotFrequenciesProperty(
-				@NonNull Localization localization, @NonNull BoxPlotDataController controller) {
+				@NonNull Localization localization, @NonNull Controller<BoxPlotData> controller) {
 			super(localization, "ListOfFrequencies", controller);
 		}
 
@@ -329,24 +251,12 @@ final class BoxPlotDataPropertyFactory {
 	}
 
 	/** Property for displaying BoxPlot outliers separately. */
-	private static final class BoxPlotShowOutliersProperty extends AbstractValuedProperty<Boolean>
-			implements BooleanProperty, GeoElementDependentProperty {
-		private final @NonNull BoxPlotDataController controller;
+	private static final class BoxPlotShowOutliersProperty
+			extends CommandData.Property<BoxPlotData, Boolean> implements BooleanProperty {
 
 		private BoxPlotShowOutliersProperty(
-				@NonNull Localization localization, @NonNull BoxPlotDataController controller) {
-			super(localization, "ShowOutliers");
-			this.controller = controller;
-		}
-
-		@Override
-		public @NonNull GeoElement getGeoElement() {
-			return controller.boxPlot;
-		}
-
-		@Override
-		public void addRedefinitionObserver(@NonNull RedefinitionObserver observer) {
-			controller.redefinitionObservers.add(observer);
+				@NonNull Localization localization, @NonNull Controller<BoxPlotData> controller) {
+			super(localization, "ShowOutliers", controller);
 		}
 
 		@Override

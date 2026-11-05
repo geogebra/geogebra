@@ -136,10 +136,7 @@ final class BarChartDataPropertyTests extends BaseAppTestSetup {
 	void supportsSequenceBasedHeights(String command) throws NotApplicablePropertyException {
 		GeoElement barChart = evaluateGeoElement(command);
 		ChartDataPropertyCollection collection = new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(),
-				getAlgebraProcessor(),
-				getLocalization(),
-				List.of(barChart));
+				new GeoElementPropertiesFactory(), getLocalization(), List.of(barChart));
 
 		NamedEnumeratedProperty<BarChartInputType> inputTypeProperty =
 				createPropertyFactory(barChart).createInputTypeProperty(barChart);
@@ -525,10 +522,7 @@ final class BarChartDataPropertyTests extends BaseAppTestSetup {
 		GeoElement first = evaluateGeoElement("BarChart({1, 2, 3}, {2, 3, 4})");
 		GeoElement second = evaluateGeoElement("BarChart({1, 2, 3}, {4, 3, 2})");
 		ChartDataPropertyCollection collection = new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(),
-				getAlgebraProcessor(),
-				getLocalization(),
-				List.of(first, second));
+				new GeoElementPropertiesFactory(), getLocalization(), List.of(first, second));
 		NamedEnumeratedProperty<BarChartInputType> inputTypeProperty =
 				(NamedEnumeratedProperty<BarChartInputType>) collection.getProperties()[0];
 

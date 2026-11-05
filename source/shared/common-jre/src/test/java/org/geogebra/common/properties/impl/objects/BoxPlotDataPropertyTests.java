@@ -552,10 +552,7 @@ final class BoxPlotDataPropertyTests extends BaseAppTestSetup {
 	void registersBoxPlotDataProperties() throws NotApplicablePropertyException {
 		GeoElement boxPlot = evaluateGeoElement("BoxPlot(1, 2, {1, 2, 3})");
 		ChartDataPropertyCollection collection = new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(),
-				getAlgebraProcessor(),
-				getLocalization(),
-				List.of(boxPlot));
+				new GeoElementPropertiesFactory(), getLocalization(), List.of(boxPlot));
 
 		assertEquals(4, collection.getProperties().length);
 		assertInstanceOf(NamedEnumeratedProperty.class, collection.getProperties()[0]);
@@ -569,10 +566,7 @@ final class BoxPlotDataPropertyTests extends BaseAppTestSetup {
 		GeoElement first = evaluateGeoElement("BoxPlot(1, 2, {1, 2, 3}, false)");
 		GeoElement second = evaluateGeoElement("BoxPlot(3, 4, {4, 5, 6}, false)");
 		ChartDataPropertyCollection collection = new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(),
-				getAlgebraProcessor(),
-				getLocalization(),
-				List.of(first, second));
+				new GeoElementPropertiesFactory(), getLocalization(), List.of(first, second));
 		BooleanProperty showOutliersProperty = (BooleanProperty) collection.getProperties()[3];
 
 		showOutliersProperty.setValue(true);
@@ -587,10 +581,7 @@ final class BoxPlotDataPropertyTests extends BaseAppTestSetup {
 		GeoElement first = evaluateGeoElement("BoxPlot(1, 2, {1, 2, 3}, {2, 3, 4}, false)");
 		GeoElement second = evaluateGeoElement("BoxPlot(3, 4, {1, 2, 3}, {4, 3, 2}, false)");
 		ChartDataPropertyCollection collection = new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(),
-				getAlgebraProcessor(),
-				getLocalization(),
-				List.of(first, second));
+				new GeoElementPropertiesFactory(), getLocalization(), List.of(first, second));
 		NamedEnumeratedProperty<BoxPlotInputType> inputTypeProperty =
 				(NamedEnumeratedProperty<BoxPlotInputType>) collection.getProperties()[0];
 

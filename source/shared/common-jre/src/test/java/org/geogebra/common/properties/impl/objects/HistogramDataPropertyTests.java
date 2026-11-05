@@ -236,7 +236,7 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 	private ChartDataPropertyCollection createChartData(List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		return new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(), getAlgebraProcessor(), getLocalization(), elements);
+				new GeoElementPropertiesFactory(), getLocalization(), elements);
 	}
 
 	private String getDefinition(String label) {

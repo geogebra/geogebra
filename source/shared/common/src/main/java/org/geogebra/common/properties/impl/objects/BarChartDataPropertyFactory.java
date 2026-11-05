@@ -20,31 +20,24 @@ import static org.geogebra.common.properties.impl.objects.BarChartDataPropertyFa
 import static org.geogebra.common.properties.impl.objects.BarChartDataPropertyFactory.BarChartInputType.HEIGHTS;
 import static org.geogebra.common.properties.impl.objects.BarChartDataPropertyFactory.BarChartInputType.RAW_DATA;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
-import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.BarChartGeoNumeric;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
-import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.CommandRedefineHelper;
 import org.geogebra.common.properties.impl.NumericPropertyUtil;
 import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
-import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty.RedefinitionObserver;
+import org.geogebra.common.properties.impl.objects.CommandData.Controller;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -53,7 +46,8 @@ import org.jspecify.annotations.Nullable;
  * Creates properties for BarChart Data settings with state shared for the collection's lifetime.
  * Inactive frequencies and bounds are remembered while another mode is active.
  */
-final class BarChartDataPropertyFactory {
+final class BarChartDataPropertyFactory
+		extends CommandData.Factory<BarChartDataPropertyFactory.BarChartData> {
 	/** Input types supported by the BarChart Data properties. */
 	enum BarChartInputType {
 		RAW_DATA,
@@ -61,17 +55,16 @@ final class BarChartDataPropertyFactory {
 		HEIGHTS
 	}
 
-	private final @NonNull Localization localization;
-	private final @NonNull Map<GeoElement, BarChartDataController> controllers = new HashMap<>();
-
 	BarChartDataPropertyFactory(
 			@NonNull Localization localization, @NonNull List<GeoElement> elements) {
-		this.localization = localization;
+		super(localization);
 		for (GeoElement element : elements) {
 			if (element instanceof GeoNumeric barChart
 					&& barChart.getParentAlgorithm() instanceof AlgoBarChart algorithm
 					&& hasSupportedInput(algorithm)) {
-				controllers.put(element, new BarChartDataController(barChart));
+				BarChartData data = new BarChartData();
+				data.syncFromAlgorithm(algorithm);
+				controllers.put(element, new Controller<>(barChart, data));
 			}
 		}
 	}
@@ -122,17 +115,8 @@ final class BarChartDataPropertyFactory {
 		};
 	}
 
-	private @NonNull BarChartDataController getController(@NonNull GeoElement element)
-			throws NotApplicablePropertyException {
-		BarChartDataController controller = controllers.get(element);
-		if (controller == null) {
-			throw new NotApplicablePropertyException(element);
-		}
-		return controller;
-	}
-
 	/** Editable BarChart state, retaining inactive frequencies and bounds. */
-	private static final class BarChartData {
+	static final class BarChartData implements CommandData {
 		private @NonNull BarChartInputType inputType = RAW_DATA;
 		private @NonNull String data = "{}";
 		private @NonNull String frequencies = "{}";
@@ -141,7 +125,9 @@ final class BarChartDataPropertyFactory {
 		private @Nullable String width = null;
 		private @Nullable String scale = null;
 
-		private void syncFromAlgorithm(@NonNull AlgoBarChart algorithm) {
+		@Override
+		public void syncFromAlgorithm(@NonNull AlgoElement algoElement) {
+			AlgoBarChart algorithm = (AlgoBarChart) algoElement;
 			GeoElement[] parameters = algorithm.getInput();
 			if (algorithm.getType() == AlgoBarChart.TYPE_BARCHART_EXPRESSION) {
 				inputType = HEIGHTS;
@@ -163,44 +149,7 @@ final class BarChartDataPropertyFactory {
 			}
 		}
 
-		private @NonNull String getCommand() {
-			return switch (inputType) {
-				case HEIGHTS -> "BarChart(" + start + ", " + end + ", " + data + ")";
-				case FREQUENCIES ->
-					"BarChart(" + data + ", " + frequencies + (width == null ? "" : ", " + width) + ")";
-				case RAW_DATA ->
-					"BarChart(" + data + ", " + width + (scale == null ? "" : ", " + scale) + ")";
-			};
-		}
-	}
-
-	/** Shared controller for reading and redefining a BarChart from its Data properties. */
-	private static final class BarChartDataController {
-		private @NonNull GeoNumeric barChart;
-		private final @NonNull Set<RedefinitionObserver> redefinitionObservers = new HashSet<>();
-		private final @NonNull BarChartData data = new BarChartData();
-
-		private BarChartDataController(@NonNull GeoNumeric barChart) {
-			this.barChart = barChart;
-			syncFromAlgorithm();
-		}
-
-		private <T> T readData(@NonNull Function<BarChartData, T> getter) {
-			syncFromAlgorithm();
-			return getter.apply(data);
-		}
-
-		private void updateData(@NonNull Consumer<BarChartData> mutation) {
-			syncFromAlgorithm();
-			mutation.accept(data);
-			redefine();
-		}
-
-		private void syncFromAlgorithm() {
-			data.syncFromAlgorithm((AlgoBarChart) barChart.getParentAlgorithm());
-		}
-
-		private void initializeBounds() {
+		private void initializeBounds(@NonNull GeoElement barChart) {
 			AlgoBarChart algorithm = (AlgoBarChart) barChart.getParentAlgorithm();
 			double[] borders = algorithm.getLeftBorder();
 			int count = ((BarChartGeoNumeric) barChart).getIntervals();
@@ -212,35 +161,23 @@ final class BarChartDataPropertyFactory {
 					end = Math.max(end, borders[i] + algorithm.getWidth());
 				}
 			}
-			data.start = Double.isFinite(start)
+			this.start = Double.isFinite(start)
 					? barChart.getKernel().format(start, StringTemplate.maxPrecision)
 					: "0";
-			data.end = Double.isFinite(end)
+			this.end = Double.isFinite(end)
 					? barChart.getKernel().format(end, StringTemplate.maxPrecision)
 					: "1";
 		}
 
-		private void redefine() {
-			String command = data.getCommand();
-			GeoNumeric previousBarChart = barChart;
-			RedefineInputHandler handler = new RedefineInputHandler(
-					barChart.getApp(), barChart, barChart.getRedefineString(false, true));
-			handler.processInput(command, ErrorHelper.silent(), success -> {
-				GeoElement updatedElement = handler.getGeoElement().toGeoElement();
-				if (!success
-						|| !(updatedElement instanceof GeoNumeric updatedBarChart)
-						|| !(updatedBarChart.getParentAlgorithm() instanceof AlgoBarChart)) {
-					return;
-				}
-				barChart = updatedBarChart;
-				if (previousBarChart != updatedBarChart) {
-					redefinitionObservers.forEach(
-							observer -> observer.onGeoElementRedefined(previousBarChart, updatedBarChart));
-					updatedBarChart.getApp().getSelectionManager().clearSelectedGeos(false, false);
-					updatedBarChart.getApp().getSelectionManager().addSelectedGeo(updatedBarChart);
-				}
-				updatedBarChart.notifyUpdate();
-			});
+		@Override
+		public @NonNull String getCommand() {
+			return switch (inputType) {
+				case HEIGHTS -> "BarChart(" + start + ", " + end + ", " + data + ")";
+				case FREQUENCIES ->
+					"BarChart(" + data + ", " + frequencies + (width == null ? "" : ", " + width) + ")";
+				case RAW_DATA ->
+					"BarChart(" + data + ", " + width + (scale == null ? "" : ", " + scale) + ")";
+			};
 		}
 	}
 
@@ -248,10 +185,10 @@ final class BarChartDataPropertyFactory {
 	private static final class BarChartInputTypeProperty
 			extends AbstractNamedEnumeratedProperty<BarChartInputType>
 			implements GeoElementDependentProperty {
-		private final @NonNull BarChartDataController controller;
+		private final @NonNull Controller<BarChartData> controller;
 
 		private BarChartInputTypeProperty(
-				@NonNull Localization localization, @NonNull BarChartDataController controller) {
+				@NonNull Localization localization, @NonNull Controller<BarChartData> controller) {
 			super(localization, "InputType");
 			this.controller = controller;
 			setNamedValues(List.of(
@@ -272,7 +209,7 @@ final class BarChartDataPropertyFactory {
 					return;
 				}
 				if (inputType == HEIGHTS && data.start == null) {
-					controller.initializeBounds();
+					data.initializeBounds(getGeoElement());
 				}
 				data.inputType = inputType;
 				data.width = "1";
@@ -282,43 +219,30 @@ final class BarChartDataPropertyFactory {
 
 		@Override
 		public @NonNull GeoElement getGeoElement() {
-			return controller.barChart;
+			return controller.getGeoElement();
 		}
 
 		@Override
 		public void addRedefinitionObserver(@NonNull RedefinitionObserver observer) {
-			controller.redefinitionObservers.add(observer);
+			controller.addRedefinitionObserver(observer);
 		}
 	}
 
 	/** Base class for math-formatted BarChart fields. */
 	private abstract static class AbstractBarChartStringProperty
-			extends AbstractValuedProperty<String>
-			implements StringProperty, GeoElementDependentProperty {
-		protected final @NonNull BarChartDataController controller;
+			extends CommandData.Property<BarChartData, String> implements StringProperty {
 
 		private AbstractBarChartStringProperty(
 				@NonNull Localization localization,
 				@NonNull String name,
-				@NonNull BarChartDataController controller) {
-			super(localization, name);
-			this.controller = controller;
-		}
-
-		@Override
-		public @NonNull GeoElement getGeoElement() {
-			return controller.barChart;
-		}
-
-		@Override
-		public void addRedefinitionObserver(@NonNull RedefinitionObserver observer) {
-			controller.redefinitionObservers.add(observer);
+				@NonNull Controller<BarChartData> controller) {
+			super(localization, name, controller);
 		}
 
 		@Override
 		public @Nullable String validateValue(@NonNull String value) {
 			return value.isEmpty()
-							|| controller.barChart.getKernel().getAlgebraProcessor().evaluateToList(value) != null
+							|| getGeoElement().getKernel().getAlgebraProcessor().evaluateToList(value) != null
 					? null
 					: getLocalization().getError("InvalidInput");
 		}
@@ -332,7 +256,7 @@ final class BarChartDataPropertyFactory {
 	/** Property for the BarChart data list in all input modes. */
 	private static final class BarChartDataProperty extends AbstractBarChartStringProperty {
 		private BarChartDataProperty(
-				@NonNull Localization localization, @NonNull BarChartDataController controller) {
+				@NonNull Localization localization, @NonNull Controller<BarChartData> controller) {
 			super(localization, "ListOfData", controller);
 		}
 
@@ -360,7 +284,7 @@ final class BarChartDataPropertyFactory {
 	/** Property for the BarChart frequencies list, available only in frequency mode. */
 	private static final class BarChartFrequenciesProperty extends AbstractBarChartStringProperty {
 		private BarChartFrequenciesProperty(
-				@NonNull Localization localization, @NonNull BarChartDataController controller) {
+				@NonNull Localization localization, @NonNull Controller<BarChartData> controller) {
 			super(localization, "ListOfFrequencies", controller);
 		}
 
@@ -387,12 +311,12 @@ final class BarChartDataPropertyFactory {
 
 		private BarChartBoundProperty(
 				@NonNull Localization localization,
-				@NonNull BarChartDataController controller,
+				@NonNull Controller<BarChartData> controller,
 				boolean start) {
 			super(localization, start ? "StartValue" : "EndValue", controller);
 			this.start = start;
 			numericPropertyUtil =
-					new NumericPropertyUtil(controller.barChart.getKernel().getAlgebraProcessor());
+					new NumericPropertyUtil(getGeoElement().getKernel().getAlgebraProcessor());
 		}
 
 		@Override

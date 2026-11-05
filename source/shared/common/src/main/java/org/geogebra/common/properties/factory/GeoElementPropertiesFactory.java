@@ -229,7 +229,7 @@ public final class GeoElementPropertiesFactory {
 		return Stream.of(
 						createBasicProperties(localization, elements),
 						createStyleProperties(processor, imageManager, localization, elements),
-						createDataProperties(processor, localization, elements),
+						createDataProperties(localization, elements),
 						createAdvancedProperties(processor, localization, elements),
 						createScriptProperties(localization, jsEnabled, elements))
 				.filter(propertiesArray -> propertiesArray.getProperties().length > 0)
@@ -378,12 +378,12 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	private @NonNull PropertiesArray createDataProperties(
-			AlgebraProcessor algebraProcessor, Localization localization, List<GeoElement> elements) {
+			Localization localization, List<GeoElement> elements) {
 		return createPropsArray(
 				"Data",
 				localization,
-				Stream.of(createOptionalProperty(() ->
-						new ChartDataPropertyCollection(this, algebraProcessor, localization, elements))));
+				Stream.of(createOptionalProperty(
+						() -> new ChartDataPropertyCollection(this, localization, elements))));
 	}
 
 	/**

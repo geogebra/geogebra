@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
@@ -47,13 +46,12 @@ public class ChartDataPropertyCollection extends AbstractPropertyCollection<Prop
 	 */
 	public ChartDataPropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory,
-			AlgebraProcessor algebraProcessor,
 			Localization localization,
 			List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "Data");
 		HistogramDataPropertyFactory histogramFactory =
-				new HistogramDataPropertyFactory(algebraProcessor, localization, elements);
+				new HistogramDataPropertyFactory(localization, elements);
 		BoxPlotDataPropertyFactory boxPlotFactory =
 				new BoxPlotDataPropertyFactory(localization, elements);
 		BarChartDataPropertyFactory barChartFactory =
