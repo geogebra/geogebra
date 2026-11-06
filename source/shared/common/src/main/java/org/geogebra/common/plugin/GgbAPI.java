@@ -122,12 +122,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	/** application */
 	protected App app = null;
 
-	private static final StringTemplate nonLocalizedTemplate =
-			StringTemplate.printDecimals(ExpressionNodeConstants.StringType.GEOGEBRA, 13, false);
-
-	static {
-		nonLocalizedTemplate.setLocalizeCmds(false);
-	}
+	private static final StringTemplate nonLocalizedTemplate = StringTemplate.printDecimals(
+					ExpressionNodeConstants.StringType.GEOGEBRA, 13, false)
+			.deriveWithLocalizedCommands(false);
 
 	/**
 	 * Returns reference to Construction

@@ -16,7 +16,12 @@
 
 package org.geogebra.common.util;
 
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -62,6 +67,25 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 	public String convertLaTeXtoGGB(String latexExpression) {
 		kernel.getApplication().getDrawEquation().checkFirstCall();
 		return super.convertLaTeXtoGGB(latexExpression);
+	}
+
+	@Override
+	protected String convertMathMLtoGGB(String exp) {
+		String raw = super.convertMathMLtoGGB(exp);
+		// running through GGB parser removes extra brackets, try that unless it also loses a label
+		CommandLookupStrategy old = kernel.getCommandLookupStrategy();
+		try {
+			kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
+			ValidExpression parsed = kernel.getParser().parseGeoGebraExpression(raw);
+			if (parsed.getLabel() == null) {
+				return parsed.toString(StringTemplate.editorTemplate.deriveWithLocalizedCommands(false));
+			}
+		} catch (ParseException | RuntimeException | MyError expected) {
+			// ignore
+		} finally {
+			kernel.setCommandLookupStrategy(old);
+		}
+		return raw;
 	}
 
 	@Override

@@ -83,7 +83,7 @@ public abstract class AbstractSyntaxAdapter implements SyntaxAdapter {
 		return new TeXAtomSerializer(null).serialize(tf.root);
 	}
 
-	private String convertMathMLtoGGB(String mathmlExpression) {
+	protected String convertMathMLtoGGB(String mathmlExpression) {
 		MathMLParser mathmlParserGGB = new MathMLParser(true);
 		return mathmlParserGGB.parse(mathmlExpression, false, true);
 	}

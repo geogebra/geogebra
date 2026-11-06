@@ -37,7 +37,7 @@ public class MathMLParser {
 	private static final char[] leftBraces = {'(', '{', '['};
 	private static final char[] rightBraces = {')', '{', ']'};
 
-	private HashMap<String, String> substitutions;
+	private final HashMap<String, String> substitutions;
 	// private StringBuilder result;
 	private String strBuf;
 	private int pos;
@@ -68,8 +68,8 @@ public class MathMLParser {
 			geogebraMap = new HashMap<>();
 
 			// Tags:
-			geogebraMap.put("<mfrac>", "((%BLOCK1%) / (%BLOCK2%))");
-			geogebraMap.put("<msup>", "((%BLOCK1%)^(%BLOCK2%))");
+			geogebraMap.put("<mfrac>", "(%BLOCK_FENCED1% / %BLOCK_FENCED2%)");
+			geogebraMap.put("<msup>", "(%BLOCK_FENCED1%^%BLOCK_FENCED2%)");
 			geogebraMap.put("<msub>", "%BLOCK1%_{%BLOCK2%}"); // TODO _{1} -> _1
 			// at
 			// the end of
@@ -80,13 +80,8 @@ public class MathMLParser {
 			// coefficient,
 			// FIXME
 			geogebraMap.put("<mfenced open=\"|\" close=\"|\">", "abs(%BLOCK1%)"); // abs. value
-			geogebraMap.put("<msubsup>", "(%BLOCK1%_{%BLOCK2%})^(%BLOCK3%)"); // ignored
-			// for
-			// now,
-			// FIXME
-			// (subscripted
-			// variable
-			// powered)
+			// msubsup: keep outside paren to avoid ambiguity in (x_1^k)(y+1)
+			geogebraMap.put("<msubsup>", "(%BLOCK1%_{%BLOCK2%}^%BLOCK_FENCED3%)");
 			geogebraMap.put("<munderover>", "%BLOCK1%(%BLOCK2%,%BLOCK3%,"); // ignored
 			// for
 			// now,
@@ -802,9 +797,7 @@ public class MathMLParser {
 				parseBlock(getNextTag(), result, true);
 				skipFollowingTag();
 			}
-			// TODO besser result stutzen? -> return new
-			// StringBuilder(result) o. result.toString()
-			return result.toString();
+			return result.toString().trim();
 		} catch (XMLParseException e) {
 			Log.debug(e.getMessage());
 		} catch (RuntimeException e) {
@@ -907,7 +900,12 @@ public class MathMLParser {
 							result.append(substBuf.charAt(substIndex));
 							substIndex++;
 						}
+						boolean fenced = false;
 						substIndex += PH_BLOCK_START.length();
+						if (substBuf.charAt(substIndex) == '_') {
+							substIndex += "_FENCED".length();
+							fenced = true;
+						}
 
 						// get number of the block to parse
 						int blockNumberIndex = substIndex;
@@ -957,7 +955,9 @@ public class MathMLParser {
 
 							// parse subblock
 							nextTag = getNextTag();
-							parseBlock(nextTag, result, false);
+							StringBuilder subResult = new StringBuilder();
+							parseBlock(nextTag, subResult, false);
+							addSubResult(result, subResult, fenced);
 
 							skipFollowingTag();
 						}
@@ -982,7 +982,7 @@ public class MathMLParser {
 					}
 					// make sure we don't output "x _{1}" but don't remove any
 					// non-space character
-					if (!appendSpace && result.charAt(result.length() - 1) == ' ') {
+					if (!appendSpace && result.length() > 0 && result.charAt(result.length() - 1) == ' ') {
 						result.setLength(result.length() - 1);
 					}
 				}
@@ -993,6 +993,16 @@ public class MathMLParser {
 		}
 		// (<mprescripts/>)
 		pos = blockEnd;
+	}
+
+	private void addSubResult(StringBuilder result, StringBuilder subResult, boolean fenced) {
+		// fenced blocks get parentheses if they are not a single "word"
+		// using list of disallowed characters to support non-ascii letters
+		if (fenced && !subResult.toString().matches("\\s*[^-/*+()\\[\\]{}\\u2212\\s]+\\s*")) {
+			result.append('(').append(subResult).append(')');
+		} else {
+			result.append(subResult);
+		}
 	}
 
 	private void removeSpaceIfNeeded(StringBuilder result, boolean appendSpace) {

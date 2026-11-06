@@ -3652,11 +3652,26 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Turns on or off command name localization
+	 * @deprecated use deriveWithLocalizedCommands
 	 * @param localizeCmds If false, the command names won't be localized,
 	 *                        otherwise they will be localized
 	 */
+	@Deprecated
 	public void setLocalizeCmds(boolean localizeCmds) {
 		this.localizeCmds = localizeCmds;
+	}
+
+	/**
+	 * @param localize whether to localize commands (and functions)
+	 * @return derived template with given command localization setting
+	 */
+	public StringTemplate deriveWithLocalizedCommands(boolean localize) {
+		if (localize == localizeCmds) {
+			return this;
+		}
+		StringTemplate copy = copy();
+		copy.localizeCmds = localize;
+		return copy;
 	}
 
 	/**
