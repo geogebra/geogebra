@@ -74,7 +74,7 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 				&& value != formatter.getVerticalAlignment()) {
 			formatter.setVerticalAlignment(value);
 		}
-		((GeoElement) element).updateVisualStyle(GProperty.COMBINED);
+		element.updateVisualStyle(GProperty.COMBINED);
 	}
 
 	@Override

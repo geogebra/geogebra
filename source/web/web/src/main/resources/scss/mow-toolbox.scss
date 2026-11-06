@@ -40,7 +40,8 @@
 
 	.colorPalette {
 		width: 180px;
-		height: 72px;
+		display: flex;
+		flex-flow: wrap;
 
 		&.disabled {
 			.gwt-Label {

@@ -22,6 +22,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
@@ -64,8 +65,9 @@ public final class TextColorProperty extends AbstractEnumeratedProperty<GColor>
 			throws NotApplicablePropertyException {
 		super(localization, "Color");
 		if (!(geoElement instanceof TextProperties)
-				&& !(geoElement instanceof HasTextFormatter)
-				&& !(geoElement instanceof GeoFormula)) {
+						&& !(geoElement instanceof HasTextFormatter)
+						&& !(geoElement instanceof GeoFormula)
+				|| geoElement instanceof GeoStickyNote) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;

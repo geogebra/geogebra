@@ -21,8 +21,10 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.color.GeoColorValues;
+import org.geogebra.common.main.color.StickyNoteColorValues;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.TextColorPropertyDelegate;
 
@@ -31,15 +33,18 @@ public class TextBackgroundColorProperty extends ElementColorProperty {
 	private final GeoElement element;
 
 	/**
-	 * @param localization - localization
-	 * @param element - element
+	 * @param localization localization
+	 * @param element element
 	 * @throws NotApplicablePropertyException when one of the elements has no color
 	 */
 	public TextBackgroundColorProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, new TextColorPropertyDelegate(element), "stylebar.BgColor");
 		this.element = element;
-		setValues(GeoColorValues.values());
+		setValues(
+				element instanceof GeoStickyNote
+						? StickyNoteColorValues.values()
+						: GeoColorValues.values());
 	}
 
 	@Override
@@ -50,5 +55,13 @@ public class TextBackgroundColorProperty extends ElementColorProperty {
 	@Override
 	public GColor getValue() {
 		return element.getBackgroundColor();
+	}
+
+	/**
+	 * {@link GeoStickyNote} has no reset color button, other inline elements do.
+	 * @return whether the color chooser should include a "No Color" button
+	 */
+	public boolean hasColorResetButton() {
+		return !(element instanceof GeoStickyNote);
 	}
 }

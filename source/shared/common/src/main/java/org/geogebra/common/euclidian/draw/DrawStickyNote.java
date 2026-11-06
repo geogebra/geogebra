@@ -48,7 +48,7 @@ public class DrawStickyNote extends Drawable implements DrawInline {
 	 * Create a new DrawInlineText instance.
 	 *
 	 * @param view view
-	 * @param text geo element
+	 * @param stickyNote geo element
 	 */
 	public DrawStickyNote(EuclidianView view, GeoInline stickyNote) {
 		super(view, stickyNote);

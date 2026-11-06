@@ -174,7 +174,9 @@ public final class IconButtonWithProperty extends IconButton {
 			colorPanel.updateColorSelection(colorProperty.getFirstProperty().getValue());
 			parent.add(colorPanel);
 
-			if (colorProperty.getFirstProperty() instanceof TextBackgroundColorProperty) {
+			if (colorProperty.getFirstProperty()
+							instanceof TextBackgroundColorProperty textBackgroundColorProperty
+					&& textBackgroundColorProperty.hasColorResetButton()) {
 				StandardButton noColorButton = BaseWidgetFactory.INSTANCE.newTextButton(
 						appW.getGeneralIconResource().getImageResource(GeneralIcon.NO_COLOR),
 						appW.getLocalization().getMenu("noColor"));

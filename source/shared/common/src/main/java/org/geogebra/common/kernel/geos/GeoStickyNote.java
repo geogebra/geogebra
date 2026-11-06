@@ -47,6 +47,7 @@ public class GeoStickyNote extends GeoInline
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		setContentWidth(DEFAULT_WIDTH);
 		setContentHeight(DEFAULT_HEIGHT);
+		setContent("[{\"text\":\"\\n\",\"align\":\"center\"}]");
 	}
 
 	@Override

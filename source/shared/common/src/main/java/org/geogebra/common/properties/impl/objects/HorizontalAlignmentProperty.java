@@ -76,7 +76,7 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 				&& value != formatter.getHorizontalAlignment()) {
 			formatter.setHorizontalAlignment(value);
 		}
-		((GeoElement) element).updateVisualStyle(GProperty.COMBINED);
+		element.updateVisualStyle(GProperty.COMBINED);
 	}
 
 	@Override

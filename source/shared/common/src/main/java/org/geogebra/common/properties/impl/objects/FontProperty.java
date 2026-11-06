@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
@@ -240,6 +241,23 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 							FontFamily.VERDANA);
 		}
 
+		/**
+		 * Reduced list of available fonts for {@link org.geogebra.common.kernel.geos.GeoStickyNote}.
+		 * @param isBycs to distinguish between bycs and notes
+		 * @return list of available fonts for {@link org.geogebra.common.kernel.geos.GeoStickyNote}
+		 */
+		public static List<FontFamily> getStickyNoteFonts(boolean isBycs) {
+			return isBycs
+					? Arrays.asList(
+							FontFamily.ARIAL,
+							FontFamily.BY_DS_LESEN,
+							FontFamily.COMIC_SANS,
+							FontFamily.COURIER,
+							FontFamily.TIMES)
+					: Arrays.asList(
+							FontFamily.ARIAL, FontFamily.COMIC_SANS, FontFamily.COURIER, FontFamily.TIMES);
+		}
+
 		FontFamily getFontFamilyForDropdown() {
 			if (dropdownGroup == null) {
 				return this;
@@ -261,8 +279,10 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = (HasTextFormatter) geoElement;
-		List<FontFamily> availableFonts =
-				FontFamily.getAvailableFonts(geoElement.getApp().isByCS());
+		boolean isBycs = geoElement.getApp().isByCS();
+		List<FontFamily> availableFonts = geoElement instanceof GeoStickyNote
+				? FontFamily.getStickyNoteFonts(isBycs)
+				: FontFamily.getAvailableFonts(isBycs);
 		setValues(availableFonts);
 		setNamedValues(availableFonts.stream()
 				.map(fontFamily -> entry(fontFamily, fontFamily.displayName()))

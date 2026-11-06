@@ -187,7 +187,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 		.colorPalette.colorPanel {
 			width: 368px;
-			height: 68px;
+			display: block;
 			.colorButton {
 				position: relative;
 				display: inline;

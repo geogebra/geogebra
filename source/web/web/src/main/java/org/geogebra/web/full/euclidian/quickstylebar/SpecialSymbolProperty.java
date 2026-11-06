@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertySupplier;
@@ -104,7 +105,7 @@ public final class SpecialSymbolProperty extends AbstractProperty {
 	 */
 	public static PropertySupplier[] forGeos(Localization loc, List<GeoElement> activeGeoList) {
 		GeoElement geo = activeGeoList.size() == 1 ? activeGeoList.get(0) : null;
-		if (!FontStyleUtil.isInlineWithSymbols(geo)) {
+		if (!FontStyleUtil.isInlineWithSymbols(geo) || geo instanceof GeoStickyNote) {
 			return new PropertySupplier[0];
 		}
 		SpecialSymbolProperty diffs =
