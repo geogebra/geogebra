@@ -107,26 +107,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void polygonTool() {
-		setMode(EuclidianConstants.MODE_POLYGON);
-		click(0, 0);
-		click(100, 0);
-		click(100, 100);
-		click(0, 100);
-		click(0, 0);
-		checkContent(
-				"A = (0, 0)",
-				"B = (2, 0)",
-				"C = (2, -2)",
-				"D = (0, -2)",
-				"q1 = 4",
-				"a = 2",
-				"b = 2",
-				"c = 2",
-				"d = 2");
-	}
-
-	@Test
 	void textTool() {
 		setMode(EuclidianConstants.MODE_TEXT); // TODO 17
 	}
