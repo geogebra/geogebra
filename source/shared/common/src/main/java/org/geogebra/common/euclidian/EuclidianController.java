@@ -5229,7 +5229,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			case EuclidianConstants.MODE_STICKY_NOTE:
 				view.setCursor(STICKY_NOTE);
-				createInlineObject(selectionPreview, GeoStickyNote::new);
+				changedKernel = createInlineObject(selectionPreview, GeoStickyNote::new);
 				break;
 
 			case EuclidianConstants.MODE_SHAPE_RECTANGLE:
