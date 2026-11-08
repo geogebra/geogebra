@@ -43,9 +43,11 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public class AlgoAreConcurrent extends AlgoElement
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
 
-	private GeoLine inputLine1, inputLine2, inputLine3; // input
+	private GeoLine inputLine1;
+	private GeoLine inputLine2;
+	private GeoLine inputLine3;
 
-	private GeoBoolean outputBoolean; // output
+	private GeoBoolean outputBoolean;
 	private PPolynomial[] polynomials;
 	private PPolynomial[][] botanaPolynomials;
 

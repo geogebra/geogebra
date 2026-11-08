@@ -19,14 +19,16 @@ package org.geogebra.desktop.sound.mp3transform;
 /**
  * Stores single bits as a word in the buffer. If a bit is set, the
  * corresponding word in the buffer will be non-zero. If a bit is clear, the
- * corresponding word is zero. Although this may seem waseful, this can be a
+ * corresponding word is zero. Although this may seem wasteful, this can be a
  * factor of two quicker than packing 8 bits to a byte and extracting.
  */
 public class BitReservoir {
 
 	private static final int BUFFER_SIZE = 4096 * 8;
 	private static final int BUFFER_SIZE_MASK = BUFFER_SIZE - 1;
-	private int offset, bitCount, bufferIndex;
+	private int offset;
+	private int bitCount;
+	private int bufferIndex;
 	private final int[] buffer = new int[BUFFER_SIZE];
 
 	int getBitCount() {

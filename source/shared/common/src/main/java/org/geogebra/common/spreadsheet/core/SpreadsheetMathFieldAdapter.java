@@ -31,7 +31,8 @@ final class SpreadsheetMathFieldAdapter
 		implements MathFieldListener, UnhandledKeyListener, MathFieldInternalListener {
 
 	private final MathFieldInternal mathField;
-	private final int row, column;
+	private final int row;
+	private final int column;
 	private final SpreadsheetCellProcessor cellProcessor;
 	private final SpreadsheetController spreadsheetController;
 

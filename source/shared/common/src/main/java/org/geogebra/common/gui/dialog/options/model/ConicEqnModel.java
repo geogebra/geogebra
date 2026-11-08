@@ -37,13 +37,13 @@ import org.jspecify.annotations.Nullable;
 public class ConicEqnModel extends MultipleOptionsModel {
 
 	private Localization loc;
-	private int implicitIndex,
-			explicitIndex,
-			specificIndex,
-			parametricIndex,
-			userIndex,
-			vertexformIndex,
-			conicformIndex;
+	private int implicitIndex;
+	private int explicitIndex;
+	private int specificIndex;
+	private int parametricIndex;
+	private int userIndex;
+	private int vertexformIndex;
+	private int conicformIndex;
 
 	/**
 	 * @param app

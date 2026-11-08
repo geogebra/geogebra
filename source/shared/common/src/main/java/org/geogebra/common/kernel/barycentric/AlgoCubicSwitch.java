@@ -27,10 +27,52 @@ public class AlgoCubicSwitch {
 
 	private static final double r3 = Math.sqrt(3);
 
-	private double a2, a3, a4, a5, a6, a7, a8, a9, a10, a12, a14, a16, a18, a20;
-	private double b2, b3, b4, b5, b6, b7, b8, b9, b10, b12, b14, b16, b18, b20;
-	private double c2, c3, c4, c5, c6, c7, c8, c9, c10, c12, c14, c16, c18, c20;
-	private double S, cA3, cB3, cC3;
+	private double a2;
+	private double a3;
+	private double a4;
+	private double a5;
+	private double a6;
+	private double a7;
+	private double a8;
+	private double a9;
+	private double a10;
+	private double a12;
+	private double a14;
+	private double a16;
+	private double a18;
+	private double a20;
+	private double b2;
+	private double b3;
+	private double b4;
+	private double b5;
+	private double b6;
+	private double b7;
+	private double b8;
+	private double b9;
+	private double b10;
+	private double b12;
+	private double b14;
+	private double b16;
+	private double b18;
+	private double b20;
+	private double c2;
+	private double c3;
+	private double c4;
+	private double c5;
+	private double c6;
+	private double c7;
+	private double c8;
+	private double c9;
+	private double c10;
+	private double c12;
+	private double c14;
+	private double c16;
+	private double c18;
+	private double c20;
+	private double S;
+	private double cA3;
+	private double cB3;
+	private double cC3;
 
 	/**
 	 * Returns equation in case cubic is symmetric or antisymmetric

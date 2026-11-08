@@ -309,10 +309,14 @@ public final class AlgebraViewItem {
 	public static final class SliderRowState {
 		/** slider row visible? */
 		boolean isVisible;
-		/** min/max raw */
-		double min, max;
-		/** value/step raw */
-		double value, step;
+		/** min raw */
+		double min;
+		/** max raw */
+		double max;
+		/** value raw */
+		double value;
+		/** step raw */
+		double step;
 		/** play button state (play/pause) */
 		boolean isPlaying;
 

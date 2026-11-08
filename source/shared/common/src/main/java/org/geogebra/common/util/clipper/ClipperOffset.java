@@ -34,8 +34,12 @@ public class ClipperOffset {
 	private Path destPoly;
 
 	private final List<DoublePoint> normals;
-	private double delta, inA, sin, cos;
-	private double miterLim, stepsPerRad;
+	private double delta;
+	private double inA;
+	private double sin;
+	private double cos;
+	private double miterLim;
+	private double stepsPerRad;
 	// private LongPoint lowest;
 	private DoublePoint lowest;
 

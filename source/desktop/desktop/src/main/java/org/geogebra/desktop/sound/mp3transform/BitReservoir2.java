@@ -20,7 +20,8 @@ public class BitReservoir2 extends BitReservoir {
 
 	private static final int BUFFER_SIZE = 4096;
 	private static final int BUFFER_SIZE_MASK = BUFFER_SIZE - 1;
-	private int writeIndex, bitCount;
+	private int writeIndex;
+	private int bitCount;
 	private final byte[] buffer = new byte[BUFFER_SIZE];
 
 	@Override

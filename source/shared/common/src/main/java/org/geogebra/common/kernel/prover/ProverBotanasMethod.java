@@ -339,7 +339,11 @@ public class ProverBotanasMethod {
 
 		private boolean disallowFixSecondPoint = false;
 
-		private String polys, elimVars, freeVars, freeVarsWithoutAlmostFree, elimVarsWithAlmostFree;
+		private String polys;
+		private String elimVars;
+		private String freeVars;
+		private String freeVarsWithoutAlmostFree;
+		private String elimVarsWithAlmostFree;
 
 		private PPolynomial[] thesisFactors;
 		private HashMap<GeoElement, PPolynomial[]> geoPolys = new HashMap<>();

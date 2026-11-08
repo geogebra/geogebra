@@ -23,7 +23,7 @@ package org.geogebra.common.kernel.barycentric;
  * credit goes to Jason Cantarella of the University of Georgia for creating a
  * perl script which was used to create this class.
  */
-@SuppressWarnings("PMD.UselessParentheses")
+@SuppressWarnings({"PMD.UselessParentheses", "PMD.SingleFieldPerDeclaration"})
 public class AlgoKimberlingWeights {
 
 	private double a2, a3, a4, a5, a6, a7, a8, a9, a10;

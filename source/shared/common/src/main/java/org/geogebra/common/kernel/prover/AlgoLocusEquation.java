@@ -40,9 +40,11 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
-	private GeoPoint movingPoint, locusPoint;
+	private GeoPoint movingPoint;
+	private GeoPoint locusPoint;
 	private GeoImplicit geoPoly;
-	private GeoElement[] efficientInput, standardInput;
+	private GeoElement[] efficientInput;
+	private GeoElement[] standardInput;
 	private String efficientInputFingerprint;
 	private GeoElement implicitLocus = null;
 	private long myPrecision = 0;

@@ -37,9 +37,13 @@ import org.geogebra.common.util.MyMath;
  */
 public class AlgoKimberling extends AlgoElement {
 
-	private GeoPointND A, B, C; // input
-	private GeoPointND M; // output
+	// input
+	private GeoPointND A;
+	private GeoPointND B;
+	private GeoPointND C;
 	private GeoNumberValue n;
+	// output
+	private GeoPointND M;
 
 	/**
 	 * Creates new algo for triangle center

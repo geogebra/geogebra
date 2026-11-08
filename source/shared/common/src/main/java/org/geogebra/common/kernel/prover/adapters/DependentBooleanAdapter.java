@@ -62,7 +62,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 public class DependentBooleanAdapter extends ProverAdapter {
-	private boolean leftWasDist = false, rightWasDist = false;
+	private boolean leftWasDist = false;
+	private boolean rightWasDist = false;
 	private boolean substNeeded = false;
 	private Set<GeoSegment> allSegmentsFromExpression = new HashSet<>();
 	private ArrayList<PPolynomial> extraPolys = new ArrayList<>();

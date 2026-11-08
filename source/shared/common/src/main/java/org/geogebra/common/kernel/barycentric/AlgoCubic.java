@@ -42,7 +42,9 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoCubic extends AlgoElement {
 
-	private GeoPoint A, B, C; // input
+	private GeoPoint A;
+	private GeoPoint B;
+	private GeoPoint C; // input
 	private GeoNumberValue n; // number of curve
 	private GeoImplicit poly; // output
 

@@ -33,12 +33,15 @@ public final class Header {
 	public static final int MODE_SINGLE_CHANNEL = 3;
 	private static final int SAMPLE_FREQUENCY_FOURTYEIGHT = 1;
 	private static final int SAMPLE_FREQUENCY_THIRTYTWO = 2;
-	private boolean protectionBit, paddingBit;
-	private int bitrateIndex, modeExtension;
+	private boolean protectionBit;
+	private boolean paddingBit;
+	private int bitrateIndex;
+	private int modeExtension;
 	private int version;
 	private int mode;
 	private int sampleFrequency;
-	private int numberOfSubbands, intensityStereoBound;
+	private int numberOfSubbands;
+	private int intensityStereoBound;
 	private byte syncMode = Bitstream.INITIAL_SYNC;
 	private int frameSize;
 	private boolean vbr;

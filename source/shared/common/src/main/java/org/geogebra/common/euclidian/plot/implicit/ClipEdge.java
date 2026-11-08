@@ -61,7 +61,8 @@ public enum ClipEdge {
 			return clamp01((r.getYmax() - p.y) / (r.getYmax() - r.getYmin()));
 		}
 	};
-	private final int nx, ny;
+	private final int nx;
+	private final int ny;
 	private final double sBase;
 	private final ToDoubleFunction<ClipRect> xConstFn;
 	private final ToDoubleFunction<ClipRect> yConstFn;

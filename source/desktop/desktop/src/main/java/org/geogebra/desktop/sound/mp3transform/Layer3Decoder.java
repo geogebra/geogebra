@@ -46,7 +46,8 @@ final class Layer3Decoder {
 	private final int[] nonzero = new int[2];
 	private final Bitstream stream;
 	private final Header header;
-	private final SynthesisFilter filter1, filter2;
+	private final SynthesisFilter filter1;
+	private final SynthesisFilter filter2;
 	private final Decoder player;
 	private final BitReservoir br = new BitReservoir();
 	private final SideInfo si = new SideInfo();
@@ -68,7 +69,10 @@ final class Layer3Decoder {
 	private double[] samples1 = new double[32];
 	private double[] samples2 = new double[32];
 	private final int[] newSlen = new int[4];
-	int x, y, v, w;
+	int x;
+	int y;
+	int v;
+	int w;
 
 	static class GrInfo {
 		int part23Length;

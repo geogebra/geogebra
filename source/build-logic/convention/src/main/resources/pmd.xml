@@ -274,4 +274,17 @@
             </property>
         </properties>
     </rule>
+
+    <rule name="SingleFieldPerDeclaration"
+          language="java"
+          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
+          typeResolution="true"
+          message="Declare each field on a separate line.">
+        <priority>1</priority>
+        <properties>
+            <property name="xpath">
+                <value>//FieldDeclaration[count(VariableDeclarator)&gt;1]</value>
+            </property>
+        </properties>
+    </rule>
 </ruleset>

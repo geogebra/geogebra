@@ -41,11 +41,15 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeConstants {
 
-	private GeoPoint A, B, C; // input
+	private GeoPoint A;
+	private GeoPoint B;
+	private GeoPoint C;
 	private GeoImplicit n; // number of curve
 	private GeoElement poly; // output
 	private Equation eq;
-	private GeoNumeric[] xcoef, ycoef, constant;
+	private GeoNumeric[] xcoef;
+	private GeoNumeric[] ycoef;
+	private GeoNumeric[] constant;
 	private AlgoDependentImplicitPoly dd;
 
 	/**

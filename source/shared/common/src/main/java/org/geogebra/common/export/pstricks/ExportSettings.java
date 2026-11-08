@@ -23,7 +23,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * Export settings.
  */
 public interface ExportSettings {
-	int FILL_NONE = 0, FILL_OPAQUE = 1, FILL_OPACITY_PEN = 2, FILL_LAYER = 3;
+	int FILL_NONE = 0;
+	int FILL_OPAQUE = 1;
+	int FILL_OPACITY_PEN = 2;
+	int FILL_LAYER = 3;
 
 	@MissingDoc
 	double getLatexHeight();

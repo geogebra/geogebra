@@ -33,10 +33,15 @@ import org.geogebra.common.util.MyMath;
  *
  */
 public class AlgoTrilinear extends AlgoElement {
-
-	private GeoPointND P1, P2, P3; // input
-	private GeoNumberValue v1, v2, v3; // input
-	private GeoPointND point; // output
+	// input
+	private GeoPointND P1;
+	private GeoPointND P2;
+	private GeoPointND P3;
+	private GeoNumberValue v1;
+	private GeoNumberValue v2;
+	private GeoNumberValue v3;
+	// output
+	private GeoPointND point;
 
 	/**
 	 * Creates new trilinear algo

@@ -43,9 +43,11 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public class AlgoAreCollinear extends AlgoElement
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
 
-	private GeoPointND inputPoint1, inputPoint2, inputPoint3; // input
+	private GeoPointND inputPoint1;
+	private GeoPointND inputPoint2;
+	private GeoPointND inputPoint3;
 
-	private GeoBoolean outputBoolean; // output
+	private GeoBoolean outputBoolean;
 	private PPolynomial[] polynomials;
 	private PPolynomial[][] botanaPolynomials;
 

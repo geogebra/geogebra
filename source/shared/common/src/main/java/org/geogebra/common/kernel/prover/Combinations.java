@@ -41,7 +41,8 @@ import java.util.Set;
 public class Combinations<T> implements Iterator<Set<T>> {
 
 	private Set<T> set;
-	private int r, n;
+	private int r;
+	private int n;
 	private int[] num; // representation with numbers
 	private boolean done = false;
 
