@@ -314,6 +314,7 @@ public class SliderPropertiesPanelD extends JPanel
 		coSliderHorizontal.removeActionListener(this);
 		cbSliderFixed.removeActionListener(this);
 		cbRandom.removeActionListener(this);
+		sliderLineOpacity.removeChangeListener(this);
 		model.updateProperties();
 
 		for (JTextField tfield : tfields) {
@@ -323,6 +324,7 @@ public class SliderPropertiesPanelD extends JPanel
 		coSliderHorizontal.addActionListener(this);
 		cbSliderFixed.addActionListener(this);
 		cbRandom.addActionListener(this);
+		sliderLineOpacity.addChangeListener(this);
 
 		return this;
 	}
