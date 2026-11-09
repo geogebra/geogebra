@@ -24,7 +24,9 @@ import org.geogebra.editor.share.tree.CharacterNode;
 import org.geogebra.editor.share.tree.FunctionNode;
 import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.Node;
+import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.tree.SequenceNode;
+import org.jspecify.annotations.NonNull;
 
 public class RemoveContainer {
 
@@ -161,10 +163,60 @@ public class RemoveContainer {
 	}
 
 	private static void removeParenthesesOfFunction(FunctionNode function, EditorState editorState) {
+		if (editorState.getRootNode().isProtected()) {
+			// Protected inputs discard exposed commas. Keep multi-argument functions wrapped,
+			// whether arguments occupy separate fields or share a comma-separated field.
+			if (function.size() > 2) {
+				return;
+			}
+			for (Node child : function.getChild(1)) {
+				if (child instanceof CharacterNode character && character.isUnicode(',')) {
+					return;
+				}
+			}
+		}
 		SequenceNode functionName = function.getChild(0);
-		int offset = function.getParentIndex() + functionName.size();
+		int nameSize = functionName.size();
+		int offset = function.getParentIndex() + nameSize;
+		// Unwrap entered content, then discard syntax placeholders before removing the command.
+		for (int i = 1; i < function.size(); i++) {
+			if (i > 1) {
+				functionName.addChild(new CharacterNode(editorState.getCatalog().getCharacter(",")));
+			}
+			SequenceNode argument = function.getChild(i);
+			while (argument.size() > 0) {
+				Node child = argument.getChild(0);
+				argument.removeChild(0);
+				functionName.addChild(child);
+			}
+		}
+		removeUnwrappedPlaceholders(functionName, nameSize);
 		deleteContainer(editorState, function, functionName);
 		editorState.setCurrentOffset(offset);
+	}
+
+	/**
+	 * Remove unused syntax placeholders and their adjacent argument separators.
+	 * Placeholders only have meaning inside a command; entered arguments remain intact.
+	 * @param sequence function name followed by its unwrapped arguments
+	 * @param argumentStart first index after the function name
+	 */
+	private static void removeUnwrappedPlaceholders(
+			@NonNull SequenceNode sequence, int argumentStart) {
+		for (int i = sequence.size() - 1; i >= argumentStart; i--) {
+			if (!(sequence.getChild(i) instanceof PlaceholderNode)) {
+				continue;
+			}
+			sequence.removeChild(i);
+			if (sequence.getChild(i) instanceof CharacterNode next && next.isUnicode(',')) {
+				sequence.removeChild(i);
+			} else if (i > argumentStart
+					&& sequence.getChild(i - 1) instanceof CharacterNode previous
+					&& previous.isUnicode(',')) {
+				sequence.removeChild(i - 1);
+				i--;
+			}
+		}
 	}
 
 	/**
@@ -173,6 +225,9 @@ public class RemoveContainer {
 	 */
 	public static void deleteContainer(EditorState editorState) {
 		SequenceNode currentField = editorState.getCurrentNode();
+		if (ArrayNode.isLocked(currentField.getParent())) {
+			return;
+		}
 
 		// if parent is function (cursor is at the end of the field)
 		if (currentField.getParent() instanceof FunctionNode parent) {
@@ -192,16 +247,19 @@ public class RemoveContainer {
 				} else if (currentField.getParentIndex() == 0 && currentField.size() == 0) {
 					deleteContainer(editorState, parent, parent.getChild(1));
 				}
+			} else if (InputController.hasClosingBoundary(parent.getName())) {
+				if ((parent.hasTag(Tag.APPLY) || parent.hasTag(Tag.APPLY_SQUARE))
+						&& currentField.getParentIndex() == 0) {
+					removeParenthesesOfFunction(parent, editorState);
+				} else if (currentField.getParentIndex() == parent.size() - 1) {
+					CursorController.nextCharacter(editorState);
+				}
 			}
 
-			// if parent are empty braces
+			// Delete at a closing bracket only moves out, preserving the bracket pair.
 		} else if (currentField.getParent() instanceof ArrayNode parent
-				&& currentField.getParent().size() == 1
-				&& currentField.size() == 0) {
-			int size = parent.getChild(0).size();
-			deleteContainer(editorState, parent, parent.getChild(0));
-			// move after included characters
-			editorState.addCurrentOffset(size);
+				&& currentField.getParentIndex() == parent.size() - 1) {
+			CursorController.nextCharacter(editorState);
 
 			// if parent is 1DArray or Vector and cursor is at the end of the
 			// field

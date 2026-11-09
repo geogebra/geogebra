@@ -43,6 +43,7 @@ import org.geogebra.editor.share.util.IntegralHelper;
 import org.geogebra.editor.share.util.IntegralHelper.IntegralForm;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
@@ -925,7 +926,19 @@ public class InputController {
 	}
 
 	/**
-	 * Remove character left to the cursor
+	 * Remove character left to the cursor.
+	 * For grouping and function-application brackets, either deletion key targeting an
+	 * opening bracket unwraps the pair and keeps the contents. Targeting a closing
+	 * bracket only moves the caret across it, in the key's direction. Neither operation
+	 * moves surrounding expressions into the brackets.
+	 * Protected containers retain their boundaries.
+	 * Multi-argument functions inside protected inputs also retain their brackets,
+	 * since unwrapping would discard their argument separators.
+	 * For point/vector templates containing user content, Delete before the template enters
+	 * the first coordinate and Backspace after it enters the last. If all coordinates are
+	 * empty or placeholders, either boundary keypress removes an unprotected template.
+	 * Backspace at the first coordinate's start also removes only an empty template;
+	 * otherwise it moves before the template without discarding any coordinates.
 	 * @param editorState current state
 	 */
 	public void bkspCharacter(EditorState editorState) {
@@ -935,10 +948,10 @@ public class InputController {
 		int currentOffset = editorState.getCurrentOffsetOrSelection();
 		if (currentOffset > 0) {
 			Node prev = editorState.getCurrentNode().getChild(currentOffset - 1);
-			if (prev instanceof ArrayNode parent) {
-				moveArgumentsAfter(parent, editorState, parent.getChild(parent.size() - 1));
-			}
-			if (prev instanceof FunctionNode node) {
+			// Crossing a closing bracket only enters the container; never absorb siblings.
+			if (prev instanceof ArrayNode) {
+				CursorController.prevCharacter(editorState);
+			} else if (prev instanceof FunctionNode node) {
 				if (IntegralHelper.isIntegral(node) && deleteIntegralIfEmpty(editorState, node)) {
 					return;
 				}
@@ -950,17 +963,28 @@ public class InputController {
 			} else {
 				deleteSingleArg(editorState);
 			}
+		} else if (editorState.getCurrentNode().getParent() instanceof FunctionNode function
+				&& isCoordinateTemplate(function.getName())
+				&& editorState.getCurrentNode().getParentIndex() == 0) {
+			// Keep all coordinates when crossing the opening boundary from inside.
+			if (!deleteCoordinateTemplateIfEmpty(editorState, function)) {
+				CursorController.prevCharacter(editorState);
+			}
 		} else {
 			RemoveContainer.withBackspace(editorState);
 		}
 	}
 
 	private void bkspLastFunctionArg(FunctionNode function, EditorState editorState) {
+		if (deleteCoordinateTemplateIfEmpty(editorState, function)) {
+			return;
+		}
 		SequenceNode functionArg = function.getChild(function.size() - 1);
-		if (function.getName() == Tag.APPLY || function.getName() == Tag.APPLY_SQUARE) {
-			if (moveArgumentsAfter(function, editorState, function.getChild(1))) {
-				bkspCharacter(editorState);
-			}
+		// Built-in functions have a closing boundary too; crossing it must keep the argument.
+		// Fractions and scripts retain their existing character-deletion behavior.
+		if (hasClosingBoundary(function.getName())) {
+			editorState.setCurrentNode(functionArg);
+			editorState.setCurrentOffset(functionArg.size());
 		} else if (isEqFunctionWithPlaceholders(function)) {
 			deleteSingleArg(editorState);
 		} else if (functionArg != null) {
@@ -970,6 +994,63 @@ public class InputController {
 		} else {
 			deleteSingleArg(editorState);
 		}
+	}
+
+	/**
+	 * Whether a function's final argument ends at a bracket or root boundary that
+	 * deletion keys cross without changing its contents. Fractions and scripts do not.
+	 * @param tag function type
+	 * @return whether deletion at the closing boundary only moves the caret
+	 */
+	static boolean hasClosingBoundary(@NonNull Tag tag) {
+		return tag == Tag.APPLY
+				|| tag == Tag.APPLY_SQUARE
+				|| tag == Tag.FLOOR
+				|| tag == Tag.CEIL
+				|| tag == Tag.ABS
+				|| tag == Tag.SQRT
+				|| tag == Tag.CBRT
+				|| tag == Tag.NROOT
+				|| tag == Tag.LOG
+				|| tag == Tag.LOG_POWER
+				|| isCoordinateTemplate(tag);
+	}
+
+	/**
+	 * @param tag function type
+	 * @return whether the function is a point or vector template with separate coordinate fields
+	 */
+	private static boolean isCoordinateTemplate(@NonNull Tag tag) {
+		return tag == Tag.POINT || tag == Tag.POINT_AT || tag == Tag.VECTOR;
+	}
+
+	/**
+	 * Remove a coordinate template only when none of its fields contains user content.
+	 * Syntax and character placeholders do not count as content; nested expressions do.
+	 * @param editorState current state at a boundary of the template
+	 * @param function possible coordinate template
+	 * @return whether the empty, unprotected template was removed
+	 */
+	private boolean deleteCoordinateTemplateIfEmpty(
+			@NonNull EditorState editorState, @NonNull FunctionNode function) {
+		if (!isCoordinateTemplate(function.getName())
+				|| editorState.getRootNode().isProtected()
+				|| function.isProtected()
+				|| !(function.getParent() instanceof SequenceNode parent)
+				|| parent.isProtected()) {
+			return false;
+		}
+		for (int i = 0; i < function.size(); i++) {
+			for (Node child : function.getChild(i)) {
+				if (!(child instanceof PlaceholderNode)) {
+					return false;
+				}
+			}
+		}
+		editorState.setCurrentNode(parent);
+		editorState.setCurrentOffset(function.getParentIndex() + 1);
+		deleteSingleArg(editorState);
+		return true;
 	}
 
 	private boolean isEqFunctionWithPlaceholders(FunctionNode function) {
@@ -1026,24 +1107,6 @@ public class InputController {
 		}
 	}
 
-	private static boolean moveArgumentsAfter(
-			Node lastToKeep, EditorState editorState, SequenceNode target) {
-		if (target == null || lastToKeep.getParent() == null) {
-			return false;
-		}
-		int currentOffset = lastToKeep.getParentIndex() + 1;
-		InternalNode currentField = lastToKeep.getParent();
-		int oldSize = target.size();
-		while (currentField.size() > currentOffset && !currentField.isChildProtected(currentOffset)) {
-			Node node = currentField.getChild(currentOffset);
-			currentField.deleteChild(currentOffset);
-			target.addChild(target.size(), node);
-		}
-		editorState.setCurrentNode(target);
-		editorState.setCurrentOffset(oldSize);
-		return true;
-	}
-
 	/**
 	 * Delete a character to the right of the cursor
 	 * @param editorState current state
@@ -1056,6 +1119,13 @@ public class InputController {
 		SequenceNode currentField = editorState.getCurrentNode();
 		if (currentOffset < currentField.size()) {
 			Node next = currentField.getChild(currentOffset);
+			if (next instanceof FunctionNode function && isCoordinateTemplate(function.getName())) {
+				// Remove only unused templates; otherwise enter without discarding coordinates.
+				if (!deleteCoordinateTemplateIfEmpty(editorState, function)) {
+					CursorController.nextCharacter(editorState);
+				}
+				return;
+			}
 			if (IntegralHelper.isIntegral(next)) {
 				FunctionNode integral = (FunctionNode) next;
 				moveToIntegralZone(
@@ -1068,14 +1138,16 @@ public class InputController {
 				return;
 			}
 			CursorController.nextCharacter(editorState);
-			bkspCharacter(editorState);
-
-		} else {
-			if (currentField.getParent() instanceof ArrayNode array) {
-				moveArgumentsAfter(array, editorState, array.getChild(array.size() - 1));
+			// A function name is text; an opening bracket unwraps the pair.
+			if (next.hasTag(Tag.APPLY) || next.hasTag(Tag.APPLY_SQUARE)) {
+				delCharacter(editorState);
+			} else if (next instanceof ArrayNode) {
+				RemoveContainer.withBackspace(editorState);
 			} else {
-				RemoveContainer.deleteContainer(editorState);
+				bkspCharacter(editorState);
 			}
+		} else {
+			RemoveContainer.deleteContainer(editorState);
 		}
 	}
 

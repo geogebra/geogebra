@@ -16,6 +16,9 @@
 
 package org.geogebra.common.io;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+
 import java.text.Normalizer;
 
 import org.geogebra.common.AppCommonFactory;
@@ -25,8 +28,14 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.controller.EditorState;
+import org.geogebra.editor.share.editor.EditorFeatures;
 import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.serializer.GeoGebraSerializer;
+import org.geogebra.editor.share.tree.CharPlaceholderNode;
+import org.geogebra.editor.share.tree.FunctionNode;
 import org.geogebra.editor.share.tree.Korean;
+import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestStringUtil;
@@ -34,6 +43,9 @@ import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -519,8 +531,854 @@ class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
+	@Issue("APPS-7021")
 	void testBackspaceAfterBrackets() {
-		checker.type("x(x+1)").typeKey(JavaKeyCodes.VK_BACK_SPACE).checkAsciiMath("x(x+)");
+		checker.type("x(x+1)");
+		// x(x+1)|
+		checkEditorState("x(x+1)", 1);
+		checker.backspace(1);
+		// x(x+1|)
+		checkEditorState("x(x+1)", 3, 1, 0);
+	}
+
+	@Test
+	@Issue("APPS-7021")
+	void backspaceFunctionDefinition() {
+		String rhs = "=SolveODE(y'+2 y=4)";
+		insertAtRoot("f(y)" + rhs, 1);
+		// f(y)|=SolveODE(y'+2 y=4)
+		checker.backspace(1);
+		// f(y|)=SolveODE(y'+2 y=4)
+		checkEditorState("f(y)" + rhs, 1, 1, 0);
+		checker.backspace(1);
+		// f(|)=SolveODE(y'+2 y=4)
+		checkEditorState("f()" + rhs, 0, 1, 0);
+		checker.backspace(1);
+		// f|=SolveODE(y'+2 y=4)
+		checkEditorState("f" + rhs, 1);
+		checker.backspace(1);
+		// |=SolveODE(y'+2 y=4)
+		checkEditorState(rhs, 0);
+	}
+
+	@Test
+	@Issue("APPS-7021")
+	void forwardDeleteFunctionDefinition() {
+		String rhs = "=SolveODE(y'+2 y=4)";
+		insertAtRoot("f(y)" + rhs, 0);
+		// |f(y)=SolveODE(y'+2 y=4)
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// |(y)=SolveODE(y'+2 y=4)
+		checkEditorState("(y)" + rhs, 0, 0, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// |y=SolveODE(y'+2 y=4)
+		checkEditorState("y" + rhs, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// |=SolveODE(y'+2 y=4)
+		checkEditorState(rhs, 0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"f(x,g(y))=1",
+				"f[x,g(y)]=1",
+			})
+	@Issue("APPS-7021")
+	void backspaceUnwrapsFunctionWithoutLosingArguments(String input) {
+		insertAtRoot(input, 1);
+		// f(x,g(y))|=1, f[x,g(y)]|=1
+		checker.left(1);
+		// f(x,g(y)|)=1, f[x,g(y)|]=1
+		// Offset 0 moves to the start of the arguments, just after the opening bracket.
+		checker.getMathField().getInternal().getEditorState().setCurrentOffset(0);
+		// f(|x,g(y))=1, f[|x,g(y)]=1
+		checker.backspace(1);
+		// f|x,g(y)=1
+		checkEditorState("fx,g(y)=1", 1);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"f(x,g(y))=1",
+				"f[x,g(y)]=1",
+			})
+	@Issue("APPS-7021")
+	void forwardDeleteUnwrapsFunctionWithoutLosingArguments(String input) {
+		insertAtRoot(input, 1);
+		// f(x,g(y))|=1, f[x,g(y)]|=1
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		FunctionNode function = (FunctionNode) state.getRootNode().getChild(0);
+		// Child 0 is the function name; offset 1 is just after f, before its bracket.
+		state.setCurrentNode(function.getChild(0));
+		state.setCurrentOffset(1);
+		// f|(x,g(y))=1, f|[x,g(y)]=1
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// f|x,g(y)=1
+		checkEditorState("fx,g(y)=1", 1);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@CsvSource({
+		"'(x)+2', 'x+2', 1",
+		"'[x]+2', 'x+2', 1",
+		"'{x}+2', 'x+2', 1",
+		"'((x))+2', '(x)+2', 1",
+		"'()+2', '+2', 0"
+	})
+	@Issue("APPS-7021")
+	void backspaceEntersAndUnwrapsGrouping(String input, String unwrapped, int contentSize) {
+		insertAtRoot(input, 1);
+		// (x)|+2, [x]|+2, {x}|+2, ((x))|+2, ()|+2
+		checker.backspace(1);
+		// (x|)+2, [x|]+2, {x|}+2, ((x)|)+2, (|)+2
+		checkEditorState(input, contentSize, 0, 0);
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		// Offset 0 moves to the start of the group, just after its opening bracket.
+		state.setCurrentOffset(0);
+		// (|x)+2, [|x]+2, {|x}+2, (|(x))+2, (|)+2
+		checker.backspace(1);
+		// |x+2, |x+2, |x+2, |(x)+2, |+2
+		checkEditorState(unwrapped, 0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@CsvSource({
+		"'(x)+2', 'x+2'",
+		"'[x]+2', 'x+2'",
+		"'{x}+2', 'x+2'",
+		"'((x))+2', '(x)+2'",
+		"'()+2', '+2'"
+	})
+	@Issue("APPS-7021")
+	void forwardDeleteUnwrapsGrouping(String input, String unwrapped) {
+		insertAtRoot(input, 0);
+		// |(x)+2, |[x]+2, |{x}+2, |((x))+2, |()+2
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// |x+2, |x+2, |x+2, |(x)+2, |+2
+		checkEditorState(unwrapped, 0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"f(x)=x^2",
+				"f[x]=x^2",
+				"(x)+2",
+				"[x]+2",
+				"{x}+2",
+				"((x))+2",
+				"()+2",
+			})
+	@Issue("APPS-7021")
+	void forwardDeleteCrossesClosingBrackets(String input) {
+		String expected = input.replace("x^2", "x^(2)");
+		insertAtRoot(input, 1);
+		// f(x)|=x^2, f[x]|=x^2, (x)|+2, [x]|+2, {x}|+2, ((x))|+2, ()|+2
+		checker.left(1);
+		// f(x|)=x^2, f[x|]=x^2, (x|)+2, [x|]+2, {x|}+2, ((x)|)+2, (|)+2
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// f(x)|=x^2, f[x]|=x^2, (x)|+2, [x]|+2, {x}|+2, ((x))|+2, ()|+2
+		checkEditorState(expected, 1);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"floor", "abs", "ceil", "sqrt", "log_10",
+			})
+	@Issue("APPS-7021")
+	void backspacePreservesBuiltInFunctionArguments(String name) {
+		String expression = name.equals("log_10") ? "log(10,x)+1" : name + "(x)+1";
+		checker.parse("");
+		checker.type(name + "(x)+1");
+		// floor(x)+1|, abs(x)+1|, ceil(x)+1|, sqrt(x)+1|, log_10(x)+1|
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		// Root offset 1 is immediately after the function, before +1.
+		state.setCurrentNode(state.getRootNode());
+		state.setCurrentOffset(1);
+		// floor(x)|+1, abs(x)|+1, ceil(x)|+1, sqrt(x)|+1, log_10(x)|+1
+		checkEditorState(expression, 1);
+		int argumentIndex = name.equals("log_10") ? 1 : 0;
+		checker.backspace(1);
+		// floor(x|)+1, abs(x|)+1, ceil(x|)+1, sqrt(x|)+1, log_10(x|)+1
+		checkEditorState(expression, 1, argumentIndex, 0);
+		checker.backspace(1);
+		// floor(|)+1, abs(|)+1, ceil(|)+1, sqrt(|)+1, log_10(|)+1
+		checkEditorState(expression.replace("x", ""), 0, argumentIndex, 0);
+		// Return to root offset 1, immediately after the function with its empty argument.
+		state.setCurrentNode(state.getRootNode());
+		state.setCurrentOffset(1);
+		// floor()|+1, abs()|+1, ceil()|+1, sqrt()|+1, log_10()|+1
+		checker.backspace(1);
+		// floor(|)+1, abs(|)+1, ceil(|)+1, sqrt(|)+1, log_10(|)+1
+		checkEditorState(expression.replace("x", ""), 0, argumentIndex, 0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@CsvSource({
+		"'cbrt(x)+1', 0",
+		"'nroot(x,3)+1', 1",
+	})
+	@Issue("APPS-7021")
+	void deletionPreservesCubeAndNthRootClosingBoundaries(String input, int argumentIndex) {
+		insertAtRoot(input, 1);
+		// cbrt(x)|+1, nroot(x,3)|+1
+		checkEditorState(input, 1);
+		checker.backspace(1);
+		// cbrt(x|)+1, nroot(x|,3)+1
+		checkEditorState(input, 1, argumentIndex, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// cbrt(x)|+1, nroot(x,3)|+1
+		checkEditorState(input, 1);
+		checker.backspace(1);
+		// cbrt(x|)+1, nroot(x|,3)+1
+		checker.backspace(1);
+		// cbrt(|)+1, nroot(|,3)+1
+		checkEditorState(input.replace("x", ""), 0, argumentIndex, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// cbrt()|+1, nroot(,3)|+1
+		checkEditorState(input.replace("x", ""), 1);
+	}
+
+	@Test
+	@Issue("APPS-7021")
+	void deletionPreservesPoweredLogClosingBoundary() {
+		checker.type("log_2");
+		// log_{2|}
+		checker.right(1);
+		// log_2|
+		checker.type("^3");
+		// log_2^{3|}
+		checker.right(1);
+		// log_2^3|
+		checker.type("(x)+1");
+		// log_2^3(x)+1|
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		// Root offset 1 is immediately after the log function, before +1.
+		state.setCurrentNode(state.getRootNode());
+		state.setCurrentOffset(1);
+		// log_2^3(x)|+1
+		checkEditorState("log(2,x)^(3)+1", 1);
+		checker.backspace(1);
+		// log_2^3(x|)+1
+		checkEditorState("log(2,x)^(3)+1", 1, 2, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// log_2^3(x)|+1
+		checkEditorState("log(2,x)^(3)+1", 1);
+		checker.backspace(1);
+		// log_2^3(x|)+1
+		checker.backspace(1);
+		// log_2^3(|)+1
+		checkEditorState("log(2,)^(3)+1", 0, 2, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// log_2^3()|+1
+		checkEditorState("log(2,)^(3)+1", 1);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"floor", "abs", "ceil", "sqrt", "log_10",
+			})
+	@Issue("APPS-7021")
+	void forwardDeleteCrossesBuiltInFunctionClosingBoundaries(String name) {
+		String expression = name.equals("log_10") ? "log(10,x)+1" : name + "(x)+1";
+		int argumentIndex = name.equals("log_10") ? 1 : 0;
+		checker.parse("");
+		checker.type(name + "(x)+1");
+		// floor(x)+1|, abs(x)+1|, ceil(x)+1|, sqrt(x)+1|, log_10(x)+1|
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		// Root offset 1 is immediately after the function, before +1.
+		state.setCurrentNode(state.getRootNode());
+		state.setCurrentOffset(1);
+		// floor(x)|+1, abs(x)|+1, ceil(x)|+1, sqrt(x)|+1, log_10(x)|+1
+		checker.left(1);
+		// floor(x|)+1, abs(x|)+1, ceil(x|)+1, sqrt(x|)+1, log_10(x|)+1
+		checkEditorState(expression, 1, argumentIndex, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// floor(x)|+1, abs(x)|+1, ceil(x)|+1, sqrt(x)|+1, log_10(x)|+1
+		checkEditorState(expression, 1);
+	}
+
+	@ParameterizedTest(name = "backspace={0}")
+	@ValueSource(
+			booleans = {
+				true, false,
+			})
+	@Issue("APPS-7021")
+	void openingBracketDeletionRemovesUnusedCommandPlaceholders(boolean backspace) {
+		checker.pressSingleKey("Circle( <Point>, <Radius Number> )");
+		// Circle(|<Point>, <Radius Number>)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		FunctionNode command = (FunctionNode) state.getCurrentNode().getParent();
+		assertInstanceOf(PlaceholderNode.class, command.getChild(1).getChild(0));
+		assertInstanceOf(PlaceholderNode.class, command.getChild(1).getChild(2));
+		if (!backspace) {
+			// Child 0 is the command name; offset 6 is after Circle, before its bracket.
+			state.setCurrentNode(command.getChild(0));
+			state.setCurrentOffset(6);
+			// Circle|(<Point>, <Radius Number>)
+		}
+		checker.typeKey(backspace ? JavaKeyCodes.VK_BACK_SPACE : JavaKeyCodes.VK_DELETE);
+		// Circle|
+		checkEditorState("Circle", 6);
+		// Placeholders serialize as empty text, so also check that no hidden nodes remain.
+		checker.checkLength(6);
+		checker.type("A");
+		// CircleA|
+		checkEditorState("CircleA", 7);
+		checker.checkLength(7);
+	}
+
+	@ParameterizedTest(name = "placeholder={0}, value={1}, backspace={2}")
+	@CsvSource({
+		"0, A, true, CircleA",
+		"0, A, false, CircleA",
+		"2, r, true, Circler",
+		"2, r, false, Circler",
+	})
+	@Issue("APPS-7021")
+	void openingBracketDeletionPreservesEnteredCommandArguments(
+			int placeholderOffset, String value, boolean backspace, String expected) {
+		checker.pressSingleKey("Circle( <Point>, <Radius Number> )");
+		// Circle(|<Point>, <Radius Number>)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		FunctionNode command = (FunctionNode) state.getCurrentNode().getParent();
+		// Argument offsets 0 and 2 are the first and second syntax placeholders.
+		state.setCurrentOffset(placeholderOffset);
+		// Circle(|<Point>, <Radius Number>), Circle(<Point>, |<Radius Number>)
+		checker.type(value);
+		// Circle(A|, <Radius Number>), Circle(<Point>, r|)
+		// Backspace targets the argument's start; Delete targets the command name's end.
+		state.setCurrentNode(command.getChild(backspace ? 1 : 0));
+		state.setCurrentOffset(backspace ? 0 : 6);
+		// Backspace: Circle(|A, <Radius Number>), Circle(|<Point>, r)
+		// Delete: Circle|(A, <Radius Number>), Circle|(<Point>, r)
+		checker.typeKey(backspace ? JavaKeyCodes.VK_BACK_SPACE : JavaKeyCodes.VK_DELETE);
+		// Circle|A, Circle|r
+		checkEditorState(expected, 6);
+		checker.checkLength(7);
+	}
+
+	@ParameterizedTest(name = "backspace={0}")
+	@ValueSource(
+			booleans = {
+				true, false,
+			})
+	@Issue("APPS-7021")
+	void openingBracketDeletionPreservesSeparatorsBetweenEnteredArguments(boolean backspace) {
+		checker.pressSingleKey("Circle( <Point>, <Point>, <Point> )");
+		// Circle(|<Point>, <Point>, <Point>)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		FunctionNode command = (FunctionNode) state.getCurrentNode().getParent();
+		checker.type("A");
+		// Circle(A|, <Point>, <Point>)
+		// Offset 4 is the third argument's placeholder, after A, comma, placeholder, comma.
+		state.setCurrentOffset(4);
+		// Circle(A, <Point>, |<Point>)
+		checker.type("B");
+		// Circle(A, <Point>, B|)
+		// Backspace targets the argument's start; Delete targets the command name's end.
+		state.setCurrentNode(command.getChild(backspace ? 1 : 0));
+		state.setCurrentOffset(backspace ? 0 : 6);
+		// Backspace: Circle(|A, <Point>, B); Delete: Circle|(A, <Point>, B)
+		checker.typeKey(backspace ? JavaKeyCodes.VK_BACK_SPACE : JavaKeyCodes.VK_DELETE);
+		// Circle|A,B
+		checkEditorState("CircleA,B", 6);
+		checker.checkLength(9);
+	}
+
+	@Test
+	@Issue("APPS-7021")
+	void forwardDeletePreservesFunctionCommaInProtectedPoint() {
+		checker.convertFormula("(1,2)");
+		// (|1,2)
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (|,2)
+		checker.type("f(a,b)");
+		// (f(a,b)|,2)
+		checker.left(1);
+		// (f(a,b|),2)
+		checkEditorState("(f(a,b),2)", 3, 1, 0, 0, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (f(a,b)|,2)
+		checkEditorState("(f(a,b),2)", 1, 0, 0);
+		checker.backspace(1);
+		// (f(a,b|),2)
+		checkEditorState("(f(a,b),2)", 3, 1, 0, 0, 0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"f(a,b)", "f[a,b]",
+			})
+	@Issue("APPS-7021")
+	void backspacePreservesOpeningBracketAndFunctionCommaInProtectedPoint(String input) {
+		String expression = "(" + input + ",2)";
+		checker.parse("");
+		checker.convertFormula("(1,2)");
+		// (|1,2)
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (|,2)
+		checker.type(input);
+		// (f(a,b)|,2), (f[a,b]|,2)
+		checker.left(1);
+		// (f(a,b|),2), (f[a,b|],2)
+		// Offset 0 moves to the start of the argument, just after its opening bracket.
+		checker.getMathField().getInternal().getEditorState().setCurrentOffset(0);
+		// (f(|a,b),2), (f[|a,b],2)
+		checkEditorState(expression, 0, 1, 0, 0, 0);
+		checker.backspace(1);
+		// (f(|a,b),2), (f[|a,b],2)
+		checkEditorState(expression, 0, 1, 0, 0, 0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"f(a,b)", "f[a,b]",
+			})
+	@Issue("APPS-7021")
+	void forwardDeletePreservesOpeningBracketAndFunctionCommaInProtectedPoint(String input) {
+		checker.parse("");
+		checker.convertFormula("(1,2)");
+		// (|1,2)
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (|,2)
+		checker.type(input);
+		// (f(a,b)|,2), (f[a,b]|,2)
+		checker.left(1);
+		// (f(a,b|),2), (f[a,b|],2)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		FunctionNode function = (FunctionNode) state.getCurrentNode().getParent();
+		String expression = "(" + input + ",2)";
+		// Child 0 is the function name; offset 1 is just after f, before its bracket.
+		state.setCurrentNode(function.getChild(0));
+		state.setCurrentOffset(1);
+		// (f|(a,b),2), (f|[a,b],2)
+		checkEditorState(expression, 1, 0, 0, 0, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (f|(a,b),2), (f|[a,b],2)
+		checkEditorState(expression, 1, 0, 0, 0, 0);
+	}
+
+	@ParameterizedTest(name = "backspace={0}")
+	@ValueSource(
+			booleans = {
+				true, false,
+			})
+	@Issue("APPS-7021")
+	void openingBracketDeletionStillUnwrapsSingleArgumentInProtectedPoint(boolean backspace) {
+		checker.parse("");
+		checker.convertFormula("(1,2)");
+		// (|1,2)
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (|,2)
+		checker.type("f(a)");
+		// (f(a)|,2)
+		checker.left(1);
+		// (f(a|),2)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		FunctionNode function = (FunctionNode) state.getCurrentNode().getParent();
+		// Backspace targets the opening bracket from the argument's start (offset 0).
+		// Delete targets it from the end of the function name (offset 1).
+		state.setCurrentNode(function.getChild(backspace ? 1 : 0));
+		state.setCurrentOffset(backspace ? 0 : 1);
+		// Backspace: (f(|a),2); Delete: (f|(a),2)
+		checker.typeKey(backspace ? JavaKeyCodes.VK_BACK_SPACE : JavaKeyCodes.VK_DELETE);
+		// (f|a,2)
+		checkEditorState("(fa,2)", 1, 0, 0);
+	}
+
+	@ParameterizedTest(name = "{0}, backspace={1}, placeholders={2}")
+	@CsvSource({
+		"$point, true, false",
+		"$point, false, false",
+		"$point, true, true",
+		"$point, false, true",
+		"$pointAt, true, false",
+		"$pointAt, false, false",
+		"$pointAt, true, true",
+		"$pointAt, false, true",
+		"$vector, true, false",
+		"$vector, false, false",
+		"$vector, true, true",
+		"$vector, false, true",
+	})
+	@Issue("APPS-7021")
+	void boundaryDeletionRemovesEmptyCoordinateTemplates(
+			String template, boolean backspace, boolean placeholders) {
+		// State comments use comma-separated coordinates for all three templates; | marks the caret.
+		checker.type("7+");
+		// 7+|
+		checker.pressSingleKey(template + ":2");
+		// 7+(|,)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		FunctionNode coordinates = (FunctionNode) state.getCurrentNode().getParent();
+		if (placeholders) {
+			// Both syntax and character placeholders represent unused coordinate fields.
+			coordinates.getChild(0).addChild(new PlaceholderNode("Coordinate"));
+			coordinates.getChild(1).addChild(new CharPlaceholderNode());
+			// 7+(|_,_) (_ denotes an unused placeholder)
+		}
+		// Root offsets 2 and 3 are immediately before and after the coordinate template.
+		state.setCurrentNode(state.getRootNode());
+		state.setCurrentOffset(backspace ? 3 : 2);
+		// Backspace: 7+(_,_)|; Delete: 7+|(_,_) (or empty fields without placeholder nodes)
+		checker.typeKey(backspace ? JavaKeyCodes.VK_BACK_SPACE : JavaKeyCodes.VK_DELETE);
+		// 7+| (the empty template and its placeholder nodes have been removed)
+		checkEditorState("7+", 2);
+		checker.checkLength(2);
+	}
+
+	@ParameterizedTest(name = "{0}, backspace={1}, filledCoordinate={2}")
+	@CsvSource({
+		"$point, true, 0",
+		"$point, false, 0",
+		"$point, true, 1",
+		"$point, false, 1",
+		"$pointAt, true, 0",
+		"$pointAt, false, 0",
+		"$pointAt, true, 1",
+		"$pointAt, false, 1",
+		"$vector, true, 0",
+		"$vector, false, 0",
+		"$vector, true, 1",
+		"$vector, false, 1",
+	})
+	@Issue("APPS-7021")
+	void boundaryDeletionPreservesPartiallyFilledCoordinateTemplates(
+			String template, boolean backspace, int filledCoordinate) {
+		// State comments use comma-separated coordinates for all three templates; | marks the caret.
+		checker.pressSingleKey(template + ":2");
+		// (|,)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		FunctionNode coordinates = (FunctionNode) state.getCurrentNode().getParent();
+		// Select the start of the coordinate that will contain user content.
+		state.setCurrentNode(coordinates.getChild(filledCoordinate));
+		state.setCurrentOffset(0);
+		// (|,) or (,|)
+		checker.type("0");
+		// (0|,) or (,0|) (zero is user content, not an empty field)
+		// Root offset 1 is after the template; root offset 0 is before it.
+		state.setCurrentNode(state.getRootNode());
+		state.setCurrentOffset(backspace ? 1 : 0);
+		// Backspace: (0,)| or (,0)|; Delete: |(0,) or |(,0)
+		checker.typeKey(backspace ? JavaKeyCodes.VK_BACK_SPACE : JavaKeyCodes.VK_DELETE);
+		// Backspace: (0,|) or (,0|); Delete: (|0,) or (|,0)
+		int targetCoordinate = backspace ? 1 : 0;
+		int offset = backspace && filledCoordinate == 1 ? 1 : 0;
+		String expression = template + (filledCoordinate == 0 ? "(0,)" : "(,0)");
+		checkEditorState(expression, offset, targetCoordinate, 0);
+	}
+
+	@ParameterizedTest(name = "{0}, backspace={1}")
+	@CsvSource({
+		"$point, true",
+		"$point, false",
+		"$pointAt, true",
+		"$pointAt, false",
+		"$vector, true",
+		"$vector, false",
+	})
+	@Issue("APPS-7021")
+	void boundaryDeletionPreservesProtectedEmptyCoordinateTemplates(
+			String template, boolean backspace) {
+		// State comments use comma-separated coordinates for all three templates; | marks the caret.
+		checker.pressSingleKey(template + ":2");
+		// (|,)
+		checker.protect();
+		// (|,) (the input's coordinate structure is now protected)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		// Place the caret just outside the protected template, at the targeted boundary.
+		state.setCurrentNode(state.getRootNode());
+		state.setCurrentOffset(backspace ? 1 : 0);
+		// Backspace: (,)|; Delete: |(,)
+		checker.typeKey(backspace ? JavaKeyCodes.VK_BACK_SPACE : JavaKeyCodes.VK_DELETE);
+		// Backspace: (,|); Delete: (|,) (the protected template is retained)
+		checkEditorState(template + "(,)", 0, backspace ? 1 : 0, 0);
+	}
+
+	@ParameterizedTest(name = "{0}, firstCoordinate={1}")
+	@CsvSource({
+		"$point, ''",
+		"$point, 1",
+		"$pointAt, ''",
+		"$pointAt, 1",
+		"$vector, ''",
+		"$vector, 1",
+	})
+	@Issue("APPS-7021")
+	void backspaceAtCoordinateTemplateOpeningPreservesOtherCoordinates(
+			String template, String firstCoordinate) {
+		// State comments use comma-separated coordinates for all three templates; | marks the caret.
+		checker.pressSingleKey(template + ":2");
+		// (|,)
+		checker.type(firstCoordinate);
+		// (|,) or (1|,)
+		checker.right(1);
+		// (,|) or (1,|)
+		checker.type("2");
+		// (,2|) or (1,2|)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		FunctionNode coordinates = (FunctionNode) state.getCurrentNode().getParent();
+		// Position the caret at the first coordinate's start, just after the opening bracket.
+		state.setCurrentNode(coordinates.getChild(0));
+		state.setCurrentOffset(0);
+		// (|,2) or (|1,2)
+		String expression = template + "(" + firstCoordinate + ",2)";
+		checkEditorState(expression, 0, 0, 0);
+		checker.backspace(1);
+		// |(,2) or |(1,2) (the populated template remains intact)
+		checkEditorState(expression, 0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"$point",
+				"$pointAt",
+				"$vector",
+			})
+	@Issue("APPS-7021")
+	void backspaceAfterCoordinatePlaceholderPreservesOtherCoordinates(String template) {
+		// State comments use comma-separated coordinates for all three templates; | marks the caret.
+		checker.pressSingleKey(template + ":2");
+		// (|,)
+		checker.right(1);
+		// (,|)
+		checker.type("2");
+		// (,2|)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		FunctionNode coordinates = (FunctionNode) state.getCurrentNode().getParent();
+		coordinates.getChild(0).addChild(new CharPlaceholderNode());
+		// (_,2|) (_ denotes an unused placeholder)
+		// Offset 1 places the caret immediately after the first coordinate's placeholder.
+		state.setCurrentNode(coordinates.getChild(0));
+		state.setCurrentOffset(1);
+		// (_|,2)
+		String expression = template + "(,2)";
+		checkEditorState(expression, 1, 0, 0);
+		checker.backspace(1);
+		// (|,2) (the explicit placeholder node was removed, but the coordinate stays empty)
+		checkEditorState(expression, 0, 0, 0);
+		checker.backspace(1);
+		// |(,2) (the remaining coordinate prevents template removal)
+		checkEditorState(expression, 0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"$point",
+				"$pointAt",
+				"$vector",
+			})
+	@Issue("APPS-7021")
+	void selectionDeletesPointAndVectorTemplates(String template) {
+		// State comments use comma-separated coordinates for all three templates; | marks the caret.
+		checker.pressSingleKey(template + ":2");
+		// (|,)
+		checker.type("1");
+		// (1|,)
+		checker.right(1);
+		// (1,|)
+		checker.type("2");
+		// (1,2|)
+		checker.ctrlA();
+		// The entire template (1,2) is selected.
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// The entire template and both coordinates have been removed.
+		checkEditorState("", 0);
+		checker.checkLength(0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"$point",
+				"$pointAt",
+				"$vector",
+			})
+	@Issue("APPS-7021")
+	void backspaceDeletesEmptiedPointAndVectorTemplates(String template) {
+		// State comments use comma-separated coordinates for all three templates; | marks the caret.
+		checker.pressSingleKey(template + ":2");
+		// (|,)
+		checker.type("1");
+		// (1|,)
+		checker.right(1);
+		// (1,|)
+		checker.type("2");
+		// (1,2|)
+		checker.backspace(1);
+		// (1,|)
+		checkEditorState(template + "(1,)", 0, 1, 0);
+		checker.left(1);
+		// (1|,)
+		checker.backspace(1);
+		// (|,)
+		checkEditorState(template + "(,)", 0, 0, 0);
+		checker.backspace(1);
+		// The empty template has been removed.
+		checkEditorState("", 0);
+		checker.checkLength(0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"$point",
+				"$pointAt",
+				"$vector",
+			})
+	@Issue("APPS-7021")
+	void forwardDeleteEntersPointAndVectorTemplatesWithoutLosingCoordinates(String template) {
+		// State comments use comma-separated coordinates for all three templates; | marks the caret.
+		checker.pressSingleKey(template + ":2");
+		// (|,)
+		checker.type("1");
+		// (1|,)
+		checker.right(1);
+		// (1,|)
+		checker.type("2");
+		// (1,2|)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		// Root offset 0 is before the entire coordinate template.
+		state.setCurrentNode(state.getRootNode());
+		state.setCurrentOffset(0);
+		// |(1,2)
+		String expression = template + "(1,2)";
+		checkEditorState(expression, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (|1,2)
+		checkEditorState(expression, 0, 0, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (|,2)
+		checkEditorState(template + "(,2)", 0, 0, 0);
+		checker.type("3");
+		// (3|,2)
+		checkEditorState(template + "(3,2)", 1, 0, 0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"$point",
+				"$pointAt",
+				"$vector",
+			})
+	@Issue("APPS-7021")
+	void deletionPreservesPointAndVectorTemplateClosingBoundaries(String template) {
+		// State comments use comma-separated coordinates for all three templates; | marks the caret.
+		checker.pressSingleKey(template + ":2");
+		// (|,)
+		checker.type("1");
+		// (1|,)
+		checker.right(1);
+		// (1,|)
+		checker.type("2");
+		// (1,2|)
+		checker.right(1);
+		// (1,2)|
+		String expression = template + "(1,2)";
+		checkEditorState(expression, 1);
+		checker.backspace(1);
+		// (1,2|)
+		checkEditorState(expression, 1, 1, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (1,2)|
+		checkEditorState(expression, 1);
+		checker.backspace(1);
+		// (1,2|)
+		checker.backspace(1);
+		// (1,|)
+		checkEditorState(template + "(1,)", 0, 1, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (1,)|
+		checkEditorState(template + "(1,)", 1);
+	}
+
+	@Test
+	@Issue("APPS-7021")
+	void forwardDeletePreservesSingleCellMatrix() {
+		insertAtRoot("{{1}}", 1);
+		// {{1}}|
+		checker.left(1);
+		// {{1|}}
+		checkEditorState("{{1}}", 1, 0, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// {{1}}|
+		checkEditorState("{{1}}", 1);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// {{1}}|
+		checkEditorState("{{1}}", 1);
+	}
+
+	@Test
+	@Issue("APPS-7021")
+	void forwardDeletePreservesProtectedSingleCellMatrix() {
+		checker.matrixFromParser("{{1}}");
+		// {{|1}}
+		checker.right(1);
+		// {{1|}}
+		checkEditorState("{{1}}", 1, 0, 0);
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// {{1|}}
+		checkEditorState("{{1}}", 1, 0, 0);
+	}
+
+	@Test
+	@Issue("APPS-7021")
+	void deletionCannotUnwrapProtectedGrouping() {
+		checker.insert("(x)");
+		// (x)|
+		checker.protect();
+		// (x)| (the grouping is now protected)
+		checker.left(1);
+		// (x|)
+		checker.left(1);
+		// (|x)
+		checker.backspace(1);
+		// (|x)
+		checkEditorState("(x)", 0, 0, 0);
+		checker.right(1);
+		// (x|)
+		checker.typeKey(JavaKeyCodes.VK_DELETE);
+		// (x|)
+		checkEditorState("(x)", 1, 0, 0);
+	}
+
+	/**
+	 * Insert an expression and position the caret between its top-level nodes.
+	 * @param input expression to insert
+	 * @param offset index between root children; 0 is before the expression, while
+	 * 1 is after its first node (for example, a complete function or bracketed group)
+	 */
+	private void insertAtRoot(String input, int offset) {
+		checker.parse("");
+		checker.insert(input);
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		state.setCurrentNode(state.getRootNode());
+		state.setCurrentOffset(offset);
+	}
+
+	/**
+	 * Assert the editor's expression and caret position without resetting its state,
+	 * so subsequent editing steps can continue from the same position.
+	 * @param expression expected GeoGebra serialization, without a caret marker
+	 * @param caret expected caret path: offset in the current sequence, followed by
+	 * each containing node's child index, moving outward to the root; for example,
+	 * {@code (3, 1, 0)} means offset 3 in argument 1 of the root's child 0
+	 */
+	private void checkEditorState(String expression, Integer... caret) {
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		assertEquals(
+				expression, GeoGebraSerializer.serialize(state.getRootNode(), (EditorFeatures) null));
+		checker.checkCaret(caret);
 	}
 
 	@Test
