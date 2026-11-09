@@ -21,7 +21,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.color.GeoColorValues;
+import org.geogebra.common.main.color.DefaultGeoColorValues;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.ObjectColorPropertyDelegate;
 import org.jspecify.annotations.NonNull;
@@ -40,6 +40,6 @@ public class OldObjectColorProperty extends ElementColorProperty {
 
 	@Override
 	public @NonNull List<GColor> getValues() {
-		return GeoColorValues.values();
+		return DefaultGeoColorValues.values();
 	}
 }

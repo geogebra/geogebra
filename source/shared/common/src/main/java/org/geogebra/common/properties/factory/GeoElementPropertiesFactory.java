@@ -33,7 +33,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.color.GeoColorValues;
+import org.geogebra.common.main.color.DefaultGeoColorValues;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
@@ -615,7 +615,7 @@ public final class GeoElementPropertiesFactory {
 
 	/**
 	 * Creates a color property for strokes, shapes, lines, point, rays, sliders, points with
-	 * the new color palette, see {@link org.geogebra.common.main.color.GeoColorValues}
+	 * the new color palette, see {@link DefaultGeoColorValues}
 	 * @param localization localization
 	 * @param elements elements
 	 * @return color property
@@ -689,7 +689,7 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		return createOptionalPropertyFacade(
 				elements,
-				element -> new TextColorProperty(localization, element, GeoColorValues.values()),
+				element -> new TextColorProperty(localization, element, DefaultGeoColorValues.values()),
 				ColorPropertyListFacade::new);
 	}
 
@@ -718,7 +718,7 @@ public final class GeoElementPropertiesFactory {
 		return createOptionalPropertyFacade(
 				elements,
 				element -> new BorderColorProperty(
-						localization, element, GeoColorValues.values(), "stylebar.Borders"),
+						localization, element, DefaultGeoColorValues.values(), "stylebar.Borders"),
 				ColorPropertyListFacade::new);
 	}
 

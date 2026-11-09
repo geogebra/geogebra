@@ -23,7 +23,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.color.GeoColorValues;
+import org.geogebra.common.main.color.DefaultGeoColorValues;
 import org.geogebra.common.main.color.StickyNoteColorValues;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.TextColorPropertyDelegate;
@@ -44,7 +44,7 @@ public class TextBackgroundColorProperty extends ElementColorProperty {
 		setValues(
 				element instanceof GeoStickyNote
 						? StickyNoteColorValues.values()
-						: GeoColorValues.values());
+						: DefaultGeoColorValues.values());
 	}
 
 	@Override

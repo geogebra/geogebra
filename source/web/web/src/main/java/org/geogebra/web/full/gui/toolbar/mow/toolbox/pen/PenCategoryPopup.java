@@ -25,10 +25,10 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.color.DefaultGeoColorValues;
 import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
-import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.PenColorValues;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.CategoryPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.PenHighlighterEraserSlider;
@@ -55,7 +55,7 @@ public final class PenCategoryPopup extends CategoryPopup
 	}
 
 	private void buildGui() {
-		List<GColor> penColors = PenColorValues.values();
+		List<GColor> penColors = DefaultGeoColorValues.values();
 
 		colorChooser = new ColorChooserPanel((AppW) getApplication(), penColors, (color) -> {
 			int mode = getLastSelectedMode();

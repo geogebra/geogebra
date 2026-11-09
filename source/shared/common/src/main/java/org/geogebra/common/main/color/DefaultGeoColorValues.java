@@ -14,7 +14,7 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
-package org.geogebra.web.full.gui.toolbar.mow.popupcomponents;
+package org.geogebra.common.main.color;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
 
-public final class PenColorValues {
+public final class DefaultGeoColorValues {
 
 	/**
 	 * @return colors for pen tool
@@ -41,7 +41,7 @@ public final class PenColorValues {
 				null);
 	}
 
-	private PenColorValues() {
+	private DefaultGeoColorValues() {
 		// utility class
 	}
 }
