@@ -96,53 +96,54 @@ public class FontProperty extends AbstractNamedEnumeratedProperty<FontProperty.F
 		BY_DS_SCHREIBEN_1_2_OHNE_LINEATUR(
 				"ByDS Schreiben 1+2 (ohne Lineatur)", "ByDSSchreiben-1-2ohneLineatur, sans-serif"),
 		BY_DS_SCHREIBEN_3_GRAY(
-				"ByDS Schreiben 3", "ByDSSchreiben3-gray, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_3),
+				"ByDS Schreiben 3", "ByDSSchreiben-3gray, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_3),
 		BY_DS_SCHREIBEN_3_GRAY_FARBBAND(
 				"ByDS Schreiben 3",
-				"ByDSSchreiben3-grayFarbband, sans-serif",
+				"ByDSSchreiben-3grayFarbband, sans-serif",
 				DropdownGroup.BY_DS_SCHREIBEN_3),
 		BY_DS_SCHREIBEN_3_BLUE(
-				"ByDS Schreiben 3", "ByDSSchreiben3-blue, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_3),
+				"ByDS Schreiben 3", "ByDSSchreiben-3blue, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_3),
 		BY_DS_SCHREIBEN_3_BLUE_FARBBAND(
 				"ByDS Schreiben 3",
-				"ByDSSchreiben3-blueFarbband, sans-serif",
+				"ByDSSchreiben-3blueFarbband, sans-serif",
 				DropdownGroup.BY_DS_SCHREIBEN_3),
 		BY_DS_SCHREIBEN_3_RED(
-				"ByDS Schreiben 3", "ByDSSchreiben3-red, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_3),
+				"ByDS Schreiben 3", "ByDSSchreiben-3red, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_3),
 		BY_DS_SCHREIBEN_3_RED_FARBBAND(
 				"ByDS Schreiben 3",
-				"ByDSSchreiben3-redFarbband, sans-serif",
+				"ByDSSchreiben-3redFarbband, sans-serif",
 				DropdownGroup.BY_DS_SCHREIBEN_3),
 		BY_DS_SCHREIBEN_3_GREEN(
-				"ByDS Schreiben 3", "ByDSSchreiben3-green, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_3),
+				"ByDS Schreiben 3", "ByDSSchreiben-3green, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_3),
 		BY_DS_SCHREIBEN_3_GREEN_FARBBAND(
 				"ByDS Schreiben 3",
-				"ByDSSchreiben3-greenFarbband, sans-serif",
+				"ByDSSchreiben-3greenFarbband, sans-serif",
 				DropdownGroup.BY_DS_SCHREIBEN_3),
-		BY_DS_SCHREIBEN_3_4_OHNE_LINEATUR("ByDS Schreiben 3+4 (ohne Lineatur)", "ByDruck2, sans-serif"),
+		BY_DS_SCHREIBEN_3_4_OHNE_LINEATUR(
+				"ByDS Schreiben 3+4 (ohne Lineatur)", "ByDSSchreiben-3-4ohneLineatur, sans-serif"),
 		BY_DS_SCHREIBEN_4_GRAY(
-				"ByDS Schreiben 4", "ByDSSchreiben4-gray, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_4),
+				"ByDS Schreiben 4", "ByDSSchreiben-4gray, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_4),
 		BY_DS_SCHREIBEN_4_GRAY_FARBBAND(
 				"ByDS Schreiben 4",
-				"ByDSSchreiben4-grayFarbband, sans-serif",
+				"ByDSSchreiben-4grayFarbband, sans-serif",
 				DropdownGroup.BY_DS_SCHREIBEN_4),
 		BY_DS_SCHREIBEN_4_BLUE(
-				"ByDS Schreiben 4", "ByDSSchreiben4-blue, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_4),
+				"ByDS Schreiben 4", "ByDSSchreiben-4blue, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_4),
 		BY_DS_SCHREIBEN_4_BLUE_FARBBAND(
 				"ByDS Schreiben 4",
-				"ByDSSchreiben4-blueFarbband, sans-serif",
+				"ByDSSchreiben-4blueFarbband, sans-serif",
 				DropdownGroup.BY_DS_SCHREIBEN_4),
 		BY_DS_SCHREIBEN_4_RED(
-				"ByDS Schreiben 4", "ByDSSchreiben4-red, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_4),
+				"ByDS Schreiben 4", "ByDSSchreiben-4red, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_4),
 		BY_DS_SCHREIBEN_4_RED_FARBBAND(
 				"ByDS Schreiben 4",
-				"ByDSSchreiben4-redFarbband, sans-serif",
+				"ByDSSchreiben-4redFarbband, sans-serif",
 				DropdownGroup.BY_DS_SCHREIBEN_4),
 		BY_DS_SCHREIBEN_4_GREEN(
-				"ByDS Schreiben 4", "ByDSSchreiben4-green, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_4),
+				"ByDS Schreiben 4", "ByDSSchreiben-4green, sans-serif", DropdownGroup.BY_DS_SCHREIBEN_4),
 		BY_DS_SCHREIBEN_4_GREEN_FARBBAND(
 				"ByDS Schreiben 4",
-				"ByDSSchreiben4-greenFarbband, sans-serif",
+				"ByDSSchreiben-4greenFarbband, sans-serif",
 				DropdownGroup.BY_DS_SCHREIBEN_4),
 		BY_DS_SCHREIBEN_KONTUR("ByDS Schreiben Kontur", "ByDSSchreibenKontur, sans-serif"),
 		BY_DS_SCHREIBEN_WURM("ByDS Schreiben Wurm", "ByDSSchreibenWurm, sans-serif"),
