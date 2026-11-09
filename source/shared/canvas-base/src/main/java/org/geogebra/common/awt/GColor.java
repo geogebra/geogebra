@@ -121,8 +121,6 @@ public final class GColor implements GPaint {
 
 	public static final GColor MIND_MAP_PLUS_INACTIVE = newColor(189, 189, 189);
 
-	public static final GColor MIND_MAP_PLUS_ACTIVE = newColor(0, 132, 117);
-
 	public static final GColor MIND_MAP_CONNECTION = newColorRGB(0xDEDEDE);
 
 	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = newColorRGB(0x975FA8);

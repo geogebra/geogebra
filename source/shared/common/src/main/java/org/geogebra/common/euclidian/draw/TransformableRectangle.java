@@ -308,9 +308,7 @@ public class TransformableRectangle {
 			boundingBox.setRectangle(getBounds());
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
 			boundingBox.setSecondaryColor(
-					view.getApplication().isByCS()
-							? GColor.MOW_MIND_MAP_PLUS_ACTIVE
-							: GColor.MIND_MAP_PLUS_ACTIVE);
+					view.getApplication().isByCS() ? GColor.MOW_MIND_MAP_PLUS_ACTIVE : GColor.DEFAULT_PURPLE);
 		}
 		boundingBox.updateFrom(geo.toGeoElement());
 		return boundingBox;
