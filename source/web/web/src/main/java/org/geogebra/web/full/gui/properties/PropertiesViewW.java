@@ -342,6 +342,18 @@ public final class PropertiesViewW extends PropertiesView
 	}
 
 	/**
+	 * Close without animation.
+	 */
+	public void closeImmediately() {
+		if (sideSheet == null) {
+			return;
+		}
+		sideSheet.removeFromParent();
+		app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
+		setFloatingAttached(false);
+	}
+
+	/**
 	 * @return true is settings panel is floating
 	 */
 	public boolean isFloatingAttached() {

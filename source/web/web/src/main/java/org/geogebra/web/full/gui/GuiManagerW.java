@@ -960,11 +960,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Set
 	}
 
 	/**
-	 * Close properties view.
+	 * Close properties view without animation.
 	 */
 	public void closePropertiesView() {
 		if (propertiesView != null) {
-			propertiesView.close();
+			propertiesView.closeImmediately();
 		}
 	}
 
