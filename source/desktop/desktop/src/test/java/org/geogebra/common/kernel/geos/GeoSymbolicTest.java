@@ -2735,4 +2735,32 @@ class GeoSymbolicTest extends BaseSymbolicTest {
 		add("f=2g_{1}-6");
 		t("Solve(f,g_{1})", "{g_1 = 3}");
 	}
+
+	@Test
+	@Issue("APPS-8135")
+	void areaOfInvalidArgumentShouldNotCrash() {
+		add("A=(-5,-5,0)");
+		add("B=(3.5,2,3)");
+		add("C=(-5,7,0)");
+		GeoSymbolic area = add("Area(ABC)");
+		assertThat(area, hasValue("?"));
+	}
+
+	@Test
+	@Issue("APPS-8135")
+	void curveBlockedByCommandFilterShouldHaveLaTeXDescription() {
+		// The CAS app does not allow Curve, so loading this file leaves c without functions
+		app.setXML(
+				"<geogebra format=\"5.0\"><construction>"
+						+ "<element type=\"numeric\" label=\"a\"><symbolic val=\"true\" /></element>"
+						+ "<command name=\"CurveCartesian\"><input a0=\"cos(t)\" a1=\"sin(t)\""
+						+ " a2=\"t\" a3=\"0\" a4=\"a\"/><output a0=\"c\"/></command>"
+						+ "<element type=\"curvecartesian\" label=\"c\"></element>"
+						+ "</construction></geogebra>",
+				true);
+		GeoElement curve = lookup("c");
+		assertNotNull(curve);
+		assertThat(
+				curve.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate), containsString("?"));
+	}
 }

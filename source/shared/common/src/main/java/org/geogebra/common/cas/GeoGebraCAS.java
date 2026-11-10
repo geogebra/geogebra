@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -940,7 +941,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			sbCASCommand.setLength(0);
 			GeoElementND newArg = computeWithGGB(kernel, "Area", args);
 			args.clear();
-			args.add(newArg.wrap());
+			// Area fails for invalid arguments, e.g. a product of points
+			args.add(newArg == null ? new MyDouble(kernel, Double.NaN).wrap() : newArg.wrap());
 			sbCASCommand.append("Evaluate.1");
 		}
 	}

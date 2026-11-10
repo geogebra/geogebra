@@ -302,7 +302,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	@Override
 	public String toSymbolicString(StringTemplate tpl) {
 		StringBuilder sbTemp;
-		if (isDefined) {
+		if (isDefined()) {
 			sbTemp = new StringBuilder(80);
 
 			sbTemp.setLength(0);
@@ -653,7 +653,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 
 	@Override
 	public final String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		if (this.isDefined) {
+		if (isDefined()) {
 			StringBuilder sbTemp = new StringBuilder(80);
 
 			String param = getVarString(tpl);
