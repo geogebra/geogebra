@@ -34,7 +34,8 @@ public class AlgoContinuedFraction extends AlgoElement {
 	private GeoText text; // output
 	private GeoBoolean shorthand;
 	private static final int MAX_QUOTIENTS = 15;
-	private long[] denominators = new long[MAX_QUOTIENTS];
+	// the loop in decimalToFraction may write one more quotient after MAX_QUOTIENTS
+	private long[] denominators = new long[MAX_QUOTIENTS + 1];
 
 	private StringBuilder sb = new StringBuilder();
 	private boolean dotsNeeded;
@@ -234,7 +235,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 
 		} while ((maxSteps == 0 || steps < maxSteps)
 				&& !DoubleUtil.isEqual(Z, Math.floor(Z))
-				&& steps < denom.length);
+				&& steps < MAX_QUOTIENTS);
 		return steps;
 	}
 
