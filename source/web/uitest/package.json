@@ -24,7 +24,7 @@
     "events": "^3.3.0",
     "globals": "^17.12.0",
     "http-server": "14.1.1",
-    "jest-image-snapshot": "5.2.0",
+    "jest-image-snapshot": "6.5.2",
     "wait-on": "^8.0.2"
   },
   "dependencies": {
