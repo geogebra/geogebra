@@ -101,6 +101,8 @@ public final class ContextMenuAVPlus implements SetLabels {
 			case Image:
 				addImage();
 				break;
+			case MathTemplates:
+				break;
 		}
 	}
 

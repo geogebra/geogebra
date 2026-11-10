@@ -24,5 +24,6 @@ public enum ContextMenuIcon {
 	Text,
 	Help,
 	Delete,
-	Image
+	Image,
+	MathTemplates
 }

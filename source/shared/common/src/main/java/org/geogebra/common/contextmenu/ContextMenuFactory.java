@@ -31,6 +31,7 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Statistics;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Expression;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Help;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Image;
+import static org.geogebra.common.contextmenu.InputContextMenuItem.MathTemplates;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Text;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.ClearColumn;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Edit;
@@ -65,6 +66,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.scientific.LabelController;
@@ -239,6 +241,9 @@ public final class ContextMenuFactory {
 			@NonNull Set<ContextMenuItemFilter> filters) {
 		List<InputContextMenuItem> items = new ArrayList<>();
 		items.add(Expression);
+		if (PreviewFeature.isAvailable(PreviewFeature.MATH_TEMPLATES)) {
+			items.add(MathTemplates);
+		}
 		items.add(Text);
 		if (includeImageItem) {
 			items.add(Image);
@@ -258,6 +263,16 @@ public final class ContextMenuFactory {
 	public static @NonNull List<InputContextMenuItem> makeInputContextMenu(
 			boolean includeHelpItem, @NonNull Set<ContextMenuItemFilter> filters) {
 		return makeInputContextMenu(includeHelpItem, false, filters);
+	}
+
+	/**
+	 * Builds the "Math Templates" submenu of the algebra view input context menu.
+	 * @param filters context menu item filters (can be empty)
+	 * @return List of context menu items.
+	 */
+	public static @NonNull List<MathTemplateContextMenuItem> makeMathTemplatesContextMenu(
+			@NonNull Set<ContextMenuItemFilter> filters) {
+		return filter(List.of(MathTemplateContextMenuItem.values()), filters);
 	}
 
 	/**

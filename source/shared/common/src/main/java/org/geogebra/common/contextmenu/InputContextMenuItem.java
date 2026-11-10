@@ -25,6 +25,7 @@ import org.jspecify.annotations.NonNull;
  */
 public enum InputContextMenuItem implements ContextMenuItem {
 	Expression("Expression", ContextMenuIcon.Expression),
+	MathTemplates("MathTemplates", ContextMenuIcon.MathTemplates),
 	Text("Text", ContextMenuIcon.Text),
 	Help("Help", ContextMenuIcon.Help),
 	Image("Image", ContextMenuIcon.Image);

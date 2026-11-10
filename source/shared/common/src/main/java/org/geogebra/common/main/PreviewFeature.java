@@ -43,7 +43,9 @@ public enum PreviewFeature {
 	/**
 	 * MOW-1935
 	 */
-	STICKY_NOTES;
+	STICKY_NOTES,
+	/** APPS-8121 */
+	MATH_TEMPLATES;
 
 	/**
 	 * Global flag to activate preview features.

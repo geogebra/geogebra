@@ -18,6 +18,7 @@ package org.geogebra.common.contextmenu;
 
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Expression;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Help;
+import static org.geogebra.common.contextmenu.InputContextMenuItem.MathTemplates;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Text;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,6 +26,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.main.PreviewFeature;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 
 class InputContextMenuTests extends BaseUnitTest {
@@ -39,5 +42,26 @@ class InputContextMenuTests extends BaseUnitTest {
 	void testWithHelpEnabled() {
 		assertEquals(
 				List.of(Expression, Text, Help), ContextMenuFactory.makeInputContextMenu(true, Set.of()));
+	}
+
+	@Test
+	@Issue("APPS-8121")
+	void testWithMathTemplates() {
+		PreviewFeature.setPreviewFeaturesEnabled(true);
+		assertEquals(
+				List.of(Expression, MathTemplates, Text, Help),
+				ContextMenuFactory.makeInputContextMenu(true, Set.of()));
+		PreviewFeature.setPreviewFeaturesEnabled(false);
+	}
+
+	@Test
+	@Issue("APPS-8121")
+	void testMathTemplatesSubmenu() {
+		assertEquals(
+				List.of(
+						MathTemplateContextMenuItem.Vector,
+						MathTemplateContextMenuItem.Matrix,
+						MathTemplateContextMenuItem.Integral),
+				ContextMenuFactory.makeMathTemplatesContextMenu(Set.of()));
 	}
 }
