@@ -16,142 +16,159 @@
 
 package org.geogebra.common.export.pstricks;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inequality;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.AppCommon3D;
-import org.junit.jupiter.api.BeforeAll;
+import org.geogebra.test.SnapshotChecker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestReporter;
 
 class PstricksTest {
-	private static AppCommon3D app;
-	private static ArrayList<String> inputs;
+	private AppCommon3D app;
 	private final ExportGraphicsFactory exportGraphicsFactory = ExportGraphicsCommon::new;
+	private final List<String> inputs = List.of(
+			"A=(1,1)",
+			"f:x=y",
+			"g:x>y",
+			"h(x)=sin(x)",
+			"c:4xx+9yy=16",
+			"c1:4xx-9yy=16",
+			"c2:4xx-9yy=0",
+			"c3:4xx+9y=16",
+			"c4:4xx=0",
+			"c5:xx+yy=16",
+			"v:Vector((0,0),(1,1))",
+			"cx:4xx+9yy<16",
+			"s:Segment((1,1),(1,2))",
+			"slider:Slider(0,1)",
+			"Polyline((0,0),(1,1),(2,3))",
+			"Polygon((3,1),(1,1),(2,3))",
+			"\"GeoGebra Rocks\"",
+			"FormulaText(sqrt(x/(x+1)))",
+			"hg:Histogram({1,2,3,4,5,6},{1,2,3,4,3,3,5})",
+			"ShowAxes(true)",
+			"ShowGrid(true)",
+			"DataFunction[{1,2,3},{1,4,2}]",
+			"Root(x^3-x)",
+			"CircleArc((0,0),(0,1),(1,0))",
+			"SetColor(A,\"BLUE\")",
+			"SetColor(f,\"YELLOW\")",
+			"SetColor(g,\"RED\")",
+			"SetColor(h,\"GREEN\")",
+			"SetColor(hg,\"BLACK\")",
+			"Ray((0,0),(1,1))",
+			"Integral(2x,0,1)",
+			"Integral(-x,2x,0,1)",
+			"BoxPlot(1,1,{-1,1,2,3,4,9,9})",
+			"LowerSum(x^2,0,1,10)",
+			"UpperSum(x^2,0,1,10)",
+			"TrapezoidalSum(x^2,0,1,10)",
+			"RectangleSum(x^2,0,1,10,0.1)",
+			"Slope(x)",
+			"Angle(A)",
+			"Angle(Vector(A))",
+			"Angle(xAxis, yAxis)",
+			"sp:Spline((0,0),(0,1),(1,1),(1,0),(0,0))",
+			"SetDynamicColor(sp, 1, 0, 0,1)");
+	private final List<String> points = IntStream.range(0, 9)
+			.boxed()
+			.flatMap(i -> Stream.of(
+					"Pt" + i + "=(" + (i % 2) + "," + (i / 2) + ")", "SetPointStyle(Pt" + i + "," + i + ")"))
+			.toList();
+	private final List<String> lines = IntStream.range(0, 5)
+			.boxed()
+			.flatMap(i -> Stream.of("l" + i + ":x=" + i, "SetLineStyle(l" + i + "," + i + ")"))
+			.toList();
 
 	@BeforeEach
 	void clear() {
-		app.getKernel().clearConstruction(true);
+		for (AutoColor color : AutoColor.values()) {
+			color.reset();
+		}
+		app = AppCommonFactory.create3D();
 		t("ShowAxes(false)");
 		t("ShowGrid(false)");
 	}
 
-	/** Set up the app */
-	@BeforeAll
-	static void setUp() {
-		app = AppCommonFactory.create3D();
-		inputs = new ArrayList<>();
-		createObjects();
-	}
-
-	private static void add(String cmd) {
-		inputs.add(cmd);
-	}
-
-	private static void t(String cmd) {
+	private void t(String cmd) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(cmd, false);
 	}
 
 	@Test
-	void exportPstricks() {
+	void exportObjectsPstricks(TestReporter reporter) {
 		GeoGebraExport ps = new GeoGebraToPstricks(app, exportGraphicsFactory);
-		testInputs(ps, "\\end{document}");
+		testInputs(inputs, ps, "objects-pstricks.tex", reporter);
 	}
 
 	@Test
-	void exportPgf() {
+	void exportPointsPstricks(TestReporter reporter) {
+		GeoGebraExport ps = new GeoGebraToPstricks(app, exportGraphicsFactory);
+		testInputs(points, ps, "points-pstricks.tex", reporter);
+	}
+
+	@Test
+	void exportLinesPstricks(TestReporter reporter) {
+		GeoGebraExport ps = new GeoGebraToPstricks(app, exportGraphicsFactory);
+		testInputs(lines, ps, "lines-pstricks.tex", reporter);
+	}
+
+	@Test
+	void exportObjectsPgf(TestReporter reporter) {
 		GeoGebraExport ps = new GeoGebraToPgf(app, exportGraphicsFactory);
-		testInputs(ps, "\\end{document}");
+		testInputs(inputs, ps, "objects-pgf.tex", reporter);
 	}
 
 	@Test
-	void exportAsymptote() {
-		GeoGebraExport ps = new GeoGebraToAsymptote(app, exportGraphicsFactory);
-		testInputs(ps, "/* end of picture */");
+	void exportPointsPgf(TestReporter reporter) {
+		GeoGebraExport ps = new GeoGebraToPgf(app, exportGraphicsFactory);
+		testInputs(points, ps, "points-pgf.tex", reporter);
 	}
 
-	private void testInputs(GeoGebraExport ps, String string) {
-		String last = "";
-		EuclidianView ev = app.getActiveEuclidianView();
+	@Test
+	void exportLinesPgf(TestReporter reporter) {
+		GeoGebraExport ps = new GeoGebraToPgf(app, exportGraphicsFactory);
+		testInputs(lines, ps, "lines-pgf.tex", reporter);
+	}
 
+	@Test
+	void exportObjectsAsymptote(TestReporter reporter) {
+		GeoGebraExport ps = new GeoGebraToAsymptote(app, exportGraphicsFactory);
+		testInputs(inputs, ps, "objects-asymptote.tex", reporter);
+	}
+
+	@Test
+	void exportPointsAsymptote(TestReporter reporter) {
+		GeoGebraExport ps = new GeoGebraToAsymptote(app, exportGraphicsFactory);
+		testInputs(points, ps, "points-asymptote.tex", reporter);
+	}
+
+	@Test
+	void exportLinesAsymptote(TestReporter reporter) {
+		GeoGebraExport ps = new GeoGebraToAsymptote(app, exportGraphicsFactory);
+		testInputs(lines, ps, "lines-asymptote.tex", reporter);
+	}
+
+	private void testInputs(
+			List<String> inputs, GeoGebraExport ps, String string, TestReporter reporter) {
+		EuclidianView ev = app.getActiveEuclidianView();
 		ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(), ev.getYmax());
 		frame.setKeepColor();
-		GeoElement slider = app.getKernel().lookupLabel("anim");
-		if (slider instanceof GeoNumeric) {
-			frame.setSlider((GeoNumeric) slider);
-		}
 		ps.setFrame(frame);
 		for (String cmd : inputs) {
 			t(cmd);
-			String out = generate(ps, frame);
-			assertNotEquals(cmd, out, last);
-			last = out;
-			assertEquals(string, out.substring(out.length() - string.length()));
 		}
-	}
-
-	private static void createObjects() {
-		add("A=(1,1)");
-		add("f:x=y");
-		add("g:x>y");
-		add("h(x)=sin(x)");
-		add("c:4xx+9yy=16");
-		add("c1:4xx-9yy=16");
-		add("c2:4xx-9yy=0");
-		add("c3:4xx+9y=16");
-		add("c4:4xx=0");
-		add("c5:xx+yy=16");
-		add("v:Vector((0,0),(1,1))");
-		add("cx:4xx+9yy<16");
-		add("s:Segment((1,1),(1,2))");
-		add("slider:Slider(0,1)");
-		add("Polyline((0,0),(1,1),(2,3))");
-		add("Polygon((3,1),(1,1),(2,3))");
-		add("\"GeoGebra Rocks\"");
-		add("FormulaText(sqrt(x/(x+1)))");
-		add("hg:Histogram({1,2,3,4,5,6},{1,2,3,4,3,3,5})");
-		add("ShowAxes(true)");
-		add("ShowGrid(true)");
-		add("DataFunction[{1,2,3},{1,4,2}]");
-		add("Root(x^3-x)");
-		add("CircleArc((0,0),(0,1),(1,0))");
-		add("SetColor(A,\"BLUE\")");
-		add("SetColor(f,\"YELLOW\")");
-		add("SetColor(g,\"RED\")");
-		add("SetColor(h,\"GREEN\")");
-		add("SetColor(hg,\"BLACK\")");
-		add("Ray((0,0),(1,1))");
-		add("Integral(2x,0,1)");
-		add("Integral(-x,2x,0,1)");
-		add("BoxPlot(1,1,{-1,1,2,3,4,9,9})");
-		add("LowerSum(x^2,0,1,10)");
-		add("UpperSum(x^2,0,1,10)");
-		add("TrapezoidalSum(x^2,0,1,10)");
-		add("RectangleSum(x^2,0,1,10,0.1)");
-		add("Slope(x)");
-		add("Angle(A)");
-		add("Angle(Vector(A))");
-		add("Angle(xAxis, yAxis)");
-		add("sp:Spline((0,0),(0,1),(1,1),(1,0),(0,0))");
-		add("SetDynamicColor(sp, 1, 0, 0,1)");
-		for (int i = 1; i < 9; i++) {
-			add("Pt" + i + "=(0," + i + ")");
-			add("SetPointStyle(Pt" + i + "," + i + ")");
-		}
-		for (int i = 1; i < 5; i++) {
-			add("l" + i + ":x=" + i);
-			add("SetLineStyle(l" + i + "," + i + ")");
-		}
+		String out = generate(ps, frame).trim();
+		new SnapshotChecker(reporter, getClass()).assertMatch(string, out);
 	}
 
 	private static String generate(GeoGebraExport ps, ExportFrameMinimal frame) {

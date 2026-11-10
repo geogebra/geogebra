@@ -278,11 +278,6 @@ public abstract class ExportFrame extends JFrame implements ExportSettings {
 	}
 
 	@Override
-	public GeoNumeric getcbSlidersItem() {
-		return (GeoNumeric) cbSliders.getSelectedItem();
-	}
-
-	@Override
 	public double getYUnit() throws NumberFormatException {
 		double d;
 		try {

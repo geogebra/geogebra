@@ -17,9 +17,12 @@
 package org.geogebra.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,11 +49,20 @@ public class SnapshotChecker {
 	 */
 	public void assertMatch(String snapshotFileName, String actual) {
 		try {
-			String expected = Files.readString(
-							Path.of(testClass.getResource(snapshotFileName).toURI()))
-					.trim()
-					.replace("\r", "");
-			if (!expected.equals(actual)) {
+			URL resource = testClass.getResource(snapshotFileName);
+			if (resource == null) {
+				Path resourceDir = Path.of(new URI(testClass
+						.getResource(".")
+						.toURI()
+						.toString()
+						.replace("build/classes/java/test", "src/test/resources")));
+				Path toWrite = resourceDir.resolve(snapshotFileName);
+				Files.createDirectories(resourceDir);
+				Files.writeString(toWrite, actual + "\n");
+				fail("Snapshot " + snapshotFileName + " was missing, rerun tests to verify");
+			}
+			String expected = Files.readString(Path.of(resource.toURI())).trim().replace("\r", "");
+			if (!expected.equals(actual.replace("\r", ""))) {
 				try {
 					Path snapshotDir = Path.of("build", "snapshots");
 					Files.createDirectories(snapshotDir);

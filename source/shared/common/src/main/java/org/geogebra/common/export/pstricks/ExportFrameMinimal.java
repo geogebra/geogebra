@@ -16,12 +16,9 @@
 
 package org.geogebra.common.export.pstricks;
 
-import org.geogebra.common.kernel.geos.GeoNumeric;
-
-public class ExportFrameMinimal implements ExportSettings {
+public final class ExportFrameMinimal implements ExportSettings {
 
 	private StringBuilder code;
-	private boolean gnuPlot = false;
 	private boolean usePairName;
 	private double latexWidth;
 	private boolean showAxes = true;
@@ -36,7 +33,6 @@ public class ExportFrameMinimal implements ExportSettings {
 	private int format = 0;
 	private double yMax;
 	private double yMin;
-	private GeoNumeric slider;
 
 	/**
 	 * @param ymin2
@@ -140,19 +136,7 @@ public class ExportFrameMinimal implements ExportSettings {
 
 	@Override
 	public boolean getGnuplot() {
-		return gnuPlot;
-	}
-
-	@Override
-	public GeoNumeric getcbSlidersItem() {
-		return slider;
-	}
-
-	/**
-	 * @param slider slider
-	 */
-	public void setSlider(GeoNumeric slider) {
-		this.slider = slider;
+		return false;
 	}
 
 	/**

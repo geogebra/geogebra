@@ -1,0 +1,29 @@
+\documentclass[10pt]{article}
+\usepackage{pstricks-add}
+\pagestyle{empty}
+\begin{document}
+\newrgbcolor{ududff}{0.30196078431372547 0.30196078431372547 1.}
+\psset{xunit=1.0cm,yunit=1.0cm,algebraic=true,dimen=middle,dotstyle=o,dotsize=5pt 0,linewidth=2.pt,arrowsize=3pt 2,arrowinset=0.25}
+\begin{pspicture*}(-4.3,-5.7)(11.7,6.3)
+\begin{scriptsize}
+\psdots[dotstyle=*,linecolor=ududff](0.,0.)
+\rput[bl](0.08,0.2){\ududff{$Pt0$}}
+\psdots[dotstyle=x,linecolor=ududff](1.,0.)
+\rput[bl](1.08,0.2){\ududff{$Pt1$}}
+\psdots[linecolor=ududff](0.,1.)
+\rput[bl](0.08,1.2){\ududff{$Pt2$}}
+\psdots[dotstyle=+,linecolor=ududff](1.,1.)
+\rput[bl](1.08,1.2){\ududff{$Pt3$}}
+\psdots[dotstyle=square*,dotangle=45,linecolor=ududff](0.,2.)
+\rput[bl](0.08,2.2){\ududff{$Pt4$}}
+\psdots[dotstyle=square,dotangle=45,linecolor=ududff](1.,2.)
+\rput[bl](1.08,2.2){\ududff{$Pt5$}}
+\psdots[dotstyle=triangle*,linecolor=ududff](0.,3.)
+\rput[bl](0.08,3.2){\ududff{$Pt6$}}
+\psdots[dotstyle=triangle*,dotangle=180,linecolor=ududff](1.,3.)
+\rput[bl](1.08,3.2){\ududff{$Pt7$}}
+\psdots[dotstyle=triangle*,dotangle=270,linecolor=ududff](0.,4.)
+\rput[bl](0.08,4.2){\ududff{$Pt8$}}
+\end{scriptsize}
+\end{pspicture*}
+\end{document}

@@ -17,7 +17,6 @@
 package org.geogebra.common.export.pstricks;
 
 import org.geogebra.common.annotation.MissingDoc;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Export settings.
@@ -85,7 +84,4 @@ public interface ExportSettings {
 
 	@MissingDoc
 	boolean getGnuplot();
-
-	@MissingDoc
-	GeoNumeric getcbSlidersItem();
 }

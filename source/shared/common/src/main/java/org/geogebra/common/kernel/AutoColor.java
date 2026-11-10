@@ -16,6 +16,7 @@
 
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.annotation.TestOnly;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
 
@@ -73,5 +74,14 @@ public enum AutoColor {
 			index = (index + 1) % sequence.length;
 		}
 		return color;
+	}
+
+	/**
+	 * TODO(APPS-8140) Move `index` into an `EnumMap` in construction.
+	 * Workaround: this method allows resetting the state in tests.
+	 */
+	@TestOnly
+	public void reset() {
+		index = 0;
 	}
 }

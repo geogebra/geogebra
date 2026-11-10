@@ -939,7 +939,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		startBeamer(code);
 		code.append("\\draw");
 		String s = lineOptionCode(geo, true);
-		if (s.length() != 0) {
+		if (!s.isEmpty()) {
 			s = "[" + s + "] ";
 			code.append(s);
 		}
@@ -1956,7 +1956,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codePoint.append(dotsize);
 				codePoint.append("pt) ++(-");
 				codePoint.append(dotsize);
-				codePoint.append("pt,0) -- ++(");
+				codePoint.append("pt,0pt) -- ++(");
 				codePoint.append(dotsize);
 				codePoint.append("pt,-");
 				codePoint.append(dotsize);

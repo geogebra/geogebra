@@ -1,0 +1,17 @@
+\documentclass[10pt]{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\pagestyle{empty}
+\begin{document}
+\definecolor{rcrcrf}{rgb}{0.10980392156862745,0.10980392156862745,0.12156862745098039}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm]
+\clip(-4.3,-5.7) rectangle (11.7,6.3);
+\draw [line width=2.pt,color=rcrcrf] (0.,-5.7) -- (0.,6.3);
+\draw [line width=2.pt,dash pattern=on 1pt off 1pt,color=rcrcrf] (1.,-5.7) -- (1.,6.3);
+\draw [line width=2.pt,dash pattern=on 1pt off 1pt,color=rcrcrf] (2.,-5.7) -- (2.,6.3);
+\draw [line width=2.pt,dotted,color=rcrcrf] (3.,-5.7) -- (3.,6.3);
+\draw [line width=2.pt,dash pattern=on 1pt off 1pt on 1pt off 4pt,color=rcrcrf] (4.,-5.7) -- (4.,6.3);
+\end{tikzpicture}
+\end{document}

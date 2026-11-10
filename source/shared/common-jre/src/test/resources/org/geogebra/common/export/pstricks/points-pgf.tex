@@ -1,0 +1,32 @@
+\documentclass[10pt]{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\pagestyle{empty}
+\begin{document}
+\definecolor{ududff}{rgb}{0.30196078431372547,0.30196078431372547,1.}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm]
+\clip(-4.3,-5.7) rectangle (11.7,6.3);
+\begin{scriptsize}
+\draw [fill=ududff] (0.,0.) circle (2.5pt);
+\draw[color=ududff] (0.26,0.37) node {$Pt0$};
+\draw [color=ududff] (1.,0.)-- ++(-2.5pt,-2.5pt) -- ++(5.0pt,5.0pt) ++(-5.0pt,0pt) -- ++(5.0pt,-5.0pt);
+\draw[color=ududff] (1.26,0.37) node {$Pt1$};
+\draw [color=ududff] (0.,1.) circle (2.5pt);
+\draw[color=ududff] (0.26,1.37) node {$Pt2$};
+\draw [color=ududff] (1.,1.)-- ++(-2.5pt,0 pt) -- ++(5.0pt,0 pt) ++(-2.5pt,-2.5pt) -- ++(0 pt,5.0pt);
+\draw[color=ududff] (1.26,1.37) node {$Pt3$};
+\draw [fill=ududff] (0.,2.) ++(-2.5pt,0 pt) -- ++(2.5pt,2.5pt)--++(2.5pt,-2.5pt)--++(-2.5pt,-2.5pt)--++(-2.5pt,2.5pt);
+\draw[color=ududff] (0.26,2.37) node {$Pt4$};
+\draw [color=ududff] (1.,2.) ++(-2.5pt,0 pt) -- ++(2.5pt,2.5pt)--++(2.5pt,-2.5pt)--++(-2.5pt,-2.5pt)--++(-2.5pt,2.5pt);
+\draw[color=ududff] (1.26,2.37) node {$Pt5$};
+\draw [fill=ududff,shift={(0.,3.)}] (0,0) ++(0 pt,3.75pt) -- ++(3.2475952641916446pt,-5.625pt)--++(-6.495190528383289pt,0 pt) -- ++(3.2475952641916446pt,5.625pt);
+\draw[color=ududff] (0.26,3.37) node {$Pt6$};
+\draw [fill=ududff,shift={(1.,3.)},rotate=180] (0,0) ++(0 pt,3.75pt) -- ++(3.2475952641916446pt,-5.625pt)--++(-6.495190528383289pt,0 pt) -- ++(3.2475952641916446pt,5.625pt);
+\draw[color=ududff] (1.26,3.37) node {$Pt7$};
+\draw [fill=ududff,shift={(0.,4.)},rotate=270] (0,0) ++(0 pt,3.75pt) -- ++(3.2475952641916446pt,-5.625pt)--++(-6.495190528383289pt,0 pt) -- ++(3.2475952641916446pt,5.625pt);
+\draw[color=ududff] (0.26,4.37) node {$Pt8$};
+\end{scriptsize}
+\end{tikzpicture}
+\end{document}

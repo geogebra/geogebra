@@ -1,0 +1,14 @@
+/* Geogebra to Asymptote conversion, documentation at artofproblemsolving.com/Wiki go to User:Azjps/geogebra */
+import graph; size(0.cm); 
+real labelscalefactor = 0.5; /* changes label-to-point distance */
+pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps); /* default pen style */ real xmin = -4.3, xmax = 11.7, ymin = -5.7, ymax = 6.3;  /* image dimensions */
+pen rcrcrf = rgb(0.10980392156862745,0.10980392156862745,0.12156862745098039); 
+ /* draw figures */
+draw((0.,ymin)--(0.,ymax), linewidth(2.) + rcrcrf); /* line */
+draw((1.,ymin)--(1.,ymax), linewidth(2.) + linetype("4 4") + rcrcrf); /* line */
+draw((2.,ymin)--(2.,ymax), linewidth(2.) + linetype("2 2") + rcrcrf); /* line */
+draw((3.,ymin)--(3.,ymax), linewidth(2.) + dotted + rcrcrf); /* line */
+draw((4.,ymin)--(4.,ymax), linewidth(2.) + linetype("0 3 4 3") + rcrcrf); /* line */
+ /* dots and labels */
+clip((xmin,ymin)--(xmin,ymax)--(xmax,ymax)--(xmax,ymin)--cycle); 
+ /* end of picture */
