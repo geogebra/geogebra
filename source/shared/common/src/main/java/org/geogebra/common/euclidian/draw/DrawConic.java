@@ -459,8 +459,6 @@ public class DrawConic extends SetDrawable implements Previewable, MatchBorder {
 			// drawPoint.font = view.fontConic;
 		}
 
-		setShape(!ignoreSingularities ? drawPoint.getDot() : null);
-
 		// looks if it's on view
 		Coords p = view.getCoordsForView(conic.getMidpoint3D());
 		if (!DoubleUtil.isZero(p.getZ())) {
@@ -477,6 +475,7 @@ public class DrawConic extends SetDrawable implements Previewable, MatchBorder {
 		point.setPointSize(conic.getLineThickness());
 
 		drawPoint.update(coords);
+		setShape(!ignoreSingularities ? drawPoint.getDot() : null);
 	}
 
 	/**
