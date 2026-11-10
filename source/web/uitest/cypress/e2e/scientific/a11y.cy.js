@@ -12,9 +12,27 @@ describe('Accessibility test', () => {
             win.ggbApplet.evalCommand('a=1+2');
         })
         for (let k = 0; k < 5; k++) {
-            cy.press(Cypress.Keyboard.Keys.TAB);
+            pressTab();
         }
         cy.press('\n');
         cy.get(".AutoCompleteTextFieldW input").first().should("be.focused");
     });
+
+     function pressTab() {
+     	cy.press(Cypress.Keyboard.Keys.TAB)
+     }
+
+     it("Scientific tabbing order by default", () => {
+     	pressTab();
+     	cy.get("[data-test='mainMenu']").should("be.focused");
+     	pressTab();
+     	cy.get("#logoID").should("be.focused");
+     	pressTab();
+     	cy.get("#settingsButton").should("be.focused");
+     	pressTab();
+     	cy.get("[data-test='fullscreenButton']").should("be.focused");
+     	pressTab();
+     	cy.wait(1000);
+     	cy.get("#hiddenCopyPasteLatexArea0").should("be.focused");
+     });
 });

@@ -29,7 +29,7 @@ describe('Accessibility test', () => {
         cy.press(Cypress.Keyboard.Keys.TAB)
     }
 
-    it.skip("Tabbing order by default", () => {
+    it("Tabbing order by default", () => {
         pressTab();
         cy.get("[data-test='mainMenu']").should("be.focused");
         pressTab();
