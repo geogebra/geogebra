@@ -201,7 +201,7 @@ public interface GeoGebraConstants {
 	/** GeoGebra URL */
 	String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
-	String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
+	String GEOGEBRA_WEBSITE_BETA = "https://stage.geogebra.org/";
 
 	String GEOGEBRA_HELP_WEBSITE = "https://geogebra.github.io/docs/manual/";
 
@@ -229,7 +229,7 @@ public interface GeoGebraConstants {
 	 */
 	String uploadURL = "https://www.geogebra.org/upload";
 
-	String uploadURLBeta = "https://beta.geogebra.org/upload";
+	String uploadURLBeta = "https://stage.geogebra.org/upload";
 
 	String GEOGEBRA_LOADING_PNG = "https://www.geogebra.org/images/GeoGebra_loading.png";
 	String APPLET_PLAY_PNG = "https://www.geogebra.org/images/applet_play.png";

@@ -44,11 +44,11 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	/** Public url DO NOT CHANGE!s */
 	public static final String url = "https://www.geogebra.org/api/json.php";
 	/** For beta version */
-	public static final String urlBeta = "https://beta.geogebra.org/api/json.php";
+	public static final String urlBeta = "https://stage.geogebra.org/api/json.php";
 	/** Public login url DO NOT CHANGE! */
 	public static final String login_url = "https://accounts.geogebra.org/api/index.php";
 	/** Login for beta */
-	public static final String login_urlBeta = "https://accounts-beta.geogebra.org/api/index.php";
+	public static final String login_urlBeta = "https://accounts-stage.geogebra.org/api/index.php";
 
 	protected boolean availabilityCheckDone = false;
 	protected ClientInfo client;

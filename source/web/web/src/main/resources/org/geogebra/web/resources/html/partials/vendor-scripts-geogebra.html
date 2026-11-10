@@ -8,7 +8,7 @@ function addAppletPreview(tubeid){
 	preview.style.position = "absolute";
 
 	const xhr = new XMLHttpRequest();
-	const materialHost = isDevelopmentHost() ? "https://beta.geogebra.org" : "";
+	const materialHost = isDevelopmentHost() ? "https://stage.geogebra.org" : "";
 	xhr.open("GET", materialHost + "/api/material_preview.php?u="+tubeid);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4 && xhr.response) {
