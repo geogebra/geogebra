@@ -28,6 +28,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -96,6 +97,7 @@ public final class ComponentCheckbox extends FlowPanel
 		this(loc, checkBoxProperty.isSelected(), checkboxText, callback);
 		this.checkBoxProperty = checkBoxProperty;
 		this.stopPropagation = stopPropagation;
+		TestHarness.setAttr(this, checkboxText);
 		setDisabled(!checkBoxProperty.isEnabled());
 		checkBoxProperty.setConfigurationUpdateDelegate(this);
 		checkBoxProperty.setVisibilityUpdateDelegate(this);

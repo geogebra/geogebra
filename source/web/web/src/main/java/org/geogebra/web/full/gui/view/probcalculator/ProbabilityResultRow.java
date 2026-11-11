@@ -28,6 +28,7 @@ import org.geogebra.common.properties.PropertyView;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -100,6 +101,7 @@ public final class ProbabilityResultRow extends FlowPanel {
 				});
 
 				holder.setStyleName("holder");
+				TestHarness.setAttr(holder, inputField.getAriaLabel());
 				holder.add(mathTextFieldW);
 				add(holder);
 			}

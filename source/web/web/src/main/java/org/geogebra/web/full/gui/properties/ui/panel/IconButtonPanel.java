@@ -32,6 +32,7 @@ import org.geogebra.web.html5.gui.accessibility.HasFocus;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -122,6 +123,7 @@ public final class IconButtonPanel extends FlowPanel
 						null,
 						((AppWFull) appW).getPropertiesIconResource().getImageResource(icon),
 						label);
+				TestHarness.setAttr(btn, label);
 				updateButton(property, btn, idx);
 				iconPanel.add(btn);
 				buttons.add(btn);

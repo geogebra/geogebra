@@ -40,6 +40,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.event.dom.client.BlurEvent;
@@ -406,6 +407,7 @@ public class ComponentInputField extends FlowPanel
 		contentPanel.setStyleName("inputTextField");
 		contentPanel.addStyleName("validation");
 		contentPanel.addStyleName(isMathTextField ? "mathInput" : "textInput");
+		TestHarness.setAttr(contentPanel, labelTextKey);
 
 		FlowPanel optionHolder = new FlowPanel();
 		optionHolder.addStyleName("optionLabelHolder");

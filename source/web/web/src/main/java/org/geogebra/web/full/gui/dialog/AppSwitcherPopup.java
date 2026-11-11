@@ -30,6 +30,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.UserPreferredLanguage;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -114,6 +115,7 @@ public final class AppSwitcherPopup extends GPopupPanel implements ExamListener 
 		AriaHelper.setAttribute(label, "data-trans-key", key);
 		rowPanel.add(label);
 		rowPanel.setStyleName("appPickerRow");
+		TestHarness.setAttr(rowPanel, subAppCode.getAppCode());
 		rowPanel.addDomHandler(event -> switchToSubApp(subAppCode), ClickEvent.getType());
 		contentPanel.add(rowPanel);
 	}

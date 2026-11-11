@@ -2,7 +2,7 @@ import {selectors} from '@geogebra/web-test-harness/selectors'
 
 describe('Accessibility test', () => {
     beforeEach(() => {
-        cy.visit('calculator.html?perspective=6');
+        cy.visit('calculator.html');
         cy.window().then(win => win.localStorage.setItem("keyboardwanted", "false"));
         cy.injectAxe();
         cy.press(Cypress.Keyboard.Keys.ENTER)
@@ -16,10 +16,15 @@ describe('Accessibility test', () => {
     }
 
     it("Probability tabbing order by default", () => {
-        pressTab();
+     	cy.get("[data-test='appPickerButton']").click();
+     	cy.get("[data-test='probability']").click();
+     	cy.wait(1000);
+     	pressTab();
         cy.get("[data-test='mainMenu']").should("be.focused");
         pressTab();
         cy.get("#logoID").should("be.focused");
+        pressTab();
+        cy.get("[data-test='appPickerButton']").should("be.focused");
         pressTab();
         cy.get("#shareButton").should("be.focused");
         pressTab();
@@ -27,17 +32,18 @@ describe('Accessibility test', () => {
         pressTab();
         cy.get("#signInTextID").should("be.focused");
         pressTab();
-        selectors.graphicsViewContextMenu.get().should("be.focused");
+        cy.get("[data-test='Distribution']").should("be.focused");
         pressTab();
-        cy.get("[data-test='zoomToFitButton']").should("be.focused");
+        cy.get("[data-test='Cumulative']").should("be.focused");
         pressTab();
-        cy.get("[data-test='zoomInButton']").should("be.focused");
+        cy.get("[data-test='IntervalProb']").should("be.focused");
         pressTab();
-        cy.get("[data-test='zoomOutButton']").should("be.focused");
+        cy.get("[data-test='Parameter μ']").should('have.class','active');
         pressTab();
-        cy.get("[data-test='fullscreenButton']").should("be.focused");
+        cy.get("[data-test='Parameter σ']").should('have.class','active');
         pressTab();
-        cy.wait(1000);
-        cy.get("#hiddenCopyPasteLatexArea0").should("be.focused");
+        cy.get("[data-test='Lower.Bound']").should('have.class','focusState');
+        pressTab();
+        cy.get("[data-test='Upper.Bound']").should('have.class','focusState');
     });
 });

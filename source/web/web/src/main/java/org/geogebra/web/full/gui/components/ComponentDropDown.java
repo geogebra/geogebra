@@ -32,6 +32,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -121,6 +122,7 @@ public final class ComponentDropDown extends FlowPanel
 
 		buildGUI(label);
 		initController(property.getItems());
+		TestHarness.setAttr(this, labelKey);
 
 		Integer index = property.getSelectedItemIndex();
 		if (index == null) {

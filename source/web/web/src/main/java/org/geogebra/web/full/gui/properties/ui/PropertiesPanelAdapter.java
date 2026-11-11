@@ -71,6 +71,7 @@ import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
 import org.gwtproject.core.client.Scheduler;
