@@ -939,6 +939,8 @@ public class InputController {
 	 * empty or placeholders, either boundary keypress removes an unprotected template.
 	 * Backspace at the first coordinate's start also removes only an empty template;
 	 * otherwise it moves before the template without discarding any coordinates.
+	 * Unprotected matrices can likewise be removed at their outer boundaries only when
+	 * every cell is empty or a placeholder; populated matrices keep all cells.
 	 * @param editorState current state
 	 */
 	public void bkspCharacter(EditorState editorState) {
@@ -949,8 +951,10 @@ public class InputController {
 		if (currentOffset > 0) {
 			Node prev = editorState.getCurrentNode().getChild(currentOffset - 1);
 			// Crossing a closing bracket only enters the container; never absorb siblings.
-			if (prev instanceof ArrayNode) {
-				CursorController.prevCharacter(editorState);
+			if (prev instanceof ArrayNode array) {
+				if (!deleteTemplateIfEmpty(editorState, array)) {
+					CursorController.prevCharacter(editorState);
+				}
 			} else if (prev instanceof FunctionNode node) {
 				if (IntegralHelper.isIntegral(node) && deleteIntegralIfEmpty(editorState, node)) {
 					return;
@@ -967,16 +971,21 @@ public class InputController {
 				&& isCoordinateTemplate(function.getName())
 				&& editorState.getCurrentNode().getParentIndex() == 0) {
 			// Keep all coordinates when crossing the opening boundary from inside.
-			if (!deleteCoordinateTemplateIfEmpty(editorState, function)) {
+			if (!deleteTemplateIfEmpty(editorState, function)) {
 				CursorController.prevCharacter(editorState);
 			}
 		} else {
-			RemoveContainer.withBackspace(editorState);
+			// Remove an entirely unused matrix at its opening boundary.
+			if (!(editorState.getCurrentNode().getParent() instanceof ArrayNode array
+					&& editorState.getCurrentNode().getParentIndex() == 0
+					&& deleteTemplateIfEmpty(editorState, array))) {
+				RemoveContainer.withBackspace(editorState);
+			}
 		}
 	}
 
 	private void bkspLastFunctionArg(FunctionNode function, EditorState editorState) {
-		if (deleteCoordinateTemplateIfEmpty(editorState, function)) {
+		if (deleteTemplateIfEmpty(editorState, function)) {
 			return;
 		}
 		SequenceNode functionArg = function.getChild(function.size() - 1);
@@ -1025,30 +1034,33 @@ public class InputController {
 	}
 
 	/**
-	 * Remove a coordinate template only when none of its fields contains user content.
+	 * Remove a coordinate or matrix template only when no field contains user content.
 	 * Syntax and character placeholders do not count as content; nested expressions do.
 	 * @param editorState current state at a boundary of the template
-	 * @param function possible coordinate template
+	 * @param template possible coordinate or matrix template
 	 * @return whether the empty, unprotected template was removed
 	 */
-	private boolean deleteCoordinateTemplateIfEmpty(
-			@NonNull EditorState editorState, @NonNull FunctionNode function) {
-		if (!isCoordinateTemplate(function.getName())
-				|| editorState.getRootNode().isProtected()
-				|| function.isProtected()
-				|| !(function.getParent() instanceof SequenceNode parent)
+	private boolean deleteTemplateIfEmpty(
+			@NonNull EditorState editorState, @NonNull InternalNode template) {
+		if (!(template instanceof FunctionNode function && isCoordinateTemplate(function.getName()))
+				&& !(template instanceof ArrayNode array && array.isMatrix())) {
+			return false;
+		}
+		if (editorState.getRootNode().isProtected()
+				|| template.isProtected()
+				|| !(template.getParent() instanceof SequenceNode parent)
 				|| parent.isProtected()) {
 			return false;
 		}
-		for (int i = 0; i < function.size(); i++) {
-			for (Node child : function.getChild(i)) {
+		for (int i = 0; i < template.size(); i++) {
+			for (Node child : (SequenceNode) template.getChild(i)) {
 				if (!(child instanceof PlaceholderNode)) {
 					return false;
 				}
 			}
 		}
 		editorState.setCurrentNode(parent);
-		editorState.setCurrentOffset(function.getParentIndex() + 1);
+		editorState.setCurrentOffset(template.getParentIndex() + 1);
 		deleteSingleArg(editorState);
 		return true;
 	}
@@ -1119,9 +1131,12 @@ public class InputController {
 		SequenceNode currentField = editorState.getCurrentNode();
 		if (currentOffset < currentField.size()) {
 			Node next = currentField.getChild(currentOffset);
+			if (next instanceof ArrayNode array && deleteTemplateIfEmpty(editorState, array)) {
+				return;
+			}
 			if (next instanceof FunctionNode function && isCoordinateTemplate(function.getName())) {
 				// Remove only unused templates; otherwise enter without discarding coordinates.
-				if (!deleteCoordinateTemplateIfEmpty(editorState, function)) {
+				if (!deleteTemplateIfEmpty(editorState, function)) {
 					CursorController.nextCharacter(editorState);
 				}
 				return;
@@ -1147,7 +1162,12 @@ public class InputController {
 				bkspCharacter(editorState);
 			}
 		} else {
-			RemoveContainer.deleteContainer(editorState);
+			// At the closing boundary, only an entirely unused matrix may be removed.
+			if (!(currentField.getParent() instanceof ArrayNode array
+					&& currentField.getParentIndex() == array.size() - 1
+					&& deleteTemplateIfEmpty(editorState, array))) {
+				RemoveContainer.deleteContainer(editorState);
+			}
 		}
 	}
 

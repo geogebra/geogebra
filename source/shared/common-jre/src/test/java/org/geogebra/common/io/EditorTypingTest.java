@@ -32,6 +32,7 @@ import org.geogebra.editor.share.controller.EditorState;
 import org.geogebra.editor.share.editor.EditorFeatures;
 import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.serializer.GeoGebraSerializer;
+import org.geogebra.editor.share.tree.ArrayNode;
 import org.geogebra.editor.share.tree.CharPlaceholderNode;
 import org.geogebra.editor.share.tree.FunctionNode;
 import org.geogebra.editor.share.tree.Korean;
@@ -1300,6 +1301,109 @@ class EditorTypingTest extends BaseExamTestSetup {
 		checker.typeKey(JavaKeyCodes.VK_DELETE);
 		// (1,)|
 		checkEditorState(template + "(1,)", 1);
+	}
+
+	@ParameterizedTest(name = "boundary={0}, placeholders={1}")
+	@CsvSource({
+		"before, false",
+		"after, false",
+		"first, false",
+		"last, false",
+		"before, true",
+		"after, true",
+		"first, true",
+		"last, true",
+	})
+	@Issue("APPS-7021")
+	void boundaryDeletionRemovesEmptyMatrix(String boundary, boolean placeholders) {
+		checker.type("7+");
+		// 7+|
+		checker.pressSingleKey("$matrix:2:2");
+		// 7+{{|,},{,}}
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		ArrayNode matrix = (ArrayNode) state.getCurrentNode().getParent();
+		if (placeholders) {
+			matrix.getChild(0).addChild(new PlaceholderNode("Cell"));
+			matrix.getChild(3).addChild(new CharPlaceholderNode());
+			// 7+{{|_,},{,_}} (_ denotes an unused placeholder)
+		}
+		setMatrixDeletionBoundary(boundary, matrix);
+		// before: 7+|{{,},{,}}; after: 7+{{,},{,}}|;
+		// first: 7+{{|,},{,}}; last: 7+{{,},{,|}} (possibly with placeholders)
+		checker.typeKey(
+				"after".equals(boundary) || "first".equals(boundary)
+						? JavaKeyCodes.VK_BACK_SPACE
+						: JavaKeyCodes.VK_DELETE);
+		// 7+|
+		checkEditorState("7+", 2);
+		checker.checkLength(2);
+	}
+
+	@ParameterizedTest(name = "boundary={0}, filledCell={1}")
+	@CsvSource({
+		"before, 0",
+		"before, 1",
+		"before, 2",
+		"before, 3",
+		"after, 0",
+		"after, 1",
+		"after, 2",
+		"after, 3",
+	})
+	@Issue("APPS-7021")
+	void boundaryDeletionPreservesPartiallyFilledMatrix(String boundary, int filledCell) {
+		checker.pressSingleKey("$matrix:2:2");
+		// {{|,},{,}}
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		ArrayNode matrix = (ArrayNode) state.getCurrentNode().getParent();
+		// Enter content in the selected cell, leaving all other cells empty.
+		state.setCurrentNode(matrix.getChild(filledCell));
+		checker.type("0");
+		// {{0|,},{,}}, {{,0|},{,}}, {{,},{0|,}}, or {{,},{,0|}}
+		String expression = GeoGebraSerializer.serialize(state.getRootNode(), (EditorFeatures) null);
+		setMatrixDeletionBoundary(boundary, matrix);
+		// before: |{{...},{...}}; after: {{...},{...}}|
+		checker.typeKey("after".equals(boundary) ? JavaKeyCodes.VK_BACK_SPACE : JavaKeyCodes.VK_DELETE);
+		// Delete enters the first cell; Backspace enters the last cell, retaining every cell.
+		int cell = "after".equals(boundary) ? 3 : 0;
+		checkEditorState(expression, "after".equals(boundary) && cell == filledCell ? 1 : 0, cell, 0);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@ValueSource(
+			strings = {
+				"before", "after", "first", "last",
+			})
+	@Issue("APPS-7021")
+	void boundaryDeletionPreservesProtectedEmptyMatrix(String boundary) {
+		checker.pressSingleKey("$matrix:2:2");
+		// {{|,},{,}}
+		checker.protect();
+		// {{|,},{,}} (the matrix structure is protected)
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		ArrayNode matrix = (ArrayNode) state.getCurrentNode().getParent();
+		String expression = GeoGebraSerializer.serialize(state.getRootNode(), (EditorFeatures) null);
+		setMatrixDeletionBoundary(boundary, matrix);
+		// before: |{{,},{,}}; after: {{,},{,}}|; first: {{|,},{,}}; last: {{,},{,|}}
+		checker.typeKey(
+				"after".equals(boundary) || "first".equals(boundary)
+						? JavaKeyCodes.VK_BACK_SPACE
+						: JavaKeyCodes.VK_DELETE);
+		// The protected matrix remains; outside keypresses enter the nearest cell.
+		checkEditorState(expression, 0, "after".equals(boundary) || "last".equals(boundary) ? 3 : 0, 0);
+	}
+
+	/** Position the caret just outside the matrix, or at its first/last cell boundary. */
+	private void setMatrixDeletionBoundary(String boundary, ArrayNode matrix) {
+		EditorState state = checker.getMathField().getInternal().getEditorState();
+		if ("before".equals(boundary) || "after".equals(boundary)) {
+			state.setCurrentNode(state.getRootNode());
+			state.setCurrentOffset(matrix.getParentIndex() + ("after".equals(boundary) ? 1 : 0));
+		} else {
+			state.setCurrentNode(matrix.getChild("first".equals(boundary) ? 0 : 3));
+			state.setCurrentOffset(
+					"first".equals(boundary) ? 0 : state.getCurrentNode().size());
+		}
 	}
 
 	@Test
