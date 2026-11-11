@@ -18,6 +18,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -232,6 +233,12 @@ public abstract class GeoVec3D extends GeoElement implements Traceable {
 	 */
 	public static void cross(GeoVec3D u, GeoVec3D v, GeoVec3D w) {
 		w.setCoords(u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x);
+		if ((Double.isFinite(w.z) && Math.abs(w.z) > Kernel.INV_MAX_DOUBLE_PRECISION)
+				|| (w.z != 0 && Math.abs(w.z) < Kernel.MAX_PRECISION)) {
+			w.x = w.x / w.z;
+			w.y = w.y / w.z;
+			w.z = 1;
+		}
 	}
 
 	/**
