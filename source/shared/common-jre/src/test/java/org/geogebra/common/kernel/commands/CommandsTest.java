@@ -3246,6 +3246,9 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdPercentile() {
 		t("Percentile[ {1,2,3,4,5}, 0.05 ]", "1");
+		t("Percentile[ {1,2,3}, {1,2,3}, 0.5 ]", "2.5");
+		t("Percentile[ {1,10}, {1,2147483646}, 0.5 ]", "10");
+		t("Percentile[ {1,10}, {0/0,1}, 0.5 ]", "NaN");
 	}
 
 	@Test

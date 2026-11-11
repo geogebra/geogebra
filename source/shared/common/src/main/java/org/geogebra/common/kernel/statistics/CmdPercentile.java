@@ -27,6 +27,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Percentile[ &lt;List&gt;, &lt;Value&gt; ]
+ * Percentile[ &lt;List&gt;, &lt;List of Frequencies&gt;, &lt;Value&gt; ]
  * @author G. Sturr
  */
 public class CmdPercentile extends CommandProcessor {
@@ -62,6 +63,25 @@ public class CmdPercentile extends CommandProcessor {
 					throw argErr(c, arg[0]);
 				} else if (!ok[1]) {
 					throw argErr(c, arg[1]);
+				}
+
+			case 3:
+				if ((ok[0] = arg[0].isGeoList())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoNumeric())) {
+
+					AlgoPercentile algo = new AlgoPercentile(
+							cons, c.getLabel(), (GeoList) arg[0], (GeoList) arg[1], (GeoNumeric) arg[2]);
+
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
 				}
 
 			default:
