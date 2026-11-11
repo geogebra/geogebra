@@ -463,13 +463,17 @@ public final class PropertiesViewW extends PropertiesView
 			tabs.add(new TabData(props.getRawName(), propertiesPanel));
 		}
 		int oldTab = -1;
+		boolean tabChanged = false;
 		if (settingsTab != null && objectPropertiesVisible && showObjectProperties) {
 			oldTab = settingsTab.getSelectedTabIdx();
 		} else if (optionType != OptionType.OBJECTS) {
 			oldTab = ComponentTab.indexOf(tabs, optionType.getName());
+			tabChanged = oldTab != -1
+					&& settingsTab != null
+					&& settingsTab.getSelectedTabIdx() != oldTab
+					&& !objectPropertiesVisible;
 		}
 		int initialTab = oldTab != -1 && oldTab < tabs.size() ? oldTab : 0;
-		boolean tabChanged = settingsTab != null && settingsTab.getSelectedTabIdx() != initialTab;
 		settingsTab = new ComponentTab(
 				(AppW) app,
 				"Settings",
