@@ -89,6 +89,13 @@ public class AutocompleteProvider {
 	}
 
 	/**
+	 * @return syntaxes of the functions allowed by the operation filter, e.g. {@code sqrt( <x> )}
+	 */
+	public @NonNull List<String> getFunctionSyntaxes() {
+		return app.getParserFunctions().getCompletions("", operationFilter);
+	}
+
+	/**
 	 * @param localizedCommandName localized command
 	 * @return syntaxes of a single command
 	 */
@@ -233,7 +240,10 @@ public class AutocompleteProvider {
 		return isForClassicCAS || app.getConfig().getVersion() == GeoGebraConstants.Version.CAS;
 	}
 
-	private LowerCaseDictionary getCommandDictionary() {
+	/**
+	 * @return dictionary of the commands available for completion
+	 */
+	public LowerCaseDictionary getCommandDictionary() {
 		return isCas() ? app.getCommandDictionaryCAS() : app.getCommandDictionary();
 	}
 

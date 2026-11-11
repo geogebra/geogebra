@@ -87,7 +87,7 @@ public class TableSymbols {
 		" real(x) ",
 		" imaginary(x) ",
 		" nPr(n, r) ",
-		"nCr(n, r)",
+		" nCr(n, r) ",
 		" sinIntegral(x) ",
 		" cosIntegral(x) ",
 		" expIntegral(x) ",
@@ -117,7 +117,7 @@ public class TableSymbols {
 		{" psi(x) ", " polyGamma(m, x) "},
 		{" beta(a, b) ", " beta(a, b, x) ", " betaRegularized(a, b, x) "},
 		{" erf(x) "},
-		{" nPr(n, r) ", "nCr(n, r)"},
+		{" nPr(n, r) ", " nCr(n, r) "},
 		{" sinIntegral(x) ", " cosIntegral(x) ", " expIntegral(x) "},
 		{" zeta(x) ", " Dirac(x) ", " Heaviside(x) "},
 	};

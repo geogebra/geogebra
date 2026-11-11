@@ -78,7 +78,9 @@ public final class SuiteScope implements PropertyValueObserver {
 	 * @param app An app instance.
 	 */
 	public void registerApp(App app) {
-		apps.add(app);
+		if (apps.add(app)) {
+			examController.addListener(app.appScope.inputBarHelpViewModel);
+		}
 	}
 
 	/**

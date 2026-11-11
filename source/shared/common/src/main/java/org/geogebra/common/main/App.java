@@ -120,6 +120,7 @@ import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -476,6 +477,7 @@ public abstract class App
 	protected static final long SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS = 100;
 
 	private ArrayList<String> mLastCommandsSelectedFromHelp;
+	private AutocompleteProvider autocompleteProvider;
 	// TODO: move following methods somewhere else
 	private String tubeID = null;
 	private AdjustViews adjustViews = null;
@@ -776,6 +778,16 @@ public abstract class App
 				kernel.updateLocalAxesNames();
 			}
 		}
+	}
+
+	/**
+	 * @return provider of the input suggestions; platforms with their own provider override this
+	 */
+	public @NonNull AutocompleteProvider getAutocompleteProvider() {
+		if (autocompleteProvider == null) {
+			autocompleteProvider = new AutocompleteProvider(this, false);
+		}
+		return autocompleteProvider;
 	}
 
 	/**

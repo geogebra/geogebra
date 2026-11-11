@@ -16,6 +16,7 @@
 
 package org.geogebra.common.ownership;
 
+import org.geogebra.common.gui.inputbar.InputBarHelpViewModel;
 import org.geogebra.common.gui.settings.SettingsViewModel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -52,6 +53,10 @@ public final class AppScope {
 	@Property("readonly")
 	public final @NonNull SettingsViewModel settingsViewModel;
 
+	/** The shared view model of the input bar help. */
+	@Property("readonly")
+	public final @NonNull InputBarHelpViewModel inputBarHelpViewModel;
+
 	private @Nullable RememberedProperties rememberedProperties;
 
 	/**
@@ -61,6 +66,7 @@ public final class AppScope {
 	public AppScope(App app) {
 		this.app = app;
 		this.settingsViewModel = new SettingsViewModel(app);
+		this.inputBarHelpViewModel = new InputBarHelpViewModel(app);
 	}
 
 	/**

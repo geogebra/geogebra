@@ -2717,6 +2717,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	/**
 	 * @return autocomplete provider for AV and classic input bar
 	 */
+	@Override
 	public AutocompleteProvider getAutocompleteProvider() {
 		if (autocompleteProvider == null) {
 			autocompleteProvider = new AutocompleteProvider(this, false);

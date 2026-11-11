@@ -62,7 +62,7 @@ public abstract class BaseExamTestSetup extends BaseAppTestSetup
 		super.setupApp(subApp);
 
 		propertiesRegistry = getApp().appScope.propertiesRegistry;
-		autocompleteProvider = new AutocompleteProvider(getApp(), false);
+		autocompleteProvider = getApp().getAutocompleteProvider();
 		examController.setActiveContext(new ContextDependencies(
 				getKernel().getAlgoDispatcher(),
 				getCommandDispatcher(),
