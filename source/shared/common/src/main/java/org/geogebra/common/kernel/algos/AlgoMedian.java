@@ -220,7 +220,7 @@ public class AlgoMedian extends AlgoElement {
 
 	/**
 	 * Returns the value at an index position in a list of data constructed from
-	 * a sorted list of values and frequencies
+	 * a sorted list of values and frequencies.
 	 *
 	 * @param index
 	 *            index in expanded list
@@ -230,8 +230,7 @@ public class AlgoMedian extends AlgoElement {
 	 *            frequencies
 	 * @return value from expanded list
 	 */
-	public static Double getValueAt(int index, Double[] val, Integer[] freq) {
-
+	public static double getValueAt(int index, Double[] val, Integer[] freq) {
 		int cf = 0; // cumulative frequency
 		for (int i = 0; i < val.length; i++) {
 			cf += freq[i];
@@ -239,7 +238,7 @@ public class AlgoMedian extends AlgoElement {
 				return val[i];
 			}
 		}
-		return null;
+		return Double.NaN;
 	}
 
 	/**
