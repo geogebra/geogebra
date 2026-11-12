@@ -19,8 +19,7 @@ package org.geogebra.web.full.gui;
 import org.geogebra.web.full.gui.view.FocusablePartW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.Dom;
-
-import com.google.gwt.dom.client.BrowserEvents;
+import org.gwtproject.dom.client.BrowserEvents;
 
 import elemental2.dom.KeyboardEvent;
 

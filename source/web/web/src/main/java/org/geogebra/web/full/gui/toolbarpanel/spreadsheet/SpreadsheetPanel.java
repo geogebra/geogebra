@@ -46,6 +46,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -54,8 +55,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.jspecify.annotations.NonNull;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;

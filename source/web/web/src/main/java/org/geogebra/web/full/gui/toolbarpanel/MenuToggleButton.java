@@ -27,10 +27,9 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.GlobalHeader;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.RootPanel;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.KeyboardEvent;
 

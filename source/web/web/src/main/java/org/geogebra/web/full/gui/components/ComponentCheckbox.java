@@ -16,7 +16,9 @@
 
 package org.geogebra.web.full.gui.components;
 
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.Checkbox;
+import static org.geogebra.common.properties.PropertyView.ConfigurationUpdateDelegate;
+import static org.geogebra.common.properties.PropertyView.VisibilityUpdateDelegate;
 
 import java.util.function.Consumer;
 
@@ -26,11 +28,10 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.KeyboardEvent;
 

@@ -43,12 +43,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.event.dom.client.MouseOutEvent;
 import org.gwtproject.event.dom.client.MouseOverEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.DOMRect;
 import elemental2.dom.KeyboardEvent;

@@ -27,13 +27,12 @@ import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.resources.SVGResourcePrototype;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.KeyboardEvent;
 

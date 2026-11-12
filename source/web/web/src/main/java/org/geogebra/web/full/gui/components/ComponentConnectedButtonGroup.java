@@ -16,7 +16,9 @@
 
 package org.geogebra.web.full.gui.components;
 
-import static org.geogebra.common.properties.PropertyView.*;
+import static org.geogebra.common.properties.PropertyView.ConfigurationUpdateDelegate;
+import static org.geogebra.common.properties.PropertyView.ConnectedButtonGroup;
+import static org.geogebra.common.properties.PropertyView.VisibilityUpdateDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +26,9 @@ import java.util.List;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.KeyboardEvent;
 

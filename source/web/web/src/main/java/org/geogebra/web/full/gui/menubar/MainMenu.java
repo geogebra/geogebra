@@ -37,6 +37,7 @@ import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
@@ -44,8 +45,6 @@ import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.Event;
 import jsinterop.base.Js;

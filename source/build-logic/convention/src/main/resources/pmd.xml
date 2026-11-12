@@ -255,7 +255,7 @@
             <property name="xpath">
                 <value>
                     <![CDATA[
-//ImportDeclaration[matches(@ImportedName, "^com.google.gwt.(core.client.JavaScriptObject|user|dom)$")]
+//ImportDeclaration[matches(@ImportedName, "^com.google.gwt.(core.client.JavaScriptObject$|user\.|dom\.)")]
 ]]>
                 </value>
             </property>

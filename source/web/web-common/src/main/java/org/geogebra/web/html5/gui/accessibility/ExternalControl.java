@@ -24,8 +24,7 @@ import java.util.List;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
-
-import com.google.gwt.dom.client.BrowserEvents;
+import org.gwtproject.dom.client.BrowserEvents;
 
 import elemental2.dom.Element;
 import elemental2.dom.KeyboardEvent;

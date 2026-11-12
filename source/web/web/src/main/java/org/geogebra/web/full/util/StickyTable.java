@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Node;
 import org.gwtproject.dom.client.NodeList;
@@ -31,8 +32,6 @@ import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.view.client.ListDataProvider;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.EventListener;
 import jsinterop.base.Js;

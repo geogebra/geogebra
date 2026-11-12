@@ -71,6 +71,7 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.Event.NativePreviewEvent;
@@ -79,8 +80,6 @@ import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;

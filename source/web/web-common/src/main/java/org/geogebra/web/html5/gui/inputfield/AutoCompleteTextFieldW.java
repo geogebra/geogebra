@@ -65,6 +65,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusHandler;
@@ -85,8 +86,6 @@ import org.gwtproject.user.client.ui.FocusWidget;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
 import org.jspecify.annotations.NonNull;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.Event;
 import elemental2.dom.EventListener;

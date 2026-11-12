@@ -17,9 +17,8 @@
 package org.geogebra.web.full.gui.menu;
 
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.user.client.DOM;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.Event;
 

@@ -35,6 +35,7 @@ import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.CopyPasteW;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
 import org.gwtproject.event.dom.client.KeyEvent;
@@ -44,8 +45,6 @@ import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.EventListener;
-
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;

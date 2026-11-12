@@ -57,12 +57,12 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.TestHarness;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.jspecify.annotations.Nullable;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.Event;
 

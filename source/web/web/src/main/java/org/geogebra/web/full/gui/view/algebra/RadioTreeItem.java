@@ -87,6 +87,7 @@ import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.DataTest;
 import org.geogebra.web.html5.util.HasDataTest;
 import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.DragStartEvent;
@@ -100,7 +101,6 @@ import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-import com.google.gwt.dom.client.BrowserEvents;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
 import elemental2.dom.KeyboardEvent;
