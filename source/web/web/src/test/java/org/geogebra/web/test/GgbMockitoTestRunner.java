@@ -54,7 +54,6 @@ import org.gwtproject.user.cellview.client.CellBasedWidgetImplStandard;
 import org.gwtproject.user.cellview.client.CellTable;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.impl.DOMImplStandard;
-import org.gwtproject.user.client.impl.DOMImplStandardBase;
 import org.gwtproject.user.client.ui.AbsolutePanel;
 import org.gwtproject.user.client.ui.CellPanel;
 import org.gwtproject.user.client.ui.Composite;
@@ -178,7 +177,6 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
 		classes.add(SplitLayoutPanel.class);
 		classes.add(StackPanel.class);
 		classes.add(TextAreaElement.class);
-		classes.add(DOMImplStandardBase.class);
 		classes.add(DOMImplStandard.class);
 		classes.add(DomEvent.Type.class);
 		classes.add(SchedulerImpl.class);

@@ -16,14 +16,18 @@
 
 package org.geogebra.web.html5.util;
 
+import static org.geogebra.gwtutil.JsObject.getAt;
+
 import java.util.function.Predicate;
 
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.DomEvent;
 
+import elemental2.dom.Event;
+import elemental2.dom.MouseEvent;
 import elemental2.dom.PointerEvent;
+import elemental2.dom.TouchEvent;
 import jsinterop.base.Js;
 
 /**
@@ -49,8 +53,8 @@ public final class EventUtil {
 	 *            the event to be checked
 	 * @return True if the event is a touch event.
 	 */
-	public static boolean isTouchEvent(NativeEvent event) {
-		return event.getType().contains("touch");
+	public static boolean isTouchEvent(Event event) {
+		return event.type.contains("touch");
 	}
 
 	/**
@@ -59,11 +63,11 @@ public final class EventUtil {
 	 * @return The x coordinate of the event (in case of touch the coordinate is
 	 *         taken from the first touch).
 	 */
-	public static int getTouchOrClickClientX(NativeEvent event) {
+	public static double getTouchOrClickClientX(Event event) {
 		if (isTouchEvent(event)) {
-			return event.getChangedTouches().get(0).getClientX();
+			return getAt(Js.<TouchEvent>uncheckedCast(event).changedTouches, 0).clientX;
 		}
-		return event.getClientX();
+		return Js.<MouseEvent>uncheckedCast(event).clientX;
 	}
 
 	/**
@@ -72,11 +76,11 @@ public final class EventUtil {
 	 * @return The y coordinate of the event (in case of touch the coordinate is
 	 *         taken from the first touch).
 	 */
-	public static int getTouchOrClickClientY(NativeEvent event) {
+	public static double getTouchOrClickClientY(Event event) {
 		if (isTouchEvent(event)) {
-			return event.getChangedTouches().get(0).getClientY();
+			return getAt(Js.<TouchEvent>uncheckedCast(event).changedTouches, 0).clientY;
 		}
-		return event.getClientY();
+		return Js.<MouseEvent>uncheckedCast(event).clientY;
 	}
 
 	/**
@@ -86,7 +90,7 @@ public final class EventUtil {
 	 *         taken from the first touch).
 	 */
 	public static int getTouchOrClickClientX(DomEvent<?> event) {
-		return getTouchOrClickClientX(event.getNativeEvent());
+		return (int) getTouchOrClickClientX(event.getNativeEvent());
 	}
 
 	/**
@@ -96,7 +100,7 @@ public final class EventUtil {
 	 *         taken from the first touch).
 	 */
 	public static int getTouchOrClickClientY(DomEvent<?> event) {
-		return getTouchOrClickClientY(event.getNativeEvent());
+		return (int) getTouchOrClickClientY(event.getNativeEvent());
 	}
 
 	/**

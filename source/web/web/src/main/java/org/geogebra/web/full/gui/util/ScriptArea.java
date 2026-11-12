@@ -29,6 +29,7 @@ import org.gwtproject.event.dom.client.KeyPressEvent;
 import org.gwtproject.event.dom.client.KeyPressHandler;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.TextArea;
 
 /** Class for future syntax highlighting, line numbering and so on. */
@@ -136,8 +137,8 @@ public final class ScriptArea extends TextArea
 
 	@Override
 	public void onKeyDown(KeyDownEvent e) {
-
-		if (GlobalKeyDispatcherW.isBadKeyEvent(e) || e.getNativeKeyCode() == GWTKeycodes.KEY_F1) {
+		// no special handling of F1, only desktop should care about that
+		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
 			e.preventDefault();
 		}
 		dummyCursor.handleTabletKeyboard(e);
@@ -152,8 +153,8 @@ public final class ScriptArea extends TextArea
 		}
 		if (Browser.isTabletBrowser()
 				&& !app.isWhiteboardActive()
-				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
-				&& e.getNativeEvent().getKeyCode() != 0) {
+				&& DOM.getKeyCode(e.getNativeEvent()) != GWTKeycodes.KEY_BACKSPACE
+				&& DOM.getKeyCode(e.getNativeEvent()) != 0) {
 			insertString(Character.toString(e.getCharCode()));
 		}
 	}

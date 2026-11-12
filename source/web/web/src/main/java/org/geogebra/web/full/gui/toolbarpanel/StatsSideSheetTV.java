@@ -42,6 +42,7 @@ import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Panel;
@@ -216,13 +217,13 @@ public final class StatsSideSheetTV {
 				16);
 		Dom.addEventListener(
 				copyButton.getElement(),
-				"mouseover",
+				BrowserEvents.MOUSEOVER,
 				event -> copyButton.setIcon(MaterialDesignResources.INSTANCE
 						.copy_black()
 						.withFill(GeoGebraColorConstants.NEUTRAL_900.toString())));
 		Dom.addEventListener(
 				copyButton.getElement(),
-				"mouseout",
+				BrowserEvents.MOUSEOUT,
 				event -> copyButton.setIcon(MaterialDesignResources.INSTANCE
 						.copy_black()
 						.withFill(GeoGebraColorConstants.NEUTRAL_700.toString())));
@@ -230,11 +231,11 @@ public final class StatsSideSheetTV {
 		copyButton.setTooltipPositionRight();
 		copyButton.setTitle(buttonText);
 
-		Dom.addEventListener(parent.getElement(), "mouseover", event -> {
+		Dom.addEventListener(parent.getElement(), BrowserEvents.MOUSEOVER, event -> {
 			copyButton.removeStyleName("transitionOut");
 			copyButton.addStyleName("transitionIn");
 		});
-		Dom.addEventListener(parent.getElement(), "mouseout", event -> {
+		Dom.addEventListener(parent.getElement(), BrowserEvents.MOUSEOUT, event -> {
 			copyButton.removeStyleName("transitionIn");
 			copyButton.addStyleName("transitionOut");
 		});

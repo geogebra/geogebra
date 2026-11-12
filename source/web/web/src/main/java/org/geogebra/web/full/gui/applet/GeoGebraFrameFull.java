@@ -72,10 +72,7 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.timer.client.Timer;
-import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.Event.NativePreviewEvent;
 import org.gwtproject.user.client.Event.NativePreviewHandler;
 import org.gwtproject.user.client.ui.RootPanel;
@@ -83,7 +80,10 @@ import org.gwtproject.user.client.ui.SimplePanel;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
 import elemental2.dom.HTMLCanvasElement;
 import jsinterop.base.Js;
 
@@ -130,7 +130,7 @@ public final class GeoGebraFrameFull extends GeoGebraFrameW
 		panelTransitioner = new PanelTransitioner(this);
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
-		Event.addNativePreviewHandler(this);
+		org.gwtproject.user.client.Event.addNativePreviewHandler(this);
 	}
 
 	@Override
@@ -843,7 +843,7 @@ public final class GeoGebraFrameFull extends GeoGebraFrameW
 	 * @param event
 	 *            browser event
 	 */
-	private void closePopupsAndMaybeMenu(NativeEvent event) {
+	private void closePopupsAndMaybeMenu(Event event) {
 		if (!Dom.eventTargetsElement(event, getMenuElement())
 				&& !Dom.eventTargetsElement(event, getToolbarMenuElement())
 				&& !getGlassPane().isDragInProgress()
@@ -866,8 +866,8 @@ public final class GeoGebraFrameFull extends GeoGebraFrameW
 		if (app == null || !app.isUsingFullGui()) {
 			return;
 		}
-		final int eventType = DOM.eventGetType(event);
-		if (eventType == Event.ONMOUSEDOWN || eventType == Event.ONTOUCHSTART) {
+		final String eventType = event.type;
+		if (BrowserEvents.MOUSEDOWN.equals(eventType) || BrowserEvents.TOUCHSTART.equals(eventType)) {
 			closePopupsAndMaybeMenu(event);
 		}
 	}
@@ -912,9 +912,9 @@ public final class GeoGebraFrameFull extends GeoGebraFrameW
 
 	@Override
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
-		if (event.getTypeInt() == Event.ONMOUSEDOWN || event.getTypeInt() == Event.ONTOUCHSTART) {
-
-			Object js = event.getNativeEvent().getEventTarget();
+		String type = event.getNativeEvent().type;
+		if (BrowserEvents.MOUSEDOWN.equals(type) || BrowserEvents.TOUCHSTART.equals(type)) {
+			Object js = event.getNativeEvent().target;
 			JsEval.callNativeGlobalFunction("hideAppPicker", js);
 		}
 	}

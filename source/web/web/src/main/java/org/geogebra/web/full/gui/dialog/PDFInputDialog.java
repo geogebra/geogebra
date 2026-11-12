@@ -38,8 +38,7 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
-import org.gwtproject.event.dom.client.KeyCodes;
-import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FileUpload;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -174,7 +173,7 @@ public final class PDFInputDialog extends ComponentDialog implements FastClickHa
 
 	private void initPreviewActions() {
 		curPageNrField.addKeyPressHandler(event -> {
-			if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+			if (DOM.isEnterKey(event.getNativeEvent())) {
 				changePageFromTextField();
 			}
 		});
@@ -269,7 +268,7 @@ public final class PDFInputDialog extends ComponentDialog implements FastClickHa
 			String data = previewSrc;
 			((AppW) app).imageDropHappened("pdf.png", data);
 		});
-		pdfContainerPanel.sinkEvents(Event.ONCLICK);
+		pdfContainerPanel.sinkEvents(org.gwtproject.user.client.Event.ONCLICK);
 		pdfContainerPanel.addHandler(
 				event -> {
 					if (!hasPdf()) {

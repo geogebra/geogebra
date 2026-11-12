@@ -29,11 +29,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.EventTarget;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Label;
@@ -41,6 +37,12 @@ import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.Nullable;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
+import elemental2.dom.Element;
+import elemental2.dom.Event;
+import elemental2.dom.EventTarget;
+import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
 
 /**
@@ -73,7 +75,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		buildDialog();
 		app.addWindowResizeListener(this);
 		setAccessibilityProperties(hasScrim);
-		sinkEvents(Event.ONKEYDOWN);
+		sinkEvents(org.gwtproject.user.client.Event.ONKEYDOWN);
 		addCloseHandler(closed -> app.unregisterPopup(this));
 	}
 
@@ -300,39 +302,39 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	}
 
 	private boolean isEnter(int key) {
-		return key == KeyCodes.KEY_ENTER;
+		return key == '\r' || key == '\n';
 	}
 
 	@Override
-	protected void onPreviewNativeEvent(Event.NativePreviewEvent event) {
+	protected void onPreviewNativeEvent(org.gwtproject.user.client.Event.NativePreviewEvent event) {
 		if (!isVisible()) {
 			return; // onPreviewNativeEvent is global: ignore for hidden dialogs
 		}
-		Event nativeEvent = Event.as(event.getNativeEvent());
-		if (Event.ONKEYPRESS == event.getTypeInt()
-				&& isEnter(nativeEvent.getCharCode())
-				&& !isContentEditable(nativeEvent.getEventTarget())
-				&& !isTextarea(nativeEvent.getEventTarget())) {
-			EventTarget target = nativeEvent.getEventTarget();
-			if (Element.is(target) && Element.as(target).getClassName().contains("materialTextButton")) {
+		Event nativeEvent = event.getNativeEvent();
+		if (BrowserEvents.KEYPRESS.equals(nativeEvent.type)
+				&& isEnter(Dom.getCharCode(nativeEvent))
+				&& !isContentEditable(nativeEvent.target)
+				&& !isTextarea(nativeEvent.target)) {
+			EventTarget target = nativeEvent.target;
+			if (DOM.isElement(target)
+					&& Js.<Element>uncheckedCast(target).classList.contains("materialTextButton")) {
 				onEscape();
 			} else {
 				onPositiveAction();
 			}
-		} else if (event.getTypeInt() == Event.ONKEYUP
-				&& nativeEvent.getKeyCode() == KeyCodes.KEY_ESCAPE) {
+		} else if (BrowserEvents.KEYUP.equals(nativeEvent.type) && DOM.isEscapeKey(nativeEvent)) {
 			nativeEvent.stopPropagation();
 			onEscape();
 		}
 	}
 
 	private boolean isContentEditable(EventTarget eventTarget) {
-		elemental2.dom.Element el = Js.uncheckedCast(eventTarget);
+		Element el = Js.uncheckedCast(eventTarget);
 		return el.hasAttribute("contenteditable");
 	}
 
 	private boolean isTextarea(EventTarget eventTarget) {
-		elemental2.dom.Element el = Js.uncheckedCast(eventTarget);
+		Element el = Js.uncheckedCast(eventTarget);
 		return "TEXTAREA".equals(el.tagName);
 	}
 
@@ -354,8 +356,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (DOM.eventGetType(event) == Event.ONKEYDOWN && event.getKeyCode() == KeyCodes.KEY_TAB) {
-			handleTab(event.getShiftKey());
+		if (BrowserEvents.KEYDOWN.equals(event.type) && DOM.isTabKey(event)) {
+			handleTab(Js.<KeyboardEvent>uncheckedCast(event).shiftKey);
 			event.stopPropagation();
 			event.preventDefault();
 		}

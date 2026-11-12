@@ -22,15 +22,13 @@ import java.util.List;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.animation.client.Animation;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.EventTarget;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.dom.style.shared.Position;
@@ -41,7 +39,6 @@ import org.gwtproject.event.logical.shared.HasCloseHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.Event.NativePreviewEvent;
 import org.gwtproject.user.client.ui.HasAnimation;
 import org.gwtproject.user.client.ui.Panel;
@@ -51,7 +48,10 @@ import org.gwtproject.user.client.ui.Widget;
 import org.gwtproject.user.client.ui.impl.PopupImpl;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
 import elemental2.dom.EventListener;
+import elemental2.dom.EventTarget;
+import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
 
 /**
@@ -1166,15 +1166,15 @@ public class GPopupPanel extends SimplePanel
 	 *            the native event
 	 * @return true if the event targets a partner
 	 */
-	private boolean eventTargetsPartner(NativeEvent event) {
+	private boolean eventTargetsPartner(Event event) {
 		if (autoHidePartners == null) {
 			return false;
 		}
 
-		EventTarget target = event.getEventTarget();
-		if (Element.is(target)) {
+		EventTarget target = event.target;
+		if (DOM.isElement(target)) {
 			for (Element elem : autoHidePartners) {
-				if (elem.isOrHasChild(Element.as(target))) {
+				if (elem.isOrHasChild(Js.uncheckedCast(target))) {
 					return true;
 				}
 			}
@@ -1189,10 +1189,10 @@ public class GPopupPanel extends SimplePanel
 	 *            the native event
 	 * @return true if the event targets the popup
 	 */
-	private boolean eventTargetsPopup(NativeEvent event) {
-		EventTarget target = event.getEventTarget();
-		if (Element.is(target)) {
-			return getElement().isOrHasChild(Element.as(target));
+	private boolean eventTargetsPopup(Event event) {
+		EventTarget target = event.target;
+		if (DOM.isElement(target)) {
+			return getElement().isOrHasChild(Js.uncheckedCast(target));
 		}
 		return false;
 	}
@@ -1399,7 +1399,7 @@ public class GPopupPanel extends SimplePanel
 		}
 
 		// If the event targets the popup or the partner, consume it
-		Event nativeEvent = Event.as(event.getNativeEvent());
+		Event nativeEvent = event.getNativeEvent();
 		boolean eventTargetsPopupOrPartner =
 				eventTargetsPopup(nativeEvent) || eventTargetsPartner(nativeEvent);
 		if (eventTargetsPopupOrPartner) {
@@ -1413,21 +1413,19 @@ public class GPopupPanel extends SimplePanel
 		}
 
 		// Switch on the event type
-		int type = DOM.eventGetType(nativeEvent);
+		String type = nativeEvent.type;
 		switch (type) {
-			case Event.ONKEYDOWN: {
-				if (nativeEvent.getKeyCode() == GWTKeycodes.KEY_X
-						&& nativeEvent.getCtrlKey()
-						&& nativeEvent.getAltKey()) {
+			case BrowserEvents.KEYDOWN:
+				KeyboardEvent keyboardEvent = Js.uncheckedCast(nativeEvent);
+				if ("KeyX".equals(keyboardEvent.code) && keyboardEvent.ctrlKey && keyboardEvent.altKey) {
 					hide(true, false);
 					app.getAccessibilityManager().focusInput(true, true);
 					event.getNativeEvent().preventDefault();
 				}
 				return;
-			}
 
-			case Event.ONMOUSEDOWN:
-			case Event.ONTOUCHSTART:
+			case BrowserEvents.MOUSEDOWN:
+			case BrowserEvents.TOUCHSTART:
 				// Don't eat events if event capture is enabled, as this can
 				// interfere with dialog dragging, for example.
 				if (DOM.getCaptureElement() != null) {
@@ -1440,11 +1438,11 @@ public class GPopupPanel extends SimplePanel
 					return;
 				}
 				break;
-			case Event.ONMOUSEUP:
-			case Event.ONMOUSEMOVE:
-			case Event.ONCLICK:
-			case Event.ONDBLCLICK:
-			case Event.ONTOUCHEND: {
+			case BrowserEvents.MOUSEUP:
+			case BrowserEvents.MOUSEMOVE:
+			case BrowserEvents.CLICK:
+			case BrowserEvents.DBLCLICK:
+			case BrowserEvents.TOUCHEND: {
 				// Don't eat events if event capture is enabled, as this can
 				// interfere with dialog dragging, for example.
 				if (DOM.getCaptureElement() != null) {
@@ -1454,8 +1452,8 @@ public class GPopupPanel extends SimplePanel
 				break;
 			}
 
-			case Event.ONFOCUS: {
-				Element target = nativeEvent.getTarget();
+			case BrowserEvents.FOCUS: {
+				Element target = Js.uncheckedCast(nativeEvent.target);
 				if (modal && !eventTargetsPopupOrPartner && (target != null)) {
 					target.blur();
 					event.cancel();
@@ -1478,7 +1476,8 @@ public class GPopupPanel extends SimplePanel
 
 		// Create handlers if showing.
 		if (showing) {
-			nativePreviewHandlerRegistration = Event.addNativePreviewHandler(this::previewNativeEvent);
+			nativePreviewHandlerRegistration =
+					org.gwtproject.user.client.Event.addNativePreviewHandler(this::previewNativeEvent);
 		}
 	}
 

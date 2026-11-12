@@ -72,7 +72,7 @@ public final class AVItemHeaderScientific extends SimplePanel implements Algebra
 	}
 
 	@Override
-	public boolean isHit(int x, int y) {
+	public boolean isHit(double x, double y) {
 		return false;
 	}
 

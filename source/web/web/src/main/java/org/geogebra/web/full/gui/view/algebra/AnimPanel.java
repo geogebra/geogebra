@@ -28,7 +28,6 @@ import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.util.DataTest;
 import org.geogebra.web.html5.util.HasDataTest;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.event.dom.client.DomEvent;
@@ -221,7 +220,7 @@ public final class AnimPanel extends FlowPanel implements ClickHandler, HasDataT
 	@Override
 	public void onClick(ClickEvent event) {
 		radioTreeItem.getController().stopEdit();
-		if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+		if (event.isRightButton()) {
 			return;
 		}
 		Object source = event.getSource();

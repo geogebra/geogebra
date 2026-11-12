@@ -36,6 +36,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.jspecify.annotations.Nullable;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.KeyboardEvent;
 
 public final class IconButtonPanel extends FlowPanel
@@ -196,7 +198,7 @@ public final class IconButtonPanel extends FlowPanel
 	}
 
 	private void addRadioKeyHandler(List<IconButton> buttons, IconButton button, int index) {
-		Dom.addEventListener(button.getElement(), "keydown", event -> {
+		Dom.addEventListener(button.getElement(), BrowserEvents.KEYDOWN, event -> {
 			KeyboardEvent keyEvent = (KeyboardEvent) event;
 			switch (keyEvent.code) {
 				case "ArrowRight":

@@ -37,6 +37,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.KeyboardEvent;
@@ -156,13 +157,13 @@ public final class ExamClassicStartDialog extends ComponentDialog {
 	 * matters.
 	 */
 	public static void blockEscTab(AppW app) {
-		DomGlobal.document.body.addEventListener("keyup", evt -> {
+		DomGlobal.document.body.addEventListener(BrowserEvents.KEYUP, evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
 			if ("Escape".equals(e.code) && GlobalScope.isExamActive(app)) {
 				e.preventDefault();
 			}
 		});
-		DomGlobal.document.body.addEventListener("keydown", evt -> {
+		DomGlobal.document.body.addEventListener(BrowserEvents.KEYDOWN, evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
 			if (("Tab".equals(e.code) || "Escape".equals(e.code)) && GlobalScope.isExamActive(app)) {
 				e.preventDefault();

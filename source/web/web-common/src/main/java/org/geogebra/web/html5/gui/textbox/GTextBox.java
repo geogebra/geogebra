@@ -19,14 +19,18 @@ package org.geogebra.web.html5.gui.textbox;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
-import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.event.dom.client.KeyUpHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.Event.NativePreviewEvent;
 import org.gwtproject.user.client.Event.NativePreviewHandler;
 import org.gwtproject.user.client.ui.TextBox;
+
+import elemental2.dom.KeyboardEvent;
+import elemental2.dom.KeyboardEventInit;
+import jsinterop.base.Js;
 
 /**
  * This class is created so that the bluetooth keyboard works in Safari iOS.
@@ -73,10 +77,14 @@ public class GTextBox extends TextBox implements NativePreviewHandler, TextObjec
 		final KeyUpHandler finalHandler = handler;
 		return super.addKeyUpHandler(event -> {
 			if (event.getNativeKeyCode() == 0) {
-				NativeEvent nativeEvent = Document.get()
-						.createKeyUpEvent(
-								isControlKeyDown, isAltKeyDown, isShiftKeyDown, isMetaKeyDown, keyCode);
-				event.setNativeEvent(nativeEvent);
+				KeyboardEventInit init = KeyboardEventInit.create();
+				init.setCtrlKey(isControlKeyDown);
+				init.setAltKey(isAltKeyDown);
+				init.setShiftKey(isShiftKeyDown);
+				init.setMetaKey(isMetaKeyDown);
+				init.setBubbles(true);
+				Js.asPropertyMap(init).set("keyCode", keyCode);
+				event.setNativeEvent(new KeyboardEvent(BrowserEvents.KEYUP, init));
 			}
 			finalHandler.onKeyUp(event);
 		});
@@ -84,13 +92,13 @@ public class GTextBox extends TextBox implements NativePreviewHandler, TextObjec
 
 	@Override
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
-		if (event.getTypeInt() == Event.ONKEYDOWN) {
-			NativeEvent nativeEvent = event.getNativeEvent();
-			keyCode = nativeEvent.getKeyCode();
-			isAltKeyDown = nativeEvent.getAltKey();
-			isShiftKeyDown = nativeEvent.getShiftKey();
-			isControlKeyDown = nativeEvent.getCtrlKey();
-			isMetaKeyDown = nativeEvent.getMetaKey();
+		if (BrowserEvents.KEYDOWN.equals(event.getNativeEvent().type)) {
+			KeyboardEvent nativeEvent = (KeyboardEvent) event.getNativeEvent();
+			keyCode = DOM.getKeyCode(nativeEvent);
+			isAltKeyDown = nativeEvent.altKey;
+			isShiftKeyDown = nativeEvent.shiftKey;
+			isControlKeyDown = nativeEvent.ctrlKey;
+			isMetaKeyDown = nativeEvent.metaKey;
 			if (GlobalKeyDispatcherW.isLeftAltDown()) {
 				nativeEvent.preventDefault();
 			}

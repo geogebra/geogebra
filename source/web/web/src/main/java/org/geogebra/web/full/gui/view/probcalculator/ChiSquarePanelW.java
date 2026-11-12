@@ -32,9 +32,9 @@ import org.gwtproject.event.dom.client.ChangeEvent;
 import org.gwtproject.event.dom.client.ChangeHandler;
 import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.FocusHandler;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.TextBox;
@@ -393,7 +393,7 @@ public final class ChiSquarePanelW extends ChiSquarePanel implements ChangeHandl
 
 		@Override
 		public void onKeyUp(KeyUpEvent e) {
-			handleInput(e.getNativeKeyCode() == KeyCodes.KEY_ENTER);
+			handleInput(DOM.isEnterKey(e.getNativeEvent()));
 		}
 
 		private void handleInput(boolean isEnter) {

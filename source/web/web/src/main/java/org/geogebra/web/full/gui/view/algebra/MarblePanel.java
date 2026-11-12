@@ -24,10 +24,14 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.util.DataTest;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
+
+import com.google.gwt.dom.client.BrowserEvents;
+
+import elemental2.dom.KeyboardEvent;
 
 /**
  * @author Zbynek
@@ -92,7 +96,7 @@ public final class MarblePanel extends FlowPanel implements KeyDownHandler, Alge
 	 * @return whether pointer is over this
 	 */
 	@Override
-	public boolean isHit(int x, int y) {
+	public boolean isHit(double x, double y) {
 		return x > getAbsoluteLeft()
 				&& x < getAbsoluteLeft() + getOffsetWidth()
 				&& y < getAbsoluteTop() + getOffsetHeight();
@@ -133,7 +137,7 @@ public final class MarblePanel extends FlowPanel implements KeyDownHandler, Alge
 			btnWarning = new StandardButton(MaterialDesignResources.INSTANCE.wrong_input(), 24);
 			// when clicked, this steals focus
 			// => we need to push focus to parent item
-			Dom.addEventListener(btnWarning.getElement(), "mouseover", event -> {
+			Dom.addEventListener(btnWarning.getElement(), BrowserEvents.MOUSEOVER, event -> {
 				item.setFocus(true);
 				event.preventDefault();
 				event.stopPropagation();
@@ -220,9 +224,9 @@ public final class MarblePanel extends FlowPanel implements KeyDownHandler, Alge
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		Object source = event.getSource();
-		int key = event.getNativeKeyCode();
+		KeyboardEvent keyEvent = event.getNativeEvent();
 		if (source == btnPlus) {
-			if (key == KeyCodes.KEY_ENTER || key == KeyCodes.KEY_SPACE) {
+			if (DOM.isEnterKey(keyEvent) || DOM.isSpaceKey(keyEvent)) {
 				onPlusPressed();
 			}
 		}

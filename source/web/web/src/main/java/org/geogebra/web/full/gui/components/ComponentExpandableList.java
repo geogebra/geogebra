@@ -29,6 +29,8 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.KeyboardEvent;
 
 public final class ComponentExpandableList extends FlowPanel implements SetLabels {
@@ -112,7 +114,7 @@ public final class ComponentExpandableList extends FlowPanel implements SetLabel
 	private void addListeners(FlowPanel header) {
 		Dom.addEventListener(header.getElement(), "click", (e) -> toggleComponent());
 
-		Dom.addEventListener(header.getElement(), "keydown", event -> {
+		Dom.addEventListener(header.getElement(), BrowserEvents.KEYDOWN, event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("Enter".equals(e.code) || "Space".equals(e.code)) {
 				if (Dom.getActiveElement() == header.getElement()) {

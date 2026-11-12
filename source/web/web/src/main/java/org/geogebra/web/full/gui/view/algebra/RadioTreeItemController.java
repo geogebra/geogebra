@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.view.algebra;
 
+import static org.geogebra.gwtutil.JsObject.getAt;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -36,10 +38,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
-import org.gwtproject.core.client.JsArray;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.dom.client.NativeEvent;
-import org.gwtproject.dom.client.Touch;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.event.dom.client.DoubleClickEvent;
@@ -61,6 +60,9 @@ import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.NonNull;
+
+import elemental2.dom.Touch;
+import elemental2.dom.TouchList;
 
 /**
  * Controller class of a AV item.
@@ -124,7 +126,7 @@ public class RadioTreeItemController
 		return false;
 	}
 
-	protected boolean isMarbleHit(int x, int y) {
+	protected boolean isMarbleHit(double x, double y) {
 		boolean marbleHit = item.marblePanel != null && item.marblePanel.isHit(x, y);
 		if (marbleHit) {
 			setAlgebraViewAsFocusedPanel();
@@ -267,10 +269,9 @@ public class RadioTreeItemController
 			event.preventDefault();
 		}
 
-		JsArray<Touch> touches = event.getTargetTouches().length() == 0
-				? event.getChangedTouches()
-				: event.getTargetTouches();
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0), ZeroOffset.INSTANCE);
+		TouchList touches =
+				event.getTargetTouches().length == 0 ? event.getChangedTouches() : event.getTargetTouches();
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(getAt(touches, 0), ZeroOffset.INSTANCE);
 
 		if (isMarbleHit(wrappedEvent.getX(), wrappedEvent.getY())
 				|| isWidgetHit(item.controls, wrappedEvent)) {
@@ -347,8 +348,8 @@ public class RadioTreeItemController
 
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
 
-		int x = EventUtil.getTouchOrClickClientX(event);
-		int y = EventUtil.getTouchOrClickClientY(event);
+		double x = EventUtil.getTouchOrClickClientX(event);
+		double y = EventUtil.getTouchOrClickClientY(event);
 
 		if (isEditing()) {
 			item.adjustCaret(x, y);
@@ -580,8 +581,7 @@ public class RadioTreeItemController
 
 	boolean handleAVItem(MouseEvent<?> evt) {
 		ensureMoveMode();
-		return handleAVItem(
-				evt.getClientX(), evt.getClientY(), evt.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+		return handleAVItem(evt.getClientX(), evt.getClientY(), evt.isRightButton());
 	}
 
 	private void ensureMoveMode() {
@@ -591,12 +591,12 @@ public class RadioTreeItemController
 	}
 
 	protected void handleAVItem(TouchStartEvent evt) {
-		if (evt.getTouches().length() == 0) {
+		if (evt.getTouches().length == 0) {
 			return;
 		}
 
-		Touch t = evt.getTouches().get(0);
-		if (handleAVItem(t.getClientX(), t.getClientY(), false)) {
+		Touch t = getAt(evt.getTouches(), 0);
+		if (handleAVItem((int) t.clientX, (int) t.clientY, false)) {
 			evt.preventDefault();
 		}
 	}
@@ -609,7 +609,7 @@ public class RadioTreeItemController
 	 * @param rightClick
 	 *            whether right click was used
 	 */
-	protected boolean handleAVItem(int x, int y, boolean rightClick) {
+	protected boolean handleAVItem(double x, double y, boolean rightClick) {
 		return false;
 	}
 

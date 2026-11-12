@@ -27,6 +27,8 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.KeyboardEvent;
 
 public final class ComponentConnectedButtonGroup extends FlowPanel
@@ -55,7 +57,7 @@ public final class ComponentConnectedButtonGroup extends FlowPanel
 		AriaHelper.setRole(this, "radiogroup");
 
 		widgets.addAll(buttonList);
-		Dom.addEventListener(getElement(), "keydown", event -> {
+		Dom.addEventListener(getElement(), BrowserEvents.KEYDOWN, event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("ArrowLeft".equals(e.code) || "ArrowRight".equals(e.code)) {
 				moveTabSelection("ArrowLeft".equals(e.code) ? -1 : 1);
@@ -71,7 +73,7 @@ public final class ComponentConnectedButtonGroup extends FlowPanel
 			addAccessibilityInfo(button, buttonLabels.get(index));
 			int finalIndex = index;
 			button.addFastClickHandler(source -> setSelectedButton(finalIndex));
-			Dom.addEventListener(button.getElement(), "keydown", event -> {
+			Dom.addEventListener(button.getElement(), BrowserEvents.KEYDOWN, event -> {
 				KeyboardEvent e = (KeyboardEvent) event;
 				if ("Enter".equals(e.code) || "Space".equals(e.code)) {
 					setSelectedButton(finalIndex);

@@ -21,7 +21,6 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.event.dom.client.MouseEvent;
 import org.gwtproject.event.dom.client.TouchStartEvent;
@@ -53,7 +52,7 @@ public final class CheckBoxTreeItemController extends LatexTreeItemController {
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event, ZeroOffset.INSTANCE);
 		onPointerDown(wrappedEvent, event);
 		handleAVItem(event);
-		if (event.getNativeButton() != NativeEvent.BUTTON_RIGHT) {
+		if (!event.isRightButton()) {
 			toggleCheckbox();
 		}
 

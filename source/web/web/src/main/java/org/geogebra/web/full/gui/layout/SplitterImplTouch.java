@@ -16,15 +16,18 @@
 
 package org.geogebra.web.full.gui.layout;
 
-import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.layout.client.Layout.Layer;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
+import elemental2.dom.EventTarget;
+import jsinterop.base.Js;
 
 /**
  * Override splitter behavior on touch devices: add glass dragging zone
@@ -32,8 +35,8 @@ import org.gwtproject.user.client.Event;
  */
 public final class SplitterImplTouch extends SplitterImpl {
 
-	private Element mainDivElement;
-	private Element glassDivElement;
+	private elemental2.dom.Element mainDivElement;
+	private elemental2.dom.Element glassDivElement;
 
 	private static final int GLASS_SIZE = 30;
 
@@ -45,11 +48,11 @@ public final class SplitterImplTouch extends SplitterImpl {
 	}
 
 	private void createElements() {
-		mainDivElement = Document.get().createDivElement();
-		glassDivElement = Document.get().createDivElement();
+		mainDivElement = DomGlobal.document.createElement("div");
+		glassDivElement = DomGlobal.document.createElement("div");
 
-		glassDivElement.appendChild(mainDivElement);
-		baseDivElement.appendChild(glassDivElement);
+		glassDivElement.appendChild(Js.uncheckedCast(mainDivElement));
+		baseDivElement.appendChild(Js.uncheckedCast(glassDivElement));
 	}
 
 	@Override
@@ -57,12 +60,12 @@ public final class SplitterImplTouch extends SplitterImpl {
 		if (mouseDown) {
 			return true;
 		}
-		switch (DOM.eventGetType(event)) {
-			case Event.ONMOUSEDOWN:
-			case Event.ONMOUSEMOVE:
-			case Event.ONMOUSEUP:
-				EventTarget tg = event.getEventTarget();
-				if (Element.is(tg) && (Element.as(tg) == glassDivElement)) {
+		switch (event.type) {
+			case BrowserEvents.MOUSEDOWN:
+			case BrowserEvents.MOUSEMOVE:
+			case BrowserEvents.MOUSEUP:
+				EventTarget tg = event.target;
+				if (DOM.isElement(tg) && (tg == glassDivElement)) {
 					return false;
 				}
 				break;
@@ -73,14 +76,15 @@ public final class SplitterImplTouch extends SplitterImpl {
 	@Override
 	public void setToHorizontal(int splitterSize) {
 		baseDivElement.removeClassName("splitPaneDragger");
-		mainDivElement.addClassName("gwt-SplitLayoutPanel-HDragger splitPaneDragger");
-		Style mainDivStyle = mainDivElement.getStyle();
+		mainDivElement.classList.add("gwt-SplitLayoutPanel-HDragger");
+		mainDivElement.classList.add("splitPaneDragger");
+		Style mainDivStyle = Js.<Element>uncheckedCast(mainDivElement).getStyle();
 		mainDivStyle.setPropertyPx("width", splitterSize);
 		mainDivStyle.setProperty("height", "100%");
 		mainDivStyle.setProperty("position", "absolute");
 		mainDivStyle.setLeft(15, Unit.PX);
 
-		Style glassDivStyle = glassDivElement.getStyle();
+		Style glassDivStyle = Js.<Element>uncheckedCast(glassDivElement).getStyle();
 		glassDivStyle.setProperty("width", (splitterSize + GLASS_SIZE) + "px");
 		glassDivStyle.setProperty("height", "100%");
 		glassDivStyle.setProperty("position", "absolute");
@@ -91,14 +95,15 @@ public final class SplitterImplTouch extends SplitterImpl {
 	@Override
 	public void setToVertical(int splitterSize) {
 		baseDivElement.removeClassName("splitPaneDragger");
-		mainDivElement.addClassName("gwt-SplitLayoutPanel-VDragger splitPaneDragger");
-		Style mainDivStyle = mainDivElement.getStyle();
+		mainDivElement.classList.add("gwt-SplitLayoutPanel-VDragger");
+		mainDivElement.classList.add("splitPaneDragger");
+		Style mainDivStyle = Js.<Element>uncheckedCast(mainDivElement).getStyle();
 		mainDivStyle.setPropertyPx("height", splitterSize);
 		mainDivStyle.setProperty("width", "100%");
 		mainDivStyle.setProperty("position", "absolute");
 		mainDivStyle.setTop(15, Unit.PX);
 
-		Style glassDivStyle = glassDivElement.getStyle();
+		Style glassDivStyle = Js.<Element>uncheckedCast(glassDivElement).getStyle();
 		glassDivStyle.setProperty("height", (splitterSize + GLASS_SIZE) + "px");
 		glassDivStyle.setProperty("width", "100%");
 		glassDivStyle.setProperty("position", "absolute");
@@ -113,6 +118,6 @@ public final class SplitterImplTouch extends SplitterImpl {
 
 	@Override
 	public Element getSplitterElement() {
-		return mainDivElement;
+		return Js.uncheckedCast(mainDivElement);
 	}
 }

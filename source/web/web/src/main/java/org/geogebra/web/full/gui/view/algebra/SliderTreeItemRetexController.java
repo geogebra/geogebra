@@ -76,7 +76,7 @@ public final class SliderTreeItemRetexController extends LatexTreeItemController
 	}
 
 	@Override
-	protected boolean handleAVItem(int x, int y, boolean rightClick) {
+	protected boolean handleAVItem(double x, double y, boolean rightClick) {
 		slider.expandSize(slider.getWidthForEdit());
 
 		boolean minHit = isWidgetHit(slider.getSlider().getWidget(0), x, y);
@@ -136,7 +136,7 @@ public final class SliderTreeItemRetexController extends LatexTreeItemController
 		return super.canEditStart(event) && isWidgetHit(item.getDefinitionValuePanel(), event);
 	}
 
-	private static boolean isWidgetHit(Widget w, int x, int y) {
+	private static boolean isWidgetHit(Widget w, double x, double y) {
 		if (w == null) {
 			return false;
 		}
@@ -155,7 +155,7 @@ public final class SliderTreeItemRetexController extends LatexTreeItemController
 		return !MinMaxPanel.isOpenedPanel(null) && !MinMaxPanel.isOpenedPanel(slider.getMinMax());
 	}
 
-	private boolean isClickedOutMinMax(int x, int y) {
+	private boolean isClickedOutMinMax(double x, double y) {
 		return MinMaxPanel.isOpenedPanel(slider.getMinMax()) && !isWidgetHit(slider.getMinMax(), x, y);
 	}
 

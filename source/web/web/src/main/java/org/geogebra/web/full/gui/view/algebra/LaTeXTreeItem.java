@@ -147,7 +147,7 @@ public class LaTeXTreeItem extends RadioTreeItem {
 	}
 
 	@Override
-	public void adjustCaret(int x, int y) {
+	public void adjustCaret(double x, double y) {
 		if (mf != null) {
 			mf.adjustCaret(x, y, app.getGeoGebraElement().getScaleX());
 		}

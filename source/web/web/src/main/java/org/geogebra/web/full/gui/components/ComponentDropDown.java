@@ -37,6 +37,8 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.jspecify.annotations.Nullable;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.KeyboardEvent;
 
 public final class ComponentDropDown extends FlowPanel
@@ -135,9 +137,9 @@ public final class ComponentDropDown extends FlowPanel
 	@SuppressWarnings("PMD.LambdaCanBeMethodReference")
 	private void addKeyHandlers() {
 		addActionKeyHandler(
-				"keydown", () -> controller.toggleAsDropDown(fullWidth, getElement(), false));
+				BrowserEvents.KEYDOWN, () -> controller.toggleAsDropDown(fullWidth, getElement(), false));
 		// Only move focus into the popup once this key's own press and release cycle has finished
-		addActionKeyHandler("keyup", () -> controller.focusOpenedPopup());
+		addActionKeyHandler(BrowserEvents.KEYUP, () -> controller.focusOpenedPopup());
 	}
 
 	private void addActionKeyHandler(String eventType, Runnable action) {

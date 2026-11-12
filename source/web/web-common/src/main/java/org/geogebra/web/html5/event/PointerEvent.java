@@ -16,21 +16,22 @@
 
 package org.geogebra.web.html5.event;
 
+import static org.geogebra.gwtutil.JsObject.getAt;
+
 import java.util.LinkedList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.gwtproject.core.client.JsArray;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.NativeEvent;
-import org.gwtproject.dom.client.Touch;
 import org.gwtproject.event.dom.client.HumanInputEvent;
 import org.gwtproject.event.dom.client.MouseEvent;
 import org.gwtproject.event.dom.client.TouchEvent;
 import org.gwtproject.event.dom.client.TouchMoveEvent;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 
+import elemental2.dom.Touch;
+import elemental2.dom.TouchList;
 import jsinterop.base.Js;
 
 /**
@@ -167,7 +168,7 @@ public class PointerEvent extends AbstractEvent {
 		destination.nativeEvent = source;
 		destination.alt = source.isAltKeyDown();
 		destination.control = source.isControlKeyDown();
-		destination.clickCount = "dblclick".equals(source.getNativeEvent().getType()) ? 2 : 1;
+		destination.clickCount = "dblclick".equals(source.getNativeEvent().type) ? 2 : 1;
 		destination.meta = source.isMetaKeyDown();
 		elemental2.dom.MouseEvent nativeEvt = Js.uncheckedCast(source.getNativeEvent());
 		destination.setButton(nativeEvt.button);
@@ -176,9 +177,8 @@ public class PointerEvent extends AbstractEvent {
 	}
 
 	/**
-	 * Update right and middle flag based on native event's button property.
-	 * @apiNote not compatible with GWT's {@link NativeEvent#getButton()}, uses
-	 * <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button#value">standard DOM values</a>
+	 * Update right and middle flag based on native event's
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button#value">button property</a>.
 	 * @param nativeButton button property of browser's event
 	 */
 	public void setButton(int nativeButton) {
@@ -249,8 +249,8 @@ public class PointerEvent extends AbstractEvent {
 	 */
 	public static PointerEvent wrapEvent(Touch touch, HasOffsets off) {
 		return wrapEvent(
-				touch.getClientX(),
-				touch.getClientY(),
+				(int) touch.clientX,
+				(int) touch.clientY,
 				PointerEventType.TOUCH,
 				off,
 				off.getTouchEventPool());
@@ -266,17 +266,17 @@ public class PointerEvent extends AbstractEvent {
 	 * @return wrapped event
 	 */
 	public static PointerEvent wrapEvent(TouchEvent<?> event, HasOffsets off) {
-		JsArray<Touch> touches;
+		TouchList touches;
 		int index = 0;
 		if (event instanceof TouchStartEvent) {
 			touches = event.getTargetTouches();
 		} else if (event instanceof TouchMoveEvent) {
 			touches = event.getTargetTouches();
-			index = touches.length() - 1;
+			index = touches.length - 1;
 		} else { // assume if (event instanceof TouchEndEvent) {
 			touches = event.getChangedTouches();
 		}
-		PointerEvent e = wrapEvent(touches.get(index), off);
+		PointerEvent e = wrapEvent(getAt(touches, index), off);
 		e.nativeEvent = event;
 		return e;
 	}

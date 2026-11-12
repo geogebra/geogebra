@@ -17,18 +17,20 @@
 package org.geogebra.web.full.gui.layout;
 
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
-import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.DockLayoutPanel;
 import org.gwtproject.user.client.ui.SplitLayoutPanel;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.Event;
 
 /**
  * A panel that adds user-positioned splitters between each of its child
@@ -89,10 +91,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
 		@Override
 		protected int getEventPosition(Event event) {
-			int type = DOM.eventGetType(event);
-			return type == Event.ONTOUCHSTART || type == Event.ONTOUCHMOVE || type == Event.ONTOUCHEND
-					? (int) (event.getTouches().get(0).getClientX() * getZoom())
-					: (int) (event.getClientX() * getZoom());
+			return (int) (EventUtil.getTouchOrClickClientX(event) * getZoom());
 		}
 
 		@Override
@@ -141,13 +140,13 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			this.splitPanel = splitPanel;
 
 			setElement(impl.createElement());
-			sinkEvents(Event.ONMOUSEDOWN
-					| Event.ONMOUSEUP
-					| Event.ONMOUSEMOVE
-					| Event.ONDBLCLICK
-					| Event.ONTOUCHSTART
-					| Event.ONTOUCHMOVE
-					| Event.ONTOUCHEND);
+			sinkEvents(org.gwtproject.user.client.Event.ONMOUSEDOWN
+					| org.gwtproject.user.client.Event.ONMOUSEUP
+					| org.gwtproject.user.client.Event.ONMOUSEMOVE
+					| org.gwtproject.user.client.Event.ONDBLCLICK
+					| org.gwtproject.user.client.Event.ONTOUCHSTART
+					| org.gwtproject.user.client.Event.ONTOUCHMOVE
+					| org.gwtproject.user.client.Event.ONTOUCHEND);
 			setStyleName("splitPaneDragger");
 		}
 
@@ -164,28 +163,27 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 				return;
 			}
 			Element splitter = impl.getSplitterElement();
-			switch (DOM.eventGetType(event)) {
+			switch (event.type) {
 				default:
 					// do nothing
 					break;
-				case Event.ONTOUCHSTART:
+				case BrowserEvents.TOUCHSTART:
 					splitter.addClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
 					startDrag(event, splitter.hasClassName("gwt-SplitLayoutPanel-HDragger"));
 					break;
-				case Event.ONMOUSEDOWN:
+				case BrowserEvents.MOUSEDOWN:
 					startDrag(event, splitter.hasClassName("gwt-SplitLayoutPanel-HDragger"));
 					break;
 
-				case Event.ONTOUCHEND:
+				case BrowserEvents.TOUCHEND:
 					splitter.removeClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
 					endDrag(event);
 					break;
-				case Event.ONMOUSEUP:
+				case BrowserEvents.MOUSEUP:
 					endDrag(event);
 					break;
-
-				case Event.ONMOUSEMOVE:
-				case Event.ONTOUCHMOVE:
+				case BrowserEvents.MOUSEMOVE:
+				case BrowserEvents.TOUCHMOVE:
 					if (splitPanel.hasSplittersFrozen()) {
 						event.preventDefault();
 						break;
@@ -236,7 +234,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 				this.lastClick = now;
 			}
 
-			Event.releaseCapture(getElement());
+			org.gwtproject.user.client.Event.releaseCapture(getElement());
 			event.preventDefault();
 			splitPanel.onDragEnd();
 		}
@@ -262,7 +260,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			Document.get().getBody().appendChild(glass);
 
 			offset = getEventPosition(event) - getAbsolutePosition();
-			Event.setCapture(getElement());
+			org.gwtproject.user.client.Event.setCapture(getElement());
 			event.preventDefault();
 		}
 
@@ -372,10 +370,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
 		@Override
 		protected int getEventPosition(Event event) {
-			int type = DOM.eventGetType(event);
-			return type == Event.ONTOUCHSTART || type == Event.ONTOUCHMOVE || type == Event.ONTOUCHEND
-					? (int) (event.getTouches().get(0).getClientY() * getZoom())
-					: (int) (event.getClientY() * getZoom());
+			return (int) (EventUtil.getTouchOrClickClientY(event) * getZoom());
 		}
 
 		@Override

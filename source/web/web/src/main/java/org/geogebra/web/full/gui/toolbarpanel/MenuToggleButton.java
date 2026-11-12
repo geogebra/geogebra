@@ -30,6 +30,8 @@ import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.RootPanel;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.KeyboardEvent;
 
 /**
@@ -55,7 +57,7 @@ public final class MenuToggleButton extends IconButton implements Persistable {
 
 	private void buildUI() {
 		addFastClickHandler(event -> toggleMenu());
-		Dom.addEventListener(this.getElement(), "keydown", event -> {
+		Dom.addEventListener(this.getElement(), BrowserEvents.KEYDOWN, event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if (!"Enter".equals(e.code) && !"Space".equals(e.code)) {
 				return;

@@ -25,6 +25,8 @@ import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.FocusableComponent;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.Element;
 import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
@@ -96,7 +98,7 @@ public class ExternalControl implements FocusableComponent {
 			if (control == null) {
 				continue;
 			}
-			registry.addEventListener(control, "keydown", evt -> {
+			registry.addEventListener(control, BrowserEvents.KEYDOWN, evt -> {
 				KeyboardEvent kbd = Js.uncheckedCast(evt);
 				if ("Tab".equals(kbd.code)) {
 					evt.preventDefault();

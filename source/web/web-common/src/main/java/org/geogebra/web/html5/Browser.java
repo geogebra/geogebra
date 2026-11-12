@@ -22,14 +22,12 @@ import java.util.Objects;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.gwtutil.JsObject;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.event.shared.HandlerRegistration;
 
@@ -619,19 +617,19 @@ public class Browser {
 	 *            native key event
 	 * @return JavaKeyCodes of arrow keys, -1 if pressed key was not an arrow
 	 */
-	public static int getIOSArrowKeys(NativeEvent event) {
-		String key = Js.<KeyboardEvent>uncheckedCast(event).key;
+	public static String getIOSArrowKeys(KeyboardEvent event) {
+		String key = event.key;
 		switch (key) {
 			case "UIKeyInputUpArrow":
-				return GWTKeycodes.KEY_UP;
+				return "ArrowUp";
 			case "UIKeyInputDownArrow":
-				return GWTKeycodes.KEY_DOWN;
+				return "ArrowDown";
 			case "UIKeyInputLeftArrow":
-				return GWTKeycodes.KEY_LEFT;
+				return "ArrowLeft";
 			case "UIKeyInputRightArrow":
-				return GWTKeycodes.KEY_RIGHT;
+				return "ArrowRight";
 			default:
-				return -1;
+				return null;
 		}
 	}
 

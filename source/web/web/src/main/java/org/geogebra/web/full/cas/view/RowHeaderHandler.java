@@ -19,7 +19,6 @@ package org.geogebra.web.full.cas.view;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.MouseUpEvent;
 import org.gwtproject.event.dom.client.MouseUpHandler;
 
@@ -51,7 +50,7 @@ public final class RowHeaderHandler implements MouseUpHandler {
 	public void onMouseUp(MouseUpEvent event) {
 		int releasedRow = rowHeader.getIndex();
 		table.getCASView().getCASStyleBar().setSelectedRow(table.getGeoCasCell(releasedRow));
-		if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
+		if (event.isRightButton()) {
 			if (!table.isSelectedIndex(releasedRow)) {
 				table.setSelectedRows(releasedRow, releasedRow);
 			}

@@ -32,11 +32,9 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.DomEvent;
 import org.gwtproject.event.dom.client.HumanInputEvent;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
 import org.gwtproject.event.dom.client.MouseDownEvent;
@@ -51,6 +49,7 @@ import org.gwtproject.event.dom.client.TouchEndEvent;
 import org.gwtproject.event.dom.client.TouchEndHandler;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.event.dom.client.TouchStartHandler;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -340,8 +339,7 @@ public class ModeToggleMenuW extends ListItem
 		event.stopPropagation();
 		if (event.getSource() == tbutton) { // if click ended on the button
 			// if enter was pressed
-			if ((event instanceof KeyUpEvent)
-					&& ((KeyUpEvent) event).getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			if ((event instanceof KeyUpEvent) && DOM.isEnterKey(event.getNativeEvent())) {
 				setMenuVisibility(!isMenuShown());
 			}
 			// if submenu was open
@@ -402,7 +400,7 @@ public class ModeToggleMenuW extends ListItem
 			if (this.app.getActiveEuclidianView() != null
 					&& this.app.getActiveEuclidianView().getEuclidianController() != null) {
 				((IsEuclidianController) this.app.getActiveEuclidianView().getEuclidianController())
-						.setActualSticky(event.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+						.setActualSticky(event.isRightButton());
 			}
 		}
 	}
@@ -526,19 +524,19 @@ public class ModeToggleMenuW extends ListItem
 
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
-		int keyCode = event.getNativeKeyCode();
+		String code = event.getNativeEvent().code;
 
-		switch (keyCode) {
+		switch (code) {
 			default:
 				// do nothing
 				break;
-			case KeyCodes.KEY_ENTER:
+			case "Enter":
 				onEnd(event);
 				break;
-			case KeyCodes.KEY_RIGHT:
-			case KeyCodes.KEY_LEFT:
+			case "ArrowRight":
+			case "ArrowLeft":
 				int indexOfButton = toolbar.getModeToggleMenus().indexOf(this);
-				if (keyCode == KeyCodes.KEY_RIGHT) {
+				if ("ArrowRight".equals(code)) {
 					indexOfButton++;
 				} else {
 					indexOfButton--;
@@ -550,7 +548,7 @@ public class ModeToggleMenuW extends ListItem
 					toolbar.selectMenuButton(indexOfButton < 0 ? -1 : 0);
 				}
 				break;
-			case KeyCodes.KEY_DOWN:
+			case "ArrowDown":
 				if (event.getSource() == tbutton) {
 					if (isMenuShown()) {
 						this.getItemList().getWidget(0).getElement().focus();
@@ -567,7 +565,7 @@ public class ModeToggleMenuW extends ListItem
 					}
 				}
 				break;
-			case KeyCodes.KEY_UP:
+			case "ArrowUp":
 				if (event.getSource() instanceof ListItem) {
 					Element previousSiblingElement = event.getRelativeElement().getPreviousSiblingElement();
 					if (previousSiblingElement != null) {

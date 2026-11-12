@@ -38,9 +38,9 @@ import org.gwtproject.event.dom.client.BlurEvent;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.ChangeEvent;
 import org.gwtproject.event.dom.client.ChangeHandler;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.TextBox;
@@ -453,9 +453,8 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
-		if (event.getNativeKeyCode() != KeyCodes.KEY_LEFT
-				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) {
-			doTextFieldActionPerformed(event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
+		if (!event.isLeftArrow() && !event.isRightArrow()) {
+			doTextFieldActionPerformed(DOM.isEnterKey(event.getNativeEvent()));
 		}
 	}
 

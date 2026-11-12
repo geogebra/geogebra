@@ -36,13 +36,16 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.Event;
+import elemental2.dom.KeyboardEvent;
+import jsinterop.base.Js;
 
 /**
  * Popup menu for web.
@@ -676,7 +679,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 
 		@Override
 		public void onBrowserEvent(Event event) {
-			if (DOM.eventGetType(event) == Event.ONMOUSEOVER) {
+			if (BrowserEvents.MOUSEOVER.equals(event.type)) {
 				AriaMenuItem item = findItem(DOM.eventGetTarget(event));
 				if (item != null) {
 					if (item.getSubMenu() != null) {
@@ -686,13 +689,12 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 						GPopupMenuW.this.onItemHover();
 					}
 				}
-			} else if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
-				char keyCode = (char) event.getKeyCode();
-				if (keyCode == KeyCodes.KEY_ESCAPE) {
+			} else if (BrowserEvents.KEYDOWN.equals(event.type)) {
+				if (DOM.isEscapeKey(event)) {
 					hide();
 					event.stopPropagation();
-				} else if (keyCode == KeyCodes.KEY_TAB) {
-					handleTab(event.getShiftKey());
+				} else if (DOM.isTabKey(event)) {
+					handleTab(Js.<KeyboardEvent>uncheckedCast(event).shiftKey);
 					AriaMenuBar.eatEvent(event);
 					return;
 				}

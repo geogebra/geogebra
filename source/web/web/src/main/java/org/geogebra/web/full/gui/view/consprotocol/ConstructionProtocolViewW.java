@@ -58,6 +58,8 @@ import org.gwtproject.user.client.ui.AbstractImagePrototype;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
+import jsinterop.base.Js;
+
 /**
  * Web implementation of ConstructionProtocol
  *
@@ -203,7 +205,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 */
 	protected void addDragDropHandlers() {
 		table.addDomHandler(
-				event -> handleDrag(event.getNativeEvent().getClientY()), DragStartEvent.getType());
+				event -> handleDrag(event.getNativeEvent().clientY), DragStartEvent.getType());
 
 		table.addDomHandler(
 				event -> {
@@ -211,11 +213,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 						draggedRow.removeClassName("isDragging");
 					}
 
-					if (event.getNativeEvent().getClientX() > table.getElement().getAbsoluteRight()
-							|| event.getNativeEvent().getClientX() < table.getElement().getAbsoluteLeft()) {
+					if (event.getNativeEvent().clientX > table.getElement().getAbsoluteRight()
+							|| event.getNativeEvent().clientX < table.getElement().getAbsoluteLeft()) {
 						return;
 					}
-					handleDrop(event.getNativeEvent().getClientY());
+					handleDrop(event.getNativeEvent().clientY);
 				},
 				DragEndEvent.getType());
 	}
@@ -224,7 +226,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * @param y
 	 *            coordinate of dragStart
 	 */
-	protected void handleDrag(int y) {
+	protected void handleDrag(double y) {
 		for (int i = 0; i < table.getRowCount(); i++) {
 			if (y > table.getRowElement(i).getAbsoluteTop()
 					&& y < table.getRowElement(i).getAbsoluteBottom()) {
@@ -243,7 +245,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * @param y
 	 *            coordinate of dropTarget
 	 */
-	protected void handleDrop(int y) {
+	protected void handleDrop(double y) {
 		for (int i = 0; i < table.getRowCount(); i++) {
 			// row hit or y is far down and this is last row
 			if ((y > table.getRowElement(i).getAbsoluteTop()
@@ -393,7 +395,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	private void addHeaderClickHandler() {
 		ClickHandler popupMenuClickHandler = event -> {
-			Element el = Element.as(event.getNativeEvent().getEventTarget());
+			Element el = Js.uncheckedCast(event.getNativeEvent().target);
 			if (el != null
 					&& el.getParentNode() != null
 					&& el.getParentElement().hasClassName("CP_popupImage")) { // three-dot

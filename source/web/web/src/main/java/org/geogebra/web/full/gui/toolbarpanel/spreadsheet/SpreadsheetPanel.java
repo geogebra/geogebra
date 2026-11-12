@@ -46,7 +46,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -55,6 +54,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.jspecify.annotations.NonNull;
+
+import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -258,20 +259,21 @@ public final class SpreadsheetPanel extends FlowPanel
 	 * turn touch-dragging on and off and to stop propagation.
 	 */
 	private void setupTouchAndMouseEvents(GlobalHandlerRegistry registry, FlowPanel scrollContent) {
-		registry.addEventListener(scrollContent.getElement(), "touchmove", event -> {
+		registry.addEventListener(scrollContent.getElement(), BrowserEvents.TOUCHMOVE, event -> {
 			Touch touch = ((TouchEvent) event).touches.getAt(0);
 			LongTouchManager.getInstance().cancelIfDragged(touch.clientX, touch.clientY);
 			if (isTouchDragging) {
 				event.preventDefault();
 			}
 		});
-		registry.addEventListener(scrollContent.getElement(), "touchstart", event -> {
+		registry.addEventListener(scrollContent.getElement(), BrowserEvents.TOUCHSTART, event -> {
 			Touch touch = ((TouchEvent) event).touches.getAt(0);
 			LongTouchManager.getInstance().scheduleTimer(this, touch.clientX, touch.clientY);
 			event.stopPropagation();
 		});
-		registry.addEventListener(scrollContent.getElement(), "mousedown", Event::stopPropagation);
-		registry.addEventListener(scrollContent.getElement(), "touchend", event -> {
+		registry.addEventListener(
+				scrollContent.getElement(), BrowserEvents.MOUSEDOWN, Event::stopPropagation);
+		registry.addEventListener(scrollContent.getElement(), BrowserEvents.TOUCHEND, event -> {
 			isTouchDragging = false;
 			LongTouchManager.getInstance().cancelTimer();
 		});
@@ -294,8 +296,8 @@ public final class SpreadsheetPanel extends FlowPanel
 		target.setPointerCapture(ptr.pointerId);
 	}
 
-	private String getKey(NativeEvent nativeEvent) {
-		String key = Js.<KeyboardEvent>uncheckedCast(nativeEvent).key;
+	private String getKey(KeyboardEvent nativeEvent) {
+		String key = nativeEvent.key;
 		return key.length() > 1 ? "" : key;
 	}
 

@@ -26,12 +26,12 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.TextBox;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.Event;
 
 /**
  *   Share link dialog
@@ -206,7 +206,7 @@ public final class ShareLinkDialog extends ComponentDialog {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (DOM.eventGetType(event) != Event.ONMOUSEMOVE) {
+		if (!"mousemove".equals(event.type)) {
 			super.onBrowserEvent(event);
 		}
 	}

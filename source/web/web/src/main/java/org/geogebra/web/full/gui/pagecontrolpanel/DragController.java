@@ -24,7 +24,6 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.timer.client.Timer;
 
 class DragController {
@@ -117,7 +116,7 @@ class DragController {
 			scheduleRepeating(SCROLL_TIME);
 		}
 
-		void checkIfNeeded(int y) {
+		void checkIfNeeded(double y) {
 			if (y < getApp().getAbsTop() + PagePreviewCard.MARGIN) {
 				start(-2);
 			} else if (y > getApp().getHeight() - PagePreviewCard.MARGIN) {
@@ -167,21 +166,21 @@ class DragController {
 		dragged.addStyleName("dragged");
 	}
 
-	private void start(int y) {
+	private void start(double y) {
 		dragged = clicked;
 		clicked = null;
 		dragged.grabCard(y);
 		dragged.addStyleName("dragCanStart");
 	}
 
-	private void move(int y) {
+	private void move(double y) {
 		if (!isValid()) {
 			return;
 		}
 		dragTo(y);
 	}
 
-	private void dragTo(int y) {
+	private void dragTo(double y) {
 		prepareDragCard();
 		setDragPosition(dragged, y);
 		findTarget();
@@ -271,7 +270,7 @@ class DragController {
 		return (AppW) app;
 	}
 
-	private void setTop(PagePreviewCard card, int top) {
+	private void setTop(PagePreviewCard card, double top) {
 		card.setTop(PagePreviewCard.clampTop(top, cards.getCardCount()));
 	}
 
@@ -280,8 +279,8 @@ class DragController {
 		setTop(card, top);
 	}
 
-	private void setDragPosition(PagePreviewCard card, int y) {
-		int top = card.getTopFromDrag(y);
+	private void setDragPosition(PagePreviewCard card, double y) {
+		double top = card.getTopFromDrag(y);
 		setTop(card, top);
 	}
 
@@ -292,7 +291,7 @@ class DragController {
 	 *            mouse y
 	 * @return card index
 	 */
-	private int cardIndexAt(int x, int y) {
+	private int cardIndexAt(double x, double y) {
 		for (PagePreviewCard card : cards.getCards()) {
 			if ((!isValid() || card != dragged) && card.isHit(x, y)) {
 				return card.getPageIndex();
@@ -306,7 +305,7 @@ class DragController {
 	 * @param x - coordinate.
 	 * @param y - coordinate.
 	 */
-	void start(int x, int y) {
+	void start(double x, double y) {
 		if (clicked != null || isValid()) {
 			cancelDrag();
 		}
@@ -342,7 +341,7 @@ class DragController {
 	 *            Whether move event comes from touch or desktop.
 	 * @return true if drag has occurred.
 	 */
-	boolean move(int y, boolean touch) {
+	boolean move(double y, boolean touch) {
 		if (touch && CancelEventTimer.cancelDragEvent()) {
 			return false;
 		}
@@ -366,15 +365,16 @@ class DragController {
 
 	/**
 	 * Called at pointer (mouse or touch) up.
-	 * @param isCtrlKeyDown - whether control key down is
-	 * @param event - native event
+	 * @param isCtrlKeyDown - whether this is a right click (or control click on Mac)
+	 * @param clientX - event client x-coordinate
+	 * @param clientY - event client y-coordinate
 	 */
-	void stop(boolean isCtrlKeyDown, NativeEvent event) {
+	void stop(boolean isCtrlKeyDown, double clientX, double clientY) {
 		if (clicked != null) {
 			cards.clickPage(clicked.getPageIndex(), true);
 			clicked.addDragStartStyle(false);
 			if (isCtrlKeyDown) {
-				clicked.showContextMenuAt(event.getClientX(), event.getClientY());
+				clicked.showContextMenuAt((int) clientX, (int) clientY);
 			}
 		} else if (CancelEventTimer.isDragging()) {
 			if (canDrop()) {

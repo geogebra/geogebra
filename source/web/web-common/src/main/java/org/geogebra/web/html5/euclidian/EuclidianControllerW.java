@@ -260,8 +260,8 @@ public class EuclidianControllerW extends EuclidianController
 			GeoText geo0 = (GeoText) ret[0];
 			geo0.setLaTeX(true, false);
 
-			int x = event.getNativeEvent().getClientX();
-			int y = event.getNativeEvent().getClientY();
+			double x = event.getNativeEvent().clientX;
+			double y = event.getNativeEvent().clientY;
 
 			geo0.setRealWorldLoc(getView().toRealWorldCoordX(x), getView().toRealWorldCoordY(y));
 			geo0.updateRepaint();

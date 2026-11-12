@@ -73,13 +73,12 @@ import org.gwtproject.dom.style.shared.Float;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.layout.client.Layout;
 import org.gwtproject.layout.client.Layout.AnimationCallback;
-import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.Event;
 
 /**
  * @author Laszlo Gal
@@ -339,7 +338,7 @@ public final class ToolbarPanel extends FlowPanel
 		}
 
 		main = new FlowPanel();
-		sinkEvents(Event.ONCLICK);
+		sinkEvents(org.gwtproject.user.client.Event.ONCLICK);
 		main.addStyleName("main");
 		tabAlgebra = new AlgebraTab(this);
 		tabContainer = new TabContainer(this);
@@ -532,7 +531,7 @@ public final class ToolbarPanel extends FlowPanel
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (DOM.eventGetType(event) == Event.ONCLICK) {
+		if ("click".equals(event.type)) {
 			app.hideMenu();
 		}
 		super.onBrowserEvent(event);

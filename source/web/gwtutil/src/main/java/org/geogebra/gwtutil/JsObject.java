@@ -19,6 +19,7 @@ package org.geogebra.gwtutil;
 import org.jspecify.annotations.NonNull;
 
 import jsinterop.base.Js;
+import jsinterop.base.JsArrayLike;
 import jsinterop.base.JsPropertyMap;
 
 public final class JsObject {
@@ -31,5 +32,18 @@ public final class JsObject {
 	 */
 	public static @NonNull JsPropertyMap<Object> of(@NonNull Object object) {
 		return Js.uncheckedCast(object);
+	}
+
+	/**
+	 * Replacement for array.getAt in case the element at given index is guaranteed to be truthy.
+	 * @param array array
+	 * @param index index (0-based)
+	 * @return element at given index
+	 * @param <T> element type
+	 */
+	public static <T> @NonNull T getAt(JsArrayLike<T> array, int index) {
+		T at = array.getAt(index);
+		assert at != null;
+		return at;
 	}
 }

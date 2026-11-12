@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
+import static org.geogebra.gwtutil.JsObject.getAt;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -57,9 +59,6 @@ import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.html5.util.StringConsumer;
-import org.gwtproject.dom.client.NativeEvent;
-import org.gwtproject.dom.client.Touch;
-import org.gwtproject.event.dom.client.HumanInputEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.event.dom.client.MouseDownHandler;
 import org.gwtproject.event.dom.client.MouseMoveEvent;
@@ -79,6 +78,8 @@ import org.jspecify.annotations.NonNull;
 import com.google.gwt.core.client.Scheduler;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.MouseEvent;
+import elemental2.dom.Touch;
 import jsinterop.base.Any;
 import jsinterop.base.JsPropertyMap;
 
@@ -752,7 +753,8 @@ public final class PageListController
 		event.preventDefault();
 		event.stopPropagation();
 
-		if (isRightClick(event) && !dragCtrl.hitCard(event.getClientX(), event.getClientY())) {
+		if (isRightClick(event.getNativeEvent())
+				&& !dragCtrl.hitCard(event.getClientX(), event.getClientY())) {
 			showContextMenu(event.getClientX(), event.getClientY());
 		}
 
@@ -772,25 +774,27 @@ public final class PageListController
 		if (NavigatorUtil.isMobile()) {
 			return;
 		}
-		dragCtrl.stop(isRightClick(event), event.getNativeEvent());
+		MouseEvent nativeEvent = event.getNativeEvent();
+		dragCtrl.stop(isRightClick(nativeEvent), nativeEvent.clientX, nativeEvent.clientY);
 	}
 
 	@Override
 	public void onMouseOut(MouseOutEvent event) {
 		dragCtrl.cancelClick();
-		dragCtrl.stop(isRightClick(event), event.getNativeEvent());
+		MouseEvent nativeEvent = event.getNativeEvent();
+		dragCtrl.stop(isRightClick(nativeEvent), nativeEvent.clientX, nativeEvent.clientY);
 	}
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
-		Touch t = event.getTargetTouches().get(0);
-		dragCtrl.start(t.getClientX(), t.getClientY());
+		Touch t = getAt(event.getTargetTouches(), 0);
+		dragCtrl.start(t.clientX, t.clientY);
 	}
 
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
-		Touch t = event.getTargetTouches().get(0);
-		if (dragCtrl.move(t.getClientY(), true)) {
+		Touch t = getAt(event.getTargetTouches(), 0);
+		if (dragCtrl.move(t.clientY, true)) {
 			event.preventDefault();
 			event.stopPropagation();
 		}
@@ -798,7 +802,8 @@ public final class PageListController
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
-		dragCtrl.stop(isRightClick(event), event.getNativeEvent());
+		// never interpret as right-click -> coordinates for menu ignored too
+		dragCtrl.stop(false, 0, 0);
 	}
 
 	// Cards Interface
@@ -1032,9 +1037,8 @@ public final class PageListController
 		}
 	}
 
-	private boolean isRightClick(HumanInputEvent<?> event) {
-		return event.isControlKeyDown()
-				|| event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT;
+	private boolean isRightClick(MouseEvent event) {
+		return event.ctrlKey || event.button == 2;
 	}
 
 	private void showContextMenu(int x, int y) {

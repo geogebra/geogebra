@@ -41,6 +41,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.event.dom.client.BlurEvent;
 import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -230,11 +231,11 @@ public class ComponentInputField extends FlowPanel
 			Widget inputMathFieldWidget = inputMathField.asWidget();
 			Dom.addEventListener(
 					inputMathFieldWidget.getElement(),
-					"mouseover",
+					BrowserEvents.MOUSEOVER,
 					event -> getContentPanel().addStyleName("hoverState"));
 			Dom.addEventListener(
 					inputMathFieldWidget.getElement(),
-					"mouseout",
+					BrowserEvents.MOUSEOUT,
 					event -> getContentPanel().removeStyleName("hoverState"));
 		}
 

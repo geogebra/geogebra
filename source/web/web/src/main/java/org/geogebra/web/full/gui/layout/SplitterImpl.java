@@ -19,7 +19,8 @@ package org.geogebra.web.full.gui.layout;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.layout.client.Layout.Layer;
-import org.gwtproject.user.client.Event;
+
+import elemental2.dom.Event;
 
 public class SplitterImpl {
 

@@ -51,7 +51,7 @@ public final class PagePreviewCard extends FlowPanel implements SetLabels {
 	private FlowPanel imagePanel;
 	private CardInfoPanel infoPanel;
 	private PagePreviewCardContextMenu contextMenu;
-	private int grabY; // where the user grabbed the card when dragging.
+	private double grabY; // where the user grabbed the card when dragging.
 	/**
 	 * ggb file
 	 */
@@ -190,7 +190,7 @@ public final class PagePreviewCard extends FlowPanel implements SetLabels {
 	 * @param top
 	 *            to set.
 	 */
-	public void setTop(int top) {
+	public void setTop(double top) {
 		getElement().getStyle().setTop(top, Unit.PX);
 	}
 
@@ -207,7 +207,7 @@ public final class PagePreviewCard extends FlowPanel implements SetLabels {
 	 *            the top position of the drag.
 	 * @return top of the card after drag
 	 */
-	public int getTopFromDrag(int y) {
+	public double getTopFromDrag(double y) {
 		return y - getParent().getAbsoluteTop() - grabY;
 	}
 
@@ -228,7 +228,7 @@ public final class PagePreviewCard extends FlowPanel implements SetLabels {
 	 *            coordinate to check.
 	 * @return if card was hit at (x, y).
 	 */
-	public boolean isHit(int x, int y) {
+	public boolean isHit(double x, double y) {
 		int left = getAbsoluteLeft();
 		int top = getAbsoluteTop();
 		int right = left + getOffsetWidth();
@@ -243,7 +243,7 @@ public final class PagePreviewCard extends FlowPanel implements SetLabels {
 	 * @param y
 	 *            coordinate where user has grabbed the card.
 	 */
-	public void grabCard(int y) {
+	public void grabCard(double y) {
 		grabY = y - getAbsoluteTop();
 	}
 
@@ -275,7 +275,7 @@ public final class PagePreviewCard extends FlowPanel implements SetLabels {
 	 * @param cardCount card count
 	 * @return clamped top
 	 */
-	public static int clampTop(int top, int cardCount) {
+	public static double clampTop(double top, int cardCount) {
 		return Math.max(MARGIN, Math.min(top, computeTop(cardCount - 1)));
 	}
 

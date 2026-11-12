@@ -54,11 +54,11 @@ import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.TextDecoration;
 import org.gwtproject.event.dom.client.ClickEvent;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.safehtml.shared.UriUtils;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.Composite;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Image;
@@ -370,13 +370,13 @@ public final class GGWToolBar extends Composite
 
 		openMenuButton.addDomHandler(
 				event -> {
-					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					if (DOM.isEnterKey(event.getNativeEvent())) {
 						app.toggleMenu();
 					}
-					if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
+					if (event.isLeftArrow()) {
 						selectMenuButton(0);
 					}
-					if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
+					if (event.isRightArrow()) {
 						toolBar.selectMenu(0);
 					}
 				},
@@ -394,13 +394,13 @@ public final class GGWToolBar extends Composite
 
 		openSearchButton.addDomHandler(
 				event -> {
-					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					if (DOM.isEnterKey(event.getNativeEvent())) {
 						app.openSearch(null);
 					}
-					if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
+					if (event.isRightArrow()) {
 						selectMenuButton(1);
 					}
-					if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
+					if (event.isLeftArrow()) {
 						toolBar.selectMenu(-1);
 					}
 				},

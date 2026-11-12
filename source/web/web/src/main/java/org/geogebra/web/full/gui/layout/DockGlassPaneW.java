@@ -37,6 +37,8 @@ import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.AbsolutePanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
+import elemental2.dom.Touch;
+
 /**
  * Glass pane is used to draw the drag-preview area on the panels if the user
  * enters the drag'n'drop mode.
@@ -217,7 +219,7 @@ public final class DockGlassPaneW extends AbsolutePanel
 	 * @param mouseY
 	 *            mouse y-coord
 	 */
-	public void mouseDragged(int mouseX, int mouseY) {
+	public void mouseDragged(double mouseX, double mouseY) {
 		boolean update = false;
 
 		// Check if the mouse intersects with any DockPanel
@@ -240,20 +242,20 @@ public final class DockGlassPaneW extends AbsolutePanel
 		}
 	}
 
-	private void updateForMouseDrag(int mouseX, int mouseY) {
+	private void updateForMouseDrag(double mouseX, double mouseY) {
 		DockPanelW target = dndState.getTarget();
 		int x2 = (int) (target.getAbsoluteLeft() / ae.getScaleX());
 		int y2 = (int) (target.getAbsoluteTop() / ae.getScaleY());
-		int w = target.getOffsetWidth();
-		int h = target.getOffsetHeight();
+		double w = target.getOffsetWidth();
+		double h = target.getOffsetHeight();
 
-		int relativeLeft = mouseX - x2;
-		int relativeTop = mouseY - y2;
+		double relativeLeft = mouseX - x2;
+		double relativeTop = mouseY - y2;
 
 		int orientation = ((DockSplitPaneW) target.getParent()).getOrientation();
 
-		double leftPercent = relativeLeft * 1.0 / w;
-		double topPercent = relativeTop * 1.0 / h;
+		double leftPercent = relativeLeft / w;
+		double topPercent = relativeTop / h;
 		double maxDist = 0.35;
 
 		color = COLOR_DEFAULT;
@@ -384,7 +386,7 @@ public final class DockGlassPaneW extends AbsolutePanel
 				previewPanel,
 				x2 - (int) (this.getAbsoluteLeft() / ae.getScaleX()),
 				y2 - (int) (this.getAbsoluteTop() / ae.getScaleY()));
-		previewPanel.setPixelSize(w, h);
+		previewPanel.setPixelSize((int) w, (int) h);
 		previewPanel.getElement().getStyle().setBackgroundColor(color);
 		previewPanel.getElement().getStyle().setOpacity(0.6f);
 		previewPanel.setVisible(true);
@@ -403,11 +405,12 @@ public final class DockGlassPaneW extends AbsolutePanel
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		if (dragInProgress) {
-			if (event.getTouches().length() == 1) {
+			Touch firstTouch = event.getTouches().getAt(0);
+			if (event.getTouches().length == 1 && firstTouch != null) {
 				event.preventDefault();
 				mouseDragged(
-						event.getTouches().get(0).getClientX() + NavigatorUtil.getWindowScrollLeft(),
-						event.getTouches().get(0).getClientY() + NavigatorUtil.getWindowScrollTop());
+						firstTouch.clientX + NavigatorUtil.getWindowScrollLeft(),
+						firstTouch.clientY + NavigatorUtil.getWindowScrollTop());
 			}
 		}
 	}

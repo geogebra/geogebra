@@ -37,15 +37,14 @@ import org.geogebra.editor.share.event.KeyListener;
 import org.geogebra.editor.share.event.MathFieldListener;
 import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
 import org.geogebra.editor.share.tree.Formula;
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.editor.share.util.KeyCodes;
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.awt.JLMContextHelper;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.dom.style.shared.VerticalAlign;
@@ -79,16 +78,18 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.ClipboardEvent;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
 import elemental2.dom.EventListener;
 import elemental2.dom.HTMLTextAreaElement;
 import elemental2.dom.KeyboardEvent;
+import jsinterop.base.Any;
 import jsinterop.base.Js;
 
 public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHandler {
 
 	public static final int SCROLL_THRESHOLD = 14;
 	protected static TemplateCatalog sTemplateCatalog = new TemplateCatalog();
-	private static Predicate<NativeEvent> isGlobalEvent = evt -> false;
+	private static Predicate<KeyboardEvent> isGlobalEvent = evt -> false;
 	private TemplateCatalog catalog;
 
 	private final MathFieldInternal mathFieldInternal;
@@ -221,7 +222,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Sets a checker for global events - those will not be stopped in propagation by math fields.
 	 * @param globalEvent global event checker
 	 */
-	public static void setGlobalEventCheck(Predicate<NativeEvent> globalEvent) {
+	public static void setGlobalEventCheck(Predicate<KeyboardEvent> globalEvent) {
 		MathFieldW.isGlobalEvent = globalEvent;
 	}
 
@@ -386,7 +387,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 						powerHappened = false;
 						if (event.getUnicodeCharCode() > 31) {
 							keyListener.onKeyTyped(new KeyEvent(
-									event.getNativeEvent().getKeyCode(),
+									DOM.getKeyCode(event.getNativeEvent()),
 									getModifiers(event),
 									getChar(event.getNativeEvent()),
 									KeyEvent.KeyboardType.EXTERNAL));
@@ -422,7 +423,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 							KeyEvent.KeyboardType.EXTERNAL));
 					updateAltForKeyUp(event);
 
-					// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 					if (code == JavaKeyCodes.VK_DELETE || code == JavaKeyCodes.VK_ESCAPE) {
 						event.preventDefault();
 					}
@@ -448,7 +448,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 							getModifiers(event),
 							getChar(event.getNativeEvent()),
 							KeyEvent.KeyboardType.EXTERNAL));
-					// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 					if (code == JavaKeyCodes.VK_LEFT || code == JavaKeyCodes.VK_RIGHT) {
 						readPosition();
 					}
@@ -457,7 +456,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 					// also need killing.
 					// also kill events while left alt down: alt+e, alt+d working in
 					// browser
-					// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 					if (code == JavaKeyCodes.VK_DELETE
 							|| code == JavaKeyCodes.VK_ESCAPE
 							|| handled
@@ -487,10 +485,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param event to check.
 	 * @return if the default action should be prevented.
 	 */
-	public static boolean isShortcutDefaultPrevented(NativeEvent event) {
+	public static boolean isShortcutDefaultPrevented(KeyboardEvent event) {
 		int code = convertToJavaKeyCode(event);
-		return event.getCtrlKey()
-				&& event.getShiftKey()
+		return event.ctrlKey
+				&& event.shiftKey
 				&& (code == JavaKeyCodes.VK_B || code == JavaKeyCodes.VK_M);
 	}
 
@@ -548,7 +546,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            native event
 	 * @return whether this is right alt up/down event
 	 */
-	public static boolean isRightAlt(NativeEvent nativeEvent) {
+	public static boolean isRightAlt(KeyboardEvent nativeEvent) {
 		return checkCode(nativeEvent, "AltRight");
 	}
 
@@ -557,7 +555,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param check key name (e.g. "AltRight")
 	 * @return whether the event code matches
 	 */
-	public static boolean checkCode(Object evt, String check) {
+	public static boolean checkCode(KeyboardEvent evt, String check) {
 		return check.equals(Js.<KeyboardEvent>uncheckedCast(evt).code);
 	}
 
@@ -571,32 +569,30 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            native event
 	 * @return whether this is left alt up/down event
 	 */
-	public static boolean isLeftAlt(NativeEvent nativeEvent) {
+	public static boolean isLeftAlt(KeyboardEvent nativeEvent) {
 		return checkCode(nativeEvent, "AltLeft");
 	}
 
 	/**
-	 * @param evt
+	 * @param keyboardEvent
 	 *            native event
 	 * @return java key code
 	 */
-	static int convertToJavaKeyCode(NativeEvent evt) {
-
-		int keyCodeGWT = evt.getKeyCode();
+	static int convertToJavaKeyCode(KeyboardEvent keyboardEvent) {
+		int keyCodeGWT = DOM.getKeyCode(keyboardEvent);
 
 		// most keycodes are the same between Java and GWT
 		// so don't check the common ones that are the same
-		if ((keyCodeGWT >= GWTKeycodes.KEY_A && keyCodeGWT <= GWTKeycodes.KEY_Z)
-				|| (keyCodeGWT >= GWTKeycodes.KEY_ZERO && keyCodeGWT <= GWTKeycodes.KEY_NINE)) {
+		if (keyboardEvent.code.startsWith("Key") || keyboardEvent.code.startsWith("Digit")) {
 			return keyCodeGWT;
 		}
-		KeyboardEvent keyboardEvent = Js.uncheckedCast(evt);
 		if ("Tab".equals(keyboardEvent.code)) {
 			return JavaKeyCodes.VK_TAB;
 		}
 		if ("ContextMenu".equals(keyboardEvent.code)) {
 			return JavaKeyCodes.VK_CONTEXT_MENU;
 		}
+
 		// eg Delete has a different code
 		KeyCodes keyCode = KeyCodeUtil.translateGWTCode(keyCodeGWT);
 
@@ -620,7 +616,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return NavigatorUtil.isMacOS() ? event.isMetaKeyDown() : event.isControlKeyDown();
 	}
 
-	protected char getChar(NativeEvent nativeEvent) {
+	protected char getChar(KeyboardEvent nativeEvent) {
 		if (MathFieldW.checkCode(nativeEvent, "NumpadDecimal")) {
 			return '.';
 		}
@@ -628,7 +624,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (MathFieldW.checkCode(nativeEvent, "NumpadComma")) {
 			return '.';
 		}
-		return (char) nativeEvent.getCharCode();
+		return (char) getCharCode(nativeEvent);
 	}
 
 	@Override
@@ -1143,7 +1139,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            abs y-coord of the event
 	 * @param extScale external scaling factor
 	 */
-	public void adjustCaret(int absX, int absY, double extScale) {
+	public void adjustCaret(double absX, double absY, double extScale) {
 		if (SelectionBox.isTouchSelection()) {
 			return;
 		}
@@ -1391,5 +1387,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void setAriaValue(String description) {
 		Js.<HTMLTextAreaElement>uncheckedCast(getHiddenTextArea()).value = description;
+	}
+
+	private static int getCharCode(Event nativeEvent) {
+		Any charCode = JsObject.of(nativeEvent).getAsAny("charCode");
+		return charCode == null ? 0 : charCode.asInt();
 	}
 }

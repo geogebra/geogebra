@@ -46,13 +46,13 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.Nullable;
 
-import elemental2.dom.KeyboardEvent;
-import jsinterop.base.Js;
+import com.google.gwt.dom.client.BrowserEvents;
 
 /**
  * @author gabor
@@ -446,9 +446,8 @@ public final class PropertiesViewW extends PropertiesView
 	}
 
 	private void addEscapeHandler() {
-		Dom.addEventListener(wrappedPanel.getElement(), "keydown", event -> {
-			KeyboardEvent kbd = Js.uncheckedCast(event);
-			if ("Escape".equals(kbd.code)) {
+		Dom.addEventListener(wrappedPanel.getElement(), BrowserEvents.KEYDOWN, event -> {
+			if (DOM.isEscapeKey(event)) {
 				close();
 			}
 		});

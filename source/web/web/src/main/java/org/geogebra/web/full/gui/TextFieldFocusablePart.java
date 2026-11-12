@@ -20,6 +20,8 @@ import org.geogebra.web.full.gui.view.FocusablePartW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.Dom;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.KeyboardEvent;
 
 public final class TextFieldFocusablePart extends FocusablePartW {
@@ -36,7 +38,7 @@ public final class TextFieldFocusablePart extends FocusablePartW {
 			String accessibleLabel,
 			Runnable onFocusCallback) {
 		super(textField, focusKey, accessibleLabel, onFocusCallback);
-		Dom.addEventListener(textField.getElement(), "keyup", (event) -> {
+		Dom.addEventListener(textField.getElement(), BrowserEvents.KEYUP, (event) -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if (" ".equals(e.key) || "Enter".equals(e.key)) {
 				textField.requestFocus();

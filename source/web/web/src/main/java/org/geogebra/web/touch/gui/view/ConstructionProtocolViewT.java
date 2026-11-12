@@ -16,6 +16,8 @@
 
 package org.geogebra.web.touch.gui.view;
 
+import static org.geogebra.gwtutil.JsObject.getAt;
+
 import org.geogebra.web.awt.GFontW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.main.AppW;
@@ -39,15 +41,15 @@ public final class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 	/** **/
 	private static final int DUMMY_DRAG_ELEM_OFFSET_Y = 15;
 	/** y coordinates of first tap, used to detect longTaps **/
-	int yStart;
+	double yStart;
 	/** x coordinates of first tap, used to detect longTaps **/
-	int xStart;
+	double xStart;
 	/** start of first tap, used to detect longTaps **/
 	long startOfTap;
 	/** current y coordinates of touchMove **/
-	int yMove;
+	double yMove;
 	/** current x coordinates of touchMove **/
-	int xMove;
+	double xMove;
 	/** if tap was detected as "dragging a row" **/
 	boolean isDragging;
 	/** a dummy drag-element **/
@@ -66,8 +68,8 @@ public final class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 				event -> {
 					isDragging = false;
 					startOfTap = System.currentTimeMillis();
-					yStart = event.getTouches().get(0).getClientY();
-					xStart = event.getTouches().get(0).getClientX();
+					yStart = getAt(event.getTouches(), 0).clientY;
+					xStart = getAt(event.getTouches(), 0).clientX;
 				},
 				TouchStartEvent.getType());
 
@@ -77,8 +79,8 @@ public final class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 					@Override
 					public void onTouchMove(TouchMoveEvent event) {
 						// used to get coordinates for TouchEnd
-						yMove = event.getTouches().get(0).getClientY();
-						xMove = event.getTouches().get(0).getClientX();
+						yMove = getAt(event.getTouches(), 0).clientY;
+						xMove = getAt(event.getTouches(), 0).clientX;
 						if (!isDragging && isLongTap()) {
 							// start dragging, select row to drag, show dummyDragElement
 							isDragging = true;

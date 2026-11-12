@@ -25,7 +25,6 @@ import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.HasAllKeyHandlers;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
 import org.gwtproject.event.dom.client.KeyPressEvent;
@@ -974,21 +973,21 @@ public class GSuggestBox extends Composite
 		class TextBoxEvents implements KeyDownHandler, KeyUpHandler, ValueChangeHandler<String> {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
-				switch (event.getNativeKeyCode()) {
-					case KeyCodes.KEY_DOWN:
+				switch (event.getNativeEvent().code) {
+					case "ArrowDown":
 						display.moveSelectionDown();
 						if (isSuggestionListShowing()) {
 							event.preventDefault();
 						}
 						break;
-					case KeyCodes.KEY_UP:
+					case "ArrowUp":
 						display.moveSelectionUp();
 						if (isSuggestionListShowing()) {
 							event.preventDefault();
 						}
 						break;
-					case KeyCodes.KEY_ENTER:
-					case KeyCodes.KEY_TAB:
+					case "Enter":
+					case "Tab":
 						Suggestion suggestion = display.getCurrentSelection();
 						if (suggestion == null) {
 							display.hideSuggestions();

@@ -49,11 +49,11 @@ import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.jspecify.annotations.Nullable;
 
+import elemental2.dom.Event;
 import jsinterop.base.Js;
 
 /**
@@ -102,7 +102,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements HasAppletPrope
 		addStyleName("GeoGebraFrame");
 		DOM.sinkEvents(
 				this.getElement(),
-				Event.ONMOUSEDOWN | Event.ONMOUSEMOVE | Event.ONMOUSEUP | Event.ONMOUSEOVER);
+				org.gwtproject.user.client.Event.ONMOUSEDOWN
+						| org.gwtproject.user.client.Event.ONMOUSEMOVE
+						| org.gwtproject.user.client.Event.ONMOUSEUP
+						| org.gwtproject.user.client.Event.ONMOUSEOVER);
 		if (mainTag) {
 			getElement().setAttribute("role", "main");
 		}
@@ -150,7 +153,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements HasAppletPrope
 		app.getGlobalHandlers().addEventListener(e, "focusout", evt -> useDataParamBorder());
 	}
 
-	private void unsetEscape(elemental2.dom.Event evt) {
+	private void unsetEscape(Event evt) {
 		elemental2.dom.Element target = Js.uncheckedCast(evt.target);
 		if (!target.classList.contains("screenReaderStyle")) {
 			getApp().getGlobalKeyDispatcher().setEscPressed(false);
@@ -512,16 +515,16 @@ public abstract class GeoGebraFrameW extends FlowPanel implements HasAppletPrope
 			app.setCustomToolBar();
 
 			if (app.isApplet()) {
-				Event.sinkEvents(geoGebraElement.getElement(), Event.KEYEVENTS);
-				Event.setEventListener(
+				DOM.sinkEvents(geoGebraElement.getElement(), org.gwtproject.user.client.Event.KEYEVENTS);
+				DOM.setEventListener(
 						geoGebraElement.getElement(), app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
 			} else {
 				Element parent = geoGebraElement.getParentElement();
 				if (parent != null) {
 					Element grandparent = parent.getParentElement();
 					if (grandparent != null) {
-						Event.sinkEvents(parent, Event.KEYEVENTS);
-						Event.setEventListener(parent, app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
+						DOM.sinkEvents(parent, org.gwtproject.user.client.Event.KEYEVENTS);
+						DOM.setEventListener(parent, app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
 					}
 				}
 			}
@@ -749,7 +752,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements HasAppletPrope
 		app.getKernel().clearAnimations();
 		app.getGlobalHandlers().removeAllListeners();
 		app.getTimerSystem().detach();
-		Event.setEventListener(geoGebraElement.getElement(), null);
+		DOM.setEventListener(geoGebraElement.getElement(), null);
 		geoGebraElement = null;
 		SymbolicEditor symbolicEditor = app.getEuclidianView1().getSymbolicEditor();
 		if (symbolicEditor != null) {

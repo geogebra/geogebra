@@ -44,7 +44,7 @@ public class CompositionEndEvent extends DomEvent<CompositionEndHandler> {
 
 	/**
 	 * Protected constructor, use
-	 * {@link DomEvent#fireNativeEvent(org.gwtproject.dom.client.NativeEvent, org.gwtproject.event.shared.HasHandlers)}
+	 * {@link DomEvent#fireNativeEvent(elemental2.dom.Event, org.gwtproject.event.shared.HasHandlers)}
 	 * to fire focus events.
 	 */
 	protected CompositionEndEvent() {}

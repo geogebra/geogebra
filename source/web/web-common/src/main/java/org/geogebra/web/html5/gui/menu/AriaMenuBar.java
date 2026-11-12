@@ -22,14 +22,17 @@ import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.Nullable;
+
+import elemental2.dom.Event;
+import elemental2.dom.KeyboardEvent;
+import jsinterop.base.Js;
 
 /** Accessible alternative to MenuBar */
 public class AriaMenuBar extends FlowPanel {
@@ -46,12 +49,12 @@ public class AriaMenuBar extends FlowPanel {
 	 */
 	public AriaMenuBar() {
 		super("UL");
-		sinkEvents(Event.ONCLICK
-				| Event.ONMOUSEOVER
-				| Event.ONMOUSEOUT
-				| Event.ONFOCUS
-				| Event.ONKEYPRESS
-				| Event.ONKEYDOWN);
+		sinkEvents(org.gwtproject.user.client.Event.ONCLICK
+				| org.gwtproject.user.client.Event.ONMOUSEOVER
+				| org.gwtproject.user.client.Event.ONMOUSEOUT
+				| org.gwtproject.user.client.Event.ONFOCUS
+				| org.gwtproject.user.client.Event.ONKEYPRESS
+				| org.gwtproject.user.client.Event.ONKEYDOWN);
 		getElement().setAttribute("role", "menubar");
 		getElement().setTabIndex(0);
 		addStyleName("gwt-MenuBar");
@@ -340,50 +343,45 @@ public class AriaMenuBar extends FlowPanel {
 			}
 			item = submenu.findItem(DOM.eventGetTarget(event));
 		}
-		switch (DOM.eventGetType(event)) {
-			case Event.ONCLICK:
+		switch (event.type) {
+			case "click":
 				// Fire an item's command when the user clicks on it.
 				if (item != null) {
 					doItemAction(item);
 				}
 				break;
-			case Event.ONTOUCHSTART:
-			case Event.ONMOUSEOVER:
+			case BrowserEvents.TOUCHSTART:
+			case BrowserEvents.MOUSEOVER:
 				if (item != null) {
 					itemOver(item);
 				}
 				break;
 
-			case Event.ONMOUSEOUT:
+			case BrowserEvents.MOUSEOUT:
 				if (item != null) {
 					itemOver(null);
 				}
 				break;
 
-			case Event.ONFOCUS: {
-				// selectFirstItemIfNoneSelected();
-				break;
-			}
-
-			case Event.ONKEYPRESS:
+			case BrowserEvents.KEYPRESS:
 				handleActionKey(event, item);
 				break;
 
-			case Event.ONKEYDOWN:
-				int keyCode = event.getKeyCode();
-				if (keyCode == KeyCodes.KEY_UP && handleArrows) {
+			case BrowserEvents.KEYDOWN:
+				String keyCode = Js.<KeyboardEvent>uncheckedCast(event).code;
+				if ("ArrowUp".equals(keyCode) && handleArrows) {
 					moveSelectionUp();
 					eatEvent(event);
 					return;
-				} else if (keyCode == KeyCodes.KEY_DOWN && handleArrows) {
+				} else if ("ArrowDown".equals(keyCode) && handleArrows) {
 					moveSelectionDown();
 					eatEvent(event);
 					return;
-				} else if (keyCode == KeyCodes.KEY_RIGHT && handleArrows) {
+				} else if ("ArrowRight".equals(keyCode) && handleArrows) {
 					openSubmenu();
 					eatEvent(event);
 					return;
-				} else if (keyCode == KeyCodes.KEY_LEFT && handleArrows) {
+				} else if ("ArrowLeft".equals(keyCode) && handleArrows) {
 					if (closeHandler != null) {
 						closeHandler.run();
 					}
@@ -407,7 +405,7 @@ public class AriaMenuBar extends FlowPanel {
 	}
 
 	private void handleActionKey(Event event, AriaMenuItem item) {
-		if (!isActionKey(event.getKeyCode()) || item == null) {
+		if (!isActionKey(event) || item == null) {
 			return;
 		}
 
@@ -415,8 +413,8 @@ public class AriaMenuBar extends FlowPanel {
 		eatEvent(event);
 	}
 
-	private boolean isActionKey(int keyCode) {
-		return keyCode == KeyCodes.KEY_ENTER || keyCode == KeyCodes.KEY_SPACE;
+	private boolean isActionKey(Event event) {
+		return DOM.isEnterKey(event) || DOM.isSpaceKey(event);
 	}
 
 	/**

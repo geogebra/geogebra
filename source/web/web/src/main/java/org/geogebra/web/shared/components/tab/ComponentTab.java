@@ -36,6 +36,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.Widget;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.KeyboardEvent;
 
 public final class ComponentTab extends FlowPanel implements SetLabels {
@@ -76,7 +78,7 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 			switchToTab(initialTab, animateInitialTab);
 		}
 
-		Dom.addEventListener(scrollPanel.getElement(), "keydown", event -> {
+		Dom.addEventListener(scrollPanel.getElement(), BrowserEvents.KEYDOWN, event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("ArrowLeft".equals(e.code) || "ArrowRight".equals(e.code)) {
 				moveTabSelection("ArrowLeft".equals(e.code) ? -1 : 1);

@@ -100,6 +100,7 @@ import org.gwtproject.user.client.ui.Widget;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import com.google.gwt.dom.client.BrowserEvents;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
 import elemental2.dom.KeyboardEvent;
@@ -236,7 +237,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		getController().setLongTouchManager(LongTouchManager.getInstance());
 		setDraggable();
-		Dom.addEventListener(getElement(), "keyup", event -> {
+		Dom.addEventListener(getElement(), BrowserEvents.KEYUP, event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("c".equals(e.key) && (e.metaKey || e.ctrlKey)) {
 				if (compositeFocus != null && compositeFocus.getSelectedPart() != null) {
@@ -1992,7 +1993,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 * @param y
 	 *            caret y in canvas
 	 */
-	public void adjustCaret(int x, int y) {
+	public void adjustCaret(double x, double y) {
 		// Needed only for LaTeXTreeItem
 	}
 

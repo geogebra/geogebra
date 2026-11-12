@@ -18,7 +18,6 @@ package org.geogebra.web.html5.gui.inputfield;
 
 import java.util.ArrayList;
 
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ChangeEvent;
@@ -117,25 +116,25 @@ public class HistoryPopupW extends GPopupPanel
 
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
-		int charCode = event.getNativeKeyCode();
+		String charCode = event.getNativeEvent().code;
 		switch (charCode) {
 			default:
 				// do nothing
 				break;
-			case GWTKeycodes.KEY_ESCAPE:
+			case "Escape":
 				hide();
 				textField.setText(originalTextEditorContent);
 				textField.setFocus(true);
 				break;
-			case GWTKeycodes.KEY_ENTER:
+			case "Enter":
 				hide();
 				textField.setFocus(true);
 				break;
-			case GWTKeycodes.KEY_UP:
+			case "ArrowUp":
 				handleUpArrow();
 				historyList.setSelectedIndex(historyIndex);
 				break;
-			case GWTKeycodes.KEY_DOWN:
+			case "ArrowDown":
 				handleDownArrow();
 				historyList.setSelectedIndex(historyIndex);
 				break;

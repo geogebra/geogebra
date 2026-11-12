@@ -74,10 +74,10 @@ import org.geogebra.web.shared.SharedResources;
 import org.gwtproject.animation.client.AnimationScheduler;
 import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Node;
 import org.gwtproject.dom.style.shared.Unit;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.event.dom.client.MouseMoveEvent;
 import org.gwtproject.event.dom.client.TouchEndEvent;
@@ -86,7 +86,6 @@ import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.event.logical.shared.OpenEvent;
 import org.gwtproject.event.logical.shared.OpenHandler;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.HasTreeItems;
 import org.gwtproject.user.client.ui.InlineLabel;
@@ -98,7 +97,9 @@ import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
 import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
 
 /**
@@ -242,7 +243,7 @@ public final class AlgebraViewW extends Tree
 		if (focusable instanceof Element focusableElement) {
 			Dom.addEventListener(
 					focusableElement,
-					"keypress",
+					BrowserEvents.KEYPRESS,
 					evt -> keyDispatcher.onKeyPressNative(Js.uncheckedCast(evt)));
 		}
 		if (!app.getAppletParameters().preventFocus()) {
@@ -258,44 +259,33 @@ public final class AlgebraViewW extends Tree
 	public void onBrowserEvent(Event event) {
 		// as arrow keys are prevented in super.onBrowserEvent,
 		// we need to handle arrow key events before that
-		int eventType = DOM.eventGetType(event);
+		String eventType = event.type;
 		boolean activeCompositeFocus = hasActiveCompositeFocus();
 		switch (eventType) {
 			default:
 				// do nothing
 				break;
-			case Event.ONKEYUP:
-				switch (event.getKeyCode()) {
-					default:
-						// do nothing
-						break;
-					case KeyCodes.KEY_UP:
-					case KeyCodes.KEY_DOWN:
-					case KeyCodes.KEY_LEFT:
-					case KeyCodes.KEY_RIGHT:
-						// this may be enough for Safari too, because it is not
-						// onkeypress
-						if (!(editItem || Browser.isTabletBrowser()) && !activeCompositeFocus) {
-							dispatchToGeosAndKill(event);
-							return;
-						}
+			case BrowserEvents.KEYUP:
+				if (Js.<KeyboardEvent>uncheckedCast(event).code.startsWith("Arrow")) {
+					// this may be enough for Safari too, because it is not
+					// onkeypress
+					if (!(editItem || Browser.isTabletBrowser()) && !activeCompositeFocus) {
+						dispatchToGeosAndKill(Js.uncheckedCast(event));
+						return;
+					}
 				}
 				break;
-			case Event.ONKEYDOWN:
+			case BrowserEvents.KEYDOWN:
 				// put this on keydown to prevent focus jump when entering to composite (win)
-				switch (event.getKeyCode()) {
-					case KeyCodes.KEY_UP:
-					case KeyCodes.KEY_DOWN:
-					case KeyCodes.KEY_LEFT:
-					case KeyCodes.KEY_RIGHT:
-						if (activeCompositeFocus) {
-							dispatchToGeosAndKill(event);
-							return;
-						}
+				if (Js.<KeyboardEvent>uncheckedCast(event).code.startsWith("Arrow")) {
+					if (activeCompositeFocus) {
+						dispatchToGeosAndKill(Js.uncheckedCast(event));
+						return;
+					}
 				}
 				break;
-			case Event.ONMOUSEDOWN:
-			case Event.ONTOUCHSTART:
+			case BrowserEvents.MOUSEDOWN:
+			case BrowserEvents.TOUCHSTART:
 				app.closePopups();
 		}
 
@@ -305,7 +295,7 @@ public final class AlgebraViewW extends Tree
 		}
 		if (!editItem) {
 			// background click
-			if (eventType == Event.ONCLICK
+			if (eventType.equals("click")
 					&& !CancelEventTimer.cancelKeyboardHide()
 					&& !CancelEventTimer.cancelMouseEvent()) {
 				app.hideKeyboard();
@@ -314,7 +304,7 @@ public final class AlgebraViewW extends Tree
 		}
 	}
 
-	private void dispatchToGeosAndKill(Event event) {
+	private void dispatchToGeosAndKill(KeyboardEvent event) {
 		app.getGlobalKeyDispatcher().handleSelectedGeosKeys(event);
 		event.stopPropagation();
 		event.preventDefault();
@@ -336,20 +326,20 @@ public final class AlgebraViewW extends Tree
 	 *            keyboard events
 	 */
 	private void handleTabletKeyboard(Event event) {
-		switch (DOM.eventGetType(event)) {
-			case Event.ONKEYPRESS:
-				handleKeyPressed(event);
+		switch (event.type) {
+			case BrowserEvents.KEYPRESS:
+				handleKeyPressed((KeyboardEvent) event);
 				break;
-			case Event.ONKEYDOWN:
-				handleKeyDown(event);
+			case BrowserEvents.KEYDOWN:
+				handleKeyDown((KeyboardEvent) event);
 				break;
 			default:
 				break;
 		}
 	}
 
-	private void handleKeyPressed(Event event) {
-		int keyCode = event.getKeyCode();
+	private void handleKeyPressed(KeyboardEvent event) {
+		int keyCode = DOM.getKeyCode(event);
 
 		switch (keyCode) {
 			case GWTKeycodes.KEY_ENTER:
@@ -359,46 +349,52 @@ public final class AlgebraViewW extends Tree
 						.getMathField()
 						.getKeyListener()
 						.onKeyPressed(new KeyEvent(
-								keyCode, 0, (char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
+								keyCode, 0, (char) Dom.getCharCode(event), KeyEvent.KeyboardType.EXTERNAL));
 				break;
 			default:
 				getActiveTreeItem()
 						.getMathField()
 						.getKeyListener()
 						.onKeyTyped(new KeyEvent(
-								keyCode, 0, (char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
+								keyCode, 0, (char) Dom.getCharCode(event), KeyEvent.KeyboardType.EXTERNAL));
 				break;
 		}
 	}
 
-	private void handleKeyDown(Event event) {
-		int keyCode = event.getKeyCode();
+	private void handleKeyDown(KeyboardEvent event) {
+		String keyCode = event.code;
 
-		if (keyCode == 0 && Browser.isIPad()) {
-			int arrowType = Browser.getIOSArrowKeys(event);
-			if (arrowType != -1) {
+		if (Js.isFalsy(keyCode) && Browser.isIPad()) {
+			String arrowType = Browser.getIOSArrowKeys(event);
+			if (arrowType != null) {
 				keyCode = arrowType;
 			}
 		}
 		switch (keyCode) {
-			case GWTKeycodes.KEY_BACKSPACE:
+			case "Backspace":
 				if (Browser.isAndroid()) {
 					getActiveTreeItem()
 							.getMathField()
 							.getKeyListener()
 							.onKeyPressed(new KeyEvent(
-									keyCode, 0, (char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
+									DOM.getKeyCode(event),
+									0,
+									(char) Dom.getCharCode(event),
+									KeyEvent.KeyboardType.EXTERNAL));
 				}
 				break;
-			case GWTKeycodes.KEY_LEFT:
-			case GWTKeycodes.KEY_RIGHT:
-			case GWTKeycodes.KEY_UP:
-			case GWTKeycodes.KEY_DOWN:
+			case "ArrowLeft":
+			case "ArrowRight":
+			case "ArrowUp":
+			case "ArrowDown":
 				getActiveTreeItem()
 						.getMathField()
 						.getKeyListener()
 						.onKeyPressed(new KeyEvent(
-								keyCode, 0, (char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
+								DOM.getKeyCode(event),
+								0,
+								(char) Dom.getCharCode(event),
+								KeyEvent.KeyboardType.EXTERNAL));
 				event.stopPropagation();
 				break;
 			default:

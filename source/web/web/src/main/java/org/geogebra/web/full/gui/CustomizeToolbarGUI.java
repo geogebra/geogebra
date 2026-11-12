@@ -268,7 +268,7 @@ public final class CustomizeToolbarGUI extends MyHeaderPanel implements Customiz
 			return (DraggableTool) getLastItem().getUserObject();
 		}
 
-		boolean hitLastItem(int y) {
+		boolean hitLastItem(double y) {
 			TreeItem last = getLastItem();
 			return y > last.getAbsoluteTop() + last.getOffsetHeight();
 		}
@@ -446,7 +446,7 @@ public final class CustomizeToolbarGUI extends MyHeaderPanel implements Customiz
 					return;
 				}
 
-				if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
+				if (tool.afterLastLeaf(event.getNativeEvent().clientY)) {
 					Log.debug("Adding as last leaf!");
 					addTool(draggingTool);
 				} else {
@@ -458,7 +458,7 @@ public final class CustomizeToolbarGUI extends MyHeaderPanel implements Customiz
 			});
 
 			tool.addDragOverHandler(event -> {
-				if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
+				if (tool.afterLastLeaf(event.getNativeEvent().clientY)) {
 					tool.addStyleName("insertAfterLeaf");
 				} else {
 					tool.addStyleName("insertBeforeLeaf");
@@ -469,7 +469,7 @@ public final class CustomizeToolbarGUI extends MyHeaderPanel implements Customiz
 			return leaf;
 		}
 
-		boolean afterLastLeaf(int y) {
+		boolean afterLastLeaf(double y) {
 			if (treeItem == null) {
 				return false;
 			}
@@ -521,7 +521,7 @@ public final class CustomizeToolbarGUI extends MyHeaderPanel implements Customiz
 			initDrag();
 		}
 
-		boolean isTopHit(int y) {
+		boolean isTopHit(double y) {
 			return y > getAbsoluteTop() && y < getAbsoluteTop() + getOffsetHeight() / 2;
 		}
 
@@ -700,7 +700,7 @@ public final class CustomizeToolbarGUI extends MyHeaderPanel implements Customiz
 				event -> {
 					event.preventDefault();
 					boolean emptyTree = toolTree.getItemCount() == 0;
-					if (emptyTree || toolTree.hitLastItem(event.getNativeEvent().getClientY())) {
+					if (emptyTree || toolTree.hitLastItem(event.getNativeEvent().clientY)) {
 						toolTree.addTool(draggingTool, true);
 
 						if (!emptyTree) {
@@ -712,7 +712,7 @@ public final class CustomizeToolbarGUI extends MyHeaderPanel implements Customiz
 
 		usedToolsPanelContent.addDomHandler(
 				event -> {
-					if (toolTree.hitLastItem(event.getNativeEvent().getClientY())) {
+					if (toolTree.hitLastItem(event.getNativeEvent().clientY)) {
 						toolTree.getLastTool().addStyleName("insertAfterBranch");
 					}
 				},

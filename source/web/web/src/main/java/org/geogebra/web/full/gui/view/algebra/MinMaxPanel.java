@@ -29,7 +29,6 @@ import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.util.DataTest;
 import org.geogebra.web.html5.util.HasDataTest;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.event.dom.client.MouseDownHandler;
@@ -263,7 +262,7 @@ public final class MinMaxPanel extends AdvancedFlowPanel
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+		if (event.isRightButton()) {
 			return;
 		}
 

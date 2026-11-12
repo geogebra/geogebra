@@ -26,7 +26,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.editor.share.util.KeyCodes;
 import org.geogebra.editor.web.KeyCodeUtil;
@@ -34,8 +33,8 @@ import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.CopyPasteW;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
 import org.gwtproject.event.dom.client.KeyEvent;
@@ -44,10 +43,12 @@ import org.gwtproject.event.dom.client.KeyPressHandler;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.EventListener;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
 import elemental2.dom.KeyboardEvent;
 import jsinterop.base.Js;
 
@@ -139,46 +140,52 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		@Override
 		public void onBrowserEvent(Event event) {
-			boolean keyDown = DOM.eventGetType(event) == Event.ONKEYDOWN;
-			if ((keyDown || DOM.eventGetType(event) == Event.ONKEYUP)
-					&& (event.getKeyCode() == GWTKeycodes.KEY_SPACE)) {
-				updateKeyDownFlags(keyDown, event.getCtrlKey(), event.getShiftKey());
+			boolean keyDown = BrowserEvents.KEYDOWN.equals(event.type);
+			boolean keyUp = BrowserEvents.KEYUP.equals(event.type);
+			if (!keyUp && !keyDown) {
+				return;
 			}
-			if ((keyDown || DOM.eventGetType(event) == Event.ONKEYUP)
-					&& (event.getKeyCode() == GWTKeycodes.KEY_SHIFT)) {
-				updateKeyDownFlags(isSpaceDown(), event.getCtrlKey(), keyDown);
+			KeyboardEvent keyEvent = Js.<KeyboardEvent>uncheckedCast(event);
+			if (DOM.isSpaceKey(event)) {
+				updateKeyDownFlags(keyDown, keyEvent.ctrlKey, keyEvent.shiftKey);
 			}
-			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast()) && !isGlobalEvent(event)) {
+			// ShiftLeft, ShiftRight
+			if (keyEvent.code.startsWith("Shift")) {
+				updateKeyDownFlags(isSpaceDown(), keyEvent.ctrlKey, keyDown);
+			}
+			if (CopyPasteW.incorrectTarget(event.target) && !isGlobalEvent(Js.uncheckedCast(event))) {
 				return;
 			}
 
-			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
-				if (handleKeyDown(event)) {
+			if (keyDown) {
+				if (handleKeyDown(Js.uncheckedCast(event))) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
 			}
 		}
 
-		private boolean handleKeyDown(Event event) {
+		private boolean handleKeyDown(KeyboardEvent event) {
 			boolean handled = false;
 			KeyboardEvent keyboardEvent = Js.uncheckedCast(event);
-			if (event.getKeyCode() == GWTKeycodes.KEY_X && event.getCtrlKey() && event.getAltKey()) {
+			int keyCode = DOM.getKeyCode(event);
+			int charCode = Dom.getCharCode(event);
+			if ("KeyX".equals(event.code) && event.ctrlKey && event.altKey) {
 				handleCtrlAltX();
 				handled = true;
 			}
 			if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
-				handleIosKeyboard((char) event.getCharCode());
+				handleIosKeyboard((char) charCode);
 				handled = true;
 			}
 			if (isControlKeyDown(event)) {
-				handled = handleCtrlKeys(
-						KeyCodeUtil.translateGWTCode(event.getKeyCode()), event.getShiftKey(), false, true);
+				handled =
+						handleCtrlKeys(KeyCodeUtil.translateGWTCode(keyCode), event.shiftKey, false, true);
 			}
-			KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getKeyCode());
+			KeyCodes kc = KeyCodeUtil.translateGWTCode(keyCode);
 			if ("Tab".equals(keyboardEvent.code)) {
 				if (!escPressed) {
-					handled = handleTab(event.getShiftKey());
+					handled = handleTab(event.shiftKey);
 				}
 			} else if (kc == KeyCodes.ESCAPE) {
 				escPressed = true;
@@ -278,26 +285,24 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * Handle native key press event.
 	 * @param event key press event
 	 */
-	public void onKeyPressNative(NativeEvent event) {
-		updateKeyDownFlags(isSpaceDown(), event.getCtrlKey(), event.getShiftKey());
+	public void onKeyPressNative(KeyboardEvent event) {
+		updateKeyDownFlags(isSpaceDown(), event.ctrlKey, event.shiftKey);
 		boolean nativeFocusInComposite = app.getAccessibilityManager().handlesEnterInComposite();
 		if (shouldNotEventPassThrough(event) && !nativeFocusInComposite) {
 			event.preventDefault();
 			event.stopPropagation();
 		}
 
-		if (!event.getAltKey() && !event.getCtrlKey() && !app.isWhiteboardActive()) {
-			keyPressedOnGeo((char) event.getCharCode());
+		if (!event.altKey && !event.ctrlKey && !app.isWhiteboardActive()) {
+			keyPressedOnGeo((char) Dom.getCharCode(event));
 		}
 	}
 
-	private static boolean shouldNotEventPassThrough(NativeEvent event) {
-		KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getKeyCode());
+	private static boolean shouldNotEventPassThrough(KeyboardEvent event) {
+		KeyCodes kc = KeyCodeUtil.translateGWTCode(DOM.getKeyCode(event));
+		int charCode = Dom.getCharCode(event);
 		// Do not prevent default for the v key, otherwise paste events are not fired
-		return kc != KeyCodes.TAB
-				&& event.getCharCode() != 'v'
-				&& event.getCharCode() != 'c'
-				&& event.getCharCode() != 'x';
+		return kc != KeyCodes.TAB && charCode != 'v' && charCode != 'c' && charCode != 'x';
 	}
 
 	@Override
@@ -329,10 +334,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 	}
 
-	private static boolean isControlKeyDown(NativeEvent event) {
-		return (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS())
-				? event.getMetaKey()
-				: event.getCtrlKey();
+	private static boolean isControlKeyDown(KeyboardEvent event) {
+		return (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS()) ? event.metaKey : event.ctrlKey;
 	}
 
 	/**
@@ -341,16 +344,15 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 *            native event
 	 * @return if key was consumed
 	 */
-	public boolean handleSelectedGeosKeys(NativeEvent event) {
-		KeyCodes key = KeyCodeUtil.translateGWTCode(event.getKeyCode());
+	public boolean handleSelectedGeosKeys(KeyboardEvent event) {
+		KeyCodes key = KeyCodeUtil.translateGWTCode(DOM.getKeyCode(event));
 		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 		if (isControlKeyDown(event)) {
 			if (handleControlArrows(geos, key)) {
 				return true;
 			}
 		}
-		return handleSelectedGeosKeys(
-				key, geos, event.getShiftKey(), event.getCtrlKey(), event.getAltKey(), false);
+		return handleSelectedGeosKeys(key, geos, event.shiftKey, event.ctrlKey, event.altKey, false);
 	}
 
 	private boolean handleControlArrows(ArrayList<GeoElement> geos, KeyCodes key) {
@@ -459,7 +461,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * @return true if unwanted key combination has pressed.
 	 */
 	public static boolean isBadKeyEvent(KeyEvent<?> e) {
-		return e.isAltKeyDown() && !e.isControlKeyDown() && e.getNativeEvent().getCharCode() > 128;
+		return e.isAltKeyDown() && !e.isControlKeyDown() && Dom.getCharCode(e.getNativeEvent()) > 128;
 	}
 
 	private void handleIosKeyboard(char code) {
@@ -487,10 +489,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * @param event keyboard event
 	 * @return whether event is global
 	 */
-	public static boolean isGlobalEvent(NativeEvent event) {
-		int code = event.getKeyCode();
+	public static boolean isGlobalEvent(KeyboardEvent event) {
+		int code = DOM.getKeyCode(event);
 		if (isControlKeyDown(event)) {
-			if (isViewTogglingShortcut(code, event.getShiftKey())) {
+			if (isViewTogglingShortcut(code, event.shiftKey)) {
 				return true;
 			}
 			return code == JavaKeyCodes.VK_S || code == JavaKeyCodes.VK_D;

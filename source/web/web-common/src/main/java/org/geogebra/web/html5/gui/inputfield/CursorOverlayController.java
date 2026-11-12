@@ -28,9 +28,11 @@ import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyPressEvent;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 import com.google.gwt.core.client.Scheduler;
@@ -88,12 +90,13 @@ public class CursorOverlayController
 		textField.addBlurHandler(evt -> removeCursor());
 		textField.updateInputBoxAlign();
 		final Element element = textField.getInputElement();
-		app.getGlobalHandlers().addEventListener(element, "touchstart", this::preventNativeSelection);
+		app.getGlobalHandlers()
+				.addEventListener(element, BrowserEvents.TOUCHSTART, this::preventNativeSelection);
 
 		app.getGlobalHandlers()
-				.addEventListener(main.getElement(), "touchstart", this::unselectOverlay);
+				.addEventListener(main.getElement(), BrowserEvents.TOUCHSTART, this::unselectOverlay);
 
-		app.getGlobalHandlers().addEventListener(main.getElement(), "touchstart", e -> {
+		app.getGlobalHandlers().addEventListener(main.getElement(), BrowserEvents.TOUCHSTART, e -> {
 			if (cursorOverlay.hasFakeSelection()) {
 				return;
 			}
@@ -106,7 +109,7 @@ public class CursorOverlayController
 			}
 		});
 
-		app.getGlobalHandlers().addEventListener(main.getElement(), "touchend", e -> {
+		app.getGlobalHandlers().addEventListener(main.getElement(), BrowserEvents.TOUCHEND, e -> {
 			CancelEventTimer.cancelMouseEvent();
 			LongTouchManager.getInstance().cancelTimer();
 		});
@@ -184,27 +187,27 @@ public class CursorOverlayController
 
 	@Override
 	public void handleKeyboardEvent(KeyDownEvent e) {
-		int keyCode = e.getNativeKeyCode();
-		if (keyCode == 0 && NavigatorUtil.isiOS()) {
-			int arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
-			if (arrowType != -1) {
+		String keyCode = e.getNativeEvent().code;
+		if (Js.isFalsy(keyCode) && NavigatorUtil.isiOS()) {
+			String arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
+			if (arrowType != null) {
 				keyCode = arrowType;
 			}
 		}
 		switch (keyCode) {
-			case GWTKeycodes.KEY_BACKSPACE:
+			case "Backspace":
 				textField.onBackSpace();
 				break;
-			case GWTKeycodes.KEY_LEFT:
+			case "ArrowLeft":
 				textField.onArrowLeft();
 				break;
-			case GWTKeycodes.KEY_RIGHT:
+			case "ArrowRight":
 				textField.onArrowRight();
 				break;
-			case GWTKeycodes.KEY_UP:
+			case "ArrowUp":
 				textField.handleUpArrow();
 				break;
-			case GWTKeycodes.KEY_DOWN:
+			case "ArrowDown":
 				textField.handleDownArrow();
 				break;
 			default:
@@ -214,8 +217,8 @@ public class CursorOverlayController
 
 	@Override
 	public boolean shouldBeKeyPressInserted(KeyPressEvent event) {
-		return event.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
-				&& event.getNativeEvent().getKeyCode() != 0;
+		int keyCode = DOM.getKeyCode(event.getNativeEvent());
+		return keyCode != GWTKeycodes.KEY_BACKSPACE && keyCode != 0;
 	}
 
 	@Override

@@ -19,8 +19,11 @@ package org.geogebra.web.html5.event;
 import java.util.LinkedList;
 
 import org.geogebra.common.util.debug.Log;
-import org.gwtproject.dom.client.NativeEvent;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.event.dom.client.KeyPressEvent;
+
+import elemental2.dom.KeyboardEvent;
+import jsinterop.base.Js;
 
 public final class KeyEventW extends org.geogebra.common.euclidian.event.KeyEvent {
 
@@ -63,10 +66,10 @@ public final class KeyEventW extends org.geogebra.common.euclidian.event.KeyEven
 	 * @param nativeEvent native event
 	 * @return whether native event corresponds to Enter keyboard key
 	 */
-	public static boolean isEnterKey(NativeEvent nativeEvent) {
-		return nativeEvent.getKeyCode() == 13
-				|| nativeEvent.getKeyCode() == 10
-				|| (nativeEvent.getKeyCode() == 0 && nativeEvent.getCharCode() == 13);
+	public static boolean isEnterKey(KeyboardEvent nativeEvent) {
+		String keyCode = nativeEvent.code;
+		int charCode = Dom.getCharCode(nativeEvent);
+		return "Enter".equals(keyCode) || (Js.isFalsy(keyCode) && charCode == 13);
 	}
 
 	@Override

@@ -48,6 +48,8 @@ import org.gwtproject.event.dom.client.MouseOverEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.DOMRect;
 import elemental2.dom.KeyboardEvent;
 
@@ -139,7 +141,7 @@ public final class ButtonDialogW extends ComponentDialog implements HasKeyboardP
 	private void initScriptArea() {
 		scriptArea = new CodeMirrorEditorWidget();
 		scriptArea.focusEditor();
-		Dom.addEventListener(scriptArea.getElement(), "keyup", event -> {
+		Dom.addEventListener(scriptArea.getElement(), BrowserEvents.KEYUP, event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("Escape".equals(e.key) && objectsPopup != null && objectsPopup.isShowing()) {
 				objectsPopup.hide();

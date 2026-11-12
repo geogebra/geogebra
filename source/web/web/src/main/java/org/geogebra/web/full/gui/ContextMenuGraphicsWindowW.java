@@ -37,6 +37,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.topbar.TopBarIcon;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.KeyboardEvent;
 
 /**
@@ -122,7 +124,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		AriaMenuItem settingsItem = new AriaMenuItem(settingsButton, () -> {});
 		settingsItem.addStyleName("settingsItem");
 		wrappedPopup.addItem(settingsItem);
-		Dom.addEventListener(settingsItem.getElement(), "keydown", event -> {
+		Dom.addEventListener(settingsItem.getElement(), BrowserEvents.KEYDOWN, event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("Space".equals(e.code) || "Enter".equals(e.code)) {
 				openSettings(optionType);

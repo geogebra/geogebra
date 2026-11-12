@@ -33,7 +33,6 @@ import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.HumanInputEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.event.dom.client.MouseDownHandler;
@@ -164,7 +163,7 @@ public final class CASTableControllerW extends CASTableCellController
 					((RowHeaderWidget) wid).getHandler().onMouseUp(event);
 				}
 			}
-		} else if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
+		} else if (event.isRightButton()) {
 			// in theory, checkHeaderClick(event) is already false here...
 			// only do this action when supported
 			// only makes sense for mouse events yet
@@ -281,8 +280,7 @@ public final class CASTableControllerW extends CASTableCellController
 			return;
 		}
 		int currentRow = point.getY();
-		if (!(event.getNativeButton() == NativeEvent.BUTTON_RIGHT
-				&& selectionContainsRow(currentRow))) {
+		if (!(event.isRightButton() && selectionContainsRow(currentRow))) {
 			if (event.isShiftKeyDown()) {
 				table.setSelectedRows(startSelectRow, currentRow);
 			} else if (event.isControlKeyDown()) {

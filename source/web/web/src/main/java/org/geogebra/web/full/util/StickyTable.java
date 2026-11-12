@@ -32,6 +32,8 @@ import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.view.client.ListDataProvider;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.EventListener;
 import jsinterop.base.Js;
 
@@ -79,22 +81,22 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	protected void addBodyKeyDownHandler(CellClickHandler keyHandler) {
 		Dom.addEventListener(
-				cellTable.getTableBodyElement(), "keydown", getDomEventHandler(keyHandler));
+				cellTable.getTableBodyElement(), BrowserEvents.KEYDOWN, getDomEventHandler(keyHandler));
 	}
 
 	protected void addHeadClickHandler(CellClickHandler clickHandler) {
 		Dom.addEventListener(
-				cellTable.getTableHeadElement(), "click", getDomEventHandler(clickHandler));
+				cellTable.getTableHeadElement(), BrowserEvents.CLICK, getDomEventHandler(clickHandler));
 	}
 
 	protected void addMouseOverHandler(CellClickHandler clickHandler) {
 		Dom.addEventListener(
-				cellTable.getTableBodyElement(), "mouseover", getDomEventHandler(clickHandler));
+				cellTable.getTableBodyElement(), BrowserEvents.MOUSEOVER, getDomEventHandler(clickHandler));
 	}
 
 	protected void addMouseOutHandler(CellClickHandler clickHandler) {
 		Dom.addEventListener(
-				cellTable.getTableBodyElement(), "mouseout", getDomEventHandler(clickHandler));
+				cellTable.getTableBodyElement(), BrowserEvents.MOUSEOUT, getDomEventHandler(clickHandler));
 	}
 
 	private EventListener getDomEventHandler(CellClickHandler eventHandler) {

@@ -49,7 +49,7 @@ public interface AlgebraItemHeader extends IsWidget, SetLabels {
 	 *            pointer event y-coord
 	 * @return whether header was hit
 	 */
-	boolean isHit(int x, int y);
+	boolean isHit(double x, double y);
 
 	/**
 	 * Set number (starting from 1)

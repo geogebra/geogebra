@@ -33,6 +33,8 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.KeyboardEvent;
 
 public class StandardButton extends Widget implements HasResource {
@@ -345,7 +347,7 @@ public class StandardButton extends Widget implements HasResource {
 	 * @param activateAction action to run when the button is activated by keyboard input
 	 */
 	public void addKeyActivateHandler(Runnable activateAction) {
-		Dom.addEventListener(this.getElement(), "keypress", (event) -> {
+		Dom.addEventListener(this.getElement(), BrowserEvents.KEYPRESS, (event) -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if (" ".equals(e.key) || "Enter".equals(e.key)) {
 				activateAction.run();

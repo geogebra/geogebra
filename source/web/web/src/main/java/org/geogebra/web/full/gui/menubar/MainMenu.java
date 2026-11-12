@@ -38,15 +38,17 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
-import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
+
+import com.google.gwt.dom.client.BrowserEvents;
+
+import elemental2.dom.Event;
+import jsinterop.base.Js;
 
 /**
  * Sidebar menu for SMART
@@ -161,14 +163,14 @@ public final class MainMenu extends FlowPanel
 
 			@Override
 			public void onBrowserEvent(Event event) {
-				int eventType = DOM.eventGetType(event);
-				Element target = DOM.eventGetTarget(event);
+				String eventType = event.type;
+				Element target = Js.uncheckedCast(event.target);
 				int index = findDividerIndex(target);
-				if (examController.isIdle() && eventType == Event.ONMOUSEOUT) {
+				if (examController.isIdle() && BrowserEvents.MOUSEOUT.equals(eventType)) {
 					if (index != getSelectedIndex()) {
 						getMenuAt(getSelectedIndex()).selectItem(null);
 					}
-				} else if (eventType == Event.ONCLICK) {
+				} else if (BrowserEvents.CLICK.equals(eventType)) {
 					// check if SignIn was clicked
 					// if we are offline, the last item is actually Help
 					Widget clicked = index >= 0 ? this.getWidget(index) : null;
@@ -536,12 +538,12 @@ public final class MainMenu extends FlowPanel
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
-		int key = event.getNativeKeyCode();
+		String code = event.getNativeEvent().code;
 		Submenu mi = getMenuAt(menuPanel.getLastSelectedIndex());
 
-		if (key == KeyCodes.KEY_UP) {
+		if ("ArrowUp".equals(code)) {
 			selectPreviousItem(mi);
-		} else if (key == KeyCodes.KEY_DOWN) {
+		} else if ("ArrowDown".equals(code)) {
 			selectNextItem(mi);
 		}
 	}

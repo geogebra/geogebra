@@ -17,7 +17,6 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.event.shared.HandlerRegistration;
@@ -53,7 +52,7 @@ public abstract class ClickStartHandler {
 					if (handler.stopPropagation) {
 						event.stopPropagation();
 					}
-					boolean right = event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT;
+					boolean right = event.isRightButton();
 					if (!CancelEventTimer.cancelMouseEvent()
 							&& !handler.onClickStart(event.getX(), event.getY(), PointerEventType.MOUSE, right)) {
 
@@ -71,8 +70,8 @@ public abstract class ClickStartHandler {
 						event.stopPropagation();
 					}
 					handler.onClickStart(
-							event.getTouches().get(0).getClientX(),
-							event.getTouches().get(0).getClientY(),
+							(int) event.getTouches().getAt(0).clientX,
+							(int) event.getTouches().getAt(0).clientY,
 							PointerEventType.TOUCH);
 					CancelEventTimer.touchEventOccurred();
 				},

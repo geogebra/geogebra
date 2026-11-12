@@ -16,7 +16,6 @@
 
 package org.geogebra.web.html5.gui;
 
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.CursorOverlayController;
 import org.geogebra.web.html5.main.AppW;
@@ -27,6 +26,8 @@ import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.FocusHandler;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.user.client.ui.TextArea;
+
+import jsinterop.base.Js;
 
 /**
  * handle dummy cursor on android
@@ -62,21 +63,21 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 		if (!Browser.isTabletBrowser() || app.isWhiteboardActive()) {
 			return;
 		}
-		int code = e.getNativeKeyCode();
-		if (code == 0 && Browser.isIPad()) {
-			int arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
-			if (arrowType != -1) {
+		String code = e.getNativeEvent().code;
+		if (Js.isFalsy(code) && Browser.isIPad()) {
+			String arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
+			if (arrowType != null) {
 				code = arrowType;
 			}
 		}
 		switch (code) {
-			case GWTKeycodes.KEY_BACKSPACE:
+			case "Backspace":
 				textField.onBackSpace();
 				break;
-			case GWTKeycodes.KEY_LEFT:
+			case "ArrowLeft":
 				onArrowLeft();
 				break;
-			case GWTKeycodes.KEY_RIGHT:
+			case "ArrowRight":
 				onArrowRight();
 				break;
 			default:

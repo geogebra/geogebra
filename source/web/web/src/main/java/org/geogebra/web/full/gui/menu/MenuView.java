@@ -17,9 +17,11 @@
 package org.geogebra.web.full.gui.menu;
 
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
+
+import com.google.gwt.dom.client.BrowserEvents;
+
+import elemental2.dom.Event;
 
 class MenuView extends AriaMenuBar {
 	protected MenuViewController controller;
@@ -32,7 +34,7 @@ class MenuView extends AriaMenuBar {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (DOM.eventGetType(event) == Event.ONKEYDOWN && event.getKeyCode() == KeyCodes.KEY_ESCAPE) {
+		if (BrowserEvents.KEYDOWN.equals(event.type) && DOM.isEscapeKey(event)) {
 			if (controller.isSubMenu(getParent())) {
 				controller.hideSubmenuAndMoveFocus();
 			} else {

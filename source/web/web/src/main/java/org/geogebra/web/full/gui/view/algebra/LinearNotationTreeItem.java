@@ -20,7 +20,6 @@ import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -30,6 +29,7 @@ import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.Widget;
 
 public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHandler {
@@ -269,16 +269,16 @@ public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDo
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		getController().setEditing(true);
-		if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER) {
+		if (DOM.isEnterKey(event.getNativeEvent())) {
 			getController().onEnter(true);
 			event.preventDefault();
 			return;
-		} else if (event.getNativeKeyCode() == GWTKeycodes.KEY_TAB
+		} else if (DOM.isTabKey(event.getNativeEvent())
 				&& !isInputTreeItem()) { // skip input, let the text field handle it
-			getController().onTab(event.getNativeEvent().getShiftKey());
+			getController().onTab(event.getNativeEvent().shiftKey);
 			event.preventDefault();
 			return;
-		} else if (event.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
+		} else if (DOM.isEscapeKey(event.getNativeEvent())) {
 			getController().onEscape();
 			event.preventDefault();
 			return;

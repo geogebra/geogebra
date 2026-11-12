@@ -23,8 +23,8 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.RootPanel;
 
 /**
@@ -60,8 +60,7 @@ public final class ActionButton implements ActionView, SetLabels {
 			});
 			view.addDomHandler(
 					event -> {
-						if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER
-								|| event.getNativeKeyCode() == KeyCodes.KEY_SPACE) {
+						if (DOM.isEnterKey(event.getNativeEvent()) || DOM.isSpaceKey(event.getNativeEvent())) {
 							action.run();
 							event.stopPropagation();
 							event.preventDefault();

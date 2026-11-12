@@ -16,10 +16,8 @@
 
 package org.geogebra.web.html5.gui.util;
 
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JsObject;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.EventTarget;
-import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.UIObject;
@@ -28,10 +26,13 @@ import org.jspecify.annotations.NonNull;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
 import elemental2.dom.EventListener;
+import elemental2.dom.EventTarget;
 import elemental2.dom.HTMLCollection;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
+import jsinterop.base.Any;
 import jsinterop.base.Js;
 
 /**
@@ -93,10 +94,10 @@ public final class Dom {
 	 *            the element to be tested
 	 * @return true iff event targets the element or its children
 	 */
-	public static boolean eventTargetsElement(NativeEvent event, Element element) {
-		EventTarget target = event.getEventTarget();
-		if (Element.is(target) && element != null) {
-			return element.isOrHasChild(Element.as(target));
+	public static boolean eventTargetsElement(Event event, Element element) {
+		EventTarget target = event.target;
+		if (DOM.isElement(target) && element != null) {
+			return Js.<HTMLElement>uncheckedCast(element).contains(Js.uncheckedCast(target));
 		}
 		return false;
 	}
@@ -169,20 +170,6 @@ public final class Dom {
 		el.addEventListener(name, listener);
 	}
 
-	/**
-	 * @param element element
-	 * @param width CSS property name
-	 * @return value, if it was a number in px; otherwise 0
-	 */
-	public static int getPxProperty(Element element, String width) {
-		try {
-			return Integer.parseInt(element.getStyle().getProperty(width).replace("px", ""));
-		} catch (RuntimeException ex) {
-			Log.warn(ex.getMessage());
-		}
-		return 0;
-	}
-
 	public static HTMLImageElement createImage() {
 		return (HTMLImageElement) DomGlobal.document.createElement("img");
 	}
@@ -213,5 +200,10 @@ public final class Dom {
 	 */
 	public static boolean isAttachedAndVisible(Widget widget) {
 		return widget.isVisible() && widget.isAttached();
+	}
+
+	public static int getCharCode(Event nativeEvent) {
+		Any charCode = JsObject.of(nativeEvent).getAsAny("charCode");
+		return charCode == null ? 0 : charCode.asInt();
 	}
 }

@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.awt.GFontW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -47,6 +46,7 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FocusWidget;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.KeyboardEvent;
 import elemental2.dom.Node;
 import elemental2.dom.Range;
 import jsinterop.base.Js;
@@ -96,16 +96,12 @@ public final class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 	private void registerHandlers() {
 		addDomHandler(event -> editPanel.updatePreviewPanel(true), KeyUpEvent.getType());
 		editBox.addKeyUpHandler(event -> {
-			int keyCode = event.getNativeKeyCode();
+			KeyboardEvent keyCode = event.getNativeEvent();
 
-			switch (keyCode) {
-				case GWTKeycodes.KEY_ESCAPE:
-				case GWTKeycodes.KEY_ENTER:
-					showEditPopup(false);
-					break;
-
-				default:
-					editPanel.updatePreviewPanel(true);
+			if (DOM.isEnterKey(keyCode) || DOM.isEscapeKey(keyCode)) {
+				showEditPopup(false);
+			} else {
+				editPanel.updatePreviewPanel(true);
 			}
 		});
 
@@ -113,7 +109,7 @@ public final class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 				event -> {
 					showEditPopup(false);
 
-					Element target = Element.as(event.getNativeEvent().getEventTarget());
+					Element target = Js.uncheckedCast(event.getNativeEvent().target);
 
 					if (DYNAMIC_TEXT_CLASS.equalsIgnoreCase(target.getClassName())) {
 						editBox.setText(target.getAttribute("value"));

@@ -16,11 +16,14 @@
 
 package org.geogebra.web.full.util.keyboard;
 
+import org.geogebra.gwtutil.JsObject;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.client.NativeEvent;
-import org.gwtproject.user.client.Event;
+
+import com.google.gwt.dom.client.BrowserEvents;
+
+import elemental2.dom.KeyboardEvent;
+import elemental2.dom.KeyboardEventInit;
 
 /**
  * Connector for keyboard and input boxes
@@ -50,14 +53,24 @@ public final class AutocompleteProcessing implements KeyboardListener {
 
 	@Override
 	public void onEnter() {
-		NativeEvent event = Document.get().createKeyDownEvent(false, false, false, false, ENTER);
-		field.getTextField().onBrowserEvent(Event.as(event));
+		field.getTextField().onBrowserEvent(new KeyboardEvent(BrowserEvents.KEYDOWN, initEnter()));
+		field
+				.getTextField()
+				.onBrowserEvent(new KeyboardEvent(BrowserEvents.KEYPRESS, initEnterPress()));
+		field.getTextField().onBrowserEvent(new KeyboardEvent(BrowserEvents.KEYUP, initEnter()));
+	}
 
-		event = Document.get().createKeyPressEvent(false, false, false, false, ENTER);
-		field.getTextField().onBrowserEvent(Event.as(event));
+	private KeyboardEventInit initEnter() {
+		KeyboardEventInit keyDownInit = KeyboardEventInit.create();
+		keyDownInit.setCode("Enter");
+		JsObject.of(keyDownInit).set("keyCode", ENTER);
+		return keyDownInit;
+	}
 
-		event = Document.get().createKeyUpEvent(false, false, false, false, ENTER);
-		field.getTextField().onBrowserEvent(Event.as(event));
+	private KeyboardEventInit initEnterPress() {
+		KeyboardEventInit keyDownInit = KeyboardEventInit.create();
+		JsObject.of(keyDownInit).set("charCode", ENTER);
+		return keyDownInit;
 	}
 
 	@Override

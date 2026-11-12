@@ -30,6 +30,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
 import elemental2.dom.KeyboardEvent;
 
 /**
@@ -133,14 +135,14 @@ public final class ComponentCheckbox extends FlowPanel
 	}
 
 	private void addClickAndKeyHandler() {
-		Dom.addEventListener(this.getElement(), "click", event -> {
+		Dom.addEventListener(this.getElement(), BrowserEvents.CLICK, event -> {
 			runAction();
 			if (stopPropagation) {
 				event.stopPropagation();
 			}
 		});
 
-		Dom.addEventListener(this.getElement(), "keydown", event -> {
+		Dom.addEventListener(this.getElement(), BrowserEvents.KEYDOWN, event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("Space".equals(e.code)) {
 				runAction();

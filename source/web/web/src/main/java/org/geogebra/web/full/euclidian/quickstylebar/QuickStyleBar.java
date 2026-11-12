@@ -62,6 +62,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.jspecify.annotations.Nullable;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.BrowserEvents;
 
 import elemental2.dom.Event;
 
@@ -524,7 +525,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		// with Apple Pen specifically, this needs to be done for touchmove as well
 		getApp()
 				.getGlobalHandlers()
-				.addEventListener(getElement(), "touchmove", Event::stopPropagation);
+				.addEventListener(getElement(), BrowserEvents.TOUCHMOVE, Event::stopPropagation);
 	}
 
 	@Override

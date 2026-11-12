@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.inputbar;
 
+import java.util.List;
+
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -26,7 +28,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -45,6 +46,7 @@ import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.FocusHandler;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 
@@ -223,20 +225,17 @@ public final class AlgebraInputW extends FlowPanel
 		// for auto completion
 		// then it don't come here if (e.isConsumed()) return;
 
-		int keyCode = event.getNativeKeyCode();
+		String keyCode = event.getNativeEvent().code;
 		app.getKernel()
 				.getInputPreviewHelper()
 				.updatePreviewFromInputBar(inputField.getText(), getWarningHandler(this, app));
-		if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
+		if (DOM.isEnterKey(event.getNativeEvent()) && !inputField.isSuggestionJustHappened()) {
 			onEnterPressed(true);
 
-		} else if (keyCode != GWTKeycodes.KEY_C
-				&& keyCode != GWTKeycodes.KEY_V
-				&& keyCode != GWTKeycodes.KEY_A
-				&& keyCode != GWTKeycodes.KEY_X) {
+		} else if (!List.of("KeyC", "KeyV", "KeyA", "KeyX").contains(keyCode)) {
 			app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg
 			// ctrl-tab
-			if (keyCode == GWTKeycodes.KEY_ESCAPE) {
+			if (DOM.isEscapeKey(event.getNativeEvent())) {
 				inputField.setText(null);
 			}
 		}

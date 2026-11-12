@@ -33,7 +33,6 @@ import org.gwtproject.dom.client.TableRowElement;
 import org.gwtproject.event.dom.client.HumanInputEvent;
 import org.gwtproject.event.dom.client.MouseUpEvent;
 import org.gwtproject.event.dom.client.TouchEndEvent;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.Grid;
 import org.gwtproject.user.client.ui.HTMLTable;
 import org.gwtproject.user.client.ui.Widget;
@@ -302,7 +301,7 @@ public final class CASTableW extends Grid implements CASTable {
 	 * @return (column, row)
 	 */
 	public GPoint getPointForEvent(HumanInputEvent<?> event) {
-		Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
+		Element td = getEventTargetCell(event.getNativeEvent());
 		if (td == null) {
 			return null;
 		}
@@ -418,7 +417,7 @@ public final class CASTableW extends Grid implements CASTable {
 	 * @return clicked cell
 	 */
 	public CASTableCellW getCasCellForEvent(HumanInputEvent<?> event) {
-		Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
+		Element td = getEventTargetCell(event.getNativeEvent());
 		if (td == null) {
 			return null;
 		}
@@ -465,7 +464,7 @@ public final class CASTableW extends Grid implements CASTable {
 	 * @return The appropriate cell, or null
 	 */
 	public CellCoordinates getCellForEvent(HumanInputEvent<?> event) {
-		Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
+		Element td = getEventTargetCell(event.getNativeEvent());
 		if (td == null) {
 			return null;
 		}

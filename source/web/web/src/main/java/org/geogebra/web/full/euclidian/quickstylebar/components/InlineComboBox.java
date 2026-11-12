@@ -22,7 +22,6 @@ import java.util.function.Supplier;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.PropertyView;
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.DropDownComboBoxController;
 import org.geogebra.web.full.main.AppWFull;
@@ -35,6 +34,8 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.jspecify.annotations.NonNull;
+
+import elemental2.dom.KeyboardEvent;
 
 /**
  * Compact inline combo box for the quick style bar and top bar in Notes.
@@ -180,15 +181,15 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 				controller.setSelectedOption(controller.possibleSelectedIndex(inputTextField.getText())));
 
 		inputTextField.getTextBox().addKeyDownHandler(event -> {
-			int keyCode = event.getNativeKeyCode();
-			if (keyCode == GWTKeycodes.KEY_ENTER) {
+			KeyboardEvent keyEvent = event.getNativeEvent();
+			if (DOM.isEnterKey(keyEvent)) {
 				event.preventDefault();
 				event.stopPropagation();
 				if (controller.isOpened()) {
 					applyHighlightedOption();
 				}
 				commitAndKeepFocus();
-			} else if (keyCode == GWTKeycodes.KEY_ESCAPE) {
+			} else if (DOM.isEscapeKey(keyEvent)) {
 				event.preventDefault();
 				event.stopPropagation();
 				if (controller.isOpened()) {
@@ -196,7 +197,7 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 				} else {
 					revertToCommittedValue();
 				}
-			} else if (keyCode == GWTKeycodes.KEY_TAB && controller.isOpened()) {
+			} else if (DOM.isTabKey(keyEvent) && controller.isOpened()) {
 				commitAndClosePopup();
 			}
 		});

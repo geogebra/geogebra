@@ -26,7 +26,6 @@ import java.util.function.Supplier;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -201,14 +200,14 @@ public final class ComponentComboBox extends FlowPanel
 
 	private void addFieldKeyAndPointerHandler() {
 		inputTextField.addKeyUpHandler(event -> {
-			if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER) {
+			if (DOM.isEnterKey(event.getNativeEvent())) {
 				if (controller.isOpened()) {
 					inputTextField.setText(getSelectedText());
 					setExpanded(false);
 				}
 				controller.onInputChange(inputTextField.getText());
 				Scheduler.get().scheduleDeferred(() -> inputTextField.setFocus(true));
-			} else if (event.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
+			} else if (DOM.isEscapeKey(event.getNativeEvent())) {
 				inputTextField.setText(previousValue);
 				setExpanded(false);
 				inputTextField.setFocus(true);

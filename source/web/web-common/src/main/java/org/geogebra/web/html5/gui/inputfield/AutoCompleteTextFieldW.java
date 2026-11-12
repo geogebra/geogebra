@@ -46,7 +46,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.util.AltKeys;
-import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
@@ -69,7 +68,6 @@ import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusHandler;
-import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
 import org.gwtproject.event.dom.client.KeyPressEvent;
@@ -82,13 +80,17 @@ import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.FocusWidget;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
+import org.jspecify.annotations.NonNull;
 
+import com.google.gwt.dom.client.BrowserEvents;
+
+import elemental2.dom.Event;
 import elemental2.dom.EventListener;
+import elemental2.dom.KeyboardEvent;
 import elemental2.dom.PointerEvent;
 import jsinterop.base.Js;
 
@@ -273,8 +275,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			@Override
 			public void onBrowserEvent(Event event) {
-				int etype = DOM.eventGetType(event);
-				if (MathFieldW.isShortcutDefaultPrevented(event)) {
+				String etype = event.type;
+				if (event instanceof KeyboardEvent keyEvent
+						&& MathFieldW.isShortcutDefaultPrevented(keyEvent)) {
 					event.preventDefault();
 				}
 
@@ -285,7 +288,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				super.onBrowserEvent(event);
 
 				KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
-				if ((etype == Event.ONMOUSEDOWN || etype == Event.ONTOUCHSTART)
+				if ((BrowserEvents.MOUSEDOWN.equals(etype) || BrowserEvents.TOUCHSTART.equals(etype))
 						&& !app.isWhiteboardActive()
 						&& keyboardManager != null) {
 					app.showKeyboard(AutoCompleteTextFieldW.this, true);
@@ -294,8 +297,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 				// react on enter from system on screen keyboard or hardware
 				// keyboard
-				if ((etype == Event.ONKEYUP || etype == Event.ONKEYPRESS)
-						&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
+				if ((BrowserEvents.KEYUP.equals(etype) || BrowserEvents.KEYPRESS.equals(etype))
+						&& DOM.isEnterKey(event)) {
 					// app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField
 					event.stopPropagation();
@@ -303,13 +306,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				}
 			}
 
-			private boolean isSelected(int eventType) {
-				return eventType == Event.ONMOUSEDOWN
-						|| eventType == Event.ONMOUSEMOVE
-						|| eventType == Event.ONMOUSEUP
-						|| eventType == Event.ONTOUCHMOVE
-						|| eventType == Event.ONTOUCHSTART
-						|| eventType == Event.ONTOUCHEND;
+			private boolean isSelected(@NonNull String eventType) {
+				return eventType.equals(BrowserEvents.MOUSEDOWN)
+						|| eventType.equals(BrowserEvents.MOUSEMOVE)
+						|| eventType.equals(BrowserEvents.MOUSEUP)
+						|| eventType.equals(BrowserEvents.TOUCHMOVE)
+						|| eventType.equals(BrowserEvents.TOUCHSTART)
+						|| eventType.equals(BrowserEvents.TOUCHEND);
 			}
 
 			private void handleSelectedEvent(Event event) {
@@ -317,7 +320,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 		};
 
-		textField.sinkEvents(Event.ONMOUSEMOVE | Event.ONMOUSEUP | Event.TOUCHEVENTS);
+		textField.sinkEvents(org.gwtproject.user.client.Event.ONMOUSEMOVE
+				| org.gwtproject.user.client.Event.ONMOUSEUP
+				| org.gwtproject.user.client.Event.TOUCHEVENTS);
 		if (columns > 0) {
 			setWidthInEm(columns);
 		}
@@ -754,15 +759,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			e.preventDefault();
 		}
 
-		int keyCode = e.getNativeKeyCode();
+		Event keyEvent = e.getNativeEvent();
 		app.getGlobalKeyDispatcher();
 		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
 			e.preventDefault();
 		}
-		if (keyCode == GWTKeycodes.KEY_TAB && moveToNextArgument(true, false)) {
+		if (DOM.isTabKey(keyEvent) && moveToNextArgument(true, false)) {
 			e.preventDefault();
 		}
-		if (keyCode == GWTKeycodes.KEY_TAB) {
+		if (DOM.isTabKey(keyEvent)) {
 			e.preventDefault();
 			if (usedForInputBox()) {
 				AutoCompleteTextField tf = app.getActiveEuclidianView().getTextField();
@@ -777,12 +782,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				e.stopPropagation(); // avoid conflict with GeoTabber
 			}
 		}
-		if (handleEscapeKey && keyCode == KeyCodes.KEY_ESCAPE) {
+		if (handleEscapeKey && DOM.isEscapeKey(keyEvent)) {
 			e.stopPropagation();
 		}
-		if ((keyCode == GWTKeycodes.KEY_DOWN || keyCode == GWTKeycodes.KEY_UP)
-				&& upDownArrowHandler != null) {
-			if (keyCode == GWTKeycodes.KEY_UP) {
+		if ((e.isDownArrow() || e.isUpArrow()) && upDownArrowHandler != null) {
+			if (e.isUpArrow()) {
 				handleUpArrow();
 			} else {
 				handleDownArrow();
@@ -790,7 +794,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			e.preventDefault();
 		}
 		// make sure parent arrow handlers do not interfere, e.g. the algebra view
-		if (keyCode >= GWTKeycodes.KEY_LEFT && keyCode <= GWTKeycodes.KEY_DOWN) {
+		if (e.getNativeEvent().code.startsWith("Arrow")) {
 			e.stopPropagation();
 		}
 		textFieldController.handleKeyboardEvent(e);
@@ -808,7 +812,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void onKeyUp(KeyUpEvent e) {
 		GlobalKeyDispatcherW.setDownAltKeys(e, false);
-		int keyCode = e.getNativeKeyCode();
+		String keyCode = e.getNativeEvent().code;
 		// we don't want to trap AltGr
 		// as it is used eg for entering {[}] is some locales
 		// NB e.isAltGraphDown() doesn't work
@@ -817,19 +821,19 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 
 		switch (keyCode) {
-			case GWTKeycodes.KEY_Z:
-			case GWTKeycodes.KEY_Y:
+			case "KeyZ":
+			case "KeyY":
 				if (e.isControlKeyDown()) {
 					app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 					e.stopPropagation();
 				}
 				break;
-			case GWTKeycodes.KEY_C:
+			case "KeyC":
 				break;
 
 			// process input
 
-			case GWTKeycodes.KEY_ESCAPE:
+			case "Escape":
 				if (!handleEscapeKey) {
 					break;
 				}
@@ -843,23 +847,23 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				}
 				break;
 
-			case GWTKeycodes.KEY_UP:
-			case GWTKeycodes.KEY_DOWN:
+			case "ArrowUp":
+			case "ArrowDown":
 				e.stopPropagation(); // prevent GlobalKeyDispatcherW to move the
 				// euclidian view
 				break;
 
-			case GWTKeycodes.KEY_F9:
+			case "F9":
 				// needed for applets
 				if (app.isApplet()) {
 					app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 				}
 				break;
-			case GWTKeycodes.KEY_LEFT:
+			case "ArrowLeft":
 				textField.hideSuggestions();
 				e.stopPropagation();
 				break;
-			case GWTKeycodes.KEY_RIGHT:
+			case "ArrowRight":
 				if (moveToNextArgument(false, true)) {
 					e.stopPropagation();
 					textField.hideSuggestions();
@@ -867,22 +871,22 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				e.stopPropagation();
 				break;
 
-			case GWTKeycodes.KEY_TAB:
+			case "Tab":
 				e.preventDefault();
 				if (moveToNextArgument(true, true)) {
 					e.stopPropagation();
 				}
 				break;
-			case GWTKeycodes.KEY_ZERO:
-			case GWTKeycodes.KEY_ONE:
-			case GWTKeycodes.KEY_TWO:
-			case GWTKeycodes.KEY_THREE:
-			case GWTKeycodes.KEY_FOUR:
-			case GWTKeycodes.KEY_FIVE:
-			case GWTKeycodes.KEY_SIX:
-			case GWTKeycodes.KEY_SEVEN:
-			case GWTKeycodes.KEY_EIGHT:
-			case GWTKeycodes.KEY_NINE:
+			case "Digit0":
+			case "Digit1":
+			case "Digit2":
+			case "Digit3":
+			case "Digit4":
+			case "Digit5":
+			case "Digit6":
+			case "Digit7":
+			case "Digit8":
+			case "Digit9":
 				if (e.isControlKeyDown() && e.isShiftKeyDown()) {
 					app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 				}
@@ -894,7 +898,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				// check for eg alt-shift-a for upper case alpha
 				if (GlobalKeyDispatcherW.isLeftAltDown()) {
 
-					String s = AltKeys.getAltSymbols(keyCode, e.isShiftKeyDown(), true);
+					String s =
+							AltKeys.getAltSymbols(DOM.getKeyCode(e.getNativeEvent()), e.isShiftKeyDown(), true);
 
 					if (s != null) {
 						insertString(s);
@@ -908,7 +913,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				boolean modifierKeyPressed = e.isControlKeyDown() || e.isAltKeyDown();
 
 				// we don't want to act when AltGr is down
-				// as it is used eg for entering {[}] is some locales
+				// as it is used eg for entering {[}] in some locales
 				// NB e.isAltGraphDown() doesn't work
 				if (e.isAltKeyDown() && e.isControlKeyDown()) {
 					modifierKeyPressed = false;
@@ -917,7 +922,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				char charPressed = (char) e.getNativeKeyCode();
 
 				if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed) || modifierKeyPressed)
-						&& (e.getNativeKeyCode() != GWTKeycodes.KEY_A)) {
+						&& !"KeyA".equals(e.getNativeEvent().code)) {
 					textFieldController.clearSelection();
 				}
 

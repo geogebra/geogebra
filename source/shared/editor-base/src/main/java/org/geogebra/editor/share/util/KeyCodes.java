@@ -20,129 +20,129 @@ package org.geogebra.editor.share.util;
  * Enumeration of all available keys. Provides mapping to integer codes used by JVM and JS/GWT.
  */
 public enum KeyCodes {
-	A(JavaKeyCodes.VK_A, GWTKeycodes.KEY_A),
+	A(JavaKeyCodes.VK_A),
 
-	B(JavaKeyCodes.VK_B, GWTKeycodes.KEY_B),
+	B(JavaKeyCodes.VK_B),
 
-	C(JavaKeyCodes.VK_C, GWTKeycodes.KEY_C),
+	C(JavaKeyCodes.VK_C),
 
-	D(JavaKeyCodes.VK_D, GWTKeycodes.KEY_D),
+	D(JavaKeyCodes.VK_D),
 
-	E(JavaKeyCodes.VK_E, GWTKeycodes.KEY_E),
+	E(JavaKeyCodes.VK_E),
 
-	F(JavaKeyCodes.VK_F, GWTKeycodes.KEY_F),
+	F(JavaKeyCodes.VK_F),
 
-	G(JavaKeyCodes.VK_G, GWTKeycodes.KEY_G),
+	G(JavaKeyCodes.VK_G),
 
-	H(JavaKeyCodes.VK_H, GWTKeycodes.KEY_H),
+	H(JavaKeyCodes.VK_H),
 
-	I(JavaKeyCodes.VK_I, GWTKeycodes.KEY_I),
+	I(JavaKeyCodes.VK_I),
 
-	J(JavaKeyCodes.VK_J, GWTKeycodes.KEY_J),
+	J(JavaKeyCodes.VK_J),
 
-	K(JavaKeyCodes.VK_K, GWTKeycodes.KEY_K),
+	K(JavaKeyCodes.VK_K),
 
-	L(JavaKeyCodes.VK_L, GWTKeycodes.KEY_L),
+	L(JavaKeyCodes.VK_L),
 
-	M(JavaKeyCodes.VK_M, GWTKeycodes.KEY_M),
+	M(JavaKeyCodes.VK_M),
 
-	N(JavaKeyCodes.VK_N, GWTKeycodes.KEY_N),
+	N(JavaKeyCodes.VK_N),
 
-	O(JavaKeyCodes.VK_O, GWTKeycodes.KEY_O),
+	O(JavaKeyCodes.VK_O),
 
-	P(JavaKeyCodes.VK_P, GWTKeycodes.KEY_P),
+	P(JavaKeyCodes.VK_P),
 
-	Q(JavaKeyCodes.VK_Q, GWTKeycodes.KEY_Q),
+	Q(JavaKeyCodes.VK_Q),
 
-	R(JavaKeyCodes.VK_R, GWTKeycodes.KEY_R),
+	R(JavaKeyCodes.VK_R),
 
-	S(JavaKeyCodes.VK_S, GWTKeycodes.KEY_S),
+	S(JavaKeyCodes.VK_S),
 
-	T(JavaKeyCodes.VK_T, GWTKeycodes.KEY_T),
+	T(JavaKeyCodes.VK_T),
 
-	U(JavaKeyCodes.VK_U, GWTKeycodes.KEY_U),
+	U(JavaKeyCodes.VK_U),
 
-	V(JavaKeyCodes.VK_V, GWTKeycodes.KEY_V),
+	V(JavaKeyCodes.VK_V),
 
-	W(JavaKeyCodes.VK_W, GWTKeycodes.KEY_W),
+	W(JavaKeyCodes.VK_W),
 
-	X(JavaKeyCodes.VK_X, GWTKeycodes.KEY_X),
+	X(JavaKeyCodes.VK_X),
 
-	Y(JavaKeyCodes.VK_Y, GWTKeycodes.KEY_Y),
+	Y(JavaKeyCodes.VK_Y),
 
-	Z(JavaKeyCodes.VK_Z, GWTKeycodes.KEY_Z),
+	Z(JavaKeyCodes.VK_Z),
 
-	F1(JavaKeyCodes.VK_F1, GWTKeycodes.KEY_F1),
+	F1(JavaKeyCodes.VK_F1),
 
-	F2(JavaKeyCodes.VK_F2, GWTKeycodes.KEY_F2),
+	F2(JavaKeyCodes.VK_F2),
 
-	F3(JavaKeyCodes.VK_F3, GWTKeycodes.KEY_F3),
+	F3(JavaKeyCodes.VK_F3),
 
-	F4(JavaKeyCodes.VK_F4, GWTKeycodes.KEY_F4),
+	F4(JavaKeyCodes.VK_F4),
 
-	F5(JavaKeyCodes.VK_F5, GWTKeycodes.KEY_F5),
+	F5(JavaKeyCodes.VK_F5),
 
-	F6(JavaKeyCodes.VK_F6, GWTKeycodes.KEY_F6),
+	F6(JavaKeyCodes.VK_F6),
 
-	F7(JavaKeyCodes.VK_F7, GWTKeycodes.KEY_F7),
+	F7(JavaKeyCodes.VK_F7),
 
-	F8(JavaKeyCodes.VK_F8, GWTKeycodes.KEY_F8),
+	F8(JavaKeyCodes.VK_F8),
 
-	F9(JavaKeyCodes.VK_F9, GWTKeycodes.KEY_F9),
+	F9(JavaKeyCodes.VK_F9),
 
-	F10(JavaKeyCodes.VK_F10, GWTKeycodes.KEY_F10),
+	F10(JavaKeyCodes.VK_F10),
 
-	F11(JavaKeyCodes.VK_F11, GWTKeycodes.KEY_F11),
+	F11(JavaKeyCodes.VK_F11),
 
-	F12(JavaKeyCodes.VK_F12, GWTKeycodes.KEY_F11),
+	F12(JavaKeyCodes.VK_F12),
 
-	K0(JavaKeyCodes.VK_0, GWTKeycodes.KEY_ZERO),
+	K0(JavaKeyCodes.VK_0),
 
-	K1(JavaKeyCodes.VK_1, GWTKeycodes.KEY_ONE),
+	K1(JavaKeyCodes.VK_1),
 
-	K2(JavaKeyCodes.VK_2, GWTKeycodes.KEY_TWO),
+	K2(JavaKeyCodes.VK_2),
 
-	K3(JavaKeyCodes.VK_3, GWTKeycodes.KEY_THREE),
+	K3(JavaKeyCodes.VK_3),
 
-	K4(JavaKeyCodes.VK_4, GWTKeycodes.KEY_FOUR),
+	K4(JavaKeyCodes.VK_4),
 
-	K5(JavaKeyCodes.VK_5, GWTKeycodes.KEY_FIVE),
+	K5(JavaKeyCodes.VK_5),
 
-	K6(JavaKeyCodes.VK_6, GWTKeycodes.KEY_SIX),
+	K6(JavaKeyCodes.VK_6),
 
-	K7(JavaKeyCodes.VK_7, GWTKeycodes.KEY_SEVEN),
+	K7(JavaKeyCodes.VK_7),
 
-	K8(JavaKeyCodes.VK_8, GWTKeycodes.KEY_EIGHT),
+	K8(JavaKeyCodes.VK_8),
 
-	K9(JavaKeyCodes.VK_9, GWTKeycodes.KEY_NINE),
+	K9(JavaKeyCodes.VK_9),
 
-	NUMPAD0(JavaKeyCodes.VK_NUMPAD0, GWTKeycodes.KEY_NUM_ZERO),
+	NUMPAD0(JavaKeyCodes.VK_NUMPAD0),
 
-	NUMPAD1(JavaKeyCodes.VK_NUMPAD1, GWTKeycodes.KEY_NUM_ONE),
+	NUMPAD1(JavaKeyCodes.VK_NUMPAD1),
 
-	NUMPAD2(JavaKeyCodes.VK_NUMPAD2, GWTKeycodes.KEY_NUM_TWO),
+	NUMPAD2(JavaKeyCodes.VK_NUMPAD2),
 
-	NUMPAD3(JavaKeyCodes.VK_NUMPAD3, GWTKeycodes.KEY_NUM_THREE),
+	NUMPAD3(JavaKeyCodes.VK_NUMPAD3),
 
-	NUMPAD4(JavaKeyCodes.VK_NUMPAD4, GWTKeycodes.KEY_NUM_FOUR),
+	NUMPAD4(JavaKeyCodes.VK_NUMPAD4),
 
-	NUMPAD5(JavaKeyCodes.VK_NUMPAD5, GWTKeycodes.KEY_NUM_FIVE),
+	NUMPAD5(JavaKeyCodes.VK_NUMPAD5),
 
-	NUMPAD6(JavaKeyCodes.VK_NUMPAD6, GWTKeycodes.KEY_NUM_SIX),
+	NUMPAD6(JavaKeyCodes.VK_NUMPAD6),
 
-	NUMPAD7(JavaKeyCodes.VK_NUMPAD7, GWTKeycodes.KEY_NUM_SEVEN),
+	NUMPAD7(JavaKeyCodes.VK_NUMPAD7),
 
-	NUMPAD8(JavaKeyCodes.VK_NUMPAD8, GWTKeycodes.KEY_NUM_EIGHT),
+	NUMPAD8(JavaKeyCodes.VK_NUMPAD8),
 
-	NUMPAD9(JavaKeyCodes.VK_NUMPAD9, GWTKeycodes.KEY_NUM_NINE),
+	NUMPAD9(JavaKeyCodes.VK_NUMPAD9),
 
 	MINUS(JavaKeyCodes.VK_MINUS, GWTKeycodes.KEY_MINUS),
 
-	SUBTRACT(JavaKeyCodes.VK_SUBTRACT, GWTKeycodes.KEY_NUM_MINUS),
+	SUBTRACT(JavaKeyCodes.VK_SUBTRACT), // GWTKeycodes.KEY_NUM_MINUS
 
 	PLUS(JavaKeyCodes.VK_PLUS, GWTKeycodes.KEY_NUM_PLUS),
 
-	ADD(JavaKeyCodes.VK_ADD, GWTKeycodes.KEY_NUM_PLUS),
+	ADD(JavaKeyCodes.VK_ADD), // GWTKeycodes.KEY_NUM_PLUS
 
 	EQUALS(JavaKeyCodes.VK_EQUALS, GWTKeycodes.KEY_EQUALS),
 
@@ -152,41 +152,41 @@ public enum KeyCodes {
 
 	RIGHT_SQUARE_BRACKET(JavaKeyCodes.VK_CLOSE_BRACKET, GWTKeycodes.KEY_RIGHT_SQUARE_BRACKET),
 
-	ALT(JavaKeyCodes.VK_ALT, GWTKeycodes.KEY_ALT),
+	ALT(JavaKeyCodes.VK_ALT),
 
-	BACKSPACE(JavaKeyCodes.VK_BACK_SPACE, GWTKeycodes.KEY_BACKSPACE),
+	BACKSPACE(JavaKeyCodes.VK_BACK_SPACE),
 
-	CTRL(JavaKeyCodes.VK_CONTROL, GWTKeycodes.KEY_CTRL),
+	CTRL(JavaKeyCodes.VK_CONTROL),
 
 	DELETE(JavaKeyCodes.VK_DELETE, GWTKeycodes.KEY_DELETE),
 
-	DOWN(JavaKeyCodes.VK_DOWN, GWTKeycodes.KEY_DOWN),
+	DOWN(JavaKeyCodes.VK_DOWN),
 
-	END(JavaKeyCodes.VK_END, GWTKeycodes.KEY_END),
+	END(JavaKeyCodes.VK_END),
 
 	ENTER(JavaKeyCodes.VK_ENTER, GWTKeycodes.KEY_ENTER),
 
-	ESCAPE(JavaKeyCodes.VK_ESCAPE, GWTKeycodes.KEY_ESCAPE),
+	ESCAPE(JavaKeyCodes.VK_ESCAPE),
 
-	HOME(JavaKeyCodes.VK_HOME, GWTKeycodes.KEY_HOME),
+	HOME(JavaKeyCodes.VK_HOME),
 
-	LEFT(JavaKeyCodes.VK_LEFT, GWTKeycodes.KEY_LEFT),
+	LEFT(JavaKeyCodes.VK_LEFT),
 
-	PAGEDOWN(JavaKeyCodes.VK_PAGE_DOWN, GWTKeycodes.KEY_PAGEDOWN),
+	PAGEDOWN(JavaKeyCodes.VK_PAGE_DOWN),
 
-	PAGEUP(JavaKeyCodes.VK_PAGE_UP, GWTKeycodes.KEY_PAGEUP),
+	PAGEUP(JavaKeyCodes.VK_PAGE_UP),
 
-	RIGHT(JavaKeyCodes.VK_RIGHT, GWTKeycodes.KEY_RIGHT),
+	RIGHT(JavaKeyCodes.VK_RIGHT),
 
-	SHIFT(JavaKeyCodes.VK_SHIFT, GWTKeycodes.KEY_SHIFT),
+	SHIFT(JavaKeyCodes.VK_SHIFT),
 
 	INSERT(JavaKeyCodes.VK_INSERT, GWTKeycodes.KEY_INSERT),
 
-	TAB(JavaKeyCodes.VK_TAB, GWTKeycodes.KEY_TAB),
+	TAB(JavaKeyCodes.VK_TAB),
 
-	UP(JavaKeyCodes.VK_UP, GWTKeycodes.KEY_UP),
+	UP(JavaKeyCodes.VK_UP),
 
-	SPACE(JavaKeyCodes.VK_SPACE, GWTKeycodes.KEY_SPACE),
+	SPACE(JavaKeyCodes.VK_SPACE),
 
 	CONTEXT_MENU(JavaKeyCodes.VK_CONTEXT_MENU, GWTKeycodes.KEY_CONTEXT_MENU),
 
@@ -196,7 +196,7 @@ public enum KeyCodes {
 
 	SLASH(JavaKeyCodes.VK_SLASH, GWTKeycodes.KEY_SLASH),
 
-	NUMPADSLASH(JavaKeyCodes.VK_DIVIDE, GWTKeycodes.KEY_NUM_DIVISION),
+	NUMPADSLASH(JavaKeyCodes.VK_DIVIDE), // GWTKeycodes.KEY_NUM_DIVISION
 
 	COMMA(JavaKeyCodes.VK_COMMA, GWTKeycodes.KEY_COMMA),
 
@@ -206,9 +206,9 @@ public enum KeyCodes {
 
 	HASH(JavaKeyCodes.VK_NUMBER_SIGN, GWTKeycodes.KEY_HASH),
 
-	NUMPADASTERISK(JavaKeyCodes.VK_MULTIPLY, GWTKeycodes.KEY_NUM_MULTIPLY),
+	NUMPADASTERISK(JavaKeyCodes.VK_MULTIPLY),
 
-	NUMLOCK(JavaKeyCodes.VK_NUM_LOCK, GWTKeycodes.KEY_NUMLOCK),
+	NUMLOCK(JavaKeyCodes.VK_NUM_LOCK),
 
 	/**
 	 * Mac Meta/Apple, same keycode as Windows key in GWT
@@ -218,15 +218,15 @@ public enum KeyCodes {
 	/**
 	 * middle key of NumPad (with NumLock off)
 	 */
-	CLEAR(JavaKeyCodes.VK_CLEAR, GWTKeycodes.KEY_CLEAR),
+	CLEAR(JavaKeyCodes.VK_CLEAR),
 
 	PERIOD(JavaKeyCodes.VK_PERIOD, GWTKeycodes.KEY_PERIOD),
 
-	DECIMALPOINT(JavaKeyCodes.VK_DECIMAL, GWTKeycodes.KEY_NUM_PERIOD),
+	DECIMALPOINT(JavaKeyCodes.VK_DECIMAL),
 
-	DECIMALCOMMA(JavaKeyCodes.VK_SEPARATOR, GWTKeycodes.KEY_NUM_COMMA),
+	DECIMALCOMMA(JavaKeyCodes.VK_SEPARATOR),
 
-	UNKNOWN(JavaKeyCodes.VK_UNDEFINED, GWTKeycodes.KEY_UNDEFINED);
+	UNKNOWN(JavaKeyCodes.VK_UNDEFINED);
 
 	private final int javaKey;
 	private final int GWTKey;
@@ -234,6 +234,11 @@ public enum KeyCodes {
 	KeyCodes(int javaKey, int GWTKey) {
 		this.javaKey = javaKey;
 		this.GWTKey = GWTKey;
+	}
+
+	KeyCodes(int javaKey) {
+		this.javaKey = javaKey;
+		this.GWTKey = javaKey;
 	}
 
 	/**

@@ -21,11 +21,12 @@ import org.gwtproject.event.logical.shared.SelectionEvent;
 import org.gwtproject.event.logical.shared.SelectionHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.UIObject;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.Event;
 
 /**
  * Top bar of a tab panel.
@@ -125,12 +126,12 @@ public final class MultiRowsTabBar extends FlowPanel implements HasSelectionHand
 	private class Tab extends Label {
 		Tab(String label) {
 			super(label);
-			sinkEvents(Event.ONCLICK);
+			sinkEvents(org.gwtproject.user.client.Event.ONCLICK);
 		}
 
 		@Override
 		public void onBrowserEvent(Event event) {
-			if (DOM.eventGetType(event) == Event.ONCLICK) {
+			if ("click".equals(event.type)) {
 				selectTabByTabWidget(this);
 			}
 			super.onBrowserEvent(event);

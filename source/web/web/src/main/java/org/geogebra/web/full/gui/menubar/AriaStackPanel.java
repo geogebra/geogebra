@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.UListElement;
@@ -27,11 +28,12 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.ComplexPanel;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.UIObject;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.Event;
 
 /**
  * List implementation of GWT StackPanel with aria support.
@@ -57,8 +59,11 @@ public class AriaStackPanel extends ComplexPanel implements StackPanelInterface 
 		ul = Document.get().createULElement();
 		setElement(ul);
 		addStyleName("gwt-StackPanel");
-		sinkEvents(
-				Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT | Event.ONFOCUS | Event.ONKEYDOWN);
+		sinkEvents(org.gwtproject.user.client.Event.ONCLICK
+				| org.gwtproject.user.client.Event.ONMOUSEOVER
+				| org.gwtproject.user.client.Event.ONMOUSEOUT
+				| org.gwtproject.user.client.Event.ONFOCUS
+				| org.gwtproject.user.client.Event.ONKEYDOWN);
 	}
 
 	@Override
@@ -403,13 +408,13 @@ public class AriaStackPanel extends ComplexPanel implements StackPanelInterface 
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		int eventType = DOM.eventGetType(event);
+		String eventType = event.type;
 
 		Element target = DOM.eventGetTarget(event);
 		int index = findDividerIndex(target);
-		if (eventType == Event.ONMOUSEOVER
-				|| eventType == Event.ONKEYDOWN
-				|| eventType == Event.ONCLICK) {
+		if (BrowserEvents.MOUSEOVER.equals(eventType)
+				|| BrowserEvents.KEYDOWN.equals(eventType)
+				|| BrowserEvents.CLICK.equals(eventType)) {
 
 			if (index > -1) {
 				headers.get(index).focus();
