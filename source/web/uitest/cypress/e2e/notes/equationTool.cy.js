@@ -25,7 +25,7 @@ describe('Equation tool test', () => {
             cy.window().then((win) => {
                 parseString(win.ggbApplet.getXML("a"), (err, data) => {
                     expect(data.element.content[0]["$"].val).to.equal("x^(2)");
-                    expect(data.element.objColor[0]["$"].g).to.equal("179");
+                    expect(data.element.objColor[0]["$"].g).to.equal("87");
                 });
             })
     });
