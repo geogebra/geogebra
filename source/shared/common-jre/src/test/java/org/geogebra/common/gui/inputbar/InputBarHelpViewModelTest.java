@@ -184,7 +184,7 @@ class InputBarHelpViewModelTest extends BaseExamTestSetup {
 		open("");
 		viewModel.openCategory(CommandCategory.VECTOR_AND_MATRIX);
 		assertAll(
-				() -> assertEquals("Vektor & Matrix", topPage().title()),
+				() -> assertEquals("Vektor & Matrix", topPage().title()), // NO-TYPO
 				() -> assertTrue(((InputBarHelpPage.Commands) topPage()).commands().contains("Länge")),
 				() -> assertTrue(commandsOf(CommandCategory.GEOMETRY).contains("Senkrechte")));
 	}
