@@ -3276,7 +3276,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return true;
 	}
 
-	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected final GeoElement[] mirrorAtPoint(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
@@ -3313,12 +3312,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				ArrayList<GeoElement> ret = new ArrayList<>();
 
 				for (GeoElement geo : geos) {
-					if (geo != point) {
-						if (geo instanceof Transformable) {
-							ret.addAll(Arrays.asList(companion.mirrorAtPoint(geo, point)));
-						} else if (geo.isGeoPolygon()) {
-							ret.addAll(Arrays.asList(companion.mirrorAtPoint(geo, point)));
-						}
+					if (geo != point && geo instanceof Transformable) { // includes polygons
+						ret.addAll(Arrays.asList(companion.mirrorAtPoint(geo, point)));
 					}
 				}
 				GeoElement[] retex = {};
@@ -3328,7 +3323,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
-	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected final GeoElement[] mirrorAtLine(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
@@ -3373,12 +3367,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				ArrayList<GeoElement> ret = new ArrayList<>();
 
 				for (GeoElement geo : geos) {
-					if (geo != line) {
-						if (geo instanceof Transformable) {
-							ret.addAll(Arrays.asList(companion.mirrorAtLine(geo, line)));
-						} else if (geo.isGeoPolygon()) {
-							ret.addAll(Arrays.asList(companion.mirrorAtLine(geo, line)));
-						}
+					if (geo != line && geo instanceof Transformable) { // includes polygons
+						ret.addAll(Arrays.asList(companion.mirrorAtLine(geo, line)));
 					}
 				}
 
@@ -3389,7 +3379,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
-	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	protected final GeoElement[] mirrorAtCircle(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
@@ -3427,12 +3416,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				ArrayList<GeoElement> ret = new ArrayList<>();
 
 				for (GeoElement geo : geos) {
-					if (geo != circle && circle != null) {
-						if (geo instanceof Transformable) {
-							ret.addAll(Arrays.asList(getAlgoDispatcher().mirror(null, geo, circle)));
-						} else if (geo.isGeoPolygon()) {
-							ret.addAll(Arrays.asList(getAlgoDispatcher().mirror(null, geo, circle)));
-						}
+					if (geo != circle && circle != null && geo instanceof Transformable) {
+						ret.addAll(Arrays.asList(getAlgoDispatcher().mirror(null, geo, circle)));
 					}
 				}
 
