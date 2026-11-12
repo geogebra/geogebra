@@ -42,6 +42,7 @@ import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.util.ManualPage;
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.junit.jupiter.api.BeforeAll;
@@ -157,7 +158,7 @@ class InputBarHelpViewModelTest extends BaseExamTestSetup {
 		open("");
 		List<String> functions = commandsOf(CommandCategory.MATH_FUNCTIONS);
 		viewModel.setSearchText("log");
-		List<String> results = rootPage().searchResults();
+		List<String> results = names(rootPage().searchResults());
 		assertAll(
 				() -> assertEquals(1, functions.stream().filter("log"::equals).count()),
 				() -> assertEquals(1, results.stream().filter("log"::equals).count()),
@@ -185,7 +186,8 @@ class InputBarHelpViewModelTest extends BaseExamTestSetup {
 		viewModel.openCategory(CommandCategory.VECTOR_AND_MATRIX);
 		assertAll(
 				() -> assertEquals("Vektor & Matrix", topPage().title()), // NO-TYPO
-				() -> assertTrue(((InputBarHelpPage.Commands) topPage()).commands().contains("Länge")),
+				() ->
+						assertTrue(names(((InputBarHelpPage.Commands) topPage()).commands()).contains("Länge")),
 				() -> assertTrue(commandsOf(CommandCategory.GEOMETRY).contains("Senkrechte")));
 	}
 
@@ -227,7 +229,7 @@ class InputBarHelpViewModelTest extends BaseExamTestSetup {
 		open("");
 		assertTrue(rootPage().searchResults().isEmpty());
 		viewModel.setSearchText("SUM");
-		List<String> results = rootPage().searchResults();
+		List<String> results = names(rootPage().searchResults());
 		assertAll(
 				() -> assertTrue(results.contains("Sum")),
 				() -> assertTrue(results.contains("LeftSum")),
@@ -239,9 +241,9 @@ class InputBarHelpViewModelTest extends BaseExamTestSetup {
 		setup(SuiteSubApp.GRAPHING);
 		open("");
 		viewModel.setSearchText("sq");
-		assertTrue(rootPage().searchResults().contains("sqrt"));
+		assertTrue(names(rootPage().searchResults()).contains("sqrt"));
 		viewModel.setSearchText("x");
-		assertFalse(rootPage().searchResults().contains("sqrt"));
+		assertFalse(names(rootPage().searchResults()).contains("sqrt"));
 	}
 
 	@Test
@@ -250,7 +252,33 @@ class InputBarHelpViewModelTest extends BaseExamTestSetup {
 		getApp().setLocale(new Locale("de"));
 		open("");
 		viewModel.setSearchText("lange");
-		assertTrue(rootPage().searchResults().contains("Länge"));
+		assertTrue(rootPage().searchResults().contains(new MatchedString("Länge", 0, 5)));
+	}
+
+	@Test
+	void searchResultsHaveTheMatchedPart() {
+		setup(SuiteSubApp.GRAPHING);
+		open("");
+		viewModel.setSearchText(" sum ");
+		List<MatchedString> results = rootPage().searchResults();
+		assertAll(
+				() -> assertTrue(results.contains(new MatchedString("Sum", 0, 3))),
+				() -> assertTrue(results.contains(new MatchedString("LeftSum", 4, 7))));
+		viewModel.setSearchText("sq");
+		assertTrue(rootPage().searchResults().contains(new MatchedString("sqrt", 0, 2)));
+	}
+
+	@Test
+	void categoryPageHasTheMatchedPartOnlyWhenSearching() {
+		setup(SuiteSubApp.GRAPHING);
+		open("");
+		viewModel.openCategory(CommandCategory.TEXT);
+		InputBarHelpPage.Commands page = (InputBarHelpPage.Commands) topPage();
+		assertTrue(page.commands().stream().allMatch(command -> command.from() == command.to()));
+		viewModel.setSearchText("ength");
+		assertEquals(
+				List.of(new MatchedString("Length", 1, 6)),
+				((InputBarHelpPage.Commands) topPage()).commands());
 	}
 
 	@Test
@@ -261,8 +289,8 @@ class InputBarHelpViewModelTest extends BaseExamTestSetup {
 		viewModel.setSearchText("L");
 		InputBarHelpPage.Commands page = (InputBarHelpPage.Commands) topPage();
 		assertAll(
-				() -> assertTrue(page.commands().contains("Length")),
-				() -> assertFalse(page.commands().contains("Line")),
+				() -> assertTrue(names(page.commands()).contains("Length")),
+				() -> assertFalse(names(page.commands()).contains("Line")),
 				() -> assertEquals("L", page.searchText()),
 				() -> assertEquals("", rootPage().searchText()));
 	}
@@ -477,9 +505,13 @@ class InputBarHelpViewModelTest extends BaseExamTestSetup {
 
 	private List<String> commandsOf(CommandCategory category) {
 		viewModel.openCategory(category);
-		List<String> commands = ((InputBarHelpPage.Commands) topPage()).commands();
+		List<String> commands = names(((InputBarHelpPage.Commands) topPage()).commands());
 		viewModel.navigateBack();
 		return commands;
+	}
+
+	private static List<String> names(List<MatchedString> commands) {
+		return commands.stream().map(MatchedString::content).collect(Collectors.toList());
 	}
 
 	/**

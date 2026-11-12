@@ -101,20 +101,21 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 			MatchedString candidate = candidates.get(i);
 
 			SafeHtmlBuilder accum = new SafeHtmlBuilder();
-			if (query.length() < candidate.content.length()) {
-				String part1 = candidate.content.substring(0, candidate.from);
-				String part2 = candidate.content.substring(candidate.from, candidate.from + query.length());
-				String part3 = candidate.content.substring(candidate.from + query.length());
+			if (query.length() < candidate.content().length()) {
+				String part1 = candidate.content().substring(0, candidate.from());
+				int matchEnd = candidate.from() + query.length();
+				String part2 = candidate.content().substring(candidate.from(), matchEnd);
+				String part3 = candidate.content().substring(matchEnd);
 				accum.appendEscaped(part1);
 				accum.appendHtmlConstant("<strong>");
 				accum.appendEscaped(part2);
 				accum.appendHtmlConstant("</strong>");
 				accum.appendEscaped(part3);
 			} else {
-				accum.appendEscaped(candidate.content);
+				accum.appendEscaped(candidate.content());
 			}
 			suggestions.add(
-					new MultiWordSuggestion(candidate.content, accum.toSafeHtml().asString()));
+					new MultiWordSuggestion(candidate.content(), accum.toSafeHtml().asString()));
 		}
 		return suggestions;
 	}

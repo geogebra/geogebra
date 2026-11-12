@@ -125,9 +125,9 @@ public class AutocompleteProvider {
 	}
 
 	private void addSyntaxes(MatchedString match, ArrayList<MatchedString> syntaxes) {
-		String syntaxString = getSyntaxString(match.content);
+		String syntaxString = getSyntaxString(match.content());
 		for (String syntax : syntaxString.split("\\n")) {
-			syntaxes.add(new MatchedString(syntax, match.from, match.to));
+			syntaxes.add(new MatchedString(syntax, match.from(), match.to()));
 		}
 	}
 
@@ -223,9 +223,9 @@ public class AutocompleteProvider {
 			Stream<Completion> commandCompletions = commandResults.stream()
 					.map(command -> new Completion(
 							command,
-							getSyntaxes(command.content),
+							getSyntaxes(command.content()),
 							ManualPage.COMMAND,
-							app.getInternalCommand(command.content)));
+							app.getInternalCommand(command.content())));
 			completions = Stream.concat(completions, commandCompletions);
 		}
 
@@ -275,8 +275,11 @@ public class AutocompleteProvider {
 			return match;
 		}
 
+		/**
+		 * @return the completed command or function name
+		 */
 		public String getCommand() {
-			return match.content;
+			return match.content();
 		}
 
 		public List<String> getSyntaxes() {
@@ -291,13 +294,16 @@ public class AutocompleteProvider {
 			return helpType;
 		}
 
+		/**
+		 * @return index of the first matched character in the command name
+		 */
 		public int getOffset() {
-			return match.from;
+			return match.from();
 		}
 
 		@Override
 		public String toString() {
-			return match.content;
+			return match.content();
 		}
 	}
 }

@@ -18,6 +18,7 @@ package org.geogebra.common.gui.inputbar;
 
 import java.util.List;
 
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.StringUtil;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -43,10 +44,11 @@ public sealed interface InputBarHelpPage {
 
 		/**
 		 * @param searchText search text
-		 * @param searchResults commands matching the search text
+		 * @param searchResults commands matching the search text, with the matched part
 		 * @return a page with the updated search
 		 */
-		@NonNull Searchable withSearchText(@NonNull String searchText, @NonNull List<String> searchResults);
+		@NonNull Searchable withSearchText(
+				@NonNull String searchText, @NonNull List<MatchedString> searchResults);
 	}
 
 	/**
@@ -54,14 +56,15 @@ public sealed interface InputBarHelpPage {
 	 * empty, the matching commands of all categories otherwise.
 	 * @param title the title to show in the header
 	 * @param searchText the text in the search field
-	 * @param searchResults matching commands; empty when the search text is empty
+	 * @param searchResults matching commands with the matched part; empty when the search text
+	 * is empty
 	 * @param recentSyntaxes recently selected syntaxes, newest first
 	 * @param categories the non-empty categories
 	 */
 	record CommandCategories(
 			@NonNull String title,
 			@NonNull String searchText,
-			@NonNull List<String> searchResults,
+			@NonNull List<MatchedString> searchResults,
 			@NonNull List<String> recentSyntaxes,
 			@NonNull List<CommandCategory> categories)
 			implements Searchable {
@@ -73,8 +76,8 @@ public sealed interface InputBarHelpPage {
 
 		@Override
 		public @NonNull CommandCategories withSearchText(
-				@NonNull String searchText, @NonNull List<String> searchResults) {
-			List<String> results = StringUtil.emptyTrim(searchText) ? List.of() : searchResults;
+				@NonNull String searchText, @NonNull List<MatchedString> searchResults) {
+			List<MatchedString> results = StringUtil.emptyTrim(searchText) ? List.of() : searchResults;
 			return new CommandCategories(title, searchText, results, recentSyntaxes, categories);
 		}
 	}
@@ -83,13 +86,14 @@ public sealed interface InputBarHelpPage {
 	 * Page with the commands of a category, filtered by the search text.
 	 * @param title the title to show in the header
 	 * @param searchText the text in the search field
-	 * @param commands commands of the category matching the search text
+	 * @param commands commands of the category matching the search text, with the matched part
+	 * (nothing matched when the search text is empty)
 	 * @param category the category
 	 */
 	record Commands(
 			@NonNull String title,
 			@NonNull String searchText,
-			@NonNull List<String> commands,
+			@NonNull List<MatchedString> commands,
 			@NonNull CommandCategory category)
 			implements Searchable {
 
@@ -100,7 +104,7 @@ public sealed interface InputBarHelpPage {
 
 		@Override
 		public @NonNull Commands withSearchText(
-				@NonNull String searchText, @NonNull List<String> searchResults) {
+				@NonNull String searchText, @NonNull List<MatchedString> searchResults) {
 			return new Commands(title, searchText, searchResults, category);
 		}
 	}

@@ -28,6 +28,7 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.CommandSignatures;
 import org.junit.jupiter.api.Test;
@@ -71,7 +72,7 @@ class CommandFilterTest extends BaseUnitTest {
 	@Test
 	void noCasCommandsInSuiteAndClassic() {
 		List<String> integralsClassic = getApp().getCommandDictionary().getCompletions("Integ").stream()
-				.map(c -> c.content)
+				.map(MatchedString::content)
 				.collect(Collectors.toList());
 		// should not contain IntegralSymbolic
 		assertEquals(

@@ -36,6 +36,7 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.states.MutableState;
 import org.geogebra.common.states.State;
 import org.geogebra.common.util.ManualPage;
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.controller.EditorState;
@@ -120,7 +121,7 @@ public final class InputBarHelpViewModel implements ExamListener {
 		String title = app.getLocalization().getMenu("Commands");
 		InputBarHelpPage.CommandCategories categoriesPage = new InputBarHelpPage.CommandCategories(
 				title, "", List.of(), List.copyOf(recentSyntaxes), getCategoriesToShow());
-		List<String> searchResults = search(CommandCategory.ALL_COMMANDS, searchText);
+		List<MatchedString> searchResults = search(CommandCategory.ALL_COMMANDS, searchText);
 		navigationStack.set(List.of(categoriesPage.withSearchText(searchText, searchResults)));
 	}
 
@@ -134,8 +135,7 @@ public final class InputBarHelpViewModel implements ExamListener {
 			return;
 		}
 		String title = app.getLocalization().getMenu(category.getTranslationKey());
-		List<String> commands = commandsByCategory.get(category);
-		push(new InputBarHelpPage.Commands(title, "", commands, category));
+		push(new InputBarHelpPage.Commands(title, "", search(category, ""), category));
 	}
 
 	/**
@@ -169,7 +169,7 @@ public final class InputBarHelpViewModel implements ExamListener {
 		List<InputBarHelpPage> stack = new ArrayList<>(navigationStack.get());
 		if (!stack.isEmpty()
 				&& stack.get(stack.size() - 1) instanceof InputBarHelpPage.Searchable page) {
-			List<String> searchResults = search(page.searchCategory(), searchText);
+			List<MatchedString> searchResults = search(page.searchCategory(), searchText);
 			stack.set(stack.size() - 1, page.withSearchText(searchText, searchResults));
 			navigationStack.set(stack);
 		}
@@ -305,19 +305,27 @@ public final class InputBarHelpViewModel implements ExamListener {
 		return categories;
 	}
 
-	private @NonNull List<String> search(
+	/**
+	 * @return the commands of the category matching the search text, with the matched part; all
+	 * commands of the category with nothing matched if the search text is blank
+	 */
+	private @NonNull List<MatchedString> search(
 			@NonNull CommandCategory category, @NonNull String searchText) {
 		List<String> commandsInCategory = commandsByCategory.get(category);
 		String query = searchText.trim();
 		if (query.isEmpty()) {
-			return commandsInCategory;
+			return commandsInCategory.stream()
+					.map(command -> new MatchedString(command, 0, 0))
+					.collect(Collectors.toList());
 		}
 		Set<String> namesInCategory = new HashSet<>(commandsInCategory);
+		Set<String> addedNames = new HashSet<>();
 		return app.getAutocompleteProvider()
 				.getCompletions(query)
-				.map(AutocompleteProvider.Completion::getCommand)
-				.distinct() // the suggestion popup lists functions like log once per syntax
-				.filter(namesInCategory::contains)
+				.map(AutocompleteProvider.Completion::getMatch)
+				.filter(match -> namesInCategory.contains(match.content()))
+				// the suggestion popup lists functions like log once per syntax
+				.filter(match -> addedNames.add(match.content()))
 				.collect(Collectors.toList());
 	}
 

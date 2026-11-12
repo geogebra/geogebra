@@ -16,45 +16,15 @@
 
 package org.geogebra.common.util;
 
-public class MatchedString {
-	public final String content;
-	public final int from;
-	public final int to;
+import org.jspecify.annotations.NonNull;
 
-	/**
-	 * Note: This is necessary for Objective-C.
-	 * @return content
-	 */
-	public String getContent() {
-		return content;
-	}
-
-	/**
-	 * Note: This is necessary for Objective-C.
-	 * @return from
-	 */
-	public int getFrom() {
-		return from;
-	}
-
-	/**
-	 * Note: This is necessary for Objective-C.
-	 * @return to
-	 */
-	public int getTo() {
-		return to;
-	}
-
-	/**
-	 * @param content text content
-	 * @param from index of first matched character
-	 * @param to index of last matched character + 1
-	 */
-	public MatchedString(String content, int from, int to) {
-		this.content = content;
-		this.from = from;
-		this.to = to;
-	}
+/**
+ * Text with a matched part, e.g. a command name matching a search text.
+ * @param content text content
+ * @param from index of first matched character
+ * @param to index of last matched character + 1
+ */
+public record MatchedString(@NonNull String content, int from, int to) {
 
 	/**
 	 * @return [prefix, highlighted part, suffix]

@@ -743,7 +743,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		ArrayList<String> syntaxes = new ArrayList<>();
 		for (MatchedString cmd : commands) {
 
-			String cmdInt = app.getInternalCommand(cmd.content);
+			String cmdInt = app.getInternalCommand(cmd.content());
 
 			if (cmdInt == null || "undefined".equals(cmdInt)) {
 				Log.error("Can't find command " + cmd);
@@ -763,7 +763,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 					|| syntaxString.endsWith(Localization.syntaxCAS)) {
 
 				// command not found, check for macros
-				Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd.content);
+				Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd.content());
 				if (macro != null) {
 					syntaxes.add(macro.toString());
 				} else {

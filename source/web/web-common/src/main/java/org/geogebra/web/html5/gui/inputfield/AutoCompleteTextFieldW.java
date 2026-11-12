@@ -1002,8 +1002,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (completions != null) {
 			String selString = event.getSelectedItem().getReplacementString();
 			Optional<MatchedString> selected =
-					completions.stream().filter(c -> c.content.equals(selString)).findFirst();
-			selected.ifPresent(highlightedString -> validateAutoCompletion(highlightedString.content));
+					completions.stream().filter(c -> c.content().equals(selString)).findFirst();
+			selected.ifPresent(highlightedString -> validateAutoCompletion(highlightedString.content()));
 		}
 	}
 

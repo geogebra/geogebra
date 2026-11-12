@@ -131,7 +131,7 @@ class AutocompleteProviderTest extends BaseUnitTest {
 			AppConfig config, String name) {
 		App app = AppCommonFactory.create(config);
 		AutocompleteProvider provider = new AutocompleteProvider(app, false);
-		return provider.getCompletions(name).filter(c -> Objects.equals(c.match.content, name));
+		return provider.getCompletions(name).filter(c -> Objects.equals(c.match.content(), name));
 	}
 
 	@Test
