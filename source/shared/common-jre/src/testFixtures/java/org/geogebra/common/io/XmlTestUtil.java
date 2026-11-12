@@ -36,7 +36,8 @@ import org.xml.sax.SAXParseException;
 
 public class XmlTestUtil {
 
-	private static final String GEOGEBRA_XSD_URL = "https://www.geogebra.org/apps/xsd/ggb.xsd";
+	private static final String GEOGEBRA_XSD_URL =
+			"file:///" + System.getProperty("user.dir") + "/../../../doc/xsd/ggb.xsd";
 	private static Validator VALIDATOR;
 
 	/**

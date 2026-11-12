@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:annotation>
+		<xs:documentation>This schema should be compatible with GeoGebra 4.0 file format.
+</xs:documentation>
+		<xs:appinfo>This schema is a part of GeoGebra which is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or any later version.
+
+This schema is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GeoGebra; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+</xs:appinfo>
+	</xs:annotation>
+	<xs:element name="construction">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded" minOccurs="0">
+					<xs:element name="command">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element minOccurs="0" name="casMap" type="casMap"/>
+								<xs:element name="input" type="ioType"/>
+								<xs:element minOccurs="0" name="outputSizes" type="stringVal"/>
+								<xs:element name="output">
+									<xs:complexType>
+										<xs:complexContent>
+											<xs:extension base="ioType">
+												<xs:attribute name="randomResult"/>
+											</xs:extension>
+										</xs:complexContent>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+							<xs:attribute name="name" type="xs:string" use="required"/>
+							<xs:attribute name="type" type="xs:string"/>
+							<xs:attribute name="var" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element ref="element"/>
+					<xs:element ref="cascell"/>
+					<xs:element name="expression">
+						<xs:complexType>
+							<xs:attribute name="exp" type="xs:string"/>
+							<xs:attribute name="label" type="xs:string"/>
+							<xs:attribute name="type" type="elType"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="group">
+						<xs:complexType>
+							<xs:attribute name="l0" type="xs:string"/>
+							<xs:attribute name="l1" type="xs:string"/>
+							<xs:attribute name="l2" type="xs:string"/>
+							<xs:attribute name="l3" type="xs:string"/>
+							<xs:attribute name="l4" type="xs:string"/>
+							<xs:attribute name="l5" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="title" type="xs:string"/>
+			<xs:attribute name="author" type="xs:string"/>
+			<xs:attribute name="date" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="element">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded" minOccurs="0">
+					<xs:element minOccurs="0" name="length" type="intVal"/>
+					<xs:element minOccurs="0" name="absoluteScreenLocation" type="xyCoords"/>
+					<xs:element minOccurs="0" name="allowReflexAngle" type="boolVal"/>
+					<xs:element minOccurs="0" name="auxiliary" type="boolVal"/>
+					<xs:element minOccurs="0" name="arcSize" type="intVal"/>
+					<xs:element minOccurs="0" name="animation" type="animation"/>
+					<xs:element minOccurs="0" name="caption" type="stringVal"/>
+					<xs:element minOccurs="0" name="comboBox" type="boolVal"/>
+					<xs:element minOccurs="0" name="centered" type="boolVal"/>
+					<xs:element minOccurs="0" name="textAlign" type="stringVal"/>
+					<xs:element minOccurs="0" name="levelOfDetailQuality" type="boolVal"/>
+					<xs:element minOccurs="0" name="strokeCoords" type="stringVal"/>
+					<xs:element minOccurs="0" name="strokeBezierCoords" type="stringVal"/>
+					<xs:element minOccurs="0" name="tempUserInput">
+						<xs:complexType>
+							<xs:attribute name="display" type="xs:string"/>
+							<xs:attribute name="eval" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element minOccurs="0" name="condition">
+						<xs:complexType>
+							<xs:attribute name="showObject" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="checkbox">
+						<xs:complexType>
+							<xs:attribute name="fixed" type="xs:boolean"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="coefficients">
+						<xs:complexType>
+							<xs:attribute name="rep" type="representation"/>
+							<xs:attribute name="data" type="data"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="coords" type="coords"/>
+					<xs:element minOccurs="0" name="coordStyle">
+						<xs:complexType>
+							<xs:attribute name="style" type="coordStyles"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="casMap" type="casMap"/>
+					<xs:element minOccurs="0" name="decoration">
+						<xs:complexType>
+							<xs:attribute name="type" type="decorTypes"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="startStyle">
+						<xs:complexType>
+							<xs:attribute name="val" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="endStyle">
+						<xs:complexType>
+							<xs:attribute name="val" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="eigenvectors" type="eigenvectors"/>
+					<xs:element minOccurs="0" name="emphasizeRightAngle" type="boolVal"/>
+					<xs:element minOccurs="0" name="eqnStyle">
+						<xs:complexType>
+							<xs:attribute name="style" type="eqnStyles" use="required"/>
+							<xs:attribute name="parameter" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="ordering" type="doubleVal"/>
+					<xs:element minOccurs="0" name="file">
+						<xs:complexType>
+							<xs:attribute name="name" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="fixed" type="boolVal"/>
+					<xs:element minOccurs="0" name="isShape" type="boolVal"/>
+					<xs:element minOccurs="0" name="font" type="fontProperties"/>
+					<xs:element minOccurs="0" name="angleStyle" type="intVal"/>
+					<xs:element minOccurs="0" name="forceReflexAngle" type="boolVal"/>
+					<xs:element minOccurs="0" name="ggbscript">
+						<xs:complexType>
+							<xs:attribute name="val" type="xs:string"/>
+							<xs:attribute name="onUpdate" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="inBackground" type="boolVal"/>
+					<xs:element minOccurs="0" name="interpolate" type="boolVal"/>
+					<xs:element minOccurs="0" name="javascript" type="stringVal"/>
+					<xs:element minOccurs="0" name="keepTypeOnTransform" type="boolVal"/>
+					<xs:element minOccurs="0" name="isLaTeX" type="boolVal"/>
+					<xs:element minOccurs="0" name="lineStyle">
+						<xs:complexType>
+							<xs:attribute name="thickness" type="nonNegInt"/>
+							<xs:attribute name="type" type="lineTypes"/>
+							<xs:attribute name="typeHidden" type="xs:integer"/>
+							<xs:attribute name="opacity" type="xs:double"/>
+							<xs:attribute name="drawArrow" type="xs:boolean"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="labelMode" type="intVal"/>
+					<xs:element minOccurs="0" name="labelOffset" type="xyCoords"/>
+					<xs:element minOccurs="0" name="layer" type="intVal"/>
+					<xs:element minOccurs="0" name="levelOfDetail" type="intVal"/>
+					<xs:element minOccurs="0" name="linkedGeo">
+						<xs:complexType>
+							<xs:attribute name="exp" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="listType">
+						<xs:complexType>
+							<xs:attribute name="val" type="elType"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="matrix" type="matrix"/>
+					<xs:element minOccurs="0" name="objColor" type="objColorType"/>
+					<xs:element minOccurs="0" name="bgColor" type="rgbaColor"/>
+					<xs:element minOccurs="0" name="borderColor" type="rgbColor"/>
+					<xs:element minOccurs="0" name="outlyingIntersections" type="boolVal"/>
+					<xs:element minOccurs="0" name="pointSize" type="doubleVal"/>
+					<xs:element minOccurs="0" name="fading" type="doubleVal"/>
+					<xs:element minOccurs="0" name="pointStyle">
+						<xs:complexType>
+							<xs:attribute name="val" type="pointStyles"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="algebra">
+						<xs:complexType>
+							<xs:attribute name="labelVisible" type="xs:boolean"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="incrementY" type="stringVal"/>
+					<xs:element minOccurs="0" name="headStyle" type="intVal"/>
+					<xs:element minOccurs="0" name="parentLabel" type="stringVal"/>
+					<xs:element minOccurs="0" name="isMask" type="boolVal"/>
+					<xs:element minOccurs="0" name="dimensions">
+						<xs:complexType>
+							<xs:attribute name="width" type="xs:double"/>
+							<xs:attribute name="height" type="xs:double"/>
+							<xs:attribute name="unscaled" type="xs:boolean"/>
+							<xs:attribute name="angle" type="xs:double"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="content" type="stringVal"/>
+					<xs:element minOccurs="0" name="contentSerif" type="boolVal"/>
+					<xs:element minOccurs="0" name="contentSize">
+						<xs:complexType>
+							<xs:attribute name="width" type="xs:double"/>
+							<xs:attribute name="height" type="xs:double"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="embed">
+						<xs:complexType>
+							<xs:attribute name="id" type="xs:int"/>
+							<xs:attribute name="app" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="embedSettings">
+						<xs:complexType>
+							<xs:attribute name="showToolBar" type="xs:boolean"/>
+							<xs:attribute name="showAlgebraInput" type="xs:boolean"/>
+							<xs:attribute name="allowStyleBar" type="xs:boolean"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="selectedIndex" type="intVal"/>
+					<xs:element minOccurs="0" name="selectionAllowed" type="boolVal"/>
+					<xs:element minOccurs="0" name="show">
+						<xs:complexType>
+							<xs:attribute name="object" type="xs:boolean"/>
+							<xs:attribute name="label" type="xs:boolean"/>
+							<xs:attribute name="ev" type="nonNegInt"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="simplifyCoefficients" type="boolVal"/>
+					<xs:element minOccurs="0" name="slider" type="slider"/>
+					<xs:element minOccurs="0" name="slopeTriangleSize" type="intVal"/>
+					<xs:element minOccurs="0" name="spreadsheetTrace" type="spreadsheetTrace"/>
+					<xs:element minOccurs="0" name="startPoint" type="expCoords"/>
+					<xs:element minOccurs="0" name="tooltipMode">
+						<xs:complexType>
+							<xs:attribute name="val" type="tooltipModes"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="tags">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element minOccurs="0" maxOccurs="unbounded" name="tag">
+									<xs:complexType>
+										<xs:attribute name="key" type="xs:string"/>
+										<xs:attribute name="value" type="xs:string"/>
+										<xs:attribute name="barNumber" type="xs:int"/>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="tableview">
+						<xs:complexType>
+							<xs:attribute name="column" type="xs:int"/>
+							<xs:attribute name="points" type="xs:boolean"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="trace" type="boolVal"/>
+					<xs:element minOccurs="0" name="symbolic" type="boolVal"/>
+					<xs:element name="decimals" type="intVal"/>
+					<xs:element name="dynamicCaption" type="stringVal"/>
+					<xs:element minOccurs="0" name="userinput">
+						<xs:complexType>
+							<xs:attribute name="show" type="xs:boolean"/>
+							<xs:attribute name="value" type="xs:string"/>
+							<xs:attribute name="valid" type="xs:boolean"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="value">
+						<xs:complexType>
+							<xs:attribute name="val" type="doubleOrBool" use="required"/>
+							<xs:attribute name="random" type="xs:boolean"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="video">
+						<xs:complexType>
+							<xs:attribute name="width" type="xs:double"/>
+							<xs:attribute name="height" type="xs:double"/>
+							<xs:attribute name="src" type="xs:string"/>
+							<xs:attribute name="type" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="variables" type="stringVal"/>
+					<xs:element minOccurs="0" name="table">
+						<xs:complexType>
+							<xs:attribute name="columns" type="nonNegInt"/>
+							<xs:attribute name="cell0" type="xs:string"/>
+							<xs:attribute name="cell1" type="xs:string"/>
+							<xs:attribute name="cell2" type="xs:string"/>
+							<xs:attribute name="cell3" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="verticalAlign" type="stringVal"/>
+					<xs:element minOccurs="0" name="hasSpreadsheetError" type="boolVal"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="type" type="elType"/>
+			<xs:attribute name="label" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="cascell">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" name="cellPair">
+					<xs:complexType>
+						<xs:sequence minOccurs="0">
+							<xs:element name="inputCell">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="expression"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="outputCell">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="expression"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="caslabel" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="spreadsheetTrace">
+		<xs:attribute name="traceColumn1" type="xs:integer"/>
+		<xs:attribute name="traceColumn2" type="xs:integer"/>
+		<xs:attribute name="traceRow1" type="xs:integer"/>
+		<xs:attribute name="traceRow2" type="xs:integer"/>
+		<xs:attribute name="tracingRow" type="xs:integer"/>
+		<xs:attribute name="numRows" type="xs:integer"/>
+		<xs:attribute name="headerOffset" type="xs:integer"/>
+		<xs:attribute name="doColumnReset" type="xs:boolean"/>
+		<xs:attribute name="doRowLimit" type="xs:boolean"/>
+		<xs:attribute name="showLabel" type="xs:boolean"/>
+		<xs:attribute name="showTraceList" type="xs:boolean"/>
+		<xs:attribute name="doTraceGeoCopy" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:simpleType name="positiveInt">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nonNegInt">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="intVal">
+		<xs:attribute name="val" type="xs:int" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="specialDouble">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="Infinity|-Infinity"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="doubleVal">
+		<xs:attribute name="val" type="xs:double" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="doubleOrBool">
+		<xs:union memberTypes="xs:double xs:boolean specialDouble"/>
+	</xs:simpleType>
+	<xs:complexType name="boolVal">
+		<xs:attribute name="val" type="xs:boolean" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="stringVal">
+		<xs:attribute name="val" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="xyCoords">
+		<xs:attribute name="x" type="xs:double" use="required"/>
+		<xs:attribute name="y" type="xs:double" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="coords">
+		<xs:attribute name="x" type="javaDouble"/>
+		<xs:attribute name="y" type="javaDouble"/>
+		<xs:attribute name="z" type="javaDouble"/>
+		<xs:attribute name="w" type="javaDouble"/>
+		<xs:attribute name="ox" type="javaDouble"/>
+		<xs:attribute name="oy" type="javaDouble"/>
+		<xs:attribute name="oz" type="javaDouble"/>
+		<xs:attribute name="ow" type="javaDouble"/>
+		<xs:attribute name="vx" type="javaDouble"/>
+		<xs:attribute name="vy" type="javaDouble"/>
+		<xs:attribute name="vz" type="javaDouble"/>
+		<xs:attribute name="vw" type="javaDouble"/>
+	</xs:complexType>
+	<xs:complexType name="expCoords">
+		<xs:annotation>
+			<xs:documentation>Either exp (for relative start point) or numbers x, y, z (for absolute start point) must be entered.
+	Number parameter is valid only for image elements and refers to one of the corners (1 to 3)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="number" type="nonNegInt"/>
+		<xs:attribute name="x" type="xs:double"/>
+		<xs:attribute name="y" type="xs:double"/>
+		<xs:attribute name="z" type="xs:double"/>
+		<xs:attribute name="exp" type="xs:string"/>
+		<xs:attribute name="absolute" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="animation">
+		<xs:attribute name="step" type="xs:string"/>
+		<xs:attribute name="speed" type="xs:string"/>
+		<xs:attribute name="type" type="nonNegInt"/>
+		<xs:attribute name="playing" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="rgbColor">
+		<xs:attribute name="r" type="nonNegInt" use="required"/>
+		<xs:attribute name="g" type="nonNegInt" use="required"/>
+		<xs:attribute name="b" type="nonNegInt" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="rgbaColor">
+		<xs:attribute name="r" type="nonNegInt" use="required"/>
+		<xs:attribute name="g" type="nonNegInt" use="required"/>
+		<xs:attribute name="b" type="nonNegInt" use="required"/>
+		<xs:attribute name="alpha" type="nonNegInt"/>
+	</xs:complexType>
+	<xs:complexType name="objColorType">
+		<xs:attribute name="r" type="nonNegInt" use="required"/>
+		<xs:attribute name="g" type="nonNegInt" use="required"/>
+		<xs:attribute name="b" type="nonNegInt" use="required"/>
+		<xs:attribute name="dynamicr" type="xs:string"/>
+		<xs:attribute name="dynamicg" type="xs:string"/>
+		<xs:attribute name="dynamicb" type="xs:string"/>
+		<xs:attribute name="dynamica" type="xs:string"/>
+		<xs:attribute name="fillType" type="fills"/>
+		<xs:attribute name="colorSpace" type="colorSpaces"/>
+		<xs:attribute name="alpha" type="xs:double"/>
+		<xs:attribute name="hatchAngle" type="xs:double"/>
+		<xs:attribute name="hatchDistance" type="xs:double"/>
+		<xs:attribute name="image" type="xs:string"/>
+		<xs:attribute name="inverseFill" type="xs:boolean"/>
+		<xs:attribute name="fillSymbol" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="casMap">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="entry">
+				<xs:complexType>
+					<xs:attribute name="key" type="xs:string"/>
+					<xs:attribute name="val" type="xs:string"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ioType">
+		<xs:attribute name="a0" type="xs:string"/>
+		<xs:attribute name="a1" type="xs:string"/>
+		<xs:attribute name="a2" type="xs:string"/>
+		<xs:attribute name="a3" type="xs:string"/>
+		<xs:attribute name="a4" type="xs:string"/>
+		<xs:attribute name="a5" type="xs:string"/>
+		<xs:attribute name="a6" type="xs:string"/>
+		<xs:attribute name="a7" type="xs:string"/>
+		<xs:attribute name="a8" type="xs:string"/>
+		<xs:attribute name="a9" type="xs:string"/>
+		<xs:attribute name="a10" type="xs:string"/>
+		<xs:attribute name="a11" type="xs:string"/>
+		<xs:attribute name="a12" type="xs:string"/>
+		<xs:attribute name="a13" type="xs:string"/>
+		<xs:attribute name="a14" type="xs:string"/>
+		<xs:attribute name="a15" type="xs:string"/>
+		<xs:attribute name="a16" type="xs:string"/>
+		<xs:attribute name="a17" type="xs:string"/>
+		<xs:attribute name="a18" type="xs:string"/>
+		<xs:attribute name="a19" type="xs:string"/>
+		<xs:attribute name="a20" type="xs:string"/>
+		<xs:attribute name="a21" type="xs:string"/>
+		<xs:attribute name="a22" type="xs:string"/>
+		<xs:attribute name="a23" type="xs:string"/>
+		<xs:attribute name="a24" type="xs:string"/>
+		<xs:attribute name="a25" type="xs:string"/>
+		<xs:attribute name="a26" type="xs:string"/>
+		<xs:attribute name="a27" type="xs:string"/>
+		<xs:attribute name="a28" type="xs:string"/>
+		<xs:attribute name="a29" type="xs:string"/>
+		<xs:attribute name="a30" type="xs:string"/>
+		<xs:attribute name="a31" type="xs:string"/>
+		<xs:attribute name="a32" type="xs:string"/>
+		<xs:attribute name="a33" type="xs:string"/>
+		<xs:attribute name="a34" type="xs:string"/>
+		<xs:attribute name="a35" type="xs:string"/>
+		<xs:attribute name="a36" type="xs:string"/>
+		<xs:attribute name="a37" type="xs:string"/>
+		<xs:attribute name="a38" type="xs:string"/>
+		<xs:attribute name="a39" type="xs:string"/>
+		<xs:attribute name="a40" type="xs:string"/>
+		<xs:attribute name="a41" type="xs:string"/>
+		<xs:attribute name="a42" type="xs:string"/>
+		<xs:attribute name="a43" type="xs:string"/>
+		<xs:attribute name="a44" type="xs:string"/>
+		<xs:attribute name="a45" type="xs:string"/>
+		<xs:attribute name="a46" type="xs:string"/>
+		<xs:attribute name="a47" type="xs:string"/>
+		<xs:attribute name="a48" type="xs:string"/>
+		<xs:attribute name="a49" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="slider">
+		<xs:attribute name="min" type="xs:string"/>
+		<xs:attribute name="max" type="xs:string"/>
+		<xs:attribute name="width" type="xs:double" use="required"/>
+		<xs:attribute name="x" type="xs:double"/>
+		<xs:attribute name="y" type="xs:double"/>
+		<xs:attribute name="fixed" type="xs:boolean" use="required"/>
+		<xs:attribute name="absoluteScreenLocation" type="xs:boolean"/>
+		<xs:attribute name="horizontal" type="xs:boolean" use="required"/>
+		<xs:attribute name="showAlgebra" type="xs:boolean"/>
+		<xs:attribute name="arbitraryConstant" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="eigenvectors">
+		<xs:attribute name="x0" type="xs:double" use="required"/>
+		<xs:attribute name="x1" type="xs:double" use="required"/>
+		<xs:attribute name="x2" type="xs:double"/>
+		<xs:attribute name="y0" type="xs:double" use="required"/>
+		<xs:attribute name="y1" type="xs:double" use="required"/>
+		<xs:attribute name="y2" type="xs:double"/>
+		<xs:attribute name="z0" type="xs:double" use="required"/>
+		<xs:attribute name="z1" type="xs:double" use="required"/>
+		<xs:attribute name="z2" type="xs:double"/>
+	</xs:complexType>
+	<xs:complexType name="matrix">
+		<xs:attribute name="A0" type="xs:double" use="required"/>
+		<xs:attribute name="A1" type="xs:double" use="required"/>
+		<xs:attribute name="A2" type="xs:double" use="required"/>
+		<xs:attribute name="A3" type="xs:double" use="required"/>
+		<xs:attribute name="A4" type="xs:double" use="required"/>
+		<xs:attribute name="A5" type="xs:double" use="required"/>
+		<xs:attribute name="A6" type="xs:double"/>
+		<xs:attribute name="A7" type="xs:double"/>
+		<xs:attribute name="A8" type="xs:double"/>
+		<xs:attribute name="A9" type="xs:double"/>
+	</xs:complexType>
+	<xs:simpleType name="data">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\[(\[.*\],?)*\]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="elType">
+		<xs:restriction base="xs:string">
+			<xs:pattern
+                    value="(angle|line|plane|point|polygon|polyline|ray|segment|vector|(curve|surface)cartesian|implicit(poly|surface))(3d)?|boolean|button|symbolic|conic(3d)?(part)?|function(NVar|nvar)?|image|list|locus|numeric|quadric(limited|part)?|inlinetext|formula|text(field)?|turtle|net|polyhedron|penstroke|audio|video|embed|table|inequality|piechart|mindmap|stadium|stickynote"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="algebraStyles">
+		<xs:annotation>
+			<xs:documentation>Meaning of values:0=value, 1=definition, 2=command, 3=definition and value, 4=linear notation.
+				</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="colorSpaces">
+		<xs:annotation>
+			<xs:documentation>Meaning of values:0=RGB,1=HSB,2=HSL.
+				</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="fills">
+		<xs:annotation>
+			<xs:documentation>Meaning of values:
+* 0=STANDARD,
+* 1=HATCH,
+* 2=CROSSHATCHED,
+* 3=CHESSBOARD,
+* 4=DOTTED,
+* 5=HONEYCOMB,
+* 6=BRICK,
+* 7=WEAVING
+* 8=SYMBOL
+* 9=IMAGE
+				</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="representation">
+		<xs:annotation>
+			<xs:documentation>Possible ways for representing coefficients, only 1 possibility in 4.0
+	</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="array"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tickStyles">
+		<xs:annotation>
+			<xs:documentation>Meaning of values:0=major minor,1=major,2=none
+				</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="axisTypes">
+		<xs:annotation>
+			<xs:documentation>Bit mask:1=right arrow, 2=bold, 4=left arrow, 8=fill arrows
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="lineTypes">
+		<xs:annotation>
+			<xs:documentation>Meanings of values: 0=full, 10=dashed short, 15=dashed long, 20=dotted, 30=dashed dotted
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="0"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="decorTypes">
+		<xs:annotation>
+			<xs:documentation>Meanings of values: 0=none, 1=single tick,2=double tick, 3=triple tick, 4=simple arrow,
+	5=double arrow, 6=triple arrow.
+	</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="rightAngleStyles">
+		<xs:annotation>
+			<xs:documentation>Meanings of values: 0=none, 1=square, 2=dot,3=L (Belgian style).
+	</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="pointCapturings">
+		<xs:annotation>
+			<xs:documentation>Meanings of values: 0=off, 1=on, 2=on grid,3=automatic.
+	</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="gridTypes">
+		<xs:annotation>
+			<xs:documentation>Meanings of values: 0=Cartesian (major), 1=isometric, 2=polar, 3=Cartesian (minor+major)
+	</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="axisIds">
+		<xs:annotation>
+			<xs:documentation>Meanings of values: 0=x, 1=y, 2=z
+	</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="pointStyles">
+		<xs:annotation>
+			<xs:documentation>Meanings of values: -1=use global default, 0=full dot, 1=cross, 2=empty dot, 3=plus sign, 4=full diamond, 5=empty diamond, 
+	6=triangle north, 7=triangle south, 8=triangle east, 9=triangle west, 10=dot without outline.
+	</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="-1"/>
+			<xs:maxInclusive value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tooltipModes">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="eqnStyles">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="implicit|explicit|specific|parametric|user|conic|vertex"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="angleUnits">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="degree|radiant"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="javaDouble">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="Infinity|-Infinity|NaN|(-?[0-9.E-]*)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="coordStyles">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="cartesian|polar|complex"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="expression">
+		<xs:complexType>
+			<xs:attribute name="value" type="xs:string"/>
+			<xs:attribute name="error" type="xs:boolean"/>
+			<!-- in input -->
+			<xs:attribute name="evalCmd" type="xs:string"/>
+			<!-- in output -->
+			<xs:attribute name="evalCommand" type="xs:string"/>
+			<xs:attribute name="evalComment" type="xs:string"/>
+			<xs:attribute name="native" type="xs:boolean"/>
+			<xs:attribute name="eval" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="fontProperties">
+		<xs:attribute name="serif" type="xs:boolean"/>
+		<xs:attribute name="size" type="nonNegInt"/>
+		<xs:attribute name="sizeM" type="xs:double"/>
+		<xs:attribute name="style" type="nonNegInt"/>
+	</xs:complexType>
+</xs:schema>
