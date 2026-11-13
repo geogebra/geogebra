@@ -1560,7 +1560,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		final Set<GeoElement> tree = getAllChildren();
 		final Iterator<GeoElement> it = tree.iterator();
 		while (it.hasNext() && !hasFixedDescendent) {
-			if (it.next().isProtected(EventType.REMOVE)) {
+			if (it.next().preventsAncestorRemoval()) {
 				hasFixedDescendent = true;
 			}
 		}
@@ -1572,6 +1572,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			remove();
 			kernel.notifyRemoveGroup();
 		}
+	}
+
+	/**
+	 * Tells if this element must stay when one of its ancestors is deleted. In that case the
+	 * ancestor is set to undefined instead of being removed.
+	 * @return whether this element prevents the removal of its ancestors
+	 */
+	protected boolean preventsAncestorRemoval() {
+		return isProtected(EventType.REMOVE);
 	}
 
 	@Override

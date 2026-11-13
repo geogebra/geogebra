@@ -110,6 +110,17 @@ class TableValuesPointsImplTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-8134")
+	void deletingSelectedFunctionWithVisiblePointsRemovesFunctionAndPoints() {
+		getApp().getSelectionManager().addSelectedGeo(functionColumn);
+		getApp().deleteSelectedObjects(false);
+
+		assertFalse(functionColumn.isLabelSet());
+		assertNull(lookup("f"));
+		assertNull(points.getPointListForColumn(2));
+	}
+
+	@Test
 	void testUpdateFunction() {
 		add("f(x)=x^3");
 		assertPointCoordinates(1.0, 1.0, 0, 2);

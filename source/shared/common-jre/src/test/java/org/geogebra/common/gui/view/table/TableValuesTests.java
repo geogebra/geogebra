@@ -18,6 +18,7 @@ package org.geogebra.common.gui.view.table;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.SuiteSubApp;
@@ -62,5 +63,27 @@ class TableValuesTests extends BaseAppTestSetup {
 
 		assertEquals(2, tableValues.getTableValuesModel().getColumnCount());
 		assertEquals(1, tableValues.getColumn(list));
+	}
+
+	@Test
+	@Issue("APPS-8134")
+	@MockedCasValues({"Evaluate(x²) -> x^2"})
+	void deletingSymbolicFunctionWithVisiblePointsDoesNotCrash() throws InvalidValuesException {
+		setupApp(SuiteSubApp.CAS);
+		TableValuesView tableValues = new TableValuesView(getKernel());
+		getKernel().attach(tableValues);
+		tableValues.setValues(1, 3, 1);
+		TableValuesPointsImpl points =
+				TableValuesPointsImpl.create(getKernel(), getKernel().getConstruction(), tableValues);
+		GeoSymbolic f = evaluateGeoElement("f(x)=x^2");
+		tableValues.showColumn(f);
+		// points are shown by default
+		assertNotNull(points.getPointListForColumn(1));
+
+		// same as the delete button of the quick style bar
+		getApp().getSelectionManager().addSelectedGeo(f);
+		assertDoesNotThrow(() -> getApp().deleteSelectedObjects(false));
+		assertNull(lookup("f"));
+		assertNull(points.getPointListForColumn(1));
 	}
 }

@@ -3522,6 +3522,13 @@ public class GeoList extends GeoElement
 		return tableOrigin && type == EventType.REMOVE || super.isProtected(type);
 	}
 
+	@Override
+	protected boolean preventsAncestorRemoval() {
+		// lists of the table of values (e.g. points of a column) can't be deleted on their own,
+		// but they have to be removed together with the column they depend on
+		return super.isProtected(EventType.REMOVE);
+	}
+
 	public void setTableOrigin(boolean tableOrigin) {
 		this.tableOrigin = tableOrigin;
 	}
