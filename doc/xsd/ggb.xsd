@@ -42,7 +42,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
             </xs:sequence>
             <xs:attribute name="format" type="xs:double">
                 <xs:annotation>
-                    <xs:documentation>Deprecated since 4.2, use version insted.
+                    <xs:documentation>Deprecated since 4.2, use version instead.
                     </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
@@ -182,7 +182,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </xs:element>
     <xs:element name="show">
         <xs:annotation>
-            <xs:documentation>Deprecated since 4.0, use perspectives insted.
+            <xs:documentation>Deprecated since 4.0, use perspectives instead.
                 </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -195,7 +195,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </xs:element>
     <xs:element name="splitDivider">
         <xs:annotation>
-            <xs:documentation>Deprecated since 4.0, use perspectives/perspective/panes insted.
+            <xs:documentation>Deprecated since 4.0, use perspectives/perspective/panes instead.
                 </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -208,7 +208,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </xs:element>
     <xs:element name="toolbar">
         <xs:annotation>
-            <xs:documentation>Deprecated since 4.0, use perspectives/perspective/toolbar  insted.
+            <xs:documentation>Deprecated since 4.0, use perspectives/perspective/toolbar  instead.
                 </xs:documentation>
         </xs:annotation>
         <xs:complexType>
