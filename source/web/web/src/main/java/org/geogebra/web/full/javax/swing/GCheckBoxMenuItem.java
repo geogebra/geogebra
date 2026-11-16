@@ -79,7 +79,7 @@ public final class GCheckBoxMenuItem {
 	}
 
 	/**
-	 * @return true if check box is checked
+	 * @return true if checkbox is checked
 	 */
 	public boolean isSelected() {
 		return checkBox.isSelected();

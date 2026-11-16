@@ -4455,7 +4455,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return getSelectedPolyLineList().size();
 	}
 
-	protected final boolean showCheckBox(boolean selPreview) {
+	private boolean showCheckbox(boolean selPreview) {
 		if (selPreview) {
 			return false;
 		}
@@ -5321,7 +5321,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				break;
 
 			case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
-				changedKernel = showCheckBox(selectionPreview);
+				changedKernel = showCheckbox(selectionPreview);
 				break;
 
 			case EuclidianConstants.MODE_BUTTON_ACTION:
@@ -6137,7 +6137,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							GeoBoolean bool = (GeoBoolean) hits.get(0);
 							if (!isCheckboxFixed(bool)) { // otherwise changed on
 								// mouse down
-								hitCheckBox(bool);
+								hitCheckbox(bool);
 								deselectIfPropertiesNotShowing(bool);
 								bool.updateCascade();
 							}
@@ -6217,7 +6217,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	protected void hitCheckBox(GeoBoolean bool) {
+	private void hitCheckbox(GeoBoolean bool) {
 		if (mode == EuclidianConstants.MODE_SELECT) {
 			return;
 		}

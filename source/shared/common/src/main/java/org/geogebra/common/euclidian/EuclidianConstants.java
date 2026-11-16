@@ -179,7 +179,7 @@ public final class EuclidianConstants {
 	/** Regular Polygon */
 	public static final int MODE_REGULAR_POLYGON = 51;
 
-	/** Check Box to Show / Hide Objects */
+	/** Checkbox to Show / Hide Objects */
 	public static final int MODE_SHOW_HIDE_CHECKBOX = 52;
 	// GeoGebra 3.2 start
 	/** Compass */

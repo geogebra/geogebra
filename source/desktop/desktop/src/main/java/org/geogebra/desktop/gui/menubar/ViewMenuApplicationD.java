@@ -206,7 +206,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		public void actionPerformed(ActionEvent arg0) {
 			app.getGuiManager().setShowView(!app.getGuiManager().showView(viewId), viewId);
 
-			// ensure check box is correctly selected/unselected for case where
+			// ensure checkbox is correctly selected/unselected for case where
 			// hide aborted
 			cb.setSelected(panel.isVisible());
 		}

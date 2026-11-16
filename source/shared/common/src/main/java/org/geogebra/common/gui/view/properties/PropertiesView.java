@@ -284,7 +284,7 @@ public abstract class PropertiesView implements View {
 				if (app.getActiveEuclidianView()
 						.getEuclidianController()
 						.checkBoxOrTextFieldOrButtonJustHit()) {
-					// hit check box or text field : does nothing
+					// hit checkbox or text field : does nothing
 					return;
 				}
 

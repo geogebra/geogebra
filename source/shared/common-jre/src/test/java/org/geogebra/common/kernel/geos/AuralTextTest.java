@@ -104,8 +104,8 @@ class AuralTextTest {
 
 	@Test
 	void checkboxAural() {
-		aural("checkbox()", "Check Box", "uncheck", "edit");
-		aural("false", "Check Box", " check", "edit");
+		aural("checkbox()", "Checkbox", "uncheck", "edit");
+		aural("false", "Checkbox", " check", "edit");
 	}
 
 	@Test

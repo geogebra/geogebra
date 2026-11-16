@@ -185,7 +185,7 @@ public final class ComponentCheckbox extends FlowPanel
 	}
 
 	/**
-	 * Enable/disable check box
+	 * Enable/disable the checkbox.
 	 * @param disabled whether it should be disabled or not
 	 */
 	public void setDisabled(boolean disabled) {

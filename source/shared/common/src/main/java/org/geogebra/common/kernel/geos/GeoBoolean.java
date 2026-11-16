@@ -508,7 +508,7 @@ public class GeoBoolean extends GeoElement
 
 	@Override
 	public void addAuralType(ScreenReaderBuilder sb) {
-		sb.appendMenuDefault("CheckBox", "Check box");
+		sb.appendMenuDefault("CheckBox", "Checkbox");
 		sb.appendSpace();
 	}
 

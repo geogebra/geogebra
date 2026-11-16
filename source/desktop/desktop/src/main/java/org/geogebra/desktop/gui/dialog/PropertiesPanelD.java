@@ -972,7 +972,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts, 
 		private LabelPanel() {
 			super();
 			model = new ShowLabelModel(app, this);
-			// check boxes for show object, show label
+			// checkboxes for show object, show label
 			showLabelCB = new JCheckBox();
 			showLabelCB.addItemListener(this);
 
