@@ -26,9 +26,12 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ShowConditionPropertyTests extends BaseAppTestSetup {
 	@Test
@@ -90,5 +93,18 @@ class ShowConditionPropertyTests extends BaseAppTestSetup {
 
 		property.setValue("1 > 2");
 		assertEquals("1 > 2", property.getValue());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"\"", "1 \"", "a_"})
+	@Issue("APPS-8163")
+	void testShowConditionWithLexicalErrorIsInvalid(String input) {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoPoint point = evaluateGeoElement("A = (0, 0)");
+		PropertyView.TextField textField = (PropertyView.TextField)
+				PropertyView.of(new ShowConditionProperty(getLocalization(), point));
+
+		assertDoesNotThrow(() -> textField.setValue(input));
+		assertEquals(getLocalization().getInvalidInputError(), textField.getErrorMessage());
 	}
 }

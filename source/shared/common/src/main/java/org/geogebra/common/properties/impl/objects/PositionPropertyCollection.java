@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.kernel.parser.TokenMgrException;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -202,6 +203,8 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 			return null;
 		} catch (ParseException | MyError parseException) {
 			return parseException.getLocalizedMessage();
+		} catch (TokenMgrException lexicalError) {
+			return localization.getInvalidInputError();
 		}
 	}
 

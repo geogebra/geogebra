@@ -24,8 +24,10 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -99,5 +101,18 @@ class StartingPointPositionPropertyTests extends BaseAppTestSetup {
 
 		property.setValue("(1, 2)");
 		assertEquals("(1, 2)", property.getValue());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"\"", "1 \"", "a_"})
+	@Issue("APPS-8163")
+	void testStartingPointWithLexicalErrorIsInvalid(String input) {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoText geoText = evaluateGeoElement("\"abc\"");
+		PropertyView.ComboBox comboBox = (PropertyView.ComboBox) PropertyView.of(
+				assertDoesNotThrow(() -> new StartingPointPositionProperty(getLocalization(), geoText)));
+
+		assertDoesNotThrow(() -> comboBox.setValue(input));
+		assertEquals(getLocalization().getInvalidInputError(), comboBox.getErrorMessage());
 	}
 }

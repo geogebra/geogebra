@@ -27,9 +27,12 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 	@Test
@@ -258,5 +261,19 @@ class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 		assertEquals("x(A)", red.getValue());
 		assertEquals("y(A)", green.getValue());
 		assertEquals(String.valueOf(GEOGEBRA_OBJECT_BLUE.getBlue() / 255f), blue.getValue());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"\"", "1 \"", "a_"})
+	@Issue("APPS-8163")
+	void testDynamicColorComponentValueWithLexicalErrorIsInvalid(String input) {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement geoElement = evaluateGeoElement("(1, 2)");
+		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
+		PropertyView.TextField textField = (PropertyView.TextField)
+				PropertyView.of(DynamicColorComponentProperty.forRed(getLocalization(), geoElement));
+
+		assertDoesNotThrow(() -> textField.setValue(input));
+		assertEquals(getLocalization().getInvalidInputError(), textField.getErrorMessage());
 	}
 }

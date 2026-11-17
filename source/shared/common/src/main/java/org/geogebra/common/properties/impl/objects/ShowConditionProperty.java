@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.parser.TokenMgrException;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.properties.aliases.StringProperty;
@@ -56,6 +57,8 @@ public final class ShowConditionProperty extends AbstractValuedProperty<String>
 			return validExpression.getValueType() == ValueType.BOOLEAN ? null : "";
 		} catch (ParseException | MyError validationError) {
 			return validationError.getLocalizedMessage();
+		} catch (TokenMgrException lexicalError) {
+			return getLocalization().getInvalidInputError();
 		}
 	}
 

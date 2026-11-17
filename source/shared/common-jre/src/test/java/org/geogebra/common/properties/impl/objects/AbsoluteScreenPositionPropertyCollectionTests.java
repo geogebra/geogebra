@@ -28,9 +28,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -129,5 +131,22 @@ class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSetup {
 		slider.setValue(500.0);
 		slider.updateRepaint();
 		assertEquals(500.0, ((GeoPoint) geoText.getStartPoint()).getX(), 0.001);
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"\"", "1 \"", "a_"})
+	@Issue("APPS-8163")
+	void testAbsoluteScreenPositionWithLexicalErrorIsInvalid(String input) {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoText geoText = evaluateGeoElement("\"abc\"");
+		geoText.setAbsoluteScreenLocActive(true);
+		AbsoluteScreenPositionPropertyCollection absoluteScreenPositionPropertyCollection =
+				assertDoesNotThrow(() -> new AbsoluteScreenPositionPropertyCollection(
+						propertiesFactory, getLocalization(), List.of(geoText)));
+		PropertyView.TextField textField = (PropertyView.TextField)
+				PropertyView.of(absoluteScreenPositionPropertyCollection.getProperties()[0]);
+
+		assertDoesNotThrow(() -> textField.setValue(input));
+		assertEquals(getLocalization().getInvalidInputError(), textField.getErrorMessage());
 	}
 }
