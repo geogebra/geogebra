@@ -254,7 +254,7 @@ public class KeyboardInputAdapter {
 	 * @param input input
 	 */
 	public static void onKeyboardInput(MathFieldInternal mathFieldInternal, String input) {
-		if (input == null) {
+		if (input == null || mathFieldInternal.isReadOnly()) {
 			return;
 		}
 
@@ -275,6 +275,9 @@ public class KeyboardInputAdapter {
 	 * @param commandName command name
 	 */
 	public static void onCommandInput(MathFieldInternal mathFieldInternal, String commandName) {
+		if (mathFieldInternal.isReadOnly()) {
+			return;
+		}
 		commitCommand(mathFieldInternal, commandName);
 		mathFieldInternal.update();
 	}

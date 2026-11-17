@@ -107,7 +107,7 @@ public class MathFieldController {
 	 *            recursion)
 	 */
 	public void update(Formula formula, EditorState editorState, boolean focusEvent) {
-		if (mathField.hasFocus()) {
+		if (mathField.hasFocus() && !mathField.getInternal().isReadOnly()) {
 			updateWithCursor(formula, editorState);
 		} else {
 			updateFormula(formula, null, 0, null, null);

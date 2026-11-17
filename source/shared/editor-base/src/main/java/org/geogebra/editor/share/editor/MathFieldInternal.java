@@ -95,6 +95,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	private boolean selectionMode = false;
 
+	private boolean readOnly = false;
+
 	private final Set<MathFieldInternalListener> mathFieldInternalListeners;
 
 	private static final ArrayList<Integer> LOCKED_CARET_PATH =
@@ -331,7 +333,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			}
 		}
 		boolean tab = keyEvent.getKeyCode() == JavaKeyCodes.VK_TAB;
-		boolean handled = keyListener.onKeyPressed(keyEvent, editorState);
+		boolean handled = !readOnly && keyListener.onKeyPressed(keyEvent, editorState);
 		if (handled && !tab) {
 			update();
 			if (!arrow) {
@@ -357,7 +359,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public boolean onKeyReleased(KeyEvent keyEvent) {
 		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0
 				&& (keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) == 0;
-		if (alt) {
+		if (alt && !readOnly) {
 			int keyCode = keyEvent.getKeyCode();
 
 			// eg Alt-94 for ^ with NumLock On
@@ -384,7 +386,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public boolean onKeyTyped(KeyEvent keyEvent) {
 		boolean enter =
 				keyEvent.getUnicodeKeyChar() == (char) 13 || keyEvent.getUnicodeKeyChar() == (char) 10;
-		boolean handled = enter || keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar(), editorState);
+		boolean handled =
+				enter || (!readOnly && keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar(), editorState));
 		if (handled) {
 			notifyAndUpdate(String.valueOf(keyEvent.getUnicodeKeyChar()));
 		}
@@ -811,6 +814,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	 * @param text ascii math string
 	 */
 	public void insertString(String text) {
+		if (readOnly) {
+			return;
+		}
 		SequenceNode rootBefore = editorState.getRootNode();
 		boolean allSelected = editorState.getSelectionStart() == rootBefore;
 		boolean rootProtected = rootBefore.isProtected();
@@ -1015,6 +1021,22 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	public void setUnhandledKeyListener(UnhandledKeyListener unhandledKeyListener) {
 		this.unhandledKeyListener = unhandledKeyListener;
+	}
+
+	/**
+	 * In read-only mode, the content cannot be changed and no cursor is shown.
+	 * All key presses are passed to the unhandled key listener (e.g., for navigation).
+	 * @param readOnly whether the content is read-only
+	 */
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
+	}
+
+	/**
+	 * @return whether the content is read-only
+	 */
+	public boolean isReadOnly() {
+		return readOnly;
 	}
 
 	/**
