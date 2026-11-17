@@ -69,6 +69,7 @@ public final class WebCamInputPanel extends FlowPanel {
 	 */
 	public void stopVideo() {
 		webCam.stop();
+		hidePermissionDialog();
 	}
 
 	/**
@@ -87,7 +88,7 @@ public final class WebCamInputPanel extends FlowPanel {
 			return null;
 		}
 		String capture = webCam.takeScreenshot(video);
-		if (!app.isWhiteboardActive()) {
+		if (capture != null && !app.isWhiteboardActive()) {
 			webCam.stop();
 		}
 		return capture;
@@ -97,7 +98,7 @@ public final class WebCamInputPanel extends FlowPanel {
 	 * Starts recording
 	 */
 	public void startVideo() {
-		webCam.stop();
+		stopVideo();
 		inputWidget.getElement().removeAllChildren();
 		resetVideo();
 	}
@@ -126,7 +127,9 @@ public final class WebCamInputPanel extends FlowPanel {
 
 	private void hidePermissionDialog() {
 		if (permissionDialog != null) {
-			permissionDialog.hide();
+			WebcamPermissionDialog previous = permissionDialog;
+			permissionDialog = null;
+			previous.hide();
 		}
 	}
 

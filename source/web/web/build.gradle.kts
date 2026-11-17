@@ -37,6 +37,10 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.gwt.user)
     testImplementation(libs.gwt.mockito)
+    // Source-retained issue annotations without the JRE test runtime.
+    testCompileOnly(testFixtures("org.geogebra:common-jre").apply {
+        (this as org.gradle.api.artifacts.ModuleDependency).isTransitive = false
+    })
 
     annotationProcessor(project(":gwt-generator"))
     annotationProcessor(libs.gwt.resources.processor)

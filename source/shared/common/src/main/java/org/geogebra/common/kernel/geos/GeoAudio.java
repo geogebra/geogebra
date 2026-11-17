@@ -16,6 +16,8 @@
 
 package org.geogebra.common.kernel.geos;
 
+import java.util.Objects;
+
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -81,10 +83,15 @@ public class GeoAudio extends GeoMedia {
 
 	@Override
 	public void set(GeoElementND geo) {
-		if (!geo.isGeoAudio()) {
+		if (!(geo instanceof GeoAudio audio)) {
 			return;
 		}
-		src = ((GeoAudio) geo).getSrc();
+
+		String source = audio.getSrc();
+
+		if (!Objects.equals(src, source)) {
+			setSrc(source);
+		}
 	}
 
 	@Override

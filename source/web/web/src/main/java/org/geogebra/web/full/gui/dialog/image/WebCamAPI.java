@@ -19,9 +19,13 @@ package org.geogebra.web.full.gui.dialog.image;
 import org.geogebra.gwtutil.JsObject;
 import org.geogebra.web.html5.Browser;
 import org.gwtproject.canvas.client.Canvas;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
+import elemental2.core.JsArray;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLMediaElement;
 import elemental2.dom.HTMLVideoElement;
 import elemental2.dom.MediaStream;
 import elemental2.dom.MediaStreamConstraints;
@@ -35,15 +39,13 @@ import jsinterop.base.Js;
  *
  */
 public final class WebCamAPI {
-	private static final int MAX_CANVAS_WIDTH = 640;
-	private static final int MAX_CANVAS_HEIGHT = (int) Math.round(0.75 * MAX_CANVAS_WIDTH);
-
 	private WebCamInputPanel webCamInputPanel;
 	private MediaStream stream;
 	private HTMLVideoElement videoElement;
 
 	private boolean browserAlreadyAllowed;
 	private boolean accessDenied;
+	private int requestVersion;
 
 	/**
 	 *
@@ -58,48 +60,80 @@ public final class WebCamAPI {
 	 * @param videoElem holder for the stream.
 	 */
 	public void start(HTMLVideoElement videoElem) {
+		stop();
 		videoElement = videoElem;
-		populateMedia();
+		browserAlreadyAllowed = false;
+		accessDenied = false;
+		populateMedia(requestVersion);
 	}
 
 	/**
 	 * Stops the video stream.
 	 */
 	public void stop() {
+		requestVersion++;
 		stopVideo();
+		if (videoElement != null) {
+			videoElement.srcObject = null;
+			videoElement.onloadedmetadata = null;
+			videoElement = null;
+		}
 	}
 
 	/**
 	 * @return true if the video stream is empty
 	 */
 	public boolean isStreamEmpty() {
-		return stream == null;
+		return stream == null || !stream.active;
 	}
 
 	/**
 	 * Make a screenshot of the current stream
 	 * @param video the video holder element.
-	 * @return the screenshot data URL.
+	 * @return the screenshot data URL, or null if a frame or canvas is unavailable
 	 */
-	public String takeScreenshot(HTMLVideoElement video) {
-		Canvas c = Canvas.createIfSupported();
-		int w = 0;
-		int h = 0;
-		try {
-			w = Integer.parseInt(video.getAttribute("width"));
-			h = Integer.parseInt(video.getAttribute("height"));
-		} catch (NumberFormatException ignored) {
-			// w, h = 0
-		} finally {
-			int width = Math.max(w, MAX_CANVAS_WIDTH);
-			int height = h != 0 ? (int) Math.round(width * h / ((double) w)) : MAX_CANVAS_HEIGHT;
-			c.setPixelSize(width, height);
-			c.setCoordinateSpaceHeight(height);
-			c.setCoordinateSpaceWidth(width);
-			Js.<CanvasRenderingContext2D>uncheckedCast(c.getContext2d()).drawImage(video, 0, 0);
+	public @Nullable String takeScreenshot(@NonNull HTMLVideoElement video) {
+		if (isStreamEmpty()
+				|| video != videoElement
+				|| video.videoWidth <= 0
+				|| video.videoHeight <= 0
+				|| video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+			return null;
 		}
+		Canvas c = createCanvas();
+		if (c == null) {
+			return null;
+		}
+		c.setPixelSize(video.videoWidth, video.videoHeight);
+		c.setCoordinateSpaceHeight(video.videoHeight);
+		c.setCoordinateSpaceWidth(video.videoWidth);
+		drawFrame(c, video);
 
 		return c.toDataUrl("image/png");
+	}
+
+	/** Creates the browser canvas used to encode a camera frame. */
+	@Nullable Canvas createCanvas() {
+		return Canvas.createIfSupported();
+	}
+
+	/** Draws a native camera frame onto its capture canvas. */
+	void drawFrame(@NonNull Canvas canvas, @NonNull HTMLVideoElement video) {
+		Js.<CanvasRenderingContext2D>uncheckedCast(canvas.getContext2d()).drawImage(video, 0, 0);
+	}
+
+	/** Schedules the delayed permission request prompt. */
+	void schedulePermissionPrompt(@NonNull Runnable callback) {
+		DomGlobal.setTimeout(ignored -> callback.run(), 400);
+	}
+
+	/** Reads the name of a browser permission failure. */
+	@Nullable String getErrorName(@Nullable Object error) {
+		if (error == null) {
+			return null;
+		}
+		Object name = JsObject.of(error).get("name");
+		return name instanceof String text ? text : null;
 	}
 
 	private void onNotSupported() {
@@ -116,15 +150,15 @@ public final class WebCamAPI {
 		webCamInputPanel.onCameraSuccess();
 	}
 
-	private void onCameraError(String error) {
-		webCamInputPanel.onCameraError(error);
+	private void onCameraError(@Nullable String error) {
+		webCamInputPanel.onCameraError(error == null || error.isEmpty() ? "Error" : error);
 	}
 
 	private void onLoadedMetadata(int width, int height) {
 		webCamInputPanel.onLoadedMetadata(width, height);
 	}
 
-	private void populateMedia() {
+	private void populateMedia(int version) {
 		if (!Browser.supportsWebcam()) {
 			onNotSupported();
 			return;
@@ -140,41 +174,55 @@ public final class WebCamAPI {
 				.mediaDevices
 				.getUserMedia(constraints)
 				.then((mediaStream) -> {
+					if (version != requestVersion) {
+						stopTracks(mediaStream);
+						return null;
+					}
 					browserAlreadyAllowed = true;
 					onCameraSuccess(mediaStream);
 					return null;
 				})
 				.catch_((err) -> {
+					if (version != requestVersion) {
+						return null;
+					}
 					accessDenied = true;
-					onCameraError((String) JsObject.of(err).get("name"));
+					onCameraError(getErrorName(err));
 					return null;
 				});
 
-		DomGlobal.setTimeout(
-				(x) -> {
-					if (!browserAlreadyAllowed && !accessDenied) {
-						onRequest();
-					}
-				},
-				400);
+		schedulePermissionPrompt(() -> {
+			if (version == requestVersion && !browserAlreadyAllowed && !accessDenied) {
+				onRequest();
+			}
+		});
 	}
 
 	private void stopVideo() {
 		if (stream == null) {
 			return;
 		}
-		MediaStreamTrack track = stream.getVideoTracks().getAt(0);
-		if (track != null) {
-			track.stop();
-		}
+		stopTracks(stream);
 		stream = null;
+	}
+
+	private static void stopTracks(@NonNull MediaStream mediaStream) {
+		JsArray<MediaStreamTrack> tracks = mediaStream.getTracks();
+		for (int index = 0; index < tracks.length; index++) {
+			MediaStreamTrack track = tracks.getAt(index);
+			if (track != null) {
+				track.stop();
+			}
+		}
 	}
 
 	private void setVideoSource(MediaStream mediaStream, HTMLVideoElement video) {
 		video.srcObject = mediaStream;
 
 		video.onloadedmetadata = (e) -> {
-			onLoadedMetadata(video.videoWidth, video.videoHeight);
+			if (stream == mediaStream && videoElement == video && !isStreamEmpty()) {
+				onLoadedMetadata(video.videoWidth, video.videoHeight);
+			}
 			return null;
 		};
 	}

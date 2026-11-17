@@ -413,23 +413,8 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void videoTool() {
-		setMode(EuclidianConstants.MODE_VIDEO); // TODO 115
-	}
-
-	@Test
-	void audioTool() {
-		setMode(EuclidianConstants.MODE_AUDIO); // TODO 116
-	}
-
-	@Test
 	void geoGebraTool() {
 		setMode(EuclidianConstants.MODE_CALCULATOR); // TODO 117
-	}
-
-	@Test
-	void cameraTool() {
-		setMode(EuclidianConstants.MODE_CAMERA); // TODO 118
 	}
 
 	@Test

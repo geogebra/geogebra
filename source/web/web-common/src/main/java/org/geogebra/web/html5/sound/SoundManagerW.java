@@ -139,7 +139,9 @@ public class SoundManagerW implements SoundManager {
 	 *            Audio geo element.
 	 */
 	protected void onGeoAudioUpdate(HTMLAudioElement audio, GeoAudio geoAudio) {
-		geoAudioElements.put(geoAudio, audio);
+		if (geoAudioElements.get(geoAudio) != audio) {
+			return;
+		}
 		view.update(geoAudio);
 		view.repaintView();
 	}
@@ -221,6 +223,18 @@ public class SoundManagerW implements SoundManager {
 		HTMLAudioElement audio = createHtmlAudioElement();
 		if (audio == null) {
 			return;
+		}
+
+		// Transfer ownership before releasing the old player, whose events may already be queued.
+		HTMLAudioElement previous = geoAudioElements.put(geo, audio);
+		if (previous != null) {
+			previous.oncanplay = null;
+			previous.ontimeupdate = null;
+			previous.onplay = null;
+			previous.onended = null;
+			previous.pause();
+			previous.removeAttribute("src");
+			previous.load();
 		}
 
 		audio.src = geo.getSrc();

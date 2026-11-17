@@ -48,9 +48,12 @@ public final class WebcamInputDialog extends ComponentDialog implements WebcamDi
 
 	@Override
 	public void onPositiveAction() {
+		if (webcamInputPanel.isStreamEmpty()) {
+			return;
+		}
 		String dataURL = webcamInputPanel.getImageDataURL();
 		String name = "webcam";
-		if (dataURL != null && !webcamInputPanel.isStreamEmpty()) {
+		if (dataURL != null) {
 			((AppW) app).imageDropHappened(name, dataURL);
 		}
 	}
@@ -64,17 +67,11 @@ public final class WebcamInputDialog extends ComponentDialog implements WebcamDi
 	}
 
 	@Override
-	public void hide() {
+	public void hide(boolean autoClosed, boolean setFocus) {
 		if (this.webcamInputPanel != null) {
 			this.webcamInputPanel.stopVideo();
 		}
 		((AppW) app).getImageManager().setPreventAuxImage(false);
-		((AppW) app).getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.TOOLBAR);
-		super.hide();
-	}
-
-	@Override
-	public void hide(boolean autoClosed, boolean setFocus) {
 		super.hide(autoClosed, setFocus);
 		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.TOOLBAR);
 	}

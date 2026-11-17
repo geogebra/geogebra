@@ -5917,10 +5917,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		double max = movedAudio.getDuration();
 		DrawAudio da = (DrawAudio) drawable;
-		int d = (int) (da.getInversePoint(mouseLoc.x, mouseLoc.y).getX() - da.getSliderLeft());
+		if (max <= 0 || da.getSliderWidth() <= 0) {
+			return;
+		}
+		double d = da.getInversePoint(mouseLoc.x, mouseLoc.y).getX() - da.getSliderLeft();
 
 		double currTime = max / da.getSliderWidth() * d;
-		int val = (int) currTime;
+		int val = (int) Math.max(0, Math.min(max, currTime));
 		movedAudio.setCurrentTime(val);
 	}
 

@@ -84,7 +84,9 @@ public class GeoVideo extends GeoMedia {
 	 *            {@link MediaFormat}
 	 */
 	public GeoVideo(Construction c, String url, MediaFormat format) {
-		super(c, url, format);
+		super(c);
+		// Initialize the source after subclass fields, so they retain the generated metadata.
+		setSrc(url, format);
 		setLabel("video" + c.getLabelManager().getMultiuserSuffix());
 		setSize(
 				format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1,
@@ -114,6 +116,10 @@ public class GeoVideo extends GeoMedia {
 
 	@Override
 	protected void onSourceChanged() {
+		youtubeId = null;
+		previewUrl = null;
+		preview = null;
+		startTime = null;
 		if (!hasVideoManager()) {
 			return;
 		}
@@ -345,8 +351,9 @@ public class GeoVideo extends GeoMedia {
 
 	private void runSizeCallbackIfReady() {
 		if (sizeSetCallback != null && getWidth() > 0 && getHeight() > 0) {
-			sizeSetCallback.run();
+			Runnable callback = sizeSetCallback;
 			sizeSetCallback = null;
+			callback.run();
 		}
 	}
 }

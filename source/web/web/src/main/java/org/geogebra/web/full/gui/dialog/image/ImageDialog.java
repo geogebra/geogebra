@@ -101,14 +101,17 @@ public final class ImageDialog extends ComponentDialog implements WebcamDialogIn
 		captureBtn.setStyleName("mowFloatingButton");
 		AriaHelper.setTitle(captureBtn, app.getLocalization().getMenu("ImageDialog.Capture"));
 
-		captureBtn.addFastClickHandler(source -> {
-			String dataURL = webcamInputPanel.getImageDataURL();
-			String name = "webcam";
-			if (dataURL != null) {
-				((AppW) app).imageDropHappened(name, dataURL);
-			}
-			hide();
-		});
+		captureBtn.addFastClickHandler(source -> captureImage());
+	}
+
+	/** Captures a camera frame and inserts it through the image pipeline. */
+	void captureImage() {
+		String dataURL = webcamInputPanel.getImageDataURL();
+		if (dataURL == null) {
+			return;
+		}
+		((AppW) app).imageDropHappened("webcam", dataURL);
+		hide();
 	}
 
 	@Override

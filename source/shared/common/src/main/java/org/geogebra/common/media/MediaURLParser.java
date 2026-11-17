@@ -92,16 +92,14 @@ public class MediaURLParser {
 		}
 
 		if (subString != null) {
-			int endIdx = subString.contains("?")
-					? subString.indexOf("?")
-					: subString.contains("&")
-							? subString.indexOf("&")
-							: subString.contains("\"") ? subString.indexOf("\"") : -1;
-			if (endIdx != -1) {
-				id = subString.substring(0, endIdx);
-			} else {
-				id = subString;
+			int endIdx = subString.length();
+			for (char delimiter : new char[] {'?', '&', '"'}) {
+				int index = subString.indexOf(delimiter);
+				if (index >= 0) {
+					endIdx = Math.min(endIdx, index);
+				}
 			}
+			id = subString.substring(0, endIdx);
 		}
 		return id;
 	}
@@ -218,7 +216,7 @@ public class MediaURLParser {
 
 		String id = getMebisIdFromParams(params, doc);
 
-		if (id == null) {
+		if (id == null || id.isEmpty()) {
 			return new MebisURL(null, MebisError.ID);
 		}
 
