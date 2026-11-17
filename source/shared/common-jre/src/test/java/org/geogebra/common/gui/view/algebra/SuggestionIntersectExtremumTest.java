@@ -16,6 +16,7 @@
 
 package org.geogebra.common.gui.view.algebra;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -28,6 +29,7 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Test;
 
 class SuggestionIntersectExtremumTest {
@@ -126,6 +128,20 @@ class SuggestionIntersectExtremumTest {
 		assertEquals(3, app.getGgbApi().getObjectNumber());
 		SuggestionIntersectExtremum.get(line).execute(line);
 		assertEquals(4, app.getGgbApi().getObjectNumber());
+	}
+
+	@Test
+	@Issue("APPS-8161")
+	void suggestionForLineWithInvalidBooleanDefinitionShouldNotThrow() {
+		GeoElement line = add("f: y=sin(ℯ ∧ 2)");
+		assertDoesNotThrow(() -> SuggestionIntersectExtremum.get(line));
+	}
+
+	@Test
+	@Issue("APPS-8161")
+	void suggestionForLineWithInvalidProductDefinitionShouldNotThrow() {
+		GeoElement line = add("y=0(y = 3)");
+		assertDoesNotThrow(() -> SuggestionIntersectExtremum.get(line));
 	}
 
 	private GeoElement add(String command) {

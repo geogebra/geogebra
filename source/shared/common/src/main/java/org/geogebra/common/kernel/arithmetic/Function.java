@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -721,7 +722,12 @@ public class Function extends FunctionNVar
 		PolyFunction polyFunNoCas = expandToPolyFunctionNoCas(ev, symbolic, keepFractions);
 		// TODO: make sure expandToPolyFunctionNoCas does not mess with ev
 		// instead of the next line
-		initFunction();
+		try {
+			initFunction();
+		} catch (MyError e) {
+			// expression cannot be evaluated, so it is not a polynomial
+			return null;
+		}
 		if (polyFunNoCas != null || assumeFalseIfCASNeeded) {
 			return polyFunNoCas;
 		}
