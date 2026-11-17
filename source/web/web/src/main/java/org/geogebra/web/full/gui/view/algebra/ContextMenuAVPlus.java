@@ -22,15 +22,19 @@ import java.util.Set;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.contextmenu.InputContextMenuItem;
+import org.geogebra.common.contextmenu.MathTemplateContextMenuItem;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
+import org.geogebra.common.util.AttributedString;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.full.gui.contextmenu.ImageMap;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -67,6 +71,7 @@ public final class ContextMenuAVPlus implements SetLabels {
 		wrappedPopup = new GPopupMenuW(app);
 
 		buildGUI();
+		wrappedPopup.getPopupPanel().addStyleName("avPlusContextMenu");
 	}
 
 	private void buildGUI() {
@@ -78,13 +83,43 @@ public final class ContextMenuAVPlus implements SetLabels {
 		List<InputContextMenuItem> items =
 				ContextMenuFactory.makeInputContextMenu(true, hasImageItem(), contextMenuFilters);
 		for (InputContextMenuItem item : items) {
-			wrappedPopup.addItem(new AriaMenuItem(
-					item.getLocalizedTitle(loc), ImageMap.get(item.getIcon()), () -> execute(item)));
+			List<MathTemplateContextMenuItem> subMenuItems =
+					ContextMenuFactory.getSubMenuItems(item, contextMenuFilters);
+			if (subMenuItems != null) {
+				wrappedPopup.addItem(buildItemWithSubMenu(item, subMenuItems));
+			} else {
+				wrappedPopup.addItem(new AriaMenuItem(
+						item.getLocalizedTitle(loc), ImageMap.get(item.getIcon()), () -> execute(item)));
+			}
 		}
+	}
+
+	private AriaMenuItem buildItemWithSubMenu(
+			InputContextMenuItem item, List<MathTemplateContextMenuItem> subMenuItems) {
+		AttributedString text = item.getLocalizedTitle(loc);
+		AriaMenuBar ariaMenuBar = new AriaMenuBar();
+		for (MathTemplateContextMenuItem subMenuItem : subMenuItems) {
+			ariaMenuBar.addItem(new AriaMenuItem(
+					subMenuItem.getLocalizedTitle(loc),
+					ImageMap.get(subMenuItem.getIcon()),
+					() -> execute(subMenuItem)));
+		}
+		return new AriaMenuItem(text, ImageMap.get(item.getIcon()), ariaMenuBar);
 	}
 
 	boolean hasImageItem() {
 		return !GlobalScope.isExamActive(app) && app.getGuiManager().toolbarHasImageMode();
+	}
+
+	private void execute(MathTemplateContextMenuItem subMenuItem) {
+		String input = "";
+		switch (subMenuItem) {
+			case Matrix -> input = app.getTemplateKeyProvider().getMatrixFunction();
+			case Vector -> input = app.getTemplateKeyProvider().getVectorFunction();
+			case Integral -> input = loc.getFunction("Integral");
+		}
+		KeyboardInputAdapter.onKeyboardInput(item.getMathField().getInternal(), input);
+		item.setFocus(true);
 	}
 
 	private void execute(InputContextMenuItem item) {

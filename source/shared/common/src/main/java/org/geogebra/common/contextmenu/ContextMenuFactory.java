@@ -266,6 +266,22 @@ public final class ContextMenuFactory {
 	}
 
 	/**
+	 *
+	 * @param contextMenuItem
+	 * @param filters
+	 * @return
+	 */
+	public static List<MathTemplateContextMenuItem> getSubMenuItems(
+			InputContextMenuItem contextMenuItem, @NonNull Set<ContextMenuItemFilter> filters) {
+		if (contextMenuItem.hasSubMenu()) {
+			if (contextMenuItem == MathTemplates) {
+				return makeMathTemplatesContextMenu(filters);
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Builds the "Math Templates" submenu of the algebra view input context menu.
 	 * @param filters context menu item filters (can be empty)
 	 * @return List of context menu items.

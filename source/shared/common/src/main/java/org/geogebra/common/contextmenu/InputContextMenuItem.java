@@ -47,4 +47,11 @@ public enum InputContextMenuItem implements ContextMenuItem {
 	public ContextMenuIcon getIcon() {
 		return icon;
 	}
+
+	/**
+	 * @return whether item has sub-menu
+	 */
+	public boolean hasSubMenu() {
+		return equals(MathTemplates);
+	}
 }

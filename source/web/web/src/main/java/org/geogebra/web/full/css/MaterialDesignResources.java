@@ -417,6 +417,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_image_black_24px.svg")
 	SVGResource insert_photo_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/templates.svg")
+	SVGResource templates();
+
 	// av icons
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/equal_sign_white.svg")
 	SVGResource equal_sign_white();

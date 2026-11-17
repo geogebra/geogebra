@@ -42,6 +42,8 @@ public final class ImageMap {
 				return SharedResources.INSTANCE.icon_help_black();
 			case Delete:
 				return MaterialDesignResources.INSTANCE.delete_black();
+			case MathTemplates:
+				return MaterialDesignResources.INSTANCE.templates();
 		}
 		return null;
 	}

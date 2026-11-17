@@ -134,6 +134,19 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	}
 
 	/**
+	 * @param text content
+	 * @param icon of item
+	 * @param submenu submenu to open when clicked
+	 */
+	public AriaMenuItem(
+			AttributedString text, @Nullable ResourcePrototype icon, AriaMenuBar submenu) {
+		this();
+		Set<Range> attribute = text.getAttribute(AttributedString.Attribute.Subscript);
+		setHTMLContent(addSubscript(text.getRawValue(), attribute), icon);
+		this.submenu = submenu;
+	}
+
+	/**
 	 * @param renderer contained widget
 	 * @param command action
 	 */
