@@ -136,7 +136,7 @@ public class StylebarPositioner {
 	}
 
 	private GPoint getStylebarPositionForDrawable(
-			GRectangle2D gRectangle2D,
+			@Nullable GRectangle2D gRectangle2D,
 			boolean hasBoundingBox,
 			boolean isPoint,
 			boolean noUseOfRectangle,
@@ -174,7 +174,7 @@ public class StylebarPositioner {
 		}
 
 		if (top > maxYPosition) {
-			if (isPoint) {
+			if (isPoint && gRectangle2D != null) {
 				top = gRectangle2D.getMinY() - popupHeight;
 			} else {
 				top = maxYPosition;
@@ -484,7 +484,7 @@ public class StylebarPositioner {
 	}
 
 	private GPoint calculatePosition(
-			GRectangle2D gRectangle2D,
+			@Nullable GRectangle2D gRectangle2D,
 			boolean isPoint,
 			boolean isFunction,
 			int offsetWidth,

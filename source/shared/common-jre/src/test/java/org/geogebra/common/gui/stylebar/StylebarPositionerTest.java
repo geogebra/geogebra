@@ -22,9 +22,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.TestEvent;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -91,5 +93,17 @@ class StylebarPositionerTest extends BaseUnitTest {
 		assertEquals(new GPoint(16, 214), sp.getPositionForStyleBar(50, 50));
 		pointerDown(-150, 450);
 		assertEquals(new GPoint(16, 214), sp.getPositionForStyleBar(50, 50));
+	}
+
+	@Test
+	@Issue("APPS-8158")
+	void positionForHiddenPointNearBottomEdge() {
+		GeoElement point = add("A=(1,1)");
+		point.setEuclidianVisible(false);
+		point.updateRepaint();
+		pointerDown(200, 580);
+		assertEquals(
+				new GPoint(204, 550),
+				sp.getPositionFor(point, 50, 50, AwtFactory.getPrototype().newRectangle(0, 0, 800, 550)));
 	}
 }
