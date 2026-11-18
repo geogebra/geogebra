@@ -476,7 +476,6 @@ public abstract class App
 
 	protected static final long SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS = 100;
 
-	private ArrayList<String> mLastCommandsSelectedFromHelp;
 	private AutocompleteProvider autocompleteProvider;
 	// TODO: move following methods somewhere else
 	private String tubeID = null;
@@ -4464,28 +4463,6 @@ public abstract class App
 	 */
 	public void newGeoGebraToPgf(AsyncOperation<GeoGebraExport> callback) {
 		// overridden in AppD, AppW
-	}
-
-	/**
-	 * last commands selected from help (used in Android and iOS native)
-	 *
-	 * @param commandName
-	 *            last command
-	 */
-	public void addToLastCommandsSelectedFromHelp(String commandName) {
-		if (mLastCommandsSelectedFromHelp == null) {
-			mLastCommandsSelectedFromHelp = new ArrayList<>();
-		}
-		// remove if already in it
-		mLastCommandsSelectedFromHelp.remove(commandName);
-		mLastCommandsSelectedFromHelp.add(commandName);
-	}
-
-	/**
-	 * @return last commands selected from help (used in Android and iOS native)
-	 */
-	public ArrayList<String> getLastCommandsSelectedFromHelp() {
-		return mLastCommandsSelectedFromHelp;
 	}
 
 	protected EuclidianController getEuclidianController() {
