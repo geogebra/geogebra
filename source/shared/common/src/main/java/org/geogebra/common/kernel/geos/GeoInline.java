@@ -295,6 +295,14 @@ public abstract class GeoInline extends GeoElement
 	}
 
 	/**
+	 * Returns the content scale independently of the view zoom.
+	 * @return scale applied to the text layout
+	 */
+	public double getScale() {
+		return scale;
+	}
+
+	/**
 	 * Set a scale factor for legacy text elements for backward compatible rendering.
 	 * @param scale scale factor
 	 */

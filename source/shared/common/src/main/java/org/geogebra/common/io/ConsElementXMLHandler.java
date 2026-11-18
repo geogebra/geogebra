@@ -74,6 +74,7 @@ import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -2169,6 +2170,9 @@ public class ConsElementXMLHandler {
 				case "autocolor":
 					handleAutocolor(attrs);
 					break;
+				case "autoFontSize":
+					handleAutoFontSize(attrs);
+					break;
 				case "animation":
 					handleAnimation(attrs);
 					break;
@@ -2489,6 +2493,14 @@ public class ConsElementXMLHandler {
 			}
 		} catch (RuntimeException e) {
 			Log.error("malformed <dynamicCaption>");
+		}
+	}
+
+	private void handleAutoFontSize(Map<String, String> attrs) {
+		if (geo instanceof GeoStickyNote note) {
+			note.setAutoFontSize(MyXMLHandler.parseBooleanRev(attrs.get("val")));
+		} else {
+			Log.error("wrong element type for <autoFontSize>: " + geo.getClass());
 		}
 	}
 

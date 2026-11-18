@@ -215,6 +215,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 					</xs:element>
 					<xs:element minOccurs="0" name="content" type="stringVal"/>
 					<xs:element minOccurs="0" name="contentSerif" type="boolVal"/>
+					<xs:element minOccurs="0" name="autoFontSize" type="boolVal"/>
 					<xs:element minOccurs="0" name="contentSize">
 						<xs:complexType>
 							<xs:attribute name="width" type="xs:double"/>

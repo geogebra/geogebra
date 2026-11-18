@@ -30,6 +30,7 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTextController;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.jspecify.annotations.Nullable;
 
@@ -204,6 +205,21 @@ public class DrawStickyNote extends Drawable implements DrawInline {
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
 		rectangle.updateByBoundingBoxResize(point, handler);
+	}
+
+	@Override
+	public void onResizeEnd() {
+		double scale = stickyNote.getScale();
+		if (scale == 1) {
+			return;
+		}
+		stickyNote.setContentWidth(stickyNote.getContentWidth() * scale);
+		stickyNote.setContentHeight(stickyNote.getContentHeight() * scale);
+		stickyNote.setScale(1);
+		if (textController != null) {
+			textController.onResizeEnd(scale);
+		}
+		stickyNote.updateVisualStyleRepaint(GProperty.FONT);
 	}
 
 	@Override

@@ -51,6 +51,13 @@ public interface EuclidianStyleBar {
 	void updateStyleBar();
 
 	/**
+	 * Refreshes the displayed font size during proportional resizing without rebuilding the bar.
+	 */
+	default void updateFontSize() {
+		// Only style bars exposing a live font-size field need this update.
+	}
+
+	/**
 	 * Update capture button
 	 *
 	 * @param mode

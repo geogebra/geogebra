@@ -7514,7 +7514,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					getResizedShape().updateByControlPointMovement(p, (ControlPointHandler) hitHandler);
 				}
 			}
-			hideDynamicStylebar();
+			if (isStickyNoteResize()) {
+				if (view.hasDynamicStyleBar()) {
+					view.getDynamicStyleBar().updateFontSize();
+				}
+			} else {
+				hideDynamicStylebar();
+			}
 			view.repaintView();
 			return;
 		} else if (isMultiResize) {
@@ -8109,6 +8115,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setBoundingBoxCursor();
 			if (!view.getHitHandler().isAddHandler()) {
 				setResizedShape(d);
+				if (isStickyNoteResize()) {
+					showDynamicStylebar();
+				}
 			} else {
 				return;
 			}
@@ -8406,13 +8415,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void updateInlineRectangle(AbstractEvent event, boolean keepAspectRatio) {
+		int dx = event.getX() - startPosition.getX();
+		int dy = event.getY() - startPosition.getY();
 		if (inlinePreviewRectangle == null) {
+			if (keepAspectRatio && Math.abs(dx) <= DRAG_THRESHOLD && Math.abs(dy) <= DRAG_THRESHOLD) {
+				return;
+			}
 			inlinePreviewRectangle = AwtFactory.getPrototype().newRectangle();
 		}
 
-		int dx = event.getX() - startPosition.getX();
 		int width = Math.abs(dx);
-		int dy = event.getY() - startPosition.getY();
 		if (keepAspectRatio) {
 			dy = dy > 0 ? width : -width;
 		}
@@ -9287,8 +9299,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		setViewHits(event.getType());
 	}
 
+	private boolean isStickyNoteResize() {
+		return getResizedShape() != null && getResizedShape().getGeoElement() instanceof GeoStickyNote;
+	}
+
 	private boolean shouldHideDynamicStyleBar(AbstractEvent event) {
 		return view.hasDynamicStyleBar()
+				&& !isStickyNoteResize()
 				&& (mode != EuclidianConstants.MODE_SELECT_MOW || !event.isRightClick());
 	}
 
@@ -9988,6 +10005,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				app.storeUndoInfo();
 				return;
 			}
+		}
+		if (draggingOccurred
+				&& getResizedShape() instanceof DrawInline inline
+				&& handler instanceof EuclidianBoundingBoxHandler boundingBoxHandler
+				&& boundingBoxHandler.isDiagonal()) {
+			inline.onResizeEnd();
 		}
 		if (resizedInline != null) {
 			resizedInline.toForeground(event.getX(), event.getY());

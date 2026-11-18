@@ -18,6 +18,7 @@ package org.geogebra.web.richtext;
 
 import org.geogebra.web.richtext.impl.Carota;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 import elemental2.dom.CanvasRenderingContext2D;
 
@@ -66,6 +67,30 @@ public interface Editor {
 	 *            property value (double, bool or color string)
 	 */
 	void format(String key, Object val);
+
+	/**
+	 * Applies formatting to the entire document without changing the selection.
+	 * @param key formatting property
+	 * @param value formatting value
+	 */
+	void formatDocument(@NonNull String key, @NonNull Object value);
+
+	/**
+	 * Enables automatic whole-document fitting for the current content and subsequent edits.
+	 * @param fontSizes nonempty candidate sizes in descending order
+	 * @param availableHeight content height excluding padding
+	 */
+	void enableAutoFontSize(int @NonNull [] fontSizes, double availableHeight);
+
+	/** Disables automatic fitting without changing the current content or font size. */
+	void disableAutoFontSize();
+
+	/**
+	 * @param fontSize candidate size in editor coordinates
+	 * @param availableHeight content height excluding padding
+	 * @return whether the entire document fits without changing the live editor
+	 */
+	boolean fitsAtFontSize(double fontSize, double availableHeight);
 
 	/**
 	 * @param <T>

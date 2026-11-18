@@ -17,28 +17,75 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.awt.GColor;
-import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
+import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.io.XmlTestUtil;
+import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.UndoRedoTester;
+import org.geogebra.test.annotation.Issue;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-class GeoStickyNoteTest extends BaseUnitTest {
-	private GeoStickyNote stickyNote;
+/** Tests persistence of sticky-note font sizing modes. */
+@Issue("MOW-1944")
+class GeoStickyNoteTest extends BaseAppTestSetup {
+
+	private static final String CONTENT = "[{\"text\":\"Hi\",\"size\":20}]";
 
 	@BeforeEach
-	void setupTest() {
-		stickyNote = new GeoStickyNote(getConstruction(), null);
+	void setup() {
+		setupNotesApp();
+	}
+
+	@ParameterizedTest
+	@ValueSource(booleans = {false, true})
+	void fontSizeModeAndTextSurviveSaveLoad(boolean automatic) {
+		GeoStickyNote note = createNote(automatic);
+		String xml = getApp().getXML();
+		assertTrue(xml.contains("<autoFontSize val=\"" + automatic + "\"/>"));
+		assertFalse(xml.contains("<tag key=\"autoFontSize\""));
+		XmlTestUtil.checkCurrentXML(getApp());
+
+		getApp().setXML(xml, true);
+
+		GeoStickyNote loaded = lookupNote();
+		assertEquals(automatic, loaded.isAutoFontSize());
+		assertEquals(note.getContent(), loaded.getContent());
+		assertEquals(240, loaded.getContentWidth());
+		assertEquals(240, loaded.getContentHeight());
 	}
 
 	@Test
-	void stickyNoteCorrectDefaults() {
-		assertEquals(GColor.STICKY_NOTE_YELLOW, stickyNote.getBackgroundColor());
-		assertEquals(VerticalAlignment.MIDDLE, stickyNote.getVerticalAlignment());
-		assertTrue(stickyNote.getContent().contains("\"align\":\"center\""));
-		assertEquals(160, stickyNote.getWidth());
-		assertEquals(160, stickyNote.getHeight());
+	void undoRedoRestoresFontSizeMode() {
+		UndoRedoTester undoRedo = new UndoRedoTester(getApp());
+		undoRedo.setupUndoRedo();
+		GeoStickyNote note = createNote(true);
+		getApp().storeUndoInfo();
+		note.setAutoFontSize(false);
+		getApp().storeUndoInfo();
+
+		GeoStickyNote undone = undoRedo.getAfterUndo("note");
+		assertTrue(undone.isAutoFontSize());
+		GeoStickyNote redone = undoRedo.getAfterRedo("note");
+		assertFalse(redone.isAutoFontSize());
+		assertEquals(CONTENT, redone.getContent());
+	}
+
+	private @NonNull GeoStickyNote createNote(boolean automatic) {
+		GeoStickyNote note = new GeoStickyNote(getConstruction(), new GPoint2D(0, 0));
+		note.setLabel("note");
+		note.setContent(CONTENT);
+		note.setAutoFontSize(automatic);
+		note.setSize(240, 240);
+		return note;
+	}
+
+	private @NonNull GeoStickyNote lookupNote() {
+		return (GeoStickyNote) getApp().getKernel().lookupLabel("note");
 	}
 }

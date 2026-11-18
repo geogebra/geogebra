@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.stylebar.StylebarPositioner;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
@@ -302,7 +303,14 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 				new PropertySupplier[] {fontSizeProperty}, geos, UndoActionType.STYLE_OR_CONTENT);
 
 		InlineComboBox fontSizeBox = new InlineComboBox(
-				getApp(), comboBox, this::requestFontSizeBoxFocusAfterUpdate, "FontSize");
+				getApp(),
+				comboBox,
+				this::requestFontSizeBoxFocusAfterUpdate,
+				"FontSize",
+				() -> geos.stream()
+								.allMatch(geo -> geo instanceof GeoStickyNote note && note.isAutoFontSize())
+						? "Automatic"
+						: "FontSize");
 		fontSizeBox.addPopupClassName("quickStyleBarFontSizePopup");
 		fontSizeBox.addStyleName("quickStyleBarFontSizeBox");
 		fontSizeBoxes.add(fontSizeBox);
@@ -570,6 +578,11 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 				closeQuickStyleBarPopups();
 			}
 		});
+	}
+
+	@Override
+	public void updateFontSize() {
+		fontSizeBoxes.forEach(InlineComboBox::updateValue);
 	}
 
 	@Override

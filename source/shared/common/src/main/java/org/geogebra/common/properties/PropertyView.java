@@ -492,6 +492,14 @@ public abstract class PropertyView {
 		}
 
 		/**
+		 * @param index suggestion index
+		 * @return whether this suggestion can currently be applied
+		 */
+		public boolean isItemEnabled(int index) {
+			return property.isSuggestionEnabled(getItems().get(index));
+		}
+
+		/**
 		 * @param value potential value
 		 * @return whether value is valid
 		 */

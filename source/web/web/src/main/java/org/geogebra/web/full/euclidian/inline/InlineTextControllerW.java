@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.HasVerticalAlignment;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
+import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -55,6 +56,7 @@ import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 import elemental2.core.Global;
 import elemental2.core.JsArray;
@@ -64,7 +66,7 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Web implementation of the inline text controller.
  */
-public final class InlineTextControllerW implements InlineTextController {
+public class InlineTextControllerW implements InlineTextController {
 
 	private static final String INVISIBLE = "invisible";
 	private final GeoInline geo;
@@ -89,7 +91,7 @@ public final class InlineTextControllerW implements InlineTextController {
 		this.geo = geo;
 		this.parent = parent;
 		this.view = view;
-		CarotaUtil.ensureInitialized(geo.defaultFontSize());
+		CarotaUtil.ensureInitialized(FontSettings.DEFAULT_FONT_SIZE);
 		if (view.getApplication().isByCS()) {
 			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
 		}
@@ -106,6 +108,22 @@ public final class InlineTextControllerW implements InlineTextController {
 			return null;
 		}
 		return s;
+	}
+
+	/**
+	 * Creates the appropriate inline text controller for the given object.
+	 *
+	 * @param geo inline object
+	 * @param view Euclidian view
+	 * @param parentElement parent element for the editor
+	 * @return sticky note controller for sticky notes, otherwise a standard text controller
+	 */
+	public static InlineTextController newInstance(
+			GeoInline geo, EuclidianView view, Element parentElement) {
+		if (geo instanceof GeoStickyNote stickyNote) {
+			return new StickyNoteControllerW(stickyNote, view, parentElement);
+		}
+		return new InlineTextControllerW(geo, view, parentElement);
 	}
 
 	/**
@@ -175,18 +193,7 @@ public final class InlineTextControllerW implements InlineTextController {
 
 			@Override
 			public void onInput() {
-				double oldMinHeight = geo.getMinHeight();
-				int actualMinHeight = (int) ((editor.getMinHeight() + 2 * geo.defaultPadding())
-						* geo.getWidth()
-						/ geo.getContentWidth());
-				if (oldMinHeight != actualMinHeight) {
-					geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
-					geo.setMinHeight(actualMinHeight);
-					if (oldMinHeight < actualMinHeight) {
-						geo.updateRepaint();
-					}
-					updateVerticalAlign();
-				}
+				onEditorInput();
 			}
 
 			@Override
@@ -200,6 +207,21 @@ public final class InlineTextControllerW implements InlineTextController {
 				toBackground(DrawInline.SuspensionTrigger.BLUR);
 			}
 		});
+	}
+
+	protected void onEditorInput() {
+		double oldMinHeight = geo.getMinHeight();
+		int actualMinHeight = (int) ((editor.getMinHeight() + 2 * geo.defaultPadding())
+				* geo.getWidth()
+				/ geo.getContentWidth());
+		if (oldMinHeight != actualMinHeight) {
+			geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
+			geo.setMinHeight(actualMinHeight);
+			if (oldMinHeight < actualMinHeight) {
+				geo.updateRepaint();
+			}
+			updateVerticalAlign();
+		}
 	}
 
 	private void onEditorChange(String content) {
@@ -339,7 +361,7 @@ public final class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void format(String key, Object val) {
-		editor.format(key, val);
+		applyFormat(key, val);
 		saveContent();
 		geo.updateRepaint();
 		if ("font".equals(key)) {
@@ -347,10 +369,57 @@ public final class InlineTextControllerW implements InlineTextController {
 		}
 	}
 
+	/**
+	 * Applies an explicit formatting change to the editor's current formatting range.
+	 * @param key formatting property
+	 * @param value formatting value
+	 */
+	protected void applyFormat(@NonNull String key, @NonNull Object value) {
+		editor.format(key, value);
+	}
+
+	/**
+	 * Applies formatting to the entire editor document without saving or repainting the geo.
+	 * @param key formatting property
+	 * @param value formatting value
+	 */
+	protected void formatDocument(@NonNull String key, @NonNull Object value) {
+		editor.formatDocument(key, value);
+	}
+
+	/**
+	 * Enables automatic fitting and refreshes alignment and rendering after the final size.
+	 * @param fontSizes nonempty candidate sizes in descending order
+	 * @param availableHeight content height excluding padding
+	 */
+	protected void enableAutoFontSize(int @NonNull [] fontSizes, double availableHeight) {
+		editor.enableAutoFontSize(fontSizes, availableHeight);
+		updateVerticalAlign();
+		view.getKernel().notifyRepaint();
+	}
+
+	/** Stops automatic fitting before an explicit fixed-size change. */
+	protected void disableAutoFontSize() {
+		editor.disableAutoFontSize();
+	}
+
+	/**
+	 * @param fontSize candidate size in editor coordinates
+	 * @param availableHeight content height excluding padding
+	 * @return whether the entire document fits at the requested size
+	 */
+	protected boolean fitsAtFontSize(double fontSize, double availableHeight) {
+		return editor.fitsAtFontSize(fontSize, availableHeight);
+	}
+
 	@Override
 	public void formatFont(String val) {
+		if (val == null) {
+			return;
+		}
+
 		format("font", val);
-		if (val != null && val.contains("By")) {
+		if (val.contains("By")) {
 			format("bold", false);
 			format("italic", false);
 			format("underline", false);
@@ -393,6 +462,10 @@ public final class InlineTextControllerW implements InlineTextController {
 	}
 
 	private int getValignPadding(int padding) {
+		if (geo instanceof GeoStickyNote
+				&& editor.getMinHeight() >= geo.getContentHeight() - 2 * padding) {
+			return 0;
+		}
 		if (getVerticalAlignment() == VerticalAlignment.MIDDLE) {
 			return (int) (geo.getContentHeight() - editor.getMinHeight()) / 2 - padding;
 		} else if (getVerticalAlignment() == VerticalAlignment.BOTTOM) {

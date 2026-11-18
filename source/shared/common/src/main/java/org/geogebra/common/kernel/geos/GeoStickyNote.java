@@ -19,6 +19,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.DrawStickyNote;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
@@ -32,8 +33,24 @@ public class GeoStickyNote extends GeoInline
 	public static final int DEFAULT_HEIGHT = 160;
 	public static final int MIN_HEIGHT = 36;
 	private String content;
+	private boolean autoFontSize = true;
 	private VerticalAlignment verticalAlignment = VerticalAlignment.MIDDLE;
 	private double minHeight;
+
+	/**
+	 * @return whether the font size is calculated automatically
+	 */
+	public boolean isAutoFontSize() {
+		return autoFontSize;
+	}
+
+	/**
+	 * Sets the font sizing mode without changing the current numeric font size.
+	 * @param autoFontSize whether to calculate the font size automatically
+	 */
+	public void setAutoFontSize(boolean autoFontSize) {
+		this.autoFontSize = autoFontSize;
+	}
 
 	/**
 	 * Creates a sticky note geo.
@@ -72,8 +89,10 @@ public class GeoStickyNote extends GeoInline
 
 	@Override
 	public GeoElement copy() {
-		return new GeoStickyNote(
-				cons, new GPoint2D(getLocation().getX(), getLocation().getY()));
+		GeoStickyNote copy =
+				new GeoStickyNote(cons, new GPoint2D(getLocation().getX(), getLocation().getY()));
+		copy.setAutoFontSize(autoFontSize);
+		return copy;
 	}
 
 	@Override
@@ -83,6 +102,12 @@ public class GeoStickyNote extends GeoInline
 			setLocation(stickyNote.getLocation());
 			setSize(stickyNote.getWidth(), stickyNote.getHeight());
 		}
+	}
+
+	@Override
+	protected void getStyleXML(XMLStringBuilder sb) {
+		super.getStyleXML(sb);
+		sb.startTag("autoFontSize").attr("val", autoFontSize).endTag();
 	}
 
 	@Override
@@ -138,6 +163,11 @@ public class GeoStickyNote extends GeoInline
 	@Override
 	public int defaultPadding() {
 		return DrawStickyNote.PADDING;
+	}
+
+	@Override
+	public boolean isStickyNote() {
+		return true;
 	}
 
 	@Override

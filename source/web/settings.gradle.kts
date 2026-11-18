@@ -33,3 +33,12 @@ include("web")
 include("web-common")
 include("web-dev")
 includeBuild("../shared")
+
+// Use the native editor checkout during coordinated GeoGebra/Murok development.
+providers.gradleProperty("murokSourceDir").orNull?.let { sourceDir ->
+    includeBuild(file(sourceDir).resolve("gwt")) {
+        dependencySubstitution {
+            substitute(module("org.murok:editor")).using(project(":"))
+        }
+    }
+}

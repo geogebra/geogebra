@@ -1725,4 +1725,9 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 *         description.
 	 */
 	String getLaTeXAlgebraDescription(boolean substituteNumbers, StringTemplate tpl);
+
+	/**
+	 * @return whether this element is a StickyNote
+	 */
+	boolean isStickyNote();
 }

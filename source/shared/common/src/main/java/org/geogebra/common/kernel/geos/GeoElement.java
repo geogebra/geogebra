@@ -7170,4 +7170,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public Localization getLocalization() {
 		return kernel.getLocalization();
 	}
+
+	@Override
+	public boolean isStickyNote() {
+		return false;
+	}
 }

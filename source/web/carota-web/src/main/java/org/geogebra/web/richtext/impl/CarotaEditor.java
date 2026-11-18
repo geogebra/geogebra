@@ -21,6 +21,7 @@ import org.geogebra.web.richtext.EditorChangeListener;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.HTML;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.NonNull;
 
 import elemental2.core.Global;
 import elemental2.dom.CanvasRenderingContext2D;
@@ -35,6 +36,7 @@ public class CarotaEditor implements Editor {
 	private Widget widget;
 	private CarotaDocument editor;
 	private EditorChangeListener listener;
+	private int width = -1;
 
 	/**
 	 * Create a new instance of Carota editor.
@@ -68,6 +70,10 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void setWidth(int width) {
+		if (this.width == width) {
+			return;
+		}
+		this.width = width;
 		editor.setWidth(width);
 		listener.onInput();
 	}
@@ -133,6 +139,28 @@ public class CarotaEditor implements Editor {
 		CarotaRange range =
 				selection.getStart() == selection.getEnd() ? editor.documentRange() : selection;
 		range.setFormatting(key, val);
+	}
+
+	@Override
+	public void formatDocument(@NonNull String key, @NonNull Object value) {
+		editor.documentRange().setFormatting(key, value);
+	}
+
+	@Override
+	public void enableAutoFontSize(int @NonNull [] fontSizes, double availableHeight) {
+		if (width > 0) {
+			editor.enableAutoFontSize(fontSizes, availableHeight);
+		}
+	}
+
+	@Override
+	public void disableAutoFontSize() {
+		editor.disableAutoFontSize();
+	}
+
+	@Override
+	public boolean fitsAtFontSize(double fontSize, double availableHeight) {
+		return width <= 0 || editor.fitsAtFontSize(fontSize, width, availableHeight);
 	}
 
 	@Override

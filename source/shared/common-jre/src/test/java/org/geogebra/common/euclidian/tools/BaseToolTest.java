@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.test.TestEvent;
 import org.junit.jupiter.api.BeforeEach;
 
-class BaseToolTest extends BaseEuclidianControllerTest {
+public class BaseToolTest extends BaseEuclidianControllerTest {
 
 	@BeforeEach
 	void setUp() {

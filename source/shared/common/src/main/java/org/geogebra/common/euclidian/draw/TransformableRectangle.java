@@ -246,7 +246,14 @@ public class TransformableRectangle {
 
 		GPoint2D origin = directTransform.transform(new GPoint2D(x, y), null);
 		// setting size first, location second is important for images
-		geo.setSize(width, height);
+		if (geo instanceof GeoStickyNote stickyNote) {
+			// Keep the text layout dimensions fixed so the content scales with the note.
+			stickyNote.setScale(
+					width / stickyNote.getContentWidth() * EuclidianView.SCALE_STANDARD / view.getXscale());
+			stickyNote.setSizeOnly(width, height);
+		} else {
+			geo.setSize(width, height);
+		}
 		geo.setLocation(
 				new GPoint2D(view.toRealWorldCoordX(origin.getX()), view.toRealWorldCoordY(origin.getY())));
 

@@ -17,6 +17,7 @@
 package org.geogebra.web.richtext.impl;
 
 import org.geogebra.gwtutil.JsRunnable;
+import org.jspecify.annotations.NonNull;
 
 import elemental2.core.JsArray;
 import elemental2.dom.CanvasRenderingContext2D;
@@ -51,6 +52,24 @@ public class CarotaDocument implements HasContent {
 	public native void insertHyperlink(String url, String text);
 
 	public native void setWidth(int width);
+
+	/**
+	 * Fits now and joins subsequent automatic adjustments to their text edit's undo step.
+	 * @param sizes predefined font sizes
+	 * @param height content height excluding padding
+	 */
+	public native void enableAutoFontSize(int @NonNull [] sizes, double height);
+
+	/** Disables automatic font fitting for fixed-size text. */
+	public native void disableAutoFontSize();
+
+	/**
+	 * @param size uniform candidate font size
+	 * @param width content width excluding padding
+	 * @param height content height excluding padding
+	 * @return whether the whole document fits, without editing it
+	 */
+	public native boolean fitsAtFontSize(double size, double width, double height);
 
 	@JsProperty
 	public native CarotaFrame getFrame();

@@ -17,9 +17,12 @@
 package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
+import java.util.stream.Stream;
 
+import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoStickyNote;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
@@ -43,6 +46,7 @@ public class NotesFontSizeProperty extends AbstractValuedProperty<String>
 	private static final int DEFAULT_SIZE = 16;
 	private static final int MIN_SIZE = 1;
 	private static final int MAX_SIZE = 999;
+	private static final int AUTO_LABEL_LENGTH = 4;
 
 	private final GeoElementDelegate delegate;
 
@@ -60,29 +64,64 @@ public class NotesFontSizeProperty extends AbstractValuedProperty<String>
 
 	@Override
 	protected void doSetValue(String value) {
-		Integer fontSize = parse(value);
-		if (fontSize == null) {
+		GeoElement element = getGeoElement();
+		boolean automatic = isAutoValue(value);
+		Integer fontSize = automatic ? null : parse(value);
+		if (!automatic && (fontSize == null || !fitsAtFontSize(fontSize))) {
 			return;
 		}
-		GeoElement element = getGeoElement();
-		((HasTextFormatter) element).format("size", (double) fontSize);
+		if (element instanceof GeoStickyNote note) {
+			note.setAutoFontSize(automatic);
+		}
+		if (fontSize != null) {
+			double layoutFontSize =
+					element instanceof GeoStickyNote note ? fontSize / note.getScale() : fontSize;
+			((HasTextFormatter) element).format("size", layoutFontSize);
+		}
 		element.updateVisualStyleRepaint(GProperty.FONT);
 	}
 
 	@Override
 	public String getValue() {
+		if (getGeoElement() instanceof GeoStickyNote note && note.isAutoFontSize()) {
+			return getAutoLabel();
+		}
 		Number size = ((HasTextFormatter) getGeoElement()).getFormat("size", (Number) DEFAULT_SIZE);
-		return String.valueOf(Math.round(size.doubleValue()));
+		double scale = getGeoElement() instanceof GeoStickyNote note ? note.getScale() : 1;
+		return String.valueOf(Math.round(size.doubleValue() * scale));
 	}
 
 	@Override
 	public @Nullable String validateValue(String value) {
-		return parse(value) == null ? getLocalization().getError("InvalidInput") : null;
+		return isSuggestionEnabled(value) ? null : getLocalization().getError("InvalidInput");
 	}
 
 	@Override
 	public @NonNull List<String> getSuggestions() {
-		return SUGGESTIONS;
+		return getGeoElement() instanceof GeoStickyNote
+				? Stream.concat(Stream.of(getAutoLabel()), SUGGESTIONS.stream()).toList()
+				: SUGGESTIONS;
+	}
+
+	@Override
+	public boolean isSuggestionEnabled(@NonNull String value) {
+		Integer size = parse(value);
+		return isAutoValue(value) || size != null && fitsAtFontSize(size);
+	}
+
+	private boolean fitsAtFontSize(int size) {
+		return !(getGeoElement() instanceof GeoStickyNote note)
+				|| !(note.getFormatter() instanceof InlineTextController controller)
+				|| controller.fitsAtFontSize(size / note.getScale());
+	}
+
+	private boolean isAutoValue(@Nullable String value) {
+		return getGeoElement() instanceof GeoStickyNote && getAutoLabel().equals(value);
+	}
+
+	private @NonNull String getAutoLabel() {
+		String automatic = getLocalization().getMenu("Automatic");
+		return automatic.substring(0, Math.min(automatic.length(), AUTO_LABEL_LENGTH));
 	}
 
 	@Override

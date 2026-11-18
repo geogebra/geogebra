@@ -52,6 +52,7 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 	private boolean suppressPopupOnFocus;
 	private int caretPosAfterCommit = -1;
 	private final String titleKey;
+	private final Supplier<String> tooltipKeySupplier;
 
 	/**
 	 * @param app application
@@ -65,9 +66,27 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 			PropertyView.@NonNull PropertyViewWithSuggestions property,
 			@NonNull IntConsumer requestFocusAfterUpdate,
 			@NonNull String titleKey) {
+		this(app, property, requestFocusAfterUpdate, titleKey, () -> titleKey);
+	}
+
+	/**
+	 * @param app application
+	 * @param property combo box property
+	 * @param requestFocusAfterUpdate called before an Enter commit so the rebuilt toolbar can
+	 * focus the input; receives the caret position to restore
+	 * @param titleKey translation key for the ARIA label
+	 * @param tooltipKeySupplier supplies the current translation key for the tooltip
+	 */
+	public InlineComboBox(
+			@NonNull AppW app,
+			PropertyView.@NonNull PropertyViewWithSuggestions property,
+			@NonNull IntConsumer requestFocusAfterUpdate,
+			@NonNull String titleKey,
+			@NonNull Supplier<String> tooltipKeySupplier) {
 		this.app = app;
 		this.property = property;
 		this.titleKey = titleKey;
+		this.tooltipKeySupplier = tooltipKeySupplier;
 		this.requestFocusAfterUpdate = requestFocusAfterUpdate;
 		inputTextField = new AutoCompleteTextFieldW(-1, app, false, null);
 		ComponentDropDown.Styler styler = createStyler(property);
@@ -90,7 +109,8 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 	 * Update displayed value from underlying property.
 	 */
 	public void updateValue() {
-		inputTextField.setText(property.getValue());
+		previousValue = property.getValue();
+		updateFromProperty();
 	}
 
 	/**
@@ -103,6 +123,9 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 	private ComponentDropDown.Styler createStyler(
 			PropertyView.@NonNull PropertyViewWithSuggestions property) {
 		return (item, index) -> {
+			boolean enabled = property.isItemEnabled(index);
+			item.setEnabled(enabled);
+			item.getElement().setAttribute("aria-disabled", Boolean.toString(!enabled));
 			if (property instanceof PropertyView.ComboBoxWithIcons withIcons
 					&& withIcons.getIcon(index) != null) {
 				IconSpec spec =
@@ -346,7 +369,7 @@ public final class InlineComboBox extends FlowPanel implements SetLabels {
 		if (enabled) {
 			inputTextField
 					.getElement()
-					.setAttribute("data-title", app.getLocalization().getMenu(titleKey));
+					.setAttribute("data-title", app.getLocalization().getMenu(tooltipKeySupplier.get()));
 		} else {
 			inputTextField.getElement().removeAttribute("data-title");
 		}

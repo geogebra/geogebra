@@ -2484,7 +2484,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public InlineTextController createInlineTextController(EuclidianView view, GeoInline geo) {
 		Element parentElement =
 				((EuclidianViewW) view).getAbsolutePanel().getParent().getElement();
-		return new InlineTextControllerW(geo, view, parentElement);
+		return InlineTextControllerW.newInstance(geo, view, parentElement);
 	}
 
 	@Override

@@ -133,10 +133,10 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 			});
 			AriaHelper.setRole(item, "option");
 			item.getElement().setId(DOM.createUniqueId());
+			item.setStyleName("dropDownElement");
 			if (styler != null) {
 				styler.apply(item, i);
 			}
-			item.setStyleName("dropDownElement");
 			dropDownElementsList.add(item);
 		}
 		setupDropDownMenu(dropDownElementsList);
@@ -202,13 +202,19 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 		if (getSelectedIndex() < 0 || getSelectedIndex() >= dropDownElementsList.size()) {
 			return "";
 		}
-		return dropDownElementsList.get(getSelectedIndex()).getText();
+		AriaMenuItem item = dropDownElementsList.get(getSelectedIndex());
+		return item.isEnabled() ? item.getText() : "";
 	}
 
 	/**
 	 * show popup and position as combo-box
 	 */
 	public void showAsComboBox() {
+		if (styler != null) {
+			for (int i = 0; i < dropDownElementsList.size(); i++) {
+				styler.apply(dropDownElementsList.get(i), i);
+			}
+		}
 		dropDown.positionAtBottomAnchor();
 	}
 
@@ -287,7 +293,7 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 
 	@Override
 	public void handleUpArrow() {
-		moveSelection(getSelectedIndex() == -1 ? 0 : -1);
+		moveSelection(-1);
 	}
 
 	private void moveSelection(int increment) {
@@ -296,7 +302,18 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 		}
 		dropDown.forceKeyboardFocus(true);
 		int size = dropDownElementsList.size();
-		setSelectedOption((dropDown.getSelectedIndex() + size + increment) % size);
+		int index = getSelectedIndex();
+		if (index == -1 && increment < 0) {
+			index = size;
+		}
+		for (int checked = 0; checked < size; checked++) {
+			index = (index + size + increment) % size;
+			if (dropDownElementsList.get(index).isEnabled()) {
+				setSelectedOption(index);
+				return;
+			}
+		}
+		setSelectedOption(-1);
 	}
 
 	@Override

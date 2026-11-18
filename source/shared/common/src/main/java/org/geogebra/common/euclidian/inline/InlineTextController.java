@@ -91,6 +91,23 @@ public interface InlineTextController extends HasTextFormat {
 	void updateContentIfChanged();
 
 	/**
+	 * Commits font sizing after the geo's layout dimensions and scale have been normalized.
+	 * @param scale resize scale before normalization, excluding view zoom
+	 */
+	default void onResizeEnd(double scale) {
+		// Only controllers with proportional text resizing need to commit a font size.
+	}
+
+	/**
+	 * Checks the entire document without changing its content or undo history.
+	 * @param fontSize font size in editor coordinates
+	 * @return whether the text fits within the content area at this size
+	 */
+	default boolean fitsAtFontSize(double fontSize) {
+		return true;
+	}
+
+	/**
 	 * Store current content in the construction element.
 	 */
 	void saveContent();

@@ -19,6 +19,7 @@ package org.geogebra.common.properties.util;
 import java.util.List;
 
 import org.geogebra.common.properties.aliases.StringProperty;
+import org.jspecify.annotations.NonNull;
 
 public interface StringPropertyWithSuggestions extends StringProperty {
 
@@ -26,6 +27,14 @@ public interface StringPropertyWithSuggestions extends StringProperty {
 	 * @return List of suggested values
 	 */
 	List<String> getSuggestions();
+
+	/**
+	 * @param value suggested value
+	 * @return whether the suggestion can currently be applied
+	 */
+	default boolean isSuggestionEnabled(@NonNull String value) {
+		return true;
+	}
 
 	/**
 	 * @return Whether invalid input should be replaced with the previous valid value

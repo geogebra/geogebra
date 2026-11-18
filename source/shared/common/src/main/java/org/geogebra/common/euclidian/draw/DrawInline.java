@@ -72,6 +72,13 @@ public interface DrawInline extends RemoveNeeded, HasTransformation {
 	HasTextFormat getController();
 
 	/**
+	 * Commits an inline object's resize before editing resumes and undo is stored.
+	 */
+	default void onResizeEnd() {
+		// Most inline objects do not need to normalize their content after resizing.
+	}
+
+	/**
 	 * Save content of the editor in the construction element.
 	 */
 	void saveContent();

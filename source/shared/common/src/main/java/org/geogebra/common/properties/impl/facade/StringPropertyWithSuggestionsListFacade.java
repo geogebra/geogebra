@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.function.BinaryOperator;
 
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class StringPropertyWithSuggestionsListFacade<T extends StringPropertyWithSuggestions>
@@ -36,6 +37,11 @@ public class StringPropertyWithSuggestionsListFacade<T extends StringPropertyWit
 	@Override
 	public List<String> getSuggestions() {
 		return getFirstProperty().getSuggestions();
+	}
+
+	@Override
+	public boolean isSuggestionEnabled(@NonNull String value) {
+		return properties.stream().allMatch(property -> property.isSuggestionEnabled(value));
 	}
 
 	@Override
