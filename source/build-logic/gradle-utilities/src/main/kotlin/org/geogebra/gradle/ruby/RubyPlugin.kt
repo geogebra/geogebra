@@ -37,7 +37,7 @@ abstract class RubyPlugin : Plugin<Project> {
             }
 
             with(tasks) {
-                val downloadRbenv by registering {
+                val downloadRbenv = register("downloadRbenv") {
                     onlyIf("rbenv is not already downloaded") {
                         !project.file(ruby.rbenvHome.get().file("bin/rbenv")).exists() || execOps.exec {
                             rbenv(ruby)
@@ -65,7 +65,7 @@ abstract class RubyPlugin : Plugin<Project> {
                     }
                 }
 
-                val installRuby by registering(Rbenv::class) {
+                val installRuby = register<Rbenv>("installRuby") {
                     doFirst {
                         args("install", "--skip-existing", ruby.version.get())
                     }
@@ -73,7 +73,7 @@ abstract class RubyPlugin : Plugin<Project> {
 
                 val rubyBin = objects.directoryProperty()
 
-                val configureRubyHome by registering(Rbenv::class) {
+                val configureRubyHome = register<Rbenv>("configureRubyHome") {
                     val output = ByteArrayOutputStream()
                     dependsOn(installRuby)
                     standardOutput = output

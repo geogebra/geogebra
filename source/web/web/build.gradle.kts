@@ -125,12 +125,12 @@ tasks.withType<Test>().configureEach {
     jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
 }
 
-val cleanWar by tasks.registering(Delete::class) {
+val cleanWar = tasks.register<Delete>("cleanWar") {
     val deleteTargets = listOf("web", "web3d", "webSimple", "tablet3d", "tabletWin")
     delete(deleteTargets.map { layout.projectDirectory.dir("$warDirRel/$it") })
 }
 
-val copyHtml by tasks.registering {
+val copyHtml = tasks.register("copyHtml") {
     dependsOn(tasks.compileSass)
     description = "Generate app.html, app-release.html, graphing.html and others"
     group = "application"
@@ -140,7 +140,7 @@ val copyHtml by tasks.registering {
     }
 }
 
-val copyDevHtml by tasks.registering {
+val copyDevHtml = tasks.register("copyDevHtml") {
     dependsOn(tasks.compileSass)
     description = "Generate app.html, app-release.html, graphing.html and others without inlined css"
     group = "application"
@@ -250,15 +250,15 @@ tasks.register<Zip>("createDraftBundleZip") {
 
 val libDir = "src/main/resources/org/geogebra/web"
 
-val minifyRewritePHYs by tasks.registering(MinifyLibTask::class) {
+val minifyRewritePHYs = tasks.register<MinifyLibTask>("minifyRewritePHYs") {
     sourceFile = project(":web-common").file("${libDir}/resources/js/rewrite_pHYs.js")
 }
 
-val minifyCanvas2Pdf by tasks.registering(MinifyLibTask::class) {
+val minifyCanvas2Pdf = tasks.register<MinifyLibTask>("minifyCanvas2Pdf") {
     sourceFile = file("${libDir}/pub/js/canvas2pdf.js")
 }
 
-val minifyWhammy by tasks.registering(MinifyLibTask::class) {
+val minifyWhammy = tasks.register<MinifyLibTask>("minifyWhammy") {
     sourceFile = file("${libDir}/pub/js/whammy.js")
 }
 

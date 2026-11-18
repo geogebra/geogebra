@@ -12,7 +12,7 @@ plugins {
 
 description = "Parts of GeoGebra related to desktop platforms"
 
-val e2eTest: SourceSet by sourceSets.creating {
+val e2eTest = sourceSets.create("e2eTest") {
     compileClasspath += sourceSets.main.get().output
     runtimeClasspath += sourceSets.main.get().output
 }
@@ -23,8 +23,9 @@ tasks.getByName<JavaExec>("run") {
     }
 }
 
-val e2eTestImplementation: Configuration by configurations.getting
-e2eTestImplementation.extendsFrom(configurations.testImplementation.get())
+configurations.named("e2eTestImplementation") {
+    extendsFrom(configurations.testImplementation.get())
+}
 
 dependencies {
     implementation("org.geogebra:common")

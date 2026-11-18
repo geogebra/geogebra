@@ -49,7 +49,7 @@ tasks.test {
     jvmArgs = listOf("-Xmx1g")
 }
 
-val jacocoSources by configurations.creating {
+val jacocoSources = configurations.create("jacocoSources") {
     extendsFrom(configurations.implementation.get())
     attributes {
         attribute(VerificationType.VERIFICATION_TYPE_ATTRIBUTE, objects.named(VerificationType.MAIN_SOURCES))
@@ -57,7 +57,7 @@ val jacocoSources by configurations.creating {
     isCanBeConsumed = false
 }
 
-val jacocoClasses by configurations.creating {
+val jacocoClasses = configurations.create("jacocoClasses") {
     extendsFrom(configurations.implementation.get())
     isCanBeConsumed = false
 }

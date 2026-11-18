@@ -80,7 +80,7 @@ afterEvaluate {
             "-Djava.io.tmpdir=${path.absolutePath}"
         )
         doFirst {
-            delete { path }
+            path.deleteRecursively()
             path.mkdirs()
         }
     }

@@ -14,11 +14,11 @@ interface GwtDistExtension {
 val extension = project.extensions.create<GwtDistExtension>("gwtDistribution")
 extension.distributionFolder.convention(layout.projectDirectory.dir("dist"))
 
-val cleanDist by tasks.registering(Delete::class) {
+val cleanDist = tasks.register<Delete>("cleanDist") {
     delete(extension.distributionFolder)
 }
 
-val dist by tasks.registering(Copy::class) {
+val dist = tasks.register<Copy>("dist") {
     dependsOn(cleanDist)
     from(tasks.gwtCompile)
     into("dist")
@@ -37,7 +37,7 @@ val dist by tasks.registering(Copy::class) {
     }
 }
 
-val zipDist by tasks.registering(Zip::class) {
+val zipDist = tasks.register<Zip>("zipDist") {
     dependsOn(dist)
     from("${extension.distributionFolder.get()}/$name")
     destinationDirectory = extension.distributionFolder
