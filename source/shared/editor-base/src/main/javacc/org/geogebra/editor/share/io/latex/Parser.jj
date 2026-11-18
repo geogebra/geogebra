@@ -227,12 +227,32 @@ public class Parser {
 		}
 
 		ReInit(new StringProvider(text));
-		Formula formula = new Formula(catalog);
-		SequenceNode sequence = formula.getRootNode();
-		editorState.setRootNode(sequence);
-		mathContainerWithCommas(sequence);
-		formula.getRootNode().traverse(new FractionBracketRemover());
-		return formula;
+		Token firstToken = token;
+		try {
+			Formula formula = new Formula(catalog);
+			SequenceNode sequence = formula.getRootNode();
+			editorState.setRootNode(sequence);
+			mathContainerWithCommas(sequence);
+			formula.getRootNode().traverse(new FractionBracketRemover());
+			return formula;
+		} finally {
+			unlinkTokens(firstToken);
+		}
+	}
+
+	/**
+	 * Breaks the linked list of tokens created during parsing. On iOS (j2objc), releasing the
+	 * first token of a long list releases the rest recursively, which overflows the stack
+	 * for long inputs.
+	 * @param firstToken first token of the list
+	 */
+	private static void unlinkTokens(Token firstToken) {
+		Token current = firstToken;
+		while (current != null) {
+			Token next = current.next;
+			current.next = null;
+			current = next;
+		}
 	}
 }
 PARSER_END(Parser)
