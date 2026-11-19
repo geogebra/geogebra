@@ -106,6 +106,7 @@ public final class ComponentExpandableList extends FlowPanel implements SetLabel
 					updateUISelectedState();
 				},
 				true);
+		AriaHelper.setLabel(checkbox, appW.getLocalization().getMenu(titleTransKey));
 		AriaHelper.setLabel(this, appW.getLocalization().getMenu(titleTransKey));
 		header.add(checkbox);
 	}
