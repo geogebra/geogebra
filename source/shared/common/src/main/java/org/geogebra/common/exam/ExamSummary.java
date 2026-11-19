@@ -16,6 +16,7 @@
 
 package org.geogebra.common.exam;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.geogebra.common.kernel.commands.CmdGetTime;
@@ -30,7 +31,9 @@ import org.jspecify.annotations.Nullable;
 /**
  * Provides information for the exam details UI (during exams) or exam summary UI (after finishing).
  */
-public final class ExamSummary {
+public final class ExamSummary implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private final boolean isExamFinished;
 	private final boolean cheated;
