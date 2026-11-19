@@ -191,4 +191,8 @@ public final class ComponentExpandableList extends FlowPanel implements SetLabel
 		AriaHelper.setTabIndex(this, 0);
 		AriaHelper.setAriaExpanded(this, false);
 	}
+
+	public ComponentCheckbox getCheckbox() {
+		return checkbox;
+	}
 }
