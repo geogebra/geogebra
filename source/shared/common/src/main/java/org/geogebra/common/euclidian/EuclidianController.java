@@ -12093,7 +12093,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void setView(EuclidianView view) {
 		this.view = view;
-		app.getSelectionManager().addListener((geos) -> updateBoundingBoxFromSelection(false));
+		app.getSelectionManager().addListener((geos) -> {
+			updateBoundingBoxFromSelection(false);
+			if (app.isWhiteboardActive()) {
+				showDynamicStylebar();
+			}
+		});
 	}
 
 	public GPoint getMovePosition() {
