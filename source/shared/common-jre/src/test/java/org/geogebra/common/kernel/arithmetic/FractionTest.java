@@ -17,7 +17,9 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.editor.share.util.Unicode;
@@ -27,7 +29,7 @@ import org.hamcrest.Matcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class FractionTest extends SymbolicArithmeticTest {
+class FractionTest extends BaseUnitTest {
 
 	@BeforeEach
 	void setupRounding() {
@@ -126,5 +128,9 @@ class FractionTest extends SymbolicArithmeticTest {
 
 	private Matcher<GeoElement> hasExactFraction(boolean flag) {
 		return hasProperty("exact fraction", geo -> Fractions.isExactFraction(geo, getKernel()), flag);
+	}
+
+	private void t(String string, String expected) {
+		assertEquals(expected, SymbolicArithmeticUtil.evalToString(string, getKernel()));
 	}
 }

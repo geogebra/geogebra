@@ -30,7 +30,7 @@ import org.geogebra.web.html5.util.ArchiveLoader;
  * Like production, mock async loading of commands
  *
  */
-public class AppWapplet3DTest extends AppWapplet3D {
+public class AppWFull3DMock extends AppWapplet3D {
 
 	private ArchiveLoader view;
 
@@ -40,7 +40,7 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	 * @param laf    laf
 	 * @param device device
 	 */
-	public AppWapplet3DTest(
+	public AppWFull3DMock(
 			AppletParameters ae, GeoGebraFrameFull gf, GLookAndFeel laf, GDevice device) {
 		super(DomMocker.getGeoGebraElement(), ae, gf, laf, device);
 	}

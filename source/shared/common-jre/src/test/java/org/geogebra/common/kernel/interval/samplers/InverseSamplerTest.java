@@ -17,17 +17,18 @@
 package org.geogebra.common.kernel.interval.samplers;
 
 import static org.geogebra.common.kernel.interval.IntervalSetOps.isZero;
+import static org.geogebra.common.kernel.interval.SamplerTestUtil.functionValues;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.function.Predicate;
 
-import org.geogebra.common.kernel.interval.SamplerTest;
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-class InverseSamplerTest extends SamplerTest {
+class InverseSamplerTest extends BaseUnitTest {
 
 	@Test
 	void zeroXInverseShouldBeInfiniteOnly() {
@@ -35,12 +36,12 @@ class InverseSamplerTest extends SamplerTest {
 	}
 
 	private void assertAll(String description, Predicate<? super IntervalTuple> predicate) {
-		IntervalTupleList samples = functionValues(description, -4, 4, -5, -5);
+		IntervalTupleList samples = functionValues(add(description), -4, 4, -5, -5);
 		assertEquals(samples.count(), samples.stream().filter(predicate).count());
 	}
 
 	@Test
-	void inverseOfzeroXInverse() {
+	void inverseOfZeroXInverse() {
 		assertAll("1/(1/(0x))", IntervalTuple::isEmpty);
 	}
 

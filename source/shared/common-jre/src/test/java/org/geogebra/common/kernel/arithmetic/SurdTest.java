@@ -16,9 +16,12 @@
 
 package org.geogebra.common.kernel.arithmetic;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.geogebra.common.BaseUnitTest;
 import org.junit.jupiter.api.Test;
 
-class SurdTest extends SymbolicArithmeticTest {
+class SurdTest extends BaseUnitTest {
 
 	@Test
 	void testSurd() {
@@ -49,5 +52,9 @@ class SurdTest extends SymbolicArithmeticTest {
 	@Test
 	void testLargeNumbers() {
 		t("sqrt(32614907904)", "180595.98");
+	}
+
+	private void t(String string, String expected) {
+		assertEquals(expected, SymbolicArithmeticUtil.evalToString(string, getKernel()));
 	}
 }

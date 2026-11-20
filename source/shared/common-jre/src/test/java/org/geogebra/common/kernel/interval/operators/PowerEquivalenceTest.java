@@ -17,14 +17,15 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalSetOps.toLegacy;
+import static org.geogebra.common.kernel.interval.SamplerTestUtil.functionValues;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.geogebra.common.kernel.interval.SamplerTest;
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.junit.jupiter.api.Test;
 
-class PowerEquivalenceTest extends SamplerTest {
+class PowerEquivalenceTest extends BaseUnitTest {
 
 	@Test
 	void sqrtAndPOWOneHalfShouldBeEqual() {
@@ -76,6 +77,6 @@ class PowerEquivalenceTest extends SamplerTest {
 	}
 
 	private IntervalTupleList samplesOf(String description) {
-		return functionValues(description, -10, 10, 10, 10);
+		return functionValues(add(description), -10, 10, 10, 10);
 	}
 }

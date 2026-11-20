@@ -125,7 +125,7 @@ public class AppMocker {
 					GeoGebraFrameFull frame,
 					GLookAndFeelI laf,
 					GDevice device) {
-				return new AppWapplet3DTest(params, frame, (GLookAndFeel) laf, device);
+				return new AppWFull3DMock(params, frame, (GLookAndFeel) laf, device);
 			}
 		};
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(

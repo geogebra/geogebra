@@ -19,6 +19,7 @@ package org.geogebra.common.kernel.interval.function;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connected;
 import static org.geogebra.common.kernel.interval.IntervalSetOps.connectedInterval;
+import static org.geogebra.common.kernel.interval.SamplerTestUtil.functionValues;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -26,26 +27,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalSet;
-import org.geogebra.common.kernel.interval.SamplerTest;
 import org.geogebra.common.kernel.interval.TuplesQuery;
 import org.junit.jupiter.api.Test;
 
-class XInPowerTest extends SamplerTest {
+class XInPowerTest extends BaseUnitTest {
 	private final GeoFunctionConverter converter = new GeoFunctionConverter();
 
 	@Test
 	void twoPowerX() {
-		IntervalTupleList tuples = functionValues("2^x", -5, 5, -5, 5);
+		IntervalTupleList tuples = functionValues(add("2^x"), -5, 5, -5, 5);
 		TuplesQuery query = new TuplesQuery(tuples);
 		assertFalse(query.noDefinedTuples());
 	}
 
 	@Test
 	void sinEPowerX() {
-		IntervalTupleList tuples = functionValues("sin(e^x)", -5, 5, -5, 5);
+		IntervalTupleList tuples = functionValues(add("sin(e^x)"), -5, 5, -5, 5);
 		TuplesQuery query = new TuplesQuery(tuples);
 		assertFalse(query.noDefinedTuples());
 	}
