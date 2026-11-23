@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.TestErrorHandler;
 
-public class SymbolicArithmeticUtil {
+public final class SymbolicArithmeticUtil {
 
 	private SymbolicArithmeticUtil() {}
 

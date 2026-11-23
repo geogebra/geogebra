@@ -26,11 +26,30 @@ public class SamplerTestUtil {
 
 	private static final int DEFAULT_NUMBER_OF_SAMPLES = 100;
 
+	/**
+	 * Samples the function over the given range using the default number of samples.
+	 * @param function function to sample
+	 * @param xmin minimum x
+	 * @param xmax maximum x
+	 * @param ymin minimum y
+	 * @param ymax maximum y
+	 * @return sampled tuples
+	 */
 	public static IntervalTupleList functionValues(
 			GeoFunction function, double xmin, double xmax, double ymin, double ymax) {
 		return functionValues(function, xmin, xmax, ymin, ymax, DEFAULT_NUMBER_OF_SAMPLES);
 	}
 
+	/**
+	 * Samples the function over the given range.
+	 * @param function function to sample
+	 * @param xmin minimum x
+	 * @param xmax maximum x
+	 * @param ymin minimum y
+	 * @param ymax maximum y
+	 * @param numberOfSamples number of samples
+	 * @return sampled tuples
+	 */
 	public static IntervalTupleList functionValues(
 			GeoFunction function,
 			double xmin,
