@@ -175,17 +175,16 @@ public final class IconButtonWithProperty extends IconButton {
 			parent.add(colorPanel);
 
 			if (colorProperty.getFirstProperty()
-							instanceof TextBackgroundColorProperty textBackgroundColorProperty
-					&& textBackgroundColorProperty.hasColorResetButton()) {
-				StandardButton noColorButton = BaseWidgetFactory.INSTANCE.newTextButton(
-						appW.getGeneralIconResource().getImageResource(GeneralIcon.NO_COLOR),
-						appW.getLocalization().getMenu("noColor"));
-				noColorButton.addFastClickHandler(source -> {
-					if (popupHandler != null) {
-						popupHandler.fireActionPerformed(colorProperty, null);
-					}
-				});
-				parent.add(noColorButton);
+					instanceof TextBackgroundColorProperty textBackgroundColorProperty) {
+				if (textBackgroundColorProperty.hasColorResetButton()) {
+					StandardButton noColorButton = BaseWidgetFactory.INSTANCE.newTextButton(
+							appW.getGeneralIconResource().getImageResource(GeneralIcon.NO_COLOR),
+							appW.getLocalization().getMenu("noColor"));
+					noColorButton.addFastClickHandler(source -> fireNoColor(colorProperty));
+					parent.add(noColorButton);
+				} else {
+					propertyPopup.addStyleName("stickyNote");
+				}
 			}
 		}
 		if (property instanceof RangePropertyListFacade<?> rangeProperty) {
@@ -233,6 +232,12 @@ public final class IconButtonWithProperty extends IconButton {
 			groupLabel.addStyleName("symbolGroup");
 			parent.add(groupLabel);
 			parent.add(new SymbolButtonGroup(symbolProperty));
+		}
+	}
+
+	private void fireNoColor(ColorPropertyListFacade<?> colorProperty) {
+		if (popupHandler != null) {
+			popupHandler.fireActionPerformed(colorProperty, null);
 		}
 	}
 

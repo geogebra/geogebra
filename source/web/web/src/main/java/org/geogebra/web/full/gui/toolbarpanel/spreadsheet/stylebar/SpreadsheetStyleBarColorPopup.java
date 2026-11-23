@@ -41,7 +41,7 @@ public final class SpreadsheetStyleBarColorPopup extends GPopupPanel
 			AppW appW, IconButton anchorButton, Consumer<GColor> colorHandler) {
 		super(true, appW.getAppletFrame(), appW);
 		this.anchorButton = anchorButton;
-		addStyleName("quickStyleBarPopup colorStyle");
+		addStyleName("quickStyleBarPopup colorStyle spreadsheet");
 		buildGui(colorHandler);
 		addCloseHandler(this);
 	}

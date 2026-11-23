@@ -39,9 +39,8 @@
 	}
 
 	.colorPalette {
-		width: 180px;
-		display: flex;
-		flex-flow: wrap;
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
 
 		&.disabled {
 			.gwt-Label {

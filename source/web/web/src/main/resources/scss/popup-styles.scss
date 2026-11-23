@@ -266,6 +266,11 @@
 					margin-left: 0;
 				}
 			}
+			&.spreadsheet, &.stickyNote {
+				.colorPalette {
+					grid-template-columns: repeat(7, 1fr);
+				}
+			}
 		}
 
 		.materialTextButton {
