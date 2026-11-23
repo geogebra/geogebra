@@ -481,8 +481,12 @@ public class Ggb2giac {
 		p("ImplicitDerivative.3", "normal(regroup(-diff(%0,%2)/diff(%0,%1)))");
 		p("ImplicitDerivative.1", "normal(regroup(-diff(%0,x)/diff(%0,y)))");
 
-		p("Integral.1", "regroup(integrate(when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0)))");
-		p("Integral.2", "regroup(integrate(when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0),%1))");
+		String integrand = "when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0)";
+		// check for undef first: Giac crashes for eg integrate(exp(x/0))
+		p("Integral.1", "when(" + integrand + "==undef,undef,regroup(integrate(" + integrand + ")))");
+		p(
+				"Integral.2",
+				"when(" + integrand + "==undef,undef,regroup(integrate(" + integrand + ",%1)))");
 
 		// The symbolic value of the integral is checked against a numeric
 		// evaluation of the integral

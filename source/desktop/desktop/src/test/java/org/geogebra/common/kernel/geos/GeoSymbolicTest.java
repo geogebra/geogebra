@@ -70,6 +70,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.SymbolicUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
@@ -1247,6 +1248,38 @@ class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic3.toValueString(StringTemplate.latexTemplate), is("10"));
 		GeoSymbolic symbolic4 = add("f(5)");
 		assertThat(symbolic4.toValueString(StringTemplate.latexTemplate), is("25"));
+	}
+
+	@Test
+	@Issue("APPS-8168")
+	void integralOfGraphingFunctionWithZeroSigma() {
+		kernel.setSymbolicMode(SymbolicMode.NONE);
+		GeoNumeric s = add("s = 1");
+		add("f = Normal(1, s, x, false)");
+		kernel.setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+		GeoSymbolic integral = add("Integral(f)");
+		Log previousLogger = Log.getLogger();
+		// the numeric fallback logs a parse error for NIntegral(f, x)
+		Log.setLogger(null);
+		try {
+			s.setValue(0);
+			s.updateCascade();
+		} finally {
+			Log.setLogger(previousLogger);
+		}
+		assertThat(integral, hasValue("NIntegral(f, x)"));
+	}
+
+	@Test
+	@Issue("APPS-8168")
+	void definiteIntegralOfGraphingFunctionWithZeroSigma() {
+		kernel.setSymbolicMode(SymbolicMode.NONE);
+		GeoNumeric s = add("s = 1");
+		add("f = Normal(1, s, x, false)");
+		GeoNumeric integral = add("Integral(f, 0, 2)");
+		s.setValue(0);
+		s.updateCascade();
+		assertThat(integral, hasValue("?"));
 	}
 
 	@Test

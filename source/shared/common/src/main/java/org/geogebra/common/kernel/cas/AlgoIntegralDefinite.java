@@ -577,15 +577,17 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// rather than
 		// 628318530717959/100000000000000
 		// so call evaluateRaw()
-		sb.append("evalf(integrate(");
+		// check for undef first: Giac crashes for eg integrate(exp(x/0),x,0,1)
+		sb.append("[[ggbintarg:=");
 		sb.append(f.toValueString(StringTemplate.giacTemplate));
+		sb.append("],when(ggbintarg==undef,undef,evalf(integrate(ggbintarg");
 		sb.append(",");
 		sb.append(f.getVarString(StringTemplate.defaultTemplate));
 		sb.append(",");
 		sb.append(a.toValueString(approxPiTemplate));
 		sb.append(",");
 		sb.append(b.toValueString(approxPiTemplate));
-		sb.append("))");
+		sb.append(")))][1]");
 
 		String result;
 		try {
