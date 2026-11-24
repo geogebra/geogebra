@@ -347,6 +347,7 @@ public class InputController {
 		IntegralForm integralForm =
 				getInlineIntegralForm(integralTag, commandArguments.size(), commandString);
 		if (integralForm != null) {
+			removeSyntaxPlaceholderAtCursor(editorState);
 			FunctionNode integral =
 					IntegralHelper.create(editorState.getCatalog(), integralTag, integralForm);
 			boolean hasPlaceholders = commandString.indexOf('<') >= 0;
@@ -359,6 +360,7 @@ public class InputController {
 		if (!FunctionTemplateFactory.isAcceptable(commandName)) {
 			return false;
 		}
+		removeSyntaxPlaceholderAtCursor(editorState);
 		FunctionNode command = buildCustomFunction(commandName, false, null, null);
 		initArguments(command, 1);
 		insertFunction(editorState, command, 1);
@@ -1120,6 +1122,22 @@ public class InputController {
 	}
 
 	/**
+	 * Removes a syntax placeholder directly after or before the cursor, so that the input
+	 * replaces the placeholder instead of being inserted next to it.
+	 * @param editorState editor state
+	 */
+	private void removeSyntaxPlaceholderAtCursor(@NonNull EditorState editorState) {
+		int currentOffset = editorState.getCurrentOffset();
+		SequenceNode field = editorState.getCurrentNode();
+		if (field.getChild(currentOffset) instanceof PlaceholderNode) {
+			field.removeChild(currentOffset);
+		} else if (field.getChild(currentOffset - 1) instanceof PlaceholderNode) {
+			field.removeChild(currentOffset - 1);
+			CursorController.prevCharacter(editorState);
+		}
+	}
+
+	/**
 	 * Delete a character to the right of the cursor
 	 * @param editorState current state
 	 */
@@ -1442,15 +1460,7 @@ public class InputController {
 		TemplateCatalog catalog = editorState.getCatalog();
 
 		if (!catalog.isFunctionOpenKey(ch) && ch != ',') {
-			int currentOffset = editorState.getCurrentOffset();
-			SequenceNode field = editorState.getCurrentNode();
-
-			if (field.getChild(currentOffset) instanceof PlaceholderNode) {
-				editorState.getCurrentNode().removeChild(currentOffset);
-			} else if (field.getChild(currentOffset - 1) instanceof PlaceholderNode) {
-				editorState.getCurrentNode().removeChild(currentOffset - 1);
-				CursorController.prevCharacter(editorState);
-			}
+			removeSyntaxPlaceholderAtCursor(editorState);
 		}
 
 		if (ch != '('

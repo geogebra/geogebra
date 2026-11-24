@@ -22,6 +22,7 @@ import static org.geogebra.editor.share.util.JavaKeyCodes.VK_DOWN;
 import static org.geogebra.editor.share.util.JavaKeyCodes.VK_HOME;
 import static org.geogebra.editor.share.util.JavaKeyCodes.VK_UP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +46,7 @@ import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.tree.FunctionNode;
 import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.IntegralHelper;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -841,6 +843,19 @@ class IntegralEditorTests {
 		checker.parse("Integral(f,0,1)");
 		clickAtPath(LOWER_LIMIT_END);
 		checker.checkCaret(LOWER_LIMIT_END);
+	}
+
+	@Test
+	@Issue("APPS-8175")
+	void testIntegralFromSuggestionReplacesArgumentPlaceholder() {
+		MathFieldInternal mathField = casChecker.getMathField().getInternal();
+		KeyboardInputAdapter.onKeyboardInput(mathField, "Length( <Object> )");
+		KeyboardInputAdapter.onKeyboardInput(
+				mathField, "Integral( <Function>, <Variable>, <Start Value>, <End Value> )");
+		SequenceNode argument = getInsertedFunction(casChecker).getChild(1);
+		assertEquals(1, argument.size());
+		FunctionNode integral = assertInstanceOf(FunctionNode.class, argument.getChild(0));
+		assertEquals(Tag.INTEGRAL, integral.getName());
 	}
 
 	private void clickAtPath(Integer... path) {

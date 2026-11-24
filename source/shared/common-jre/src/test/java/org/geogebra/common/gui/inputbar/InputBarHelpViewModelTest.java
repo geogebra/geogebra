@@ -44,7 +44,11 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.controller.EditorState;
+import org.geogebra.editor.share.tree.FunctionNode;
+import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.JavaKeyCodes;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -473,6 +477,42 @@ class InputBarHelpViewModelTest extends BaseExamTestSetup {
 				() -> assertFalse(functions.contains("fractionalPart")),
 				() -> assertTrue(functions.contains("sqrt")),
 				() -> assertFalse(commandsOf(CommandCategory.ALL_COMMANDS).contains("fractionalPart")));
+	}
+
+	@Test
+	@Issue("APPS-8175")
+	void syntaxInsertedBeforeArgumentPlaceholderReplacesIt() {
+		setup(SuiteSubApp.GRAPHING);
+		open("");
+		select("Length( <Object> )").insertInto(mathField);
+		EditorState editorState = mathField.getInternal().getEditorState();
+		assertEquals(0, editorState.getCurrentOffset());
+		viewModel.open(editorState);
+		select("Divisors( <Number> )").insertInto(mathField);
+		SequenceNode root = mathField.getInternal().getFormula().getRootNode();
+		FunctionNode length = assertInstanceOf(FunctionNode.class, root.getChild(0));
+		SequenceNode argument = length.getChild(1);
+		assertEquals(1, argument.size());
+		FunctionNode divisors = assertInstanceOf(FunctionNode.class, argument.getChild(0));
+		assertEquals("Divisors", divisors.getCommandForSyntax());
+	}
+
+	@Test
+	@Issue("APPS-8175")
+	void syntaxInsertedAfterArgumentPlaceholderReplacesIt() {
+		setup(SuiteSubApp.GRAPHING);
+		open("");
+		select("Length( <Object> )").insertInto(mathField);
+		EditorState editorState = mathField.getInternal().getEditorState();
+		editorState.setCurrentOffset(1);
+		viewModel.open(editorState);
+		select("Divisors( <Number> )").insertInto(mathField);
+		SequenceNode root = mathField.getInternal().getFormula().getRootNode();
+		FunctionNode length = assertInstanceOf(FunctionNode.class, root.getChild(0));
+		SequenceNode argument = length.getChild(1);
+		assertEquals(1, argument.size());
+		FunctionNode divisors = assertInstanceOf(FunctionNode.class, argument.getChild(0));
+		assertEquals("Divisors", divisors.getCommandForSyntax());
 	}
 
 	private void setup(SuiteSubApp subApp) {
