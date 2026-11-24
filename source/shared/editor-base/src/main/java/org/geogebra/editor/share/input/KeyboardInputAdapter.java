@@ -118,7 +118,9 @@ public class KeyboardInputAdapter {
 		adapters.add(new StringInput("recurringDecimal") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
-				commitFunction(mfi, "recurringDecimal");
+				if (!mfi.getEditorState().isInRecurringDecimal()) {
+					commitFunction(mfi, "recurringDecimal");
+				}
 			}
 		});
 

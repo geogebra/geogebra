@@ -162,11 +162,13 @@ public class GeoGebraSerializer extends SerializerAdapter {
 				stringBuilder.append("))");
 				break;
 			case RECURRING_DECIMAL:
-				int i = stringBuilder.length() + 1;
-				serialize(functionNode.getChild(0), stringBuilder);
-				while (i < stringBuilder.length()) {
-					stringBuilder.insert(i, Unicode.OVERLINE);
-					i += 2;
+				StringBuilder recurringDigits = new StringBuilder();
+				serialize(functionNode.getChild(0), recurringDigits);
+				for (int i = 0; i < recurringDigits.length(); i++) {
+					if (i > 0) {
+						stringBuilder.append(Unicode.OVERLINE);
+					}
+					stringBuilder.append(recurringDigits.charAt(i));
 				}
 				if (functionNode.getChild(0).size() != 0) {
 					stringBuilder.append(Unicode.OVERLINE);

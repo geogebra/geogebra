@@ -2235,6 +2235,16 @@ class EditorTypingTest extends BaseExamTestSetup {
 	}
 
 	@Test
+	@Issue("APPS-8197")
+	void recurringDecimalKeyShouldNotNest() {
+		checker.type("0.");
+		for (int i = 0; i < 3; i++) {
+			checker.pressSingleKey("recurringDecimal");
+		}
+		checker.type("3").checkAsciiMath("0.3" + Unicode.OVERLINE);
+	}
+
+	@Test
 	void surdLaTeX() {
 		checker
 				.insert(String.valueOf(Unicode.SQUARE_ROOT))
