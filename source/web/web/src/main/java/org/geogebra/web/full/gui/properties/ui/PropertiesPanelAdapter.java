@@ -77,6 +77,7 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Maps properties to UI components for the properties view.
@@ -85,9 +86,10 @@ public final class PropertiesPanelAdapter {
 	private final Localization loc;
 	private final AppW app;
 	private final List<Widget> widgets = new ArrayList<>();
-	private final Map<String, ComponentExpandableList> expandableLists = new HashMap<>();
+	private final List<PropertyView> propertyViews = new ArrayList<>();
+	private final Map<String, ExpandableList> expandableLists = new HashMap<>();
 
-	private String panelKey = "";
+	private @Nullable String panelKey;
 
 	/**
 	 * @param loc localization
@@ -99,12 +101,15 @@ public final class PropertiesPanelAdapter {
 	}
 
 	/**
-	 * Clears the widgets and prepares the adapter for building a new set of panels.
+	 * Detaches previous property views and prepares the adapter for building a new set of panels.
 	 * @param keepExpandedLists Whether lists that were expanded in the previous build should be
 	 * kept expanded
 	 */
 	public void reset(boolean keepExpandedLists) {
+		propertyViews.forEach(PropertyView::detach);
+		propertyViews.clear();
 		widgets.clear();
+		panelKey = null;
 		if (!keepExpandedLists) {
 			expandableLists.clear();
 		}
@@ -118,6 +123,7 @@ public final class PropertiesPanelAdapter {
 		panelKey = props.getRawName();
 		FlowPanel panel = new FlowPanel();
 		List<PropertyView> propertyViews = PropertyViewFactory.propertyViewListOf(props);
+		this.propertyViews.addAll(propertyViews);
 		for (PropertyView prop : propertyViews) {
 			Widget widget = getWidget(prop);
 			panel.add(widget);
@@ -276,9 +282,7 @@ public final class PropertiesPanelAdapter {
 			return componentTab;
 		}
 		if (propertyView instanceof ExpandableList expandable) {
-			Checkbox leadProperty = expandable.getCheckbox();
-			ComponentExpandableList expandableList =
-					new ComponentExpandableList(app, leadProperty, expandable.getTitle());
+			ComponentExpandableList expandableList = new ComponentExpandableList(app, expandable);
 			// add only the header checkbox of the expandable list if any, whole header otherwise
 			if (expandableList.getCheckbox() != null) {
 				widgets.add(expandableList.getCheckbox());
@@ -288,10 +292,12 @@ public final class PropertiesPanelAdapter {
 			for (PropertyView prop : expandable.getItems()) {
 				expandableList.addToContent(getWidget(prop));
 			}
-			ComponentExpandableList previous =
-					expandableLists.put(panelKey + "/" + expandable.getTitle(), expandableList);
-			if (previous != null && previous.isExpanded()) {
-				expandableList.setExpanded(true);
+			if (panelKey != null) {
+				ExpandableList previous =
+						expandableLists.put(panelKey + "/" + expandable.getTitle(), expandable);
+				if (previous != null) {
+					expandable.setExpanded(previous.isExpanded());
+				}
 			}
 			return expandableList;
 		}

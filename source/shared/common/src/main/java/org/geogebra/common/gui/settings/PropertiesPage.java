@@ -16,30 +16,39 @@
 
 package org.geogebra.common.gui.settings;
 
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.PropertyView;
+import org.geogebra.common.states.MutableState;
+import org.geogebra.common.states.State;
 import org.jspecify.annotations.NonNull;
 
 /** Settings page showing app or object properties as tabbed pages. */
 public final class PropertiesPage extends SettingsPage {
-
-	private final PropertyView.TabbedPageSelector tabbedPageSelector;
+	private final State<PropertyView.TabbedPageSelector> tabbedPageSelectorState;
+	private final Runnable onDispose;
 
 	PropertiesPage(PropertyView.@NonNull TabbedPageSelector tabbedPageSelector) {
-		this.tabbedPageSelector = tabbedPageSelector;
+		tabbedPageSelectorState = new MutableState<>(tabbedPageSelector);
+		onDispose = tabbedPageSelector::detach;
 	}
 
-	/** @return the tabbed property views to render */
-	public PropertyView.@NonNull TabbedPageSelector getTabbedPageSelector() {
-		return tabbedPageSelector;
+	PropertiesPage(@NonNull ObjectSettingsSession session) {
+		tabbedPageSelectorState = session.getTree();
+		onDispose = session::dispose;
+	}
+
+	/** @return the current property tree, updated when its elements are replaced */
+	public @NonNull State<PropertyView.TabbedPageSelector> getTabbedPageSelectorState() {
+		return tabbedPageSelectorState;
 	}
 
 	@Override
 	public @NonNull String getTitle() {
-		return tabbedPageSelector.getTitle();
+		return tabbedPageSelectorState.get().getTitle();
 	}
 
 	@Override
 	void dispose() {
-		tabbedPageSelector.detach();
+		onDispose.run();
 	}
 }

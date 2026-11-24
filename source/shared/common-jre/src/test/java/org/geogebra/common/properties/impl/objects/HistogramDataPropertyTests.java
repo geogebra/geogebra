@@ -26,13 +26,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
-import org.geogebra.common.properties.PropertyView;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
@@ -83,32 +82,6 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 
 		collection.getUseDensityProperty().setValue(true);
 		assertTrue(collection.getDensityScaleFactorProperty().isEnabled());
-	}
-
-	@Test
-	@Issue("APPS-8062")
-	void switchingInputTypeUpdatesOtherViews() {
-		GeoElement histogram = evaluateGeoElement("Histogram({0,1,2,3},{2,3,1})");
-		String label = histogram.getLabelSimple();
-		ChartDataPropertyCollection chartData =
-				assertDoesNotThrow(() -> createChartData(List.of(histogram)));
-		List<PropertyView> views = ((PropertyView.RelatedPropertyViewCollection)
-						PropertyView.of(chartData))
-				.getPropertyViews();
-		PropertyView rawDataView = views.get(3);
-		AtomicBoolean rawDataVisibilityUpdated = new AtomicBoolean();
-		rawDataView.setVisibilityUpdateDelegate(() -> rawDataVisibilityUpdated.set(true));
-		HistogramProperties collection = new HistogramProperties(chartData);
-
-		collection.getInputTypeProperty().setValue(HistogramInputType.RAW_DATA);
-		assertEquals("Histogram({0, 1, 2, 3}, {2, 3, 1}, false, 1)", getDefinition(label));
-		assertTrue(rawDataVisibilityUpdated.get());
-		assertTrue(rawDataView.isVisible());
-
-		collection.getRawDataProperty().setValue("{1,2}");
-		collection.getInputTypeProperty().setValue(HistogramInputType.HEIGHTS);
-		assertEquals("Histogram({0, 1, 2, 3}, {1, 2})", getDefinition(label));
-		assertFalse(rawDataView.isVisible());
 	}
 
 	@Test
@@ -224,6 +197,27 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 		assertSame(lookup(label), collection.getFirstProperty(3).getGeoElement());
 	}
 
+	@Test
+	void reconstructedPropertiesRestoreRawDataSettingsInCommand()
+			throws NotApplicablePropertyException {
+		GeoElement histogram =
+				evaluateGeoElement("h = Histogram(true, {0, 1, 2, 3}, {1, 2, 2}, true, 4)");
+		ObjectSettingsSession.Context context = new ObjectSettingsSession.Context();
+		HistogramDataPropertyFactory factory =
+				new HistogramDataPropertyFactory(getLocalization(), List.of(histogram), context);
+		factory.createInputTypeProperty(histogram).setValue(HistogramInputType.HEIGHTS);
+		GeoElement replacement = lookup("h");
+		context.replace(histogram, replacement);
+		HistogramDataPropertyFactory reconstructed =
+				new HistogramDataPropertyFactory(getLocalization(), List.of(replacement), context);
+		NamedEnumeratedProperty<HistogramInputType> inputType =
+				reconstructed.createInputTypeProperty(replacement);
+		reconstructed.createHeightsProperty(replacement).setValue("{3, 2, 1}");
+		inputType.setValue(HistogramInputType.RAW_DATA);
+
+		assertEquals("Histogram(true, {0, 1, 2, 3}, {3, 2, 1}, true, 4)", getDefinition("h"));
+	}
+
 	private HistogramProperties createCollection(String definition) {
 		GeoElement histogram = evaluateGeoElement(definition);
 		return createCollection(histogram);
@@ -236,7 +230,10 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 	private ChartDataPropertyCollection createChartData(List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		return new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(), getLocalization(), elements);
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				elements,
+				new ObjectSettingsSession.Context());
 	}
 
 	private String getDefinition(String label) {

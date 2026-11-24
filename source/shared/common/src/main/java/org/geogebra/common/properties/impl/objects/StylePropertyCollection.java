@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
@@ -42,22 +43,23 @@ public class StylePropertyCollection extends AbstractPropertyCollection<Property
 	 * of elements
 	 * @param localization localization for translating property names
 	 * @param elements the elements to create the property for
+	 * @param context temporary data owned by the settings session
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given
 	 * elements
 	 */
 	public StylePropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory,
 			Localization localization,
-			List<GeoElement> elements)
+			List<GeoElement> elements,
+			ObjectSettingsSession.Context context)
 			throws NotApplicablePropertyException {
 		super(localization, "Properties.Style");
 		boolean isNotes = elements.get(0).getApp().isWhiteboardActive();
-		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		setProperties(Stream.<Property>of(
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
-								element ->
-										new ChartSegmentSelectionProperty(localization, element, chartSegmentSelection),
+								element -> new ChartSegmentSelectionProperty(
+										localization, element, context.forElement(element).styleSelection),
 								NamedEnumeratedPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
@@ -65,8 +67,8 @@ public class StylePropertyCollection extends AbstractPropertyCollection<Property
 								ColorPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
-								element ->
-										new ChartStyleGeoColorProperty(localization, element, chartSegmentSelection),
+								element -> new ChartStyleGeoColorProperty(
+										localization, element, context.forElement(element).styleSelection),
 								ColorPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
@@ -74,8 +76,8 @@ public class StylePropertyCollection extends AbstractPropertyCollection<Property
 								RangePropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
-								element ->
-										new ChartStyleGeoOpacityProperty(localization, element, chartSegmentSelection),
+								element -> new ChartStyleGeoOpacityProperty(
+										localization, element, context.forElement(element).styleSelection),
 								RangePropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,

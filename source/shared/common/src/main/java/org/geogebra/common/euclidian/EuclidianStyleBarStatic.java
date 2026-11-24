@@ -100,6 +100,7 @@ public class EuclidianStyleBarStatic {
 
 				if (!flag) {
 					GeoElement geo0 = redefineGeo(geo, getDefinitionString(algo.getInput()[0]));
+					app.getSelectionManager().addSelectedGeo(geo0, false, false);
 
 					if (i == 0) {
 						ret = geo0;
@@ -134,6 +135,7 @@ public class EuclidianStyleBarStatic {
 				// "false" here so that pinning works for eg polygons
 				GeoElement geo0 =
 						redefineGeo(geo, "AttachCopyToView[" + getDefinitionString(geo) + "," + viewNo + "]");
+				app.getSelectionManager().addSelectedGeo(geo0, false, false);
 
 				if (i == 0) {
 					ret = geo0;

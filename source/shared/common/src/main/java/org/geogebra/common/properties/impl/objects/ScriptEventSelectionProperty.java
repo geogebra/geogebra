@@ -34,7 +34,7 @@ import org.jspecify.annotations.NonNull;
  */
 public class ScriptEventSelectionProperty extends AbstractNamedEnumeratedProperty<ScriptEvent> {
 	private final List<ScriptEvent> availableScriptEvents;
-	private ScriptEvent selectedScriptEvent;
+	private final ElementSettingsData elementSettingsData;
 
 	/** Events for which scripts can be defined. */
 	public enum ScriptEvent {
@@ -58,12 +58,16 @@ public class ScriptEventSelectionProperty extends AbstractNamedEnumeratedPropert
 	 * @param localization localization for translating property names
 	 * @param geoElement the element whose enabled events determine the available script events
 	 * @param jsEnabled whether JavaScript is enabled in the app
+	 * @param elementSettingsData temporary data retained by the settings context
 	 */
 	public ScriptEventSelectionProperty(
-			Localization localization, GeoElement geoElement, boolean jsEnabled) {
+			Localization localization,
+			GeoElement geoElement,
+			boolean jsEnabled,
+			ElementSettingsData elementSettingsData) {
 		super(localization, "Script");
 		this.availableScriptEvents = buildEnabledScriptEvents(geoElement, jsEnabled);
-		this.selectedScriptEvent = availableScriptEvents.get(0);
+		this.elementSettingsData = elementSettingsData;
 	}
 
 	@Override
@@ -80,12 +84,12 @@ public class ScriptEventSelectionProperty extends AbstractNamedEnumeratedPropert
 
 	@Override
 	protected void doSetValue(ScriptEvent scriptEvent) {
-		this.selectedScriptEvent = scriptEvent;
+		elementSettingsData.selectedScriptEvent = scriptEvent;
 	}
 
 	@Override
 	public ScriptEvent getValue() {
-		return selectedScriptEvent;
+		return elementSettingsData.selectedScriptEvent;
 	}
 
 	private static List<ScriptEvent> buildEnabledScriptEvents(

@@ -20,19 +20,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.colorpicker.ColorHistory;
 import org.geogebra.common.gui.colorpicker.ColorPickerModel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.DefaultColorValues;
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
+import org.geogebra.common.util.ImageManagerCommon;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,6 +55,7 @@ class SettingsViewModelTest extends BaseAppTestSetup {
 	@BeforeEach
 	void setup() {
 		setupApp(SuiteSubApp.GRAPHING);
+		getApp().setImageManager(new ImageManagerCommon());
 		getKernel().setUndoActive(true);
 		getKernel().initUndoInfo();
 		a = evaluateGeoElement("A = (1, 2)");
@@ -83,6 +91,82 @@ class SettingsViewModelTest extends BaseAppTestSetup {
 	private ColorPickerModel openColorPickerFromObjectSettings(GeoElement element) {
 		viewModel.showObjectSettings(List.of(element));
 		return openColorPicker(element);
+	}
+
+	private PropertyView.TabbedPageSelector properties() {
+		return ((PropertiesPage) top()).getTabbedPageSelectorState().get();
+	}
+
+	private List<PropertyView> dataViews() {
+		PropertyView.TabbedPageSelector root = properties();
+		int tab = root.getTabTitles().indexOf(getLocalization().getMenu("Data"));
+		return ((PropertyView.RelatedPropertyViewCollection)
+						root.getPageContents(tab).get(0))
+				.getPropertyViews();
+	}
+
+	@Test
+	@Issue("APPS-8062")
+	void histogramInputTypeReconstructsOtherViews() {
+		GeoElement histogram = evaluateGeoElement("h = Histogram({0, 1, 2, 3}, {2, 3, 1})");
+		viewModel.showObjectSettings(List.of(histogram));
+		PropertyView rawDataView = dataViews().get(3);
+		((PropertyView.Dropdown) dataViews().get(0)).setSelectedItemIndex(0);
+
+		assertNotSame(rawDataView, dataViews().get(3));
+		assertTrue(dataViews().get(3).isVisible());
+	}
+
+	@Test
+	void switchingHistogramBackToHeightsReconstructsHiddenRawDataView() {
+		GeoElement histogram = evaluateGeoElement("h = Histogram({0, 1, 2, 3}, {2, 3, 1}, false)");
+		viewModel.showObjectSettings(List.of(histogram));
+		((PropertyView.TextField) dataViews().get(3)).setValue("{1, 2}");
+		((PropertyView.Dropdown) dataViews().get(0)).setSelectedItemIndex(1);
+
+		assertFalse(dataViews().get(3).isVisible());
+		assertEquals(
+				"Histogram({0, 1, 2, 3}, {1, 2})", lookup("h").getDefinition(StringTemplate.testTemplate));
+	}
+
+	@Test
+	void xmlReconstructionSupportsIntermediateMixedChartSelection() {
+		GeoElement first = evaluateGeoElement("c1 = BarChart({1, 2}, {3, 4})");
+		GeoElement second = evaluateGeoElement("c2 = BarChart({1, 2}, {5, 6})");
+		evaluateGeoElement("d = c1 + 1");
+		viewModel.showObjectSettings(List.of(first, second));
+		editGeoElement(first, "BoxPlot(1, 2, {1, 2, 3}, false)");
+
+		assertNotSame(first, lookup("c1"));
+		assertNotSame(second, lookup("c2"));
+		assertFalse(properties().getTabTitles().contains(getLocalization().getMenu("Data")));
+	}
+
+	@Test
+	void replacementPublishesNewTreeWithoutReplacingNavigationStack() {
+		viewModel.showObjectSettings(List.of(a));
+		PropertiesPage page = (PropertiesPage) top();
+		List<SettingsPage> originalStack = stack();
+		AtomicInteger updates = new AtomicInteger();
+		page.getTabbedPageSelectorState().subscribe(root -> updates.incrementAndGet());
+		evaluateGeoElement("A = true");
+
+		assertEquals(1, updates.get());
+		assertSame(originalStack, stack());
+		assertSame(page, top());
+	}
+
+	@Test
+	void reconstructedStyleChangesReplacement() {
+		viewModel.showObjectSettings(List.of(a));
+		evaluateGeoElement("A = Circle((0, 0), 2)");
+		int styleTab =
+				properties().getTabTitles().indexOf(getLocalization().getMenu("Properties.Style"));
+		PropertyView.ExpandableList style =
+				(PropertyView.ExpandableList) properties().getPageContents(styleTab).get(0);
+		((PropertyView.ColorSelectorRow) style.getItems().get(0)).setCustomColor(C1);
+
+		assertEquals(C1, lookup("A").getObjectColor());
 	}
 
 	@Test

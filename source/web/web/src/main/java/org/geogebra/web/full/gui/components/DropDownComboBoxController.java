@@ -248,6 +248,7 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 	 * reset dropdown to property value
 	 */
 	public void resetFromModel(Dropdown propertyDropDown) {
+		setElements(propertyDropDown.getItems());
 		Integer index = propertyDropDown.getSelectedItemIndex();
 		if (index == null) {
 			index = 0;

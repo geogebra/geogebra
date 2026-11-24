@@ -16,12 +16,16 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.geogebra.common.properties.impl.objects.ScriptLanguageSelectionProperty.getScriptLanguage;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty.ScriptEvent;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
@@ -35,7 +39,7 @@ class ScriptLanguageSelectionPropertyTests extends BaseAppTestSetup {
 				getLocalization(),
 				evaluateGeoElement("A = (1, 2)"),
 				ScriptEvent.OnClick,
-				new ScriptLanguageSelection(ScriptType.GGBSCRIPT),
+				new ElementSettingsData(),
 				true));
 	}
 
@@ -48,7 +52,7 @@ class ScriptLanguageSelectionPropertyTests extends BaseAppTestSetup {
 						getLocalization(),
 						evaluateGeoElement("A = (1, 2)"),
 						ScriptEvent.GlobalJavascript,
-						new ScriptLanguageSelection(ScriptType.GGBSCRIPT),
+						new ElementSettingsData(),
 						true));
 	}
 
@@ -61,33 +65,64 @@ class ScriptLanguageSelectionPropertyTests extends BaseAppTestSetup {
 						getLocalization(),
 						evaluateGeoElement("A = (1, 2)"),
 						ScriptEvent.OnClick,
-						new ScriptLanguageSelection(ScriptType.GGBSCRIPT),
+						new ElementSettingsData(),
 						false));
 	}
 
 	@Test
 	void testChangingSelection() {
 		setupApp(SuiteSubApp.GRAPHING);
-		ScriptLanguageSelection scriptLanguageSelection =
-				new ScriptLanguageSelection(ScriptType.GGBSCRIPT);
+		GeoElement element = evaluateGeoElement("A = (1, 2)");
+		ElementSettingsData data = new ElementSettingsData();
 		ScriptLanguageSelectionProperty property =
 				assertDoesNotThrow(() -> new ScriptLanguageSelectionProperty(
-						getLocalization(),
-						evaluateGeoElement("A = (1, 2)"),
-						ScriptEvent.OnClick,
-						scriptLanguageSelection,
-						true));
+						getLocalization(), element, ScriptEvent.OnClick, data, true));
 
 		property.setIndex(1);
 		assertEquals(ScriptType.JAVASCRIPT, property.getValue());
-		assertEquals(ScriptType.JAVASCRIPT, scriptLanguageSelection.getSelection());
+		assertEquals(ScriptType.JAVASCRIPT, getScriptLanguage(element, ScriptEvent.OnClick, data));
 
 		property.setValue(ScriptType.GGBSCRIPT);
 		assertEquals(ScriptType.GGBSCRIPT, property.getValue());
-		assertEquals(ScriptType.GGBSCRIPT, scriptLanguageSelection.getSelection());
+		assertEquals(ScriptType.GGBSCRIPT, getScriptLanguage(element, ScriptEvent.OnClick, data));
 
-		scriptLanguageSelection.setSelection(ScriptType.JAVASCRIPT);
+		data.scriptLanguages.put(ScriptEvent.OnClick, ScriptType.JAVASCRIPT);
 		assertEquals(ScriptType.JAVASCRIPT, property.getValue());
-		assertEquals(ScriptType.JAVASCRIPT, scriptLanguageSelection.getSelection());
+		assertEquals(ScriptType.JAVASCRIPT, getScriptLanguage(element, ScriptEvent.OnClick, data));
+	}
+
+	@Test
+	void reconstructedPropertiesPreserveEmptyScriptLanguageForEachEvent()
+			throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement point = evaluateGeoElement("A = (1, 2)");
+		ElementSettingsData elementSettingsData = new ElementSettingsData();
+		new ScriptLanguageSelectionProperty(
+						getLocalization(), point, ScriptEvent.OnClick, elementSettingsData, true)
+				.setValue(ScriptType.JAVASCRIPT);
+		ScriptLanguageSelectionProperty click = new ScriptLanguageSelectionProperty(
+				getLocalization(), point, ScriptEvent.OnClick, elementSettingsData, true);
+		ScriptLanguageSelectionProperty update = new ScriptLanguageSelectionProperty(
+				getLocalization(), point, ScriptEvent.OnUpdate, elementSettingsData, true);
+
+		assertEquals(ScriptType.JAVASCRIPT, click.getValue());
+		assertEquals(ScriptType.GGBSCRIPT, update.getValue());
+	}
+
+	@Test
+	void reconstructedPropertyUsesExternallyStoredScriptLanguage()
+			throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement point = evaluateGeoElement("A = (1, 2)");
+		ObjectSettingsSession.Context context = new ObjectSettingsSession.Context();
+		new ScriptLanguageSelectionProperty(
+						getLocalization(), point, ScriptEvent.OnClick, context.forElement(point), true)
+				.setValue(ScriptType.JAVASCRIPT);
+		point.setScript(
+				getApp().createScript(ScriptType.GGBSCRIPT, "ZoomIn(2)", true), EventType.CLICK);
+		ScriptLanguageSelectionProperty reconstructed = new ScriptLanguageSelectionProperty(
+				getLocalization(), point, ScriptEvent.OnClick, context.forElement(point), true);
+
+		assertEquals(ScriptType.GGBSCRIPT, reconstructed.getValue());
 	}
 }

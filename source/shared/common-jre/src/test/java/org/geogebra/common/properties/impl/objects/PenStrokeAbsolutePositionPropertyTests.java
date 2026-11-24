@@ -18,15 +18,33 @@ package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class PenStrokeAbsolutePositionPropertyTests extends BaseAppTestSetup {
+
+	@Test
+	void pinningAndUnpinningPreservesSelection() throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement stroke = evaluateGeoElement("stroke = PenStroke((1, 2), (4, 3), (5, 6))");
+		getApp().getSelectionManager().addSelectedGeo(stroke);
+		PenStrokeAbsolutePositionProperty property =
+				new PenStrokeAbsolutePositionProperty(getLocalization(), stroke);
+		property.setValue(true);
+
+		assertTrue(getApp().getSelectionManager().containsSelectedGeo(lookup("stroke")));
+
+		property.setValue(false);
+
+		assertTrue(getApp().getSelectionManager().containsSelectedGeo(lookup("stroke")));
+	}
 
 	@ParameterizedTest
 	@ValueSource(strings = {"PenStroke((1, 2), (4, 3), (5, 6))"})

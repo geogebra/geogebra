@@ -16,6 +16,8 @@
 
 package org.geogebra.common.contextmenu;
 
+import java.util.List;
+
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
@@ -30,8 +32,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.properties.PropertyView;
-import org.geogebra.common.properties.PropertyViewFactory;
 import org.geogebra.common.scientific.LabelController;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -69,10 +69,10 @@ public final class AlgebraContextMenuActionHandler {
 		void addFormulaToAlgebraView(@NonNull String formula);
 
 		/**
-		 * Displays the object settings view for the new object properties.
-		 * @param tabbedPageSelector the root {@link PropertyView} for the view to display
+		 * Displays the object settings view for the selected elements.
+		 * @param elements elements whose settings are shown
 		 */
-		void showObjectProperties(PropertyView.@NonNull TabbedPageSelector tabbedPageSelector);
+		void showObjectProperties(@NonNull List<GeoElement> elements);
 	}
 
 	/**
@@ -144,12 +144,7 @@ public final class AlgebraContextMenuActionHandler {
 	private void showSettings() {
 		app.getSelectionManager().clearSelectedGeos();
 		app.getSelectionManager().addSelectedGeo(geoElement);
-		PropertyView.TabbedPageSelector tabbedPageSelector =
-				PropertyViewFactory.propertyViewOfObjectSettings(
-						app, app.getSelectionManager().getSelectedGeos());
-		if (tabbedPageSelector != null) {
-			delegate.showObjectProperties(tabbedPageSelector);
-		}
+		delegate.showObjectProperties(app.getSelectionManager().getSelectedGeos());
 	}
 
 	private void showSpecialPoints() {

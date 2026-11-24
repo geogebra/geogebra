@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
@@ -37,25 +38,26 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 public class ChartDataPropertyCollection extends AbstractPropertyCollection<Property> {
 
 	/**
-	 * Constructs the (chart) data property for the given elements.
-	 * @param propertiesFactory GeoElement properties factory
+	 * Creates chart data properties using session-owned temporary data.
+	 * @param propertiesFactory property facade factory
 	 * @param localization localization
-	 * @param elements the list of elements to create properties for
-	 * @throws NotApplicablePropertyException if the property is not applicable to the given
-	 * elements
+	 * @param elements selected elements
+	 * @param context temporary data owned by the settings session
+	 * @throws NotApplicablePropertyException if no data properties apply
 	 */
 	public ChartDataPropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory,
 			Localization localization,
-			List<GeoElement> elements)
+			List<GeoElement> elements,
+			ObjectSettingsSession.Context context)
 			throws NotApplicablePropertyException {
 		super(localization, "Data");
 		HistogramDataPropertyFactory histogramFactory =
-				new HistogramDataPropertyFactory(localization, elements);
+				new HistogramDataPropertyFactory(localization, elements, context);
 		BoxPlotDataPropertyFactory boxPlotFactory =
-				new BoxPlotDataPropertyFactory(localization, elements);
+				new BoxPlotDataPropertyFactory(localization, elements, context);
 		BarChartDataPropertyFactory barChartFactory =
-				new BarChartDataPropertyFactory(localization, elements);
+				new BarChartDataPropertyFactory(localization, elements, context);
 		setProperties(Stream.of(
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,

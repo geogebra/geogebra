@@ -30,7 +30,7 @@ import org.jspecify.annotations.NonNull;
 
 /** {@code Property} responsible for selecting the script language (GgbScript or JavaScript). */
 public class ScriptLanguageSelectionProperty extends AbstractNamedEnumeratedProperty<ScriptType> {
-	private final ScriptLanguageSelection scriptLanguageSelection;
+	private final ElementSettingsData elementSettingsData;
 	private final GeoElement geoElement;
 	private final App app;
 	private final ScriptEvent scriptEvent;
@@ -40,7 +40,7 @@ public class ScriptLanguageSelectionProperty extends AbstractNamedEnumeratedProp
 	 * @param localization localization for translating property names
 	 * @param geoElement the element whose scripts are managed
 	 * @param scriptEvent the script event for which the language selection is managed
-	 * @param scriptLanguageSelection the script language selection state for this event
+	 * @param elementSettingsData temporary data retained by the settings context
 	 * @param jsEnabled whether JavaScript is enabled in the app
 	 * @throws NotApplicablePropertyException if the script language selection is not applicable
 	 * for the given event
@@ -49,7 +49,7 @@ public class ScriptLanguageSelectionProperty extends AbstractNamedEnumeratedProp
 			Localization localization,
 			GeoElement geoElement,
 			ScriptEvent scriptEvent,
-			ScriptLanguageSelection scriptLanguageSelection,
+			ElementSettingsData elementSettingsData,
 			boolean jsEnabled)
 			throws NotApplicablePropertyException {
 		super(localization, "ScriptType");
@@ -58,7 +58,7 @@ public class ScriptLanguageSelectionProperty extends AbstractNamedEnumeratedProp
 		}
 		this.geoElement = geoElement;
 		this.app = geoElement.getApp();
-		this.scriptLanguageSelection = scriptLanguageSelection;
+		this.elementSettingsData = elementSettingsData;
 		this.scriptEvent = scriptEvent;
 	}
 
@@ -75,13 +75,8 @@ public class ScriptLanguageSelectionProperty extends AbstractNamedEnumeratedProp
 	}
 
 	@Override
-	public boolean isAvailable() {
-		return getValues().size() > 1;
-	}
-
-	@Override
 	protected void doSetValue(ScriptType scriptType) {
-		scriptLanguageSelection.setSelection(scriptType);
+		elementSettingsData.scriptLanguages.put(scriptEvent, scriptType);
 		Script existingScript = geoElement.getScript(scriptEvent.eventType);
 		if (existingScript != null) {
 			Script newScript = app.createScript(scriptType, existingScript.getText(), true);
@@ -91,6 +86,17 @@ public class ScriptLanguageSelectionProperty extends AbstractNamedEnumeratedProp
 
 	@Override
 	public ScriptType getValue() {
-		return scriptLanguageSelection.getSelection();
+		return getScriptLanguage(geoElement, scriptEvent, elementSettingsData);
+	}
+
+	static @NonNull ScriptType getScriptLanguage(
+			@NonNull GeoElement element,
+			@NonNull ScriptEvent event,
+			@NonNull ElementSettingsData elementSettingsData) {
+		Script script = element.getScript(event.eventType);
+		if (script != null) {
+			elementSettingsData.scriptLanguages.put(event, script.getType());
+		}
+		return elementSettingsData.scriptLanguages.getOrDefault(event, ScriptType.GGBSCRIPT);
 	}
 }

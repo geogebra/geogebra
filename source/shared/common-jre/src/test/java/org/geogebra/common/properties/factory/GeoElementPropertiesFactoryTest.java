@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
@@ -120,7 +121,8 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 						getApp().getLocalization(),
 						getApp().getImageManager(),
 						true,
-						List.of(numeric1, numeric2));
+						List.of(numeric1, numeric2),
+						new ObjectSettingsSession.Context());
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName)
 				.collect(Collectors.toList());
@@ -135,14 +137,24 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 
 		GeoLine line = evaluateGeoElement("Line((-1,-1),(1,2))");
 		List<PropertiesArray> lineProperties = propertiesFactory.createProperties(
-				getAlgebraProcessor(), getApp().getLocalization(), null, false, List.of(line));
+				getAlgebraProcessor(),
+				getApp().getLocalization(),
+				null,
+				false,
+				List.of(line),
+				new ObjectSettingsSession.Context());
 		PropertiesArray advanced = lineProperties.get(2);
 		assertTrue(containsLinearEquationFormProperty(advanced));
 		assertFalse(containsQuadraticEquationFormProperty(advanced));
 
 		GeoConic circle = evaluateGeoElement("xx+yy=1");
 		List<PropertiesArray> circleProperties = propertiesFactory.createProperties(
-				getAlgebraProcessor(), getApp().getLocalization(), null, false, List.of(circle));
+				getAlgebraProcessor(),
+				getApp().getLocalization(),
+				null,
+				false,
+				List.of(circle),
+				new ObjectSettingsSession.Context());
 		advanced = circleProperties.get(2);
 		assertFalse(containsLinearEquationFormProperty(advanced));
 		assertTrue(containsQuadraticEquationFormProperty(advanced));
@@ -206,7 +218,8 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 						getApp().getLocalization(),
 						getApp().getImageManager(),
 						true,
-						zeroPoint);
+						zeroPoint,
+						new ObjectSettingsSession.Context());
 		return Arrays.stream(propertiesArray.get(tab).getProperties())
 				.map(Property::getName)
 				.collect(Collectors.toList());

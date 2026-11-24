@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
@@ -44,13 +45,15 @@ public class FillingPropertyCollection extends AbstractPropertyCollection<Proper
 	 * @param localization localization
 	 * @param imageManager image manager for the image filling property
 	 * @param elements geo elements
+	 * @param context temporary data owned by the settings session
 	 * @throws NotApplicablePropertyException if the elements do not support filling
 	 */
 	public FillingPropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory,
 			Localization localization,
 			ImageManager imageManager,
-			List<GeoElement> elements)
+			List<GeoElement> elements,
+			ObjectSettingsSession.Context context)
 			throws NotApplicablePropertyException {
 		super(localization, "Filling");
 		setProperties(Stream.<Property>of(
@@ -60,7 +63,8 @@ public class FillingPropertyCollection extends AbstractPropertyCollection<Proper
 								BooleanPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
-								element -> new FillCategoryProperty(localization, element),
+								element ->
+										new FillCategoryProperty(localization, element, context.forElement(element)),
 								NamedEnumeratedPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,

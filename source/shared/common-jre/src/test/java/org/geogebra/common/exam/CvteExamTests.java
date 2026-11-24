@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.settings.AlgebraStyle;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.factory.PropertiesArray;
@@ -329,7 +330,12 @@ final class CvteExamTests extends BaseExamTestSetup {
 		GeoElement line = evaluateGeoElement("y = 4");
 		PropertiesArray advanced = geoElementPropertiesFactory
 				.createProperties(
-						getAlgebraProcessor(), getApp().getLocalization(), null, false, List.of(line))
+						getAlgebraProcessor(),
+						getApp().getLocalization(),
+						null,
+						false,
+						List.of(line),
+						new ObjectSettingsSession.Context())
 				.get(2);
 		LinearEquationFormProperty equationFormProperty = null;
 		for (Property collections : advanced.getProperties()) {

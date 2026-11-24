@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
-import org.geogebra.common.properties.PropertyView;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
@@ -182,7 +181,7 @@ public final class ContextMenuAVItemMore
 	}
 
 	@Override
-	public void showObjectProperties(PropertyView.@NonNull TabbedPageSelector tabbedPageSelector) {
-		mApp.getDialogManager().showPropertiesDialog(new ArrayList<>(List.of(geo))); // TODO
+	public void showObjectProperties(@NonNull List<GeoElement> elements) {
+		mApp.getDialogManager().showPropertiesDialog(new ArrayList<>(elements));
 	}
 }

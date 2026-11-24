@@ -36,6 +36,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.color.DefaultGeoColorValues;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.RangeProperty;
@@ -212,12 +213,13 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	/**
-	 * Properties for the tabbed properties view.
+	 * Creates object settings using retained temporary data.
 	 * @param processor algebra processor
 	 * @param localization localization
 	 * @param imageManager image manager
 	 * @param jsEnabled whether JavaScript is enabled
 	 * @param elements selected elements
+	 * @param context temporary data owned by the settings session
 	 * @return properties organized in tabs
 	 */
 	public List<PropertiesArray> createProperties(
@@ -225,13 +227,14 @@ public final class GeoElementPropertiesFactory {
 			Localization localization,
 			ImageManager imageManager,
 			boolean jsEnabled,
-			List<GeoElement> elements) {
+			List<GeoElement> elements,
+			ObjectSettingsSession.Context context) {
 		return Stream.of(
 						createBasicProperties(localization, elements),
-						createStyleProperties(processor, imageManager, localization, elements),
-						createDataProperties(localization, elements),
+						createStyleProperties(processor, imageManager, localization, elements, context),
+						createDataProperties(localization, elements, context),
 						createAdvancedProperties(processor, localization, elements),
-						createScriptProperties(localization, jsEnabled, elements))
+						createScriptProperties(localization, jsEnabled, elements, context))
 				.filter(propertiesArray -> propertiesArray.getProperties().length > 0)
 				.collect(Collectors.toList());
 	}
@@ -295,13 +298,15 @@ public final class GeoElementPropertiesFactory {
 	 * @param imageManager {@link ImageManager}
 	 * @param localization {@link Localization}
 	 * @param elements list of elements
+	 * @param context temporary data owned by the settings session
 	 * @return array of properties for Style tab
 	 */
 	public @NonNull PropertiesArray createStyleProperties(
 			AlgebraProcessor processor,
 			ImageManager imageManager,
 			Localization localization,
-			List<GeoElement> elements) {
+			List<GeoElement> elements,
+			ObjectSettingsSession.Context context) {
 		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
 		boolean isMobile = processor.getKernel().getApplication().getPlatform().isMobile();
 		return createPropsArray(
@@ -309,7 +314,8 @@ public final class GeoElementPropertiesFactory {
 				localization,
 				Stream.of(
 						// New style properties come below, in order
-						createOptionalProperty(() -> new StylePropertyCollection(this, localization, elements)),
+						createOptionalProperty(
+								() -> new StylePropertyCollection(this, localization, elements, context)),
 						createOptionalProperty(
 								() -> new SliderBlobPropertyCollection(this, localization, elements)),
 						createOptionalProperty(
@@ -326,10 +332,10 @@ public final class GeoElementPropertiesFactory {
 										: () -> new BackgroundStylePropertyCollection(this, localization, elements)),
 						createOptionalProperty(
 								() -> new SizePropertyCollection(this, processor, localization, elements)),
-						createOptionalProperty(
-								() -> new FillingPropertyCollection(this, localization, imageManager, elements)),
+						createOptionalProperty(() ->
+								new FillingPropertyCollection(this, localization, imageManager, elements, context)),
 						createOptionalProperty(() -> new ChartSegmentFillingPropertyCollection(
-								this, localization, imageManager, elements)),
+								this, localization, imageManager, elements, context)),
 						// Old style properties below
 						createOptionalPropertyFacade(
 								elements,
@@ -370,20 +376,23 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	private @NonNull PropertiesArray createScriptProperties(
-			Localization localization, boolean jsEnabled, List<GeoElement> elements) {
+			Localization localization,
+			boolean jsEnabled,
+			List<GeoElement> elements,
+			ObjectSettingsSession.Context context) {
 		return createPropsArray(
 				"Scripting",
 				localization,
-				Stream.of(new ScriptPropertyCollection(this, localization, elements, jsEnabled)));
+				Stream.of(new ScriptPropertyCollection(this, localization, elements, jsEnabled, context)));
 	}
 
 	private @NonNull PropertiesArray createDataProperties(
-			Localization localization, List<GeoElement> elements) {
+			Localization localization, List<GeoElement> elements, ObjectSettingsSession.Context context) {
 		return createPropsArray(
 				"Data",
 				localization,
 				Stream.of(createOptionalProperty(
-						() -> new ChartDataPropertyCollection(this, localization, elements))));
+						() -> new ChartDataPropertyCollection(this, localization, elements, context))));
 	}
 
 	/**

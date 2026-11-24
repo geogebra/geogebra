@@ -16,12 +16,12 @@
 
 package org.geogebra.web.showcase;
 
-import static org.geogebra.common.properties.PropertyView.Checkbox;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
+import org.geogebra.common.properties.PropertyCollectionWithLead;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.SimpleBooleanProperty;
@@ -104,9 +104,10 @@ public final class Showcase implements EntryPoint {
 		final boolean[] bool = {true};
 		BooleanProperty booleanProperty =
 				new SimpleBooleanProperty(app.getLocalization(), "", () -> bool[0], b -> bool[0] = b);
-		Checkbox checkBoxProperty = (Checkbox) PropertyView.of(booleanProperty);
-		ComponentExpandableList expandableList =
-				new ComponentExpandableList(app, checkBoxProperty, "Expand me");
+		PropertyView.ExpandableList expandable = (PropertyView.ExpandableList)
+				Objects.requireNonNull(PropertyView.of(new PropertyCollectionWithLead(
+						app.getLocalization(), "Expand me", booleanProperty, booleanProperty)));
+		ComponentExpandableList expandableList = new ComponentExpandableList(app, expandable);
 		expandableList.addToContent(new Label("TBD"));
 		StandardButton showSnackBar = newStandardButton("Show Snack Bar");
 		showSnackBar.addFastClickHandler(

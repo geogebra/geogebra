@@ -234,6 +234,7 @@ public final class ColorChooserPanel extends FlowPanel
 	public void configurationUpdated() {
 		if (colorProperty != null) {
 			setDisabled(!colorProperty.isEnabled());
+			updateColorSelection(colorProperty.getColorProperty().getValue());
 		}
 	}
 }

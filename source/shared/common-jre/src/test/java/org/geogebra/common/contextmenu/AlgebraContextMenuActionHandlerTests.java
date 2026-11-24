@@ -22,13 +22,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.properties.PropertyView;
 import org.geogebra.test.BaseAppTestSetup;
 import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
@@ -171,7 +172,7 @@ class AlgebraContextMenuActionHandlerTests extends BaseAppTestSetup
 	}
 
 	@Override
-	public void showObjectProperties(PropertyView.@NonNull TabbedPageSelector tabbedPageSelector) {
+	public void showObjectProperties(@NonNull List<GeoElement> elements) {
 		showObjectPropertiesCalled = true;
 	}
 }

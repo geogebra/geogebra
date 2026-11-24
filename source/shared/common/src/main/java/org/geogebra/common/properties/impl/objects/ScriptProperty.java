@@ -30,25 +30,25 @@ public class ScriptProperty extends AbstractValuedProperty<String> implements St
 	private final GeoElement geoElement;
 	private final App app;
 	private final ScriptEvent scriptEvent;
-	private final ScriptLanguageSelection scriptLanguageSelection;
+	private final ElementSettingsData elementSettingsData;
 
 	/**
 	 * Constructs the property.
 	 * @param localization localization for translating property names
 	 * @param geoElement the element whose scripts are managed
 	 * @param scriptEvent the script event for which to apply the script
-	 * @param scriptLanguageSelection the script language selection for which to apply the script
+	 * @param elementSettingsData temporary data retained by the settings context
 	 */
 	public ScriptProperty(
 			Localization localization,
 			GeoElement geoElement,
 			ScriptEvent scriptEvent,
-			ScriptLanguageSelection scriptLanguageSelection) {
+			ElementSettingsData elementSettingsData) {
 		super(localization, "ScriptContent");
 		this.geoElement = geoElement;
 		this.app = geoElement.getApp();
 		this.scriptEvent = scriptEvent;
-		this.scriptLanguageSelection = scriptLanguageSelection;
+		this.elementSettingsData = elementSettingsData;
 	}
 
 	@Override
@@ -66,7 +66,11 @@ public class ScriptProperty extends AbstractValuedProperty<String> implements St
 			app.getKernel().setLibraryJavaScript(text);
 			return;
 		}
-		Script script = app.createScript(scriptLanguageSelection.getSelection(), text, true);
+		Script script = app.createScript(
+				ScriptLanguageSelectionProperty.getScriptLanguage(
+						geoElement, scriptEvent, elementSettingsData),
+				text,
+				true);
 		geoElement.setScript(script, scriptEvent.eventType);
 	}
 

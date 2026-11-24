@@ -70,6 +70,69 @@ import org.junit.jupiter.params.provider.CsvSource;
 class PropertyViewTests extends BaseAppTestSetup {
 
 	@Test
+	void restoringExpansionDoesNotSelectCheckbox() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GridVisibilityProperty lead =
+				new GridVisibilityProperty(getLocalization(), getEuclidianSettings());
+		lead.setValue(false);
+		PropertyView.ExpandableList group = new PropertyView.ExpandableList(
+				new PropertyCollectionWithLead(getLocalization(), "Grid", lead), List.of());
+		AtomicInteger updates = new AtomicInteger();
+		group.setConfigurationUpdateDelegate(updates::incrementAndGet);
+		group.setExpanded(true);
+
+		assertTrue(group.isExpanded());
+		assertFalse(lead.getValue());
+		assertEquals(1, updates.get());
+	}
+
+	@ParameterizedTest
+	@CsvSource(
+			delimiterString = "->",
+			value = {"false -> true", "true -> false"})
+	void headerTapTogglesExpansionAndKeepsCheckboxSelected(boolean expanded, boolean expected) {
+		setupApp(SuiteSubApp.GRAPHING);
+		GridVisibilityProperty lead =
+				new GridVisibilityProperty(getLocalization(), getEuclidianSettings());
+		lead.setValue(expanded);
+		PropertyView.ExpandableList group = new PropertyView.ExpandableList(
+				new PropertyCollectionWithLead(getLocalization(), "Grid", lead), List.of());
+		group.setExpanded(expanded);
+		group.onExpandPressed();
+
+		assertEquals(expected, group.isExpanded());
+		assertTrue(lead.getValue());
+	}
+
+	@Test
+	void uncheckingCheckboxCollapsesGroup() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GridVisibilityProperty lead =
+				new GridVisibilityProperty(getLocalization(), getEuclidianSettings());
+		PropertyView.ExpandableList group = new PropertyView.ExpandableList(
+				new PropertyCollectionWithLead(getLocalization(), "Grid", lead), List.of());
+		group.setExpanded(true);
+		group.getCheckbox().setSelected(false);
+
+		assertFalse(group.isExpanded());
+		assertFalse(lead.getValue());
+	}
+
+	@Test
+	void checkingCheckboxDoesNotExpandGroup() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GridVisibilityProperty lead =
+				new GridVisibilityProperty(getLocalization(), getEuclidianSettings());
+		lead.setValue(false);
+		PropertyView.ExpandableList group = new PropertyView.ExpandableList(
+				new PropertyCollectionWithLead(getLocalization(), "Grid", lead), List.of());
+		group.getCheckbox().setSelected(true);
+
+		assertFalse(group.isExpanded());
+		assertTrue(lead.getValue());
+	}
+
+	@Test
 	void testGridTypeDependentLineStyleVisibility() {
 		setupApp(SuiteSubApp.GRAPHING);
 
@@ -258,7 +321,13 @@ class PropertyViewTests extends BaseAppTestSetup {
 		GeoElement line = evaluateGeoElement("Line((-1,-1),(1,1))");
 		GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 		PropertiesArray advanced = propertiesFactory
-				.createProperties(getAlgebraProcessor(), getLocalization(), null, false, List.of(line))
+				.createProperties(
+						getAlgebraProcessor(),
+						getLocalization(),
+						null,
+						false,
+						List.of(line),
+						new ObjectSettingsSession.Context())
 				.get(2);
 		LinearEquationFormProperty linearEquationFormProperty = null;
 		for (Property collections : advanced.getProperties()) {
@@ -300,7 +369,7 @@ class PropertyViewTests extends BaseAppTestSetup {
 		checkbox.setSelected(true);
 
 		assertTrue(checkbox.isSelected());
-		assertEquals(2, configurationUpdatedCount.get());
+		assertEquals(1, configurationUpdatedCount.get());
 	}
 
 	@Test
@@ -450,8 +519,8 @@ class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		getApp().setImageManager(new ImageManagerCommon());
 		GeoElement chart = evaluateGeoElement(command);
-		PropertyView.TabbedPageSelector settings =
-				PropertyViewFactory.propertyViewOfObjectSettings(getApp(), List.of(chart));
+		PropertyView.TabbedPageSelector settings = PropertyViewFactory.propertyViewOfObjectSettings(
+				getApp(), List.of(chart), new ObjectSettingsSession.Context());
 		assertNotNull(settings);
 		assertEquals(expectedTitle, settings.getTitle());
 	}
@@ -470,8 +539,8 @@ class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		getApp().setImageManager(new ImageManagerCommon());
 		List<GeoElement> elements = List.of(evaluateGeoElement(first), evaluateGeoElement(second));
-		PropertyView.TabbedPageSelector settings =
-				PropertyViewFactory.propertyViewOfObjectSettings(getApp(), elements);
+		PropertyView.TabbedPageSelector settings = PropertyViewFactory.propertyViewOfObjectSettings(
+				getApp(), elements, new ObjectSettingsSession.Context());
 		assertNotNull(settings);
 		assertEquals(getLocalization().getMenu("Selection"), settings.getTitle());
 	}
@@ -490,7 +559,8 @@ class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.CAS);
 		List<GeoElement> elements = List.of(evaluateGeoElement(element));
 		PropertyView.TabbedPageSelector tabbedPageSelector =
-				PropertyViewFactory.propertyViewOfObjectSettings(getApp(), elements);
+				PropertyViewFactory.propertyViewOfObjectSettings(
+						getApp(), elements, new ObjectSettingsSession.Context());
 		assertEquals(getLocalization().getMenu(expectedTitleTransKey), tabbedPageSelector.getTitle());
 	}
 
@@ -517,7 +587,8 @@ class PropertyViewTests extends BaseAppTestSetup {
 	@Test
 	void testReturnsNullOnEmptyList() {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertNull(PropertyViewFactory.propertyViewOfObjectSettings(getApp(), Collections.emptyList()));
+		assertNull(PropertyViewFactory.propertyViewOfObjectSettings(
+				getApp(), Collections.emptyList(), new ObjectSettingsSession.Context()));
 	}
 
 	private EuclidianView getEuclidianView() {

@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
@@ -44,8 +45,12 @@ class StylePropertyCollectionTests extends BaseAppTestSetup {
 	@Test
 	void testAngleSliderStyle() {
 		GeoNumeric slider = evaluateGeoElement("Slider(0, 360, 1, 1, 100, true)");
-		StylePropertyCollection stylePropertyCollection = assertDoesNotThrow(
-				() -> new StylePropertyCollection(propertiesFactory, getLocalization(), List.of(slider)));
+		StylePropertyCollection stylePropertyCollection =
+				assertDoesNotThrow(() -> new StylePropertyCollection(
+						propertiesFactory,
+						getLocalization(),
+						List.of(slider),
+						new ObjectSettingsSession.Context()));
 		assertTrue(stylePropertyCollection.isAvailable());
 		assertEquals(2, stylePropertyCollection.getProperties().length);
 		assertInstanceOf(

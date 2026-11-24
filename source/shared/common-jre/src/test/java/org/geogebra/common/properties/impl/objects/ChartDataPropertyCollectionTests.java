@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,16 +41,24 @@ class ChartDataPropertyCollectionTests extends BaseAppTestSetup {
 	@Test
 	void testLineChart() {
 		GeoElement lineChart = evaluateGeoElement("LineGraph({1,2,3},{2,4,3})");
-		ChartDataPropertyCollection collection = assertDoesNotThrow(() ->
-				new ChartDataPropertyCollection(propertiesFactory, getLocalization(), List.of(lineChart)));
+		ChartDataPropertyCollection collection =
+				assertDoesNotThrow(() -> new ChartDataPropertyCollection(
+						propertiesFactory,
+						getLocalization(),
+						List.of(lineChart),
+						new ObjectSettingsSession.Context()));
 		assertEquals(2, collection.getProperties().length); // x, y
 	}
 
 	@Test
 	void testHistogram() {
 		GeoElement histogram = evaluateGeoElement("Histogram({0,1,2,3},{2,3,1})");
-		ChartDataPropertyCollection collection = assertDoesNotThrow(() ->
-				new ChartDataPropertyCollection(propertiesFactory, getLocalization(), List.of(histogram)));
+		ChartDataPropertyCollection collection =
+				assertDoesNotThrow(() -> new ChartDataPropertyCollection(
+						propertiesFactory,
+						getLocalization(),
+						List.of(histogram),
+						new ObjectSettingsSession.Context()));
 		assertEquals(7, collection.getProperties().length);
 	}
 }

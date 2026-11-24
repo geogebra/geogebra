@@ -34,19 +34,22 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  */
 public class FillCategoryProperty extends AbstractNamedEnumeratedProperty<FillCategory> {
 
-	private FillType previousPatternFillType = FillType.STANDARD;
+	private final ElementSettingsData elementSettingsData;
 
 	private final FillableDelegate delegate;
 
 	/**
 	 * @param localization localization
 	 * @param element geo element
+	 * @param elementSettingsData temporary data retained by the settings context
 	 * @throws NotApplicablePropertyException if the element does not support filling
 	 */
-	public FillCategoryProperty(Localization localization, GeoElement element)
+	public FillCategoryProperty(
+			Localization localization, GeoElement element, ElementSettingsData elementSettingsData)
 			throws NotApplicablePropertyException {
 		super(localization, "");
 		this.delegate = new FillableDelegate(element);
+		this.elementSettingsData = elementSettingsData;
 		setNamedValues(List.of(
 				entry(FillCategory.PATTERN, "Filling.Pattern"),
 				entry(FillCategory.SYMBOL, "Filling.Symbol"),
@@ -64,9 +67,9 @@ public class FillCategoryProperty extends AbstractNamedEnumeratedProperty<FillCa
 		}
 		if (previousValue == FillCategory.PATTERN) {
 			// If changed from pattern, store default type
-			previousPatternFillType = elementFillType;
+			elementSettingsData.previousPatternFillType = elementFillType;
 		}
-		element.setFillType(value.toFillType(previousPatternFillType));
+		element.setFillType(value.toFillType(elementSettingsData.previousPatternFillType));
 		element.updateVisualStyleRepaint(GProperty.HATCHING);
 	}
 

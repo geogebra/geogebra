@@ -23,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
+import org.geogebra.common.properties.ObjectSettingsSession;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
@@ -31,26 +33,26 @@ class ChartSegmentFillCategoryPropertyTests extends BaseAppTestSetup {
 	void testSettingDifferentFillCategories() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
-		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty = assertDoesNotThrow(() ->
-				new ChartSegmentFillCategoryProperty(getLocalization(), pieChart, chartSegmentSelection));
+		ElementSettingsData data = new ElementSettingsData();
+		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty = assertDoesNotThrow(
+				() -> new ChartSegmentFillCategoryProperty(getLocalization(), pieChart, data));
 
-		chartSegmentSelection.setIndex(1);
+		data.fillingSelection.setIndex(1);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.IMAGE);
-		chartSegmentSelection.setIndex(2);
+		data.fillingSelection.setIndex(2);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.PATTERN);
-		chartSegmentSelection.setIndex(3);
+		data.fillingSelection.setIndex(3);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.SYMBOL);
 
-		chartSegmentSelection.setIndex(0);
+		data.fillingSelection.setIndex(0);
 		assertNull(chartSegmentFillCategoryProperty.getValue());
-		chartSegmentSelection.setIndex(1);
+		data.fillingSelection.setIndex(1);
 		assertEquals(FillCategory.IMAGE, chartSegmentFillCategoryProperty.getValue());
 		assertEquals(FillType.IMAGE, pieChart.getStyle().getBarFillType(1));
-		chartSegmentSelection.setIndex(2);
+		data.fillingSelection.setIndex(2);
 		assertEquals(FillCategory.PATTERN, chartSegmentFillCategoryProperty.getValue());
 		assertEquals(FillType.STANDARD, pieChart.getStyle().getBarFillType(2));
-		chartSegmentSelection.setIndex(3);
+		data.fillingSelection.setIndex(3);
 		assertEquals(FillCategory.SYMBOL, chartSegmentFillCategoryProperty.getValue());
 		assertEquals(FillType.SYMBOLS, pieChart.getStyle().getBarFillType(3));
 	}
@@ -59,28 +61,28 @@ class ChartSegmentFillCategoryPropertyTests extends BaseAppTestSetup {
 	void testSettingAllFillCategories() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
-		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty = assertDoesNotThrow(() ->
-				new ChartSegmentFillCategoryProperty(getLocalization(), pieChart, chartSegmentSelection));
+		ElementSettingsData data = new ElementSettingsData();
+		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty = assertDoesNotThrow(
+				() -> new ChartSegmentFillCategoryProperty(getLocalization(), pieChart, data));
 
-		chartSegmentSelection.setIndex(0);
+		data.fillingSelection.setIndex(0);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.IMAGE);
 		assertEquals(FillCategory.IMAGE, chartSegmentFillCategoryProperty.getValue());
-		chartSegmentSelection.setIndex(1);
+		data.fillingSelection.setIndex(1);
 		assertEquals(FillCategory.IMAGE, chartSegmentFillCategoryProperty.getValue());
-		chartSegmentSelection.setIndex(2);
+		data.fillingSelection.setIndex(2);
 		assertEquals(FillCategory.IMAGE, chartSegmentFillCategoryProperty.getValue());
-		chartSegmentSelection.setIndex(3);
+		data.fillingSelection.setIndex(3);
 		assertEquals(FillCategory.IMAGE, chartSegmentFillCategoryProperty.getValue());
 
-		chartSegmentSelection.setIndex(0);
+		data.fillingSelection.setIndex(0);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.SYMBOL);
 		assertEquals(FillCategory.SYMBOL, chartSegmentFillCategoryProperty.getValue());
-		chartSegmentSelection.setIndex(1);
+		data.fillingSelection.setIndex(1);
 		assertEquals(FillCategory.SYMBOL, chartSegmentFillCategoryProperty.getValue());
-		chartSegmentSelection.setIndex(2);
+		data.fillingSelection.setIndex(2);
 		assertEquals(FillCategory.SYMBOL, chartSegmentFillCategoryProperty.getValue());
-		chartSegmentSelection.setIndex(3);
+		data.fillingSelection.setIndex(3);
 		assertEquals(FillCategory.SYMBOL, chartSegmentFillCategoryProperty.getValue());
 	}
 
@@ -88,33 +90,55 @@ class ChartSegmentFillCategoryPropertyTests extends BaseAppTestSetup {
 	void testPreservingPreviousPatternFillTypes() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
-		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty = assertDoesNotThrow(() ->
-				new ChartSegmentFillCategoryProperty(getLocalization(), pieChart, chartSegmentSelection));
+		ElementSettingsData data = new ElementSettingsData();
+		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty = assertDoesNotThrow(
+				() -> new ChartSegmentFillCategoryProperty(getLocalization(), pieChart, data));
 
 		pieChart.getStyle().setBarFillType(FillType.DOTTED, 1);
 		pieChart.getStyle().setBarFillType(FillType.BRICK, 2);
 		pieChart.getStyle().setBarFillType(FillType.CROSSHATCHED, 3);
 
-		chartSegmentSelection.setIndex(1);
+		data.fillingSelection.setIndex(1);
 		assertEquals(FillCategory.PATTERN, chartSegmentFillCategoryProperty.getValue());
-		chartSegmentSelection.setIndex(2);
+		data.fillingSelection.setIndex(2);
 		assertEquals(FillCategory.PATTERN, chartSegmentFillCategoryProperty.getValue());
-		chartSegmentSelection.setIndex(3);
+		data.fillingSelection.setIndex(3);
 		assertEquals(FillCategory.PATTERN, chartSegmentFillCategoryProperty.getValue());
 
-		chartSegmentSelection.setIndex(1);
+		data.fillingSelection.setIndex(1);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.SYMBOL);
-		chartSegmentSelection.setIndex(2);
+		data.fillingSelection.setIndex(2);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.SYMBOL);
-		chartSegmentSelection.setIndex(3);
+		data.fillingSelection.setIndex(3);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.IMAGE);
 
-		chartSegmentSelection.setIndex(0);
+		data.fillingSelection.setIndex(0);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.PATTERN);
 
 		assertEquals(FillType.DOTTED, pieChart.getStyle().getBarFillType(1));
 		assertEquals(FillType.BRICK, pieChart.getStyle().getBarFillType(2));
 		assertEquals(FillType.CROSSHATCHED, pieChart.getStyle().getBarFillType(3));
+	}
+
+	@Test
+	void growingChartKeepsPatternsAndInitializesNewSegments() throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoPieChart chart = evaluateGeoElement("p = PieChart({1, 2, 3})");
+		ObjectSettingsSession.Context context = new ObjectSettingsSession.Context();
+		chart.getStyle().setBarFillType(FillType.DOTTED, 1);
+		chart.getStyle().setBarFillType(FillType.BRICK, 2);
+		new ChartSegmentFillCategoryProperty(getLocalization(), chart, context.forElement(chart))
+				.setValue(FillCategory.SYMBOL);
+		editGeoElement(chart, "PieChart({1, 2, 3, 4})");
+		GeoPieChart replacement = (GeoPieChart) lookup("p");
+		context.replace(chart, replacement);
+		ChartSegmentFillCategoryProperty reconstructed = new ChartSegmentFillCategoryProperty(
+				getLocalization(), replacement, context.forElement(replacement));
+		reconstructed.setValue(FillCategory.SYMBOL);
+		reconstructed.setValue(FillCategory.PATTERN);
+
+		assertEquals(FillType.DOTTED, replacement.getStyle().getBarFillType(1));
+		assertEquals(FillType.BRICK, replacement.getStyle().getBarFillType(2));
+		assertEquals(FillType.STANDARD, replacement.getStyle().getBarFillType(4));
 	}
 }

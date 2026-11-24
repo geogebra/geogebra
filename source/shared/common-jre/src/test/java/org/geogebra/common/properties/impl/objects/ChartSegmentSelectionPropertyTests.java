@@ -18,12 +18,20 @@ package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
+import org.geogebra.common.properties.ObjectSettingsSession;
+import org.geogebra.common.properties.PropertyCollection;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -85,5 +93,70 @@ class ChartSegmentSelectionPropertyTests extends BaseAppTestSetup {
 		chartSegmentSelectionProperty.setValue(2);
 		assertEquals(1, listener1CalledCount.get());
 		assertEquals(2, listener2CalledCount.get());
+	}
+
+	@Test
+	void replacementKeepsStyleAndFillingSelectionsSeparate() throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement chart = evaluateGeoElement("p = PieChart({1, 2, 3})");
+		ObjectSettingsSession.Context context = new ObjectSettingsSession.Context();
+		selection(chart, context, false).setIndex(1);
+		selection(chart, context, true).setIndex(2);
+		editGeoElement(chart, "PieChart({1, 2, 3}, (0, 0), 5)");
+		GeoElement replacement = lookup("p");
+		context.replace(chart, replacement);
+
+		assertEquals(1, selection(replacement, context, false).getIndex());
+		assertEquals(2, selection(replacement, context, true).getIndex());
+	}
+
+	@Test
+	void shrinkingChartResetsOnlyInvalidSelection() throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement chart = evaluateGeoElement("p = PieChart({1, 2, 3})");
+		ObjectSettingsSession.Context context = new ObjectSettingsSession.Context();
+		selection(chart, context, false).setIndex(3);
+		selection(chart, context, true).setIndex(2);
+		editGeoElement(chart, "PieChart({1, 2})");
+		GeoElement replacement = lookup("p");
+		context.replace(chart, replacement);
+
+		assertEquals(0, selection(replacement, context, false).getIndex());
+		assertEquals(2, selection(replacement, context, true).getIndex());
+		assertEquals(List.of(0, 1, 2), selection(replacement, context, false).getValues());
+	}
+
+	@Test
+	void shrinkingInlineFrequenciesResetsExistingSelection() throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoPieChart chart = evaluateGeoElement("p = PieChart({1, 2, 3})");
+		ChartSegmentSelection selection = new ChartSegmentSelection();
+		ChartSegmentSelectionProperty property =
+				new ChartSegmentSelectionProperty(getLocalization(), chart, selection);
+		property.setValue(3);
+
+		new PieChartFrequenciesProperty(getLocalization(), chart).setValue("{1, 2}");
+		new ChartStyleGeoColorProperty(getLocalization(), chart, selection).setValue(GColor.BLACK);
+
+		assertSame(chart, lookup("p"));
+		assertEquals(List.of(0, 1, 2), property.getValues());
+		assertEquals(0, property.getValue());
+		assertEquals(GColor.BLACK, chart.getStyle().getBarColor(1));
+		assertEquals(GColor.BLACK, chart.getStyle().getBarColor(2));
+	}
+
+	private NamedEnumeratedPropertyListFacade<?, ?> selection(
+			GeoElement chart, ObjectSettingsSession.Context context, boolean filling)
+			throws NotApplicablePropertyException {
+		PropertyCollection<?> collection = filling
+				? new ChartSegmentFillingPropertyCollection(
+						new GeoElementPropertiesFactory(),
+						getLocalization(),
+						getApp().getImageManager(),
+						List.of(chart),
+						context)
+				: new StylePropertyCollection(
+						new GeoElementPropertiesFactory(), getLocalization(), List.of(chart), context);
+		return (NamedEnumeratedPropertyListFacade<?, ?>) collection.getProperties()[0];
 	}
 }

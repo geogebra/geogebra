@@ -1287,9 +1287,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		isColorSet = geo.isColorSet();
 
 		if (geo instanceof ChartStyleGeo source && this instanceof ChartStyleGeo dest) {
-			int barNumber = source.getIntervals();
-			for (int i = 1; i <= barNumber; i++) {
+			for (int i = 1; i <= source.getIntervals(); i++) {
 				dest.getStyle().setBarColor(source.getStyle().getBarColor(i), i);
+				dest.getStyle().setBarAlpha(source.getStyle().getBarAlpha(i), i);
+				dest.getStyle().setBarFillType(source.getStyle().getBarFillType(i, null), i);
+				dest.getStyle().setBarSymbol(source.getStyle().getBarSymbol(i), i);
+				dest.getStyle().setBarImage(source.getStyle().getBarImage(i), i);
+				dest.getStyle().setBarHatchAngle(source.getStyle().getBarHatchAngle(i), i);
+				dest.getStyle().setBarHatchDistance(source.getStyle().getBarHatchDistance(i), i);
 			}
 		}
 	}

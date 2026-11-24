@@ -22,8 +22,7 @@ import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
@@ -45,36 +44,32 @@ public class ScriptEventPropertyCollection extends AbstractPropertyCollection<Pr
 	 * @param geoElements the elements whose scripts are managed
 	 * @param scriptEvent the script event this collection belongs to
 	 * @param jsEnabled whether JavaScript is enabled in the app
+	 * @param context temporary data owned by the settings session
 	 */
 	public ScriptEventPropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory,
 			Localization localization,
 			List<GeoElement> geoElements,
 			ScriptEvent scriptEvent,
-			boolean jsEnabled) {
+			boolean jsEnabled,
+			ObjectSettingsSession.Context context) {
 		super(localization, "");
-		ScriptLanguageSelection scriptLanguageSelection =
-				new ScriptLanguageSelection(initialScriptLanguage(geoElements.get(0), scriptEvent));
 		setProperties(Stream.<Property>of(
 						propertiesFactory.createOptionalPropertyFacade(
 								geoElements,
 								geoElement -> new ScriptLanguageSelectionProperty(
-										localization, geoElement, scriptEvent, scriptLanguageSelection, jsEnabled),
+										localization,
+										geoElement,
+										scriptEvent,
+										context.forElement(geoElement),
+										jsEnabled),
 								NamedEnumeratedPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								geoElements,
 								geoElement -> new ScriptProperty(
-										localization, geoElement, scriptEvent, scriptLanguageSelection),
+										localization, geoElement, scriptEvent, context.forElement(geoElement)),
 								StringPropertyListFacade::new))
 				.filter(Objects::nonNull)
 				.toArray(Property[]::new));
-	}
-
-	private static ScriptType initialScriptLanguage(GeoElement geoElement, ScriptEvent scriptEvent) {
-		if (scriptEvent == ScriptEvent.GlobalJavascript) {
-			return ScriptType.JAVASCRIPT;
-		}
-		Script existingScript = geoElement.getScript(scriptEvent.eventType);
-		return existingScript != null ? existingScript.getType() : ScriptType.GGBSCRIPT;
 	}
 }

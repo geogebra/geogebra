@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
@@ -45,24 +46,27 @@ public class ScriptPropertyCollection extends AbstractPropertyCollection<Propert
 	 * @param localization localization for translating property names
 	 * @param geoElements the elements whose scripts are managed
 	 * @param jsEnabled whether JavaScript is enabled in the app
+	 * @param context temporary data owned by the settings session
 	 */
 	@SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
 	public ScriptPropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory,
 			Localization localization,
 			List<GeoElement> geoElements,
-			boolean jsEnabled) {
+			boolean jsEnabled,
+			ObjectSettingsSession.Context context) {
 		super(localization, "Script");
 		this.scriptEventSelectionProperty = propertiesFactory.createOptionalPropertyFacade(
 				geoElements,
-				element -> new ScriptEventSelectionProperty(localization, element, jsEnabled),
+				element -> new ScriptEventSelectionProperty(
+						localization, element, jsEnabled, context.forElement(element)),
 				NamedEnumeratedPropertyListFacade::new);
 		if (scriptEventSelectionProperty.getIndex() == -1) {
 			scriptEventSelectionProperty.setIndex(0);
 		}
 		this.scriptEventPropertyCollections = scriptEventSelectionProperty.getValues().stream()
 				.map(scriptEvent -> new ScriptEventPropertyCollection(
-						propertiesFactory, localization, geoElements, scriptEvent, jsEnabled))
+						propertiesFactory, localization, geoElements, scriptEvent, jsEnabled, context))
 				.toList();
 		setProperties(Stream.concat(
 						Stream.of(scriptEventSelectionProperty), scriptEventPropertyCollections.stream())

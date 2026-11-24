@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -189,6 +190,7 @@ public class Construction {
 	// collect replace() requests to improve performance
 	// when many cells in the spreadsheet are redefined at once
 	private boolean collectRedefineCalls = false;
+	private final Set<GeoElementReplacementListener> replacementListeners = new HashSet<>();
 	private HashMap<GeoElement, GeoElement> redefineMap;
 	private GeoElement keepGeo;
 	private ArrayList<GeoElement> latexGeos;
@@ -1427,6 +1429,31 @@ public class Construction {
 		}
 	}
 
+	/** Receives notifications when GeoElement instances are replaced. */
+	public interface GeoElementReplacementListener {
+		/**
+		 * Called once per replacement or construction rebuild.
+		 * @param replacements map from replaced elements to their final live elements
+		 */
+		void onGeoElementsReplaced(@NonNull Map<GeoElement, GeoElement> replacements);
+	}
+
+	/**
+	 * Registers a listener notified after a GeoElement instance is replaced.
+	 * @param listener replacement listener
+	 */
+	public void addGeoElementReplacementListener(@NonNull GeoElementReplacementListener listener) {
+		replacementListeners.add(listener);
+	}
+
+	/**
+	 * Unregisters a listener for element replacements.
+	 * @param listener previously registered replacement listener
+	 */
+	public void removeGeoElementReplacementListener(@NonNull GeoElementReplacementListener listener) {
+		replacementListeners.remove(listener);
+	}
+
 	/**
 	 * Replaces oldGeo by newGeo in the current construction. This may change
 	 * the logic of the construction and is a very powerful operation
@@ -1524,6 +1551,7 @@ public class Construction {
 				newGeo.updateRepaint();
 			}
 
+			notifyGeoElementsReplaced(Map.of(oldGeo, newGeo));
 			return;
 		}
 
@@ -1625,8 +1653,35 @@ public class Construction {
 
 		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
 		scriptManager.keepListenersOnReset();
-		buildConstruction(consXML, oldXML, info);
-		scriptManager.dropListenersOnReset();
+		List<GeoElement> originalElements =
+				replacementListeners.isEmpty() ? List.of() : new ArrayList<>(geoSetConsOrder);
+		try {
+			buildConstruction(consXML, oldXML, info);
+		} finally {
+			scriptManager.dropListenersOnReset();
+			notifyRebuiltElementsReplaced(originalElements);
+		}
+	}
+
+	/**
+	 * Notifies replacement listeners about elements that were recreated with the same label.
+	 * @param originalElements elements captured before the construction was rebuilt
+	 */
+	public void notifyRebuiltElementsReplaced(@NonNull List<GeoElement> originalElements) {
+		Map<GeoElement, GeoElement> replacements = new IdentityHashMap<>();
+		for (GeoElement original : originalElements) {
+			GeoElement replacement = lookupLabel(original.getLabelSimple());
+			if (replacement != null && replacement != original) {
+				replacements.put(original, replacement);
+			}
+		}
+		notifyGeoElementsReplaced(replacements);
+	}
+
+	private void notifyGeoElementsReplaced(Map<GeoElement, GeoElement> replacements) {
+		for (GeoElementReplacementListener listener : new ArrayList<>(replacementListeners)) {
+			listener.onGeoElementsReplaced(replacements);
+		}
 	}
 
 	/**
@@ -1701,8 +1756,14 @@ public class Construction {
 
 		// build new construction to make sure all ceIDs are correct after the
 		// redefine
-		buildConstruction(new XMLStringBuilder(consXML), oldXML, new EvalInfo(true, true, false));
-		setUpdateConstructionRunning(false);
+		List<GeoElement> originalElements =
+				replacementListeners.isEmpty() ? List.of() : new ArrayList<>(geoSetConsOrder);
+		try {
+			buildConstruction(new XMLStringBuilder(consXML), oldXML, new EvalInfo(true, true, false));
+		} finally {
+			setUpdateConstructionRunning(false);
+			notifyRebuiltElementsReplaced(originalElements);
+		}
 	}
 
 	/**

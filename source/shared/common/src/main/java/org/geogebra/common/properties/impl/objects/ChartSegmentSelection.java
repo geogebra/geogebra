@@ -46,6 +46,12 @@ public final class ChartSegmentSelection {
 		void chartSegmentSelectionUpdated();
 	}
 
+	void resetInvalidIndex(int chartSegmentCount) {
+		if (index > chartSegmentCount) {
+			setIndex(0);
+		}
+	}
+
 	void setIndex(int index) {
 		this.index = index;
 		listeners.forEach(Listener::chartSegmentSelectionUpdated);
@@ -122,6 +128,7 @@ public final class ChartSegmentSelection {
 	 * @param <T> value type
 	 */
 	public <T> @Nullable T getFirstValue(int chartSegmentCount, Function<Integer, T> getter) {
+		resetInvalidIndex(chartSegmentCount);
 		if (chartSegmentCount == 0) {
 			return null;
 		}
@@ -143,6 +150,7 @@ public final class ChartSegmentSelection {
 	}
 
 	private IntStream selectedSegmentIndexStream(int chartSegmentCount) {
+		resetInvalidIndex(chartSegmentCount);
 		return index == 0 ? IntStream.rangeClosed(1, chartSegmentCount) : IntStream.of(index);
 	}
 }

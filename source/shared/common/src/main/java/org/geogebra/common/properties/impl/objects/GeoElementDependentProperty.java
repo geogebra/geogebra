@@ -17,29 +17,11 @@
 package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.jspecify.annotations.NonNull;
 
 /**
  * Property that may change value when the underlying {@link GeoElement} changes.
  */
 public interface GeoElementDependentProperty {
-
-	/** Observer for {@code GeoElement} redefinition events */
-	interface RedefinitionObserver {
-		/** Called when a {@code GeoElement} got redefined to a new {@code GeoElement}). */
-		void onGeoElementRedefined(@NonNull GeoElement originalElement, @NonNull GeoElement newElement);
-	}
-
-	/**
-	 * Register an observer on the element-dependent property to be notified when
-	 * the original element gets redefined and replaced by a new element.
-	 * @param observer to be notified when the original element gets redefined.
-	 * @apiNote Override this empty default implementation for any properties involving
-	 * redefinition.
-	 */
-	default void addRedefinitionObserver(RedefinitionObserver observer) {
-		// dummy body
-	}
 
 	/**
 	 * @return the geo element which this property is dependent on.

@@ -32,6 +32,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.properties.PropertyView.ExpandableList;
+import org.geogebra.common.properties.PropertyView.RelatedPropertyViewCollection;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.distribution.DistributionParameterProperty;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
@@ -96,15 +98,60 @@ public class PropertyViewFactory {
 	}
 
 	/**
+	 * Restores the selected tab and expanded groups in a reconstructed property tree.
+	 * @param previous previous property tree
+	 * @param replacement replacement property tree
+	 */
+	public static void restorePresentation(
+			PropertyView.@NonNull TabbedPageSelector previous,
+			PropertyView.@NonNull TabbedPageSelector replacement) {
+		String selectedTab = previous.getTabTitles().get(previous.getSelectedTabIndex());
+		replacement.setSelectedTabIndex(Math.max(0, replacement.getTabTitles().indexOf(selectedTab)));
+		for (int index = 0; index < replacement.getTabTitles().size(); index++) {
+			int previousIndex =
+					previous.getTabTitles().indexOf(replacement.getTabTitles().get(index));
+			if (previousIndex >= 0) {
+				restoreExpandableLists(
+						replacement.getPageContents(index), previous.getPageContents(previousIndex));
+			}
+		}
+	}
+
+	private static void restoreExpandableLists(
+			@NonNull List<PropertyView> replacementViews, @NonNull List<PropertyView> previousViews) {
+		for (PropertyView replacementView : replacementViews) {
+			for (PropertyView previousView : previousViews) {
+				if (replacementView instanceof ExpandableList replacementExpandableList
+						&& previousView instanceof ExpandableList previousExpandableList
+						&& replacementExpandableList.getTitle().equals(previousExpandableList.getTitle())) {
+					replacementExpandableList.setExpanded(previousExpandableList.isExpanded());
+					restoreExpandableLists(
+							replacementExpandableList.getItems(), previousExpandableList.getItems());
+					break;
+				} else if (replacementView instanceof RelatedPropertyViewCollection replacementCollection
+						&& previousView instanceof RelatedPropertyViewCollection previousCollection
+						&& Objects.equals(replacementCollection.getTitle(), previousCollection.getTitle())) {
+					restoreExpandableLists(
+							replacementCollection.getPropertyViews(), previousCollection.getPropertyViews());
+					break;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Constructs the {@link Property}s for the settings of the elements, connects the
 	 * undo manager, and transforms them into a {@code PropertyView} to be displayed.
 	 * @param app the active app
-	 * @param elements list of geo elements
+	 * @param elements elements whose properties are shown
+	 * @param context temporary data shared across reconstruction
 	 * @return the {@code PropertyView} containing the settings for the given objects
 	 * or {@code null} if the list of elements is empty
 	 */
 	public static PropertyView.@Nullable TabbedPageSelector propertyViewOfObjectSettings(
-			@NonNull App app, @NonNull List<GeoElement> elements) {
+			@NonNull App app,
+			@NonNull List<GeoElement> elements,
+			ObjectSettingsSession.@NonNull Context context) {
 		if (elements.isEmpty()) {
 			return null;
 		}
@@ -115,16 +162,16 @@ public class PropertyViewFactory {
 		assert suiteScope != null;
 		boolean jsEnabled = !app.getPlatform().isMobile()
 				&& app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT);
-		List<PropertiesArray> propertiesArrayList =
-				suiteScope.geoElementPropertiesFactory.createProperties(
-						app.getKernel().getAlgebraProcessor(),
-						app.getLocalization(),
-						app.getImageManager(),
-						jsEnabled,
-						elements);
-		propertiesArrayList.forEach(propertiesArray -> PropertyArrayValueObserving.addObserver(
-				propertiesArray, new UndoSavingPropertyObserver(app.getUndoManager())));
-		return new PropertyView.TabbedPageSelector(title, propertiesArrayList, 0);
+		List<PropertiesArray> properties = suiteScope.geoElementPropertiesFactory.createProperties(
+				app.getKernel().getAlgebraProcessor(),
+				app.getLocalization(),
+				app.getImageManager(),
+				jsEnabled,
+				elements,
+				context);
+		properties.forEach(array -> PropertyArrayValueObserving.addObserver(
+				array, new UndoSavingPropertyObserver(app.getUndoManager())));
+		return new PropertyView.TabbedPageSelector(title, properties, 0);
 	}
 
 	/**

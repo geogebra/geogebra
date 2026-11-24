@@ -27,6 +27,7 @@ import java.util.List;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
+import org.geogebra.common.properties.impl.objects.ElementSettingsData;
 import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty;
 import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty.ScriptEvent;
 import org.geogebra.test.BaseAppTestSetup;
@@ -36,10 +37,10 @@ class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
 	@Test
 	void getValuesAndIndicesMatchForElementsWithSameValues() {
 		setupApp(SuiteSubApp.GRAPHING);
-		ScriptEventSelectionProperty property1 =
-				new ScriptEventSelectionProperty(getLocalization(), evaluateGeoElement("A = (1, 2)"), true);
-		ScriptEventSelectionProperty property2 =
-				new ScriptEventSelectionProperty(getLocalization(), evaluateGeoElement("B = (3, 4)"), true);
+		ScriptEventSelectionProperty property1 = new ScriptEventSelectionProperty(
+				getLocalization(), evaluateGeoElement("A = (1, 2)"), true, new ElementSettingsData());
+		ScriptEventSelectionProperty property2 = new ScriptEventSelectionProperty(
+				getLocalization(), evaluateGeoElement("B = (3, 4)"), true, new ElementSettingsData());
 		NamedEnumeratedPropertyListFacade<ScriptEventSelectionProperty, ScriptEvent> facade =
 				new NamedEnumeratedPropertyListFacade<>(List.of(property1, property2));
 
@@ -65,10 +66,13 @@ class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
 	@Test
 	void getValuesAndIndicesMatchForElementsWithPartialOverlap() {
 		setupApp(SuiteSubApp.GRAPHING);
-		ScriptEventSelectionProperty pointProperty =
-				new ScriptEventSelectionProperty(getLocalization(), evaluateGeoElement("A = (1, 2)"), true);
+		ScriptEventSelectionProperty pointProperty = new ScriptEventSelectionProperty(
+				getLocalization(), evaluateGeoElement("A = (1, 2)"), true, new ElementSettingsData());
 		ScriptEventSelectionProperty sliderProperty = new ScriptEventSelectionProperty(
-				getLocalization(), evaluateGeoElement("a = Slider(-5, 5, 1)"), true);
+				getLocalization(),
+				evaluateGeoElement("a = Slider(-5, 5, 1)"),
+				true,
+				new ElementSettingsData());
 		NamedEnumeratedPropertyListFacade<ScriptEventSelectionProperty, ScriptEvent> facade =
 				new NamedEnumeratedPropertyListFacade<>(List.of(pointProperty, sliderProperty));
 

@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoHistogram;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
@@ -49,7 +50,7 @@ import org.jspecify.annotations.Nullable;
  * The properties are applicable only when every selected element is a {@link GeoNumeric} produced
  * by an {@link AlgoHistogram} with one of the supported command layouts. Changing a property
  * redefines every selected histogram command. If redefinition replaces an output geo, its
- * controller updates its references and notifies every geo-dependent property view.
+ * controller updates its reference, while the settings session reconstructs the property views.
  */
 final class HistogramDataPropertyFactory
 		extends CommandData.Factory<HistogramDataPropertyFactory.HistogramData> {
@@ -61,13 +62,16 @@ final class HistogramDataPropertyFactory
 
 	/** Initializes the factory for the given histogram selection. */
 	HistogramDataPropertyFactory(
-			@NonNull Localization localization, @NonNull List<GeoElement> elements) {
+			@NonNull Localization localization,
+			@NonNull List<GeoElement> elements,
+			ObjectSettingsSession.@NonNull Context context) {
 		super(localization);
 		for (GeoElement element : elements) {
 			if (element instanceof GeoNumeric histogram
 					&& histogram.getParentAlgorithm() instanceof AlgoHistogram algoHistogram
 					&& hasSupportedInput(algoHistogram)) {
-				controllers.put(element, new Controller<>(histogram, new HistogramData()));
+				controllers.put(
+						element, new Controller<>(histogram, context.forElement(element).histogram));
 			}
 		}
 	}
@@ -276,11 +280,6 @@ final class HistogramDataPropertyFactory
 		@Override
 		public @NonNull GeoElement getGeoElement() {
 			return controller.getGeoElement();
-		}
-
-		@Override
-		public void addRedefinitionObserver(@NonNull RedefinitionObserver observer) {
-			controller.addRedefinitionObserver(observer);
 		}
 	}
 

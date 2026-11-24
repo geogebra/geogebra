@@ -16,9 +16,7 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -32,7 +30,6 @@ public class PenStrokeAbsolutePositionProperty extends AbstractValuedProperty<Bo
 		implements BooleanProperty, GeoElementDependentProperty {
 
 	private GeoElement element;
-	private Set<RedefinitionObserver> redefinitionObservers = new HashSet<>();
 
 	/**
 	 * Constructor.
@@ -64,8 +61,6 @@ public class PenStrokeAbsolutePositionProperty extends AbstractValuedProperty<Bo
 		GeoElement newElement = EuclidianStyleBarStatic.applyFixPosition(
 				List.of(element), value, element.getApp().getActiveEuclidianView());
 		if (newElement != null) {
-			redefinitionObservers.forEach(
-					observer -> observer.onGeoElementRedefined(element, newElement));
 			element = newElement;
 		}
 	}
@@ -73,10 +68,5 @@ public class PenStrokeAbsolutePositionProperty extends AbstractValuedProperty<Bo
 	@Override
 	public GeoElement getGeoElement() {
 		return element;
-	}
-
-	@Override
-	public void addRedefinitionObserver(RedefinitionObserver observer) {
-		redefinitionObservers.add(observer);
 	}
 }

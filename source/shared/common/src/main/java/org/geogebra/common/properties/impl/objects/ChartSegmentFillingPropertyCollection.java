@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
@@ -46,51 +47,55 @@ public class ChartSegmentFillingPropertyCollection extends AbstractPropertyColle
 	 * @param localization localization for translating properties
 	 * @param imageManager image manager for the image filling property
 	 * @param elements the elements to create the property for
+	 * @param context temporary data owned by the settings session
 	 * @throws NotApplicablePropertyException if the property is not applicable to the given elements
 	 */
 	public ChartSegmentFillingPropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory,
 			Localization localization,
 			ImageManager imageManager,
-			List<GeoElement> elements)
+			List<GeoElement> elements,
+			ObjectSettingsSession.Context context)
 			throws NotApplicablePropertyException {
 		super(localization, "Filling");
-		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		setProperties(Stream.<Property>of(
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
-								element ->
-										new ChartSegmentSelectionProperty(localization, element, chartSegmentSelection),
+								element -> new ChartSegmentSelectionProperty(
+										localization, element, context.forElement(element).fillingSelection),
 								NamedEnumeratedPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
 								element -> new ChartSegmentFillCategoryProperty(
-										localization, element, chartSegmentSelection),
+										localization, element, context.forElement(element)),
 								NamedEnumeratedPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
 								element -> new ChartSegmentFillSymbolProperty(
-										localization, element, chartSegmentSelection),
+										localization, element, context.forElement(element).fillingSelection),
 								StringPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
 								element -> new ChartSegmentFillImageProperty(
-										localization, imageManager, element, chartSegmentSelection),
+										localization,
+										imageManager,
+										element,
+										context.forElement(element).fillingSelection),
 								ImagePropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
 								element -> new ChartSegmentPatternFillStyleProperty(
-										localization, element, chartSegmentSelection),
+										localization, element, context.forElement(element).fillingSelection),
 								IconsEnumeratedPropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
 								element -> new ChartSegmentHatchingDistanceProperty(
-										localization, element, chartSegmentSelection),
+										localization, element, context.forElement(element).fillingSelection),
 								RangePropertyListFacade::new),
 						propertiesFactory.createOptionalPropertyFacade(
 								elements,
 								element -> new ChartSegmentHatchingAngleProperty(
-										localization, element, chartSegmentSelection),
+										localization, element, context.forElement(element).fillingSelection),
 								RangePropertyListFacade::new))
 				.filter(Objects::nonNull)
 				.toArray(Property[]::new));

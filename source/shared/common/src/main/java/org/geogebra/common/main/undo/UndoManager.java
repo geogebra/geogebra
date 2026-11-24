@@ -65,6 +65,7 @@ public abstract class UndoManager implements UndoProvider {
 	private ArrayList<UndoPossibleListener> mListener = new ArrayList<>();
 	private final List<ActionExecutor> executors = new ArrayList<>();
 	private boolean allowCheckpoints = true;
+	private @Nullable List<GeoElement> elementsBeforeReload;
 
 	/**
 	 * @param cons
@@ -566,6 +567,7 @@ public abstract class UndoManager implements UndoProvider {
 	 * Reset before reloading
 	 */
 	public void resetBeforeReload() {
+		elementsBeforeReload = new ArrayList<>(construction.getGeoSetConstructionOrder());
 		app.getSelectionManager().storeSelectedGeosNames();
 		app.getCompanion().storeViewCreators();
 		app.getKernel().notifyReset();
@@ -583,12 +585,22 @@ public abstract class UndoManager implements UndoProvider {
 		app.getSettings().getSpreadsheet().resetBeforeReload();
 	}
 
+	/** @return whether the construction is being reloaded, so the selection is temporarily empty */
+	public boolean isReloading() {
+		return elementsBeforeReload != null;
+	}
+
 	/**
 	 * Restore state after reload
 	 */
 	public void restoreAfterReload() {
 		app.getKernel().notifyReset();
 		app.getCompanion().recallViewCreators();
+		List<GeoElement> originalElements = elementsBeforeReload;
+		elementsBeforeReload = null;
+		if (originalElements != null) {
+			construction.notifyRebuiltElementsReplaced(originalElements);
+		}
 		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
 		app.getActiveEuclidianView().restoreDynamicStylebar();
 		app.getActiveEuclidianView().getEuclidianController().clearMeasurementTools();

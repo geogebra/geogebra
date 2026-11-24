@@ -157,7 +157,7 @@ public final class ComponentDropDown extends FlowPanel
 				app,
 				() -> asList(dropDown == null ? null : dropDown.getGroupDividerIndices()),
 				this,
-				() -> items,
+				() -> dropDown == null ? items : dropDown.getItems(),
 				labelKey,
 				() -> {
 					removeStyleName("active");
@@ -281,16 +281,6 @@ public final class ComponentDropDown extends FlowPanel
 				this, app.getLocalization().getMenu(labelKey) + " " + controller.getSelectedText());
 	}
 
-	/**
-	 * Reset dropdown to the model (property) value.
-	 */
-	public void resetFromModel() {
-		if (dropDown != null) {
-			controller.resetFromModel(dropDown);
-			updateSelectionText();
-		}
-	}
-
 	public void setFullWidth(boolean isFullWidth) {
 		fullWidth = isFullWidth;
 	}
@@ -322,10 +312,7 @@ public final class ComponentDropDown extends FlowPanel
 	public void configurationUpdated() {
 		if (dropDown != null) {
 			controller.resetFromModel(dropDown);
-			Integer index = dropDown.getSelectedItemIndex();
-			if (index != null) {
-				setSelectedIndex(index);
-			}
+			updateSelectionText();
 		}
 	}
 

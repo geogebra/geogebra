@@ -18,6 +18,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -29,14 +30,25 @@ import org.junit.jupiter.api.Test;
 
 class ScriptPropertyTests extends BaseAppTestSetup {
 	@Test
+	void globalJavascriptUsesLibraryScriptInsteadOfElementScript() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoPoint point = evaluateGeoElement("A = (1, 2)");
+		getKernel().setLibraryJavaScript("function before() {}");
+		ScriptProperty property = new ScriptProperty(
+				getLocalization(), point, ScriptEvent.GlobalJavascript, new ElementSettingsData());
+		assertEquals("function before() {}", property.getValue());
+		property.setValue("function after() {}");
+		assertEquals("function after() {}", property.getValue());
+		assertEquals("function after() {}", getKernel().getLibraryJavaScript());
+		assertNull(point.getScript(EventType.LOAD_PAGE));
+	}
+
+	@Test
 	void testSettingScript() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint geoPoint = evaluateGeoElement("A = (1, 2)");
 		ScriptProperty property = new ScriptProperty(
-				getLocalization(),
-				geoPoint,
-				ScriptEvent.OnDragEnd,
-				new ScriptLanguageSelection(ScriptType.GGBSCRIPT));
+				getLocalization(), geoPoint, ScriptEvent.OnDragEnd, new ElementSettingsData());
 
 		property.setValue("Drag-end script 1");
 		assertEquals("Drag-end script 1", property.getValue());
@@ -51,13 +63,12 @@ class ScriptPropertyTests extends BaseAppTestSetup {
 	void testChangingScriptTypeUpdatesStoredScript() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint geoPoint = evaluateGeoElement("A = (1, 2)");
-		ScriptLanguageSelection scriptLanguageSelection =
-				new ScriptLanguageSelection(ScriptType.GGBSCRIPT);
-		ScriptProperty scriptProperty = new ScriptProperty(
-				getLocalization(), geoPoint, ScriptEvent.OnClick, scriptLanguageSelection);
+		ElementSettingsData data = new ElementSettingsData();
+		ScriptProperty scriptProperty =
+				new ScriptProperty(getLocalization(), geoPoint, ScriptEvent.OnClick, data);
 		ScriptLanguageSelectionProperty scriptLanguageSelectionProperty =
 				assertDoesNotThrow(() -> new ScriptLanguageSelectionProperty(
-						getLocalization(), geoPoint, ScriptEvent.OnClick, scriptLanguageSelection, true));
+						getLocalization(), geoPoint, ScriptEvent.OnClick, data, true));
 
 		scriptProperty.setValue("Click script");
 		assertEquals("Click script", scriptProperty.getValue());

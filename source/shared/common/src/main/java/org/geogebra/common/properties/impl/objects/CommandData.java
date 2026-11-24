@@ -17,9 +17,7 @@
 package org.geogebra.common.properties.impl.objects;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -29,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
-import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty.RedefinitionObserver;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.jspecify.annotations.NonNull;
 
@@ -71,7 +68,6 @@ interface CommandData {
 	final class Controller<D extends CommandData> {
 		private @NonNull GeoElement element;
 		private final @NonNull D data;
-		private final @NonNull Set<RedefinitionObserver> redefinitionObservers = new HashSet<>();
 
 		Controller(@NonNull GeoElement element, @NonNull D data) {
 			this.element = element;
@@ -96,11 +92,6 @@ interface CommandData {
 			return element;
 		}
 
-		/** Registers an observer for element replacement. */
-		void addRedefinitionObserver(@NonNull RedefinitionObserver observer) {
-			redefinitionObservers.add(observer);
-		}
-
 		private void redefine(@NonNull String command) {
 			GeoElement previousElement = element;
 			RedefineInputHandler handler = new RedefineInputHandler(
@@ -112,8 +103,6 @@ interface CommandData {
 				GeoElement updatedElement = handler.getGeoElement().toGeoElement();
 				element = updatedElement;
 				if (previousElement != updatedElement) {
-					new HashSet<>(redefinitionObservers)
-							.forEach(observer -> observer.onGeoElementRedefined(previousElement, updatedElement));
 					updatedElement.getApp().getSelectionManager().clearSelectedGeos(false, false);
 					updatedElement.getApp().getSelectionManager().addSelectedGeo(updatedElement);
 				}
@@ -141,11 +130,6 @@ interface CommandData {
 		@Override
 		public @NonNull GeoElement getGeoElement() {
 			return controller.getGeoElement();
-		}
-
-		@Override
-		public void addRedefinitionObserver(@NonNull RedefinitionObserver observer) {
-			controller.addRedefinitionObserver(observer);
 		}
 	}
 }

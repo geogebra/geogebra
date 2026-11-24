@@ -26,6 +26,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
@@ -45,7 +46,11 @@ class StylePropertiesTests extends BaseAppTestSetup {
 	void testPointStyleProperties() {
 		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
 		PropertiesArray propertiesArray = propertiesFactory.createStyleProperties(
-				getAlgebraProcessor(), getApp().getImageManager(), getLocalization(), List.of(zeroPoint));
+				getAlgebraProcessor(),
+				getApp().getImageManager(),
+				getLocalization(),
+				List.of(zeroPoint),
+				new ObjectSettingsSession.Context());
 		List<String> styleProperties = Arrays.stream(propertiesArray.getProperties())
 				.map(Property::getName)
 				.collect(Collectors.toList());
@@ -57,7 +62,11 @@ class StylePropertiesTests extends BaseAppTestSetup {
 		getApp().setPlatform(GeoGebraConstants.Platform.WEB);
 		GeoButton button = evaluateGeoElement("Button[]");
 		PropertiesArray propertiesArray = propertiesFactory.createStyleProperties(
-				getAlgebraProcessor(), getApp().getImageManager(), getLocalization(), List.of(button));
+				getAlgebraProcessor(),
+				getApp().getImageManager(),
+				getLocalization(),
+				List.of(button),
+				new ObjectSettingsSession.Context());
 		List<String> styleProperties = Arrays.stream(propertiesArray.getProperties())
 				.map(Property::getName)
 				.collect(Collectors.toList());

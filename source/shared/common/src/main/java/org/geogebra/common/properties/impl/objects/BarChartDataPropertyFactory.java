@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
@@ -56,15 +57,15 @@ final class BarChartDataPropertyFactory
 	}
 
 	BarChartDataPropertyFactory(
-			@NonNull Localization localization, @NonNull List<GeoElement> elements) {
+			@NonNull Localization localization,
+			@NonNull List<GeoElement> elements,
+			ObjectSettingsSession.@NonNull Context context) {
 		super(localization);
 		for (GeoElement element : elements) {
 			if (element instanceof GeoNumeric barChart
 					&& barChart.getParentAlgorithm() instanceof AlgoBarChart algorithm
 					&& hasSupportedInput(algorithm)) {
-				BarChartData data = new BarChartData();
-				data.syncFromAlgorithm(algorithm);
-				controllers.put(element, new Controller<>(barChart, data));
+				controllers.put(element, new Controller<>(barChart, context.forElement(element).barChart));
 			}
 		}
 	}
@@ -220,11 +221,6 @@ final class BarChartDataPropertyFactory
 		@Override
 		public @NonNull GeoElement getGeoElement() {
 			return controller.getGeoElement();
-		}
-
-		@Override
-		public void addRedefinitionObserver(@NonNull RedefinitionObserver observer) {
-			controller.addRedefinitionObserver(observer);
 		}
 	}
 

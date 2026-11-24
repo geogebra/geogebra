@@ -16,12 +16,17 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import java.util.List;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.properties.impl.objects.ScriptEventSelectionProperty.ScriptEvent;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +38,44 @@ class ScriptPropertyCollectionTests extends BaseAppTestSetup {
 				new GeoElementPropertiesFactory(),
 				getLocalization(),
 				List.of(evaluateGeoElement("(1, 2)"), evaluateGeoElement("Slider(-5, 5, 1)")),
-				true);
+				true,
+				new ObjectSettingsSession.Context());
 		assertNotEquals(-1, propertyCollection.getScriptEventSelectionProperty().getIndex());
+	}
+
+	@Test
+	void replacementPreservesSelectedScriptEvent() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement chart = evaluateGeoElement("p = PieChart({1, 2, 3})");
+		ObjectSettingsSession.Context context = new ObjectSettingsSession.Context();
+		ScriptPropertyCollection scripts = new ScriptPropertyCollection(
+				new GeoElementPropertiesFactory(), getLocalization(), List.of(chart), true, context);
+		scripts.getScriptEventSelectionProperty().setValue(ScriptEvent.OnUpdate);
+		editGeoElement(chart, "PieChart({1, 2, 3}, (0, 0), 5)");
+		context.replace(chart, lookup("p"));
+		ScriptPropertyCollection reconstructed = new ScriptPropertyCollection(
+				new GeoElementPropertiesFactory(), getLocalization(), List.of(lookup("p")), true, context);
+
+		assertNotSame(chart, lookup("p"));
+		assertEquals(
+				ScriptEvent.OnUpdate, reconstructed.getScriptEventSelectionProperty().getValue());
+	}
+
+	@Test
+	void replacementResetsUnsupportedScriptEvent() {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement point = evaluateGeoElement("p = (1, 2)");
+		ObjectSettingsSession.Context context = new ObjectSettingsSession.Context();
+		ScriptPropertyCollection scripts = new ScriptPropertyCollection(
+				new GeoElementPropertiesFactory(), getLocalization(), List.of(point), true, context);
+		scripts.getScriptEventSelectionProperty().setValue(ScriptEvent.OnDragEnd);
+		evaluateGeoElement("p = true");
+		context.replace(point, lookup("p"));
+		ScriptPropertyCollection reconstructed = new ScriptPropertyCollection(
+				new GeoElementPropertiesFactory(), getLocalization(), List.of(lookup("p")), true, context);
+
+		assertNotSame(point, lookup("p"));
+		assertEquals(
+				ScriptEvent.OnUpdate, reconstructed.getScriptEventSelectionProperty().getValue());
 	}
 }

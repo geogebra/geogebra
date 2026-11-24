@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
-import org.geogebra.common.properties.PropertyView;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.PropertyViewFactory;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
@@ -34,6 +34,7 @@ import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.states.MutableState;
 import org.geogebra.common.states.State;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -51,6 +52,7 @@ public final class SettingsViewModel {
 
 	private final MutableState<@NonNull List<SettingsPage>> navigationStack =
 			new MutableState<>(Collections.emptyList());
+	private State.@Nullable Subscription propertyTreeSubscription;
 
 	/**
 	 * @param app the app (held weakly)
@@ -79,21 +81,17 @@ public final class SettingsViewModel {
 	 * @param selection the selected elements
 	 */
 	public void showObjectSettings(@NonNull List<GeoElement> selection) {
-		PropertyView.TabbedPageSelector root =
-				PropertyViewFactory.propertyViewOfObjectSettings(app, selection);
-		if (root == null) {
+		if (selection.isEmpty()) {
 			return;
 		}
-		showObjectSettings(root);
-	}
-
-	/**
-	 * Shows the given object settings as the only page. The root is detached when the page is
-	 * closed, so it must not be reused.
-	 * @param root the object settings
-	 */
-	public void showObjectSettings(PropertyView.@NonNull TabbedPageSelector root) {
-		replaceStack(List.of(new PropertiesPage(root)));
+		ObjectSettingsSession session = new ObjectSettingsSession(app, selection);
+		replaceStack(List.of(new PropertiesPage(session)));
+		// the color picker edits a property of the previous tree, so close it on replacement
+		propertyTreeSubscription = session.getTree().subscribe(tree -> {
+			if (navigationStack.get().size() > 1) {
+				navigateBack();
+			}
+		});
 	}
 
 	/**
@@ -144,6 +142,10 @@ public final class SettingsViewModel {
 		if (stack.isEmpty()) {
 			return;
 		}
+		if (stack.size() == 1) {
+			close();
+			return;
+		}
 		stack.get(stack.size() - 1).dispose();
 		navigationStack.set(stack.subList(0, stack.size() - 1));
 	}
@@ -154,6 +156,10 @@ public final class SettingsViewModel {
 	}
 
 	private void replaceStack(List<SettingsPage> newStack) {
+		if (propertyTreeSubscription != null) {
+			propertyTreeSubscription.cancel();
+			propertyTreeSubscription = null;
+		}
 		List<SettingsPage> old = navigationStack.get();
 		for (int i = old.size() - 1; i >= 0; i--) {
 			old.get(i).dispose();

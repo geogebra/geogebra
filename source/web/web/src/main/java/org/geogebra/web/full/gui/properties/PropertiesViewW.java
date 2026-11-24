@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
@@ -31,11 +32,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.properties.ObjectSettingsSession;
+import org.geogebra.common.properties.PropertyView.TabbedPageSelector;
 import org.geogebra.common.properties.PropertyViewFactory;
-import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.common.states.State;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
 import org.geogebra.web.full.gui.components.sideSheet.SheetTitlePanel;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
@@ -68,15 +70,11 @@ public final class PropertiesViewW extends PropertiesView
 	private OptionType optionType;
 	private boolean floatingAttached = false;
 
-	private ComponentTab settingsTab;
-	private boolean objectPropertiesVisible;
+	private @Nullable ComponentTab settingsTab;
+	private @Nullable ObjectSettingsSession objectSettingsSession;
+	private State.@Nullable Subscription treeSubscription;
 
 	private final PropertiesPanelAdapter panelAdapter;
-	/**
-	 * Labels of elements whose properties are currently shown. Needed so the state of the
-	 * properties view survives the redefinition of an element.
-	 */
-	private List<String> shownLabels = List.of();
 
 	/**
 	 *
@@ -97,7 +95,13 @@ public final class PropertiesViewW extends PropertiesView
 			wrappedPanel = new FlowPanel();
 		}
 		panelAdapter = new PropertiesPanelAdapter(app.getLocalization(), app);
-		rebuildContent();
+		wrappedPanel.addAttachHandler(event -> {
+			if (!event.isAttached()) {
+				disposeProperties();
+				setAttached(false);
+				setFloatingAttached(false);
+			}
+		});
 		addEscapeHandler();
 		app.setPropertiesView(this);
 		wrappedPanel.addStyleName("PropertiesViewW");
@@ -137,7 +141,7 @@ public final class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
-		rebuildContent();
+		rebuildContent(getShowableElements());
 	}
 
 	@Override
@@ -152,7 +156,23 @@ public final class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void clearView() {
-		// do nothing
+		// XML redefinition clears views before transferring the session to the rebuilt elements.
+		if (!kernel.getConstruction().isFileLoading()) {
+			disposeProperties();
+		}
+	}
+
+	private void disposeProperties() {
+		if (treeSubscription != null) {
+			treeSubscription.cancel();
+			treeSubscription = null;
+		}
+		if (objectSettingsSession != null) {
+			objectSettingsSession.dispose();
+			objectSettingsSession = null;
+		}
+		panelAdapter.reset(false);
+		settingsTab = null;
 	}
 
 	@Override
@@ -177,7 +197,15 @@ public final class PropertiesViewW extends PropertiesView
 		}
 	}
 
+	private boolean isReloading() {
+		return kernel.getConstruction().isFileLoading()
+				|| kernel.getConstruction().getUndoManager().isReloading();
+	}
+
 	private void doUpdateSelection() {
+		if (isReloading() || kernel.getConstruction().isRemovingGeoToReplaceIt()) {
+			return;
+		}
 		List<GeoElement> showableElements = getShowableElements();
 		if (!showableElements.isEmpty() && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
@@ -193,7 +221,7 @@ public final class PropertiesViewW extends PropertiesView
 				setOptionPanel(OptionType.EUCLIDIAN_FOR_PLANE);
 			}
 		}
-		rebuildContent();
+		rebuildContent(showableElements);
 	}
 
 	private boolean isShowing() {
@@ -223,6 +251,9 @@ public final class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void setOptionPanel(OptionType type, int subType) {
+		if (type != OptionType.OBJECTS && objectSettingsSession != null) {
+			disposeProperties();
+		}
 		optionType = type;
 		onResize();
 		if (settingsTab != null) {
@@ -243,11 +274,13 @@ public final class PropertiesViewW extends PropertiesView
 	}
 
 	@Override
+	public void mouseReleasedForPropertiesView(boolean creatorMode) {
+		// Selection updates already choose the appropriate settings panel.
+	}
+
+	@Override
 	public void updateSelection(ArrayList<GeoElement> geos) {
-		if (!geos.isEmpty() && optionType != OptionType.OBJECTS) {
-			setOptionPanel(OptionType.OBJECTS);
-		}
-		rebuildContent();
+		updateSelection();
 	}
 
 	@Override
@@ -267,14 +300,14 @@ public final class PropertiesViewW extends PropertiesView
 	@Override
 	public void detachView() {
 		kernel.detach(this);
-		clearView();
+		disposeProperties();
 		app.getKernel().getAnimationManager().startAnimation();
 		setAttached(false);
 	}
 
 	@Override
 	public void updatePropertiesView() {
-		rebuildContent();
+		rebuildContent(getShowableElements());
 	}
 
 	/**
@@ -302,12 +335,12 @@ public final class PropertiesViewW extends PropertiesView
 		if (settingsTab != null) {
 			settingsTab.setLabels();
 		}
-		rebuildContent();
+		rebuildContent(getShowableElements());
 	}
 
 	@Override
 	public void updateStyleBar() {
-		rebuildContent();
+		rebuildContent(getShowableElements());
 	}
 
 	/**
@@ -388,40 +421,51 @@ public final class PropertiesViewW extends PropertiesView
 		// not needed
 	}
 
-	private void rebuildContent() {
-		List<GeoElement> showableGeos =
-				optionType == OptionType.OBJECTS ? getShowableElements() : List.of();
-		List<PropertiesArray> propLists;
-		String titleKey;
+	private void rebuildContent(List<GeoElement> selection) {
+		if ((!isShowing() && !isFloatingAttached()) || isReloading()) {
+			return;
+		}
+		List<GeoElement> showableGeos = optionType == OptionType.OBJECTS ? selection : List.of();
 		boolean isScientific = app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC;
 		boolean showObjectProperties = !showableGeos.isEmpty() && !isScientific;
-		if (showObjectProperties) {
-			GeoElementPropertiesFactory propertiesFactory =
-					((AppWFull) app).getGeoElementPropertiesFactory();
-			propLists = propertiesFactory.createProperties(
-					app.getKernel().getAlgebraProcessor(),
-					app.getLocalization(),
-					app.getImageManager(),
-					app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT),
-					showableGeos);
-			titleKey = showableGeos.size() == 1
-					? PropertyViewFactory.getObjectSettingsTitleKey(showableGeos.get(0))
-					: "Selection";
+		if (!showObjectProperties) {
+			if (objectSettingsSession != null) {
+				disposeProperties();
+			}
+			showContent(null);
+		} else if (objectSettingsSession != null
+				&& objectSettingsSession.getElements().equals(showableGeos)) {
+			objectSettingsSession.rebuild();
 		} else {
-			titleKey = "Settings";
-			propLists = app.getConfig()
-					.createPropertiesFactory()
-					.createProperties(app, app.getLocalization(), app.appScope.propertiesRegistry);
+			TabbedPageSelector previousTree =
+					objectSettingsSession != null ? objectSettingsSession.getTree().get() : null;
+			disposeProperties();
+			objectSettingsSession = new ObjectSettingsSession(app, showableGeos);
+			if (previousTree != null) {
+				PropertyViewFactory.restorePresentation(
+						previousTree, objectSettingsSession.getTree().get());
+			}
+			treeSubscription = objectSettingsSession.getTree().subscribe(this::showContent);
+			showContent(objectSettingsSession.getTree().get());
 		}
-		List<String> labels = showableGeos.stream().map(GeoElement::getLabelSimple).toList();
-		boolean keepViewState = settingsTab != null
-				&& objectPropertiesVisible == showObjectProperties
-				&& labels.equals(shownLabels);
+	}
+
+	private void showContent(@Nullable TabbedPageSelector tree) {
+		if ((!isShowing() && !isFloatingAttached()) || kernel.getConstruction().isFileLoading()) {
+			return;
+		}
+		String titleKey = "Settings";
+		if (objectSettingsSession != null) {
+			List<GeoElement> elements = objectSettingsSession.getElements();
+			titleKey = elements.size() == 1
+					? PropertyViewFactory.getObjectSettingsTitleKey(elements.get(0))
+					: "Selection";
+		}
+		boolean keepViewState = settingsTab != null;
 		int scrollTop =
 				keepViewState ? settingsTab.getSelectedTabPanel().getElement().getScrollTop() : 0;
 		int focusedWidget = keepViewState ? panelAdapter.getFocusedWidgetIndex() : -1;
-		rebuildTabs(propLists, showObjectProperties, keepViewState);
-		shownLabels = labels;
+		rebuildTabs(tree, keepViewState);
 		if (sideSheet == null) {
 			wrappedPanel.clear();
 			FlowPanel fixedPanel = new FlowPanel();
@@ -441,7 +485,6 @@ public final class PropertiesViewW extends PropertiesView
 			settingsTab.getSelectedTabPanel().getElement().setScrollTop(scrollTop);
 			panelAdapter.focusWidget(focusedWidget);
 		}
-		this.objectPropertiesVisible = showObjectProperties;
 	}
 
 	private void addEscapeHandler() {
@@ -452,39 +495,37 @@ public final class PropertiesViewW extends PropertiesView
 		});
 	}
 
-	private void rebuildTabs(
-			List<PropertiesArray> propLists, boolean showObjectProperties, boolean keepViewState) {
+	private void rebuildTabs(@Nullable TabbedPageSelector tree, boolean keepViewState) {
 		panelAdapter.reset(keepViewState);
 		ArrayList<TabData> tabs = new ArrayList<>();
-		for (PropertiesArray props : propLists) {
-			FlowPanel propertiesPanel = panelAdapter.buildPanel(props);
-			tabs.add(new TabData(props.getRawName(), propertiesPanel));
+		if (tree != null) {
+			for (int index = 0; index < tree.getTabTitles().size(); index++) {
+				FlowPanel propertiesPanel = new FlowPanel();
+				tree.getPageContents(index)
+						.forEach(view -> propertiesPanel.add(panelAdapter.getWidget(view)));
+				panelAdapter.addAccessibility(AccessibilityGroup.SETTINGS_ITEM);
+				tabs.add(new TabData(tree.getTabTitles().get(index), propertiesPanel));
+			}
+		} else {
+			for (PropertiesArray props : app.getConfig()
+					.createPropertiesFactory()
+					.createProperties(app, app.getLocalization(), app.appScope.propertiesRegistry)) {
+				FlowPanel propertiesPanel = panelAdapter.buildPanel(props);
+				tabs.add(new TabData(props.getRawName(), propertiesPanel));
+			}
 		}
-		int oldTab = -1;
-		boolean tabChanged = false;
-		if (settingsTab != null && objectPropertiesVisible && showObjectProperties) {
-			oldTab = settingsTab.getSelectedTabIdx();
-		} else if (optionType != OptionType.OBJECTS) {
-			oldTab = ComponentTab.indexOf(tabs, optionType.getName());
-			tabChanged = oldTab != -1
-					&& settingsTab != null
-					&& settingsTab.getSelectedTabIdx() != oldTab
-					&& !objectPropertiesVisible;
-		}
-		int initialTab = oldTab != -1 && oldTab < tabs.size() ? oldTab : 0;
-		settingsTab = new ComponentTab(
-				(AppW) app,
-				"Settings",
-				initialTab,
-				!keepViewState && tabChanged,
-				tabs.toArray(new TabData[0]));
-		if (!showObjectProperties) {
-			settingsTab.addTabChangedListener(idx -> {
-				if (optionType != OptionType.OBJECTS) {
-					optionType = OptionType.getByName(tabs.get(idx).getTabTitle());
-				}
-			});
-		}
+		int initialTab = tree != null
+				? tree.getSelectedTabIndex()
+				: Math.max(0, ComponentTab.indexOf(tabs, optionType.getName()));
+		settingsTab =
+				new ComponentTab((AppW) app, "Settings", initialTab, false, tabs.toArray(new TabData[0]));
+		settingsTab.addTabChangedListener(idx -> {
+			if (tree != null) {
+				tree.setSelectedTabIndex(idx);
+			} else if (optionType != OptionType.OBJECTS) {
+				optionType = OptionType.getByName(tabs.get(idx).getTabTitle());
+			}
+		});
 	}
 
 	private List<GeoElement> getShowableElements() {

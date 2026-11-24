@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
@@ -552,7 +553,10 @@ final class BoxPlotDataPropertyTests extends BaseAppTestSetup {
 	void registersBoxPlotDataProperties() throws NotApplicablePropertyException {
 		GeoElement boxPlot = evaluateGeoElement("BoxPlot(1, 2, {1, 2, 3})");
 		ChartDataPropertyCollection collection = new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(), getLocalization(), List.of(boxPlot));
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				List.of(boxPlot),
+				new ObjectSettingsSession.Context());
 
 		assertEquals(4, collection.getProperties().length);
 		assertInstanceOf(NamedEnumeratedProperty.class, collection.getProperties()[0]);
@@ -566,7 +570,10 @@ final class BoxPlotDataPropertyTests extends BaseAppTestSetup {
 		GeoElement first = evaluateGeoElement("BoxPlot(1, 2, {1, 2, 3}, false)");
 		GeoElement second = evaluateGeoElement("BoxPlot(3, 4, {4, 5, 6}, false)");
 		ChartDataPropertyCollection collection = new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(), getLocalization(), List.of(first, second));
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				List.of(first, second),
+				new ObjectSettingsSession.Context());
 		BooleanProperty showOutliersProperty = (BooleanProperty) collection.getProperties()[3];
 
 		showOutliersProperty.setValue(true);
@@ -581,7 +588,10 @@ final class BoxPlotDataPropertyTests extends BaseAppTestSetup {
 		GeoElement first = evaluateGeoElement("BoxPlot(1, 2, {1, 2, 3}, {2, 3, 4}, false)");
 		GeoElement second = evaluateGeoElement("BoxPlot(3, 4, {1, 2, 3}, {4, 3, 2}, false)");
 		ChartDataPropertyCollection collection = new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(), getLocalization(), List.of(first, second));
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				List.of(first, second),
+				new ObjectSettingsSession.Context());
 		NamedEnumeratedProperty<BoxPlotInputType> inputTypeProperty =
 				(NamedEnumeratedProperty<BoxPlotInputType>) collection.getProperties()[0];
 
@@ -592,8 +602,25 @@ final class BoxPlotDataPropertyTests extends BaseAppTestSetup {
 		assertEquals("BoxPlot(3, 4, {1, 2, 3}, {4, 3, 2}, false)", definition(second.getLabelSimple()));
 	}
 
+	@Test
+	void reconstructedPropertiesRestoreFrequenciesInCommand() throws NotApplicablePropertyException {
+		GeoElement boxPlot = evaluateGeoElement("b = BoxPlot(1, 2, {1, 2, 3}, {2, 3, 4}, false)");
+		ObjectSettingsSession.Context context = new ObjectSettingsSession.Context();
+		BoxPlotDataPropertyFactory factory =
+				new BoxPlotDataPropertyFactory(getLocalization(), List.of(boxPlot), context);
+		factory.createInputTypeProperty(boxPlot).setValue(RAW_DATA);
+		GeoElement replacement = lookup("b");
+		context.replace(boxPlot, replacement);
+		BoxPlotDataPropertyFactory reconstructed =
+				new BoxPlotDataPropertyFactory(getLocalization(), List.of(replacement), context);
+		reconstructed.createInputTypeProperty(replacement).setValue(FREQUENCIES);
+
+		assertEquals("BoxPlot(1, 2, {1, 2, 3}, {2, 3, 4}, false)", definition("b"));
+	}
+
 	private BoxPlotDataPropertyFactory createPropertyFactory(GeoElement... elements) {
-		return new BoxPlotDataPropertyFactory(getLocalization(), List.of(elements));
+		return new BoxPlotDataPropertyFactory(
+				getLocalization(), List.of(elements), new ObjectSettingsSession.Context());
 	}
 
 	private String definition(String label) {

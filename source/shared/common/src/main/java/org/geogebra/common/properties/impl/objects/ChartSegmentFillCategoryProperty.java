@@ -18,8 +18,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import static java.util.Map.entry;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.ChartStyleGeo;
@@ -37,27 +35,28 @@ public final class ChartSegmentFillCategoryProperty
 		extends AbstractNamedEnumeratedProperty<FillCategory>
 		implements ChartSegmentSelectionDependentProperty {
 	private final ChartStyleGeo chartStyleGeo;
-	private final ChartSegmentSelection chartSegmentSelection;
-	private final List<FillType> previousPatternFillTypes;
+	private final ElementSettingsData elementSettingsData;
 
 	/**
 	 * Constructs the property.
 	 * @param localization localization for translating property names
 	 * @param geoElement the element to create the property for
-	 * @param chartSegmentSelection the selection from which to read the selected bar/slice index
+	 * @param elementSettingsData temporary data retained by the settings context
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
 	public ChartSegmentFillCategoryProperty(
-			Localization localization, GeoElement geoElement, ChartSegmentSelection chartSegmentSelection)
+			Localization localization, GeoElement geoElement, ElementSettingsData elementSettingsData)
 			throws NotApplicablePropertyException {
 		super(localization, "");
 		if (!(geoElement instanceof ChartStyleGeo chartStyleGeo)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.chartStyleGeo = chartStyleGeo;
-		this.chartSegmentSelection = chartSegmentSelection;
-		this.previousPatternFillTypes =
-				new ArrayList<>(Collections.nCopies(chartStyleGeo.getIntervals(), FillType.STANDARD));
+		this.elementSettingsData = elementSettingsData;
+		elementSettingsData
+				.previousSegmentPatterns
+				.keySet()
+				.removeIf(index -> index > chartStyleGeo.getIntervals());
 		setNamedValues(List.of(
 				entry(FillCategory.PATTERN, "Filling.Pattern"),
 				entry(FillCategory.SYMBOL, "Filling.Symbol"),
@@ -66,7 +65,7 @@ public final class ChartSegmentFillCategoryProperty
 
 	@Override
 	protected void doSetValue(FillCategory fillCategory) {
-		chartSegmentSelection.forEachSelectedSegment(
+		elementSettingsData.fillingSelection.forEachSelectedSegment(
 				chartStyleGeo.getIntervals(), index -> setFillCategory(index, fillCategory));
 		((GeoElement) chartStyleGeo).updateVisualStyleRepaint(GProperty.HATCHING);
 	}
@@ -75,21 +74,22 @@ public final class ChartSegmentFillCategoryProperty
 		FillType previousFillType = chartStyleGeo.getStyle().getBarFillType(index);
 		FillCategory previousFillCategory = FillCategory.fromFillType(previousFillType);
 		if (previousFillCategory == FillCategory.PATTERN) {
-			previousPatternFillTypes.set(index - 1, previousFillType);
+			elementSettingsData.previousSegmentPatterns.put(index, previousFillType);
 		}
-		FillType newFillType = newFillCategory.toFillType(previousPatternFillTypes.get(index - 1));
+		FillType newFillType = newFillCategory.toFillType(
+				elementSettingsData.previousSegmentPatterns.getOrDefault(index, FillType.STANDARD));
 		chartStyleGeo.getStyle().setBarFillType(newFillType, index);
 	}
 
 	@Override
 	public FillCategory getValue() {
-		return chartSegmentSelection.getUniformValueOrNull(
+		return elementSettingsData.fillingSelection.getUniformValueOrNull(
 				chartStyleGeo.getIntervals(),
 				index -> FillCategory.fromFillType(chartStyleGeo.getStyle().getBarFillType(index)));
 	}
 
 	@Override
 	public ChartSegmentSelection getChartSegmentSelection() {
-		return chartSegmentSelection;
+		return elementSettingsData.fillingSelection;
 	}
 }

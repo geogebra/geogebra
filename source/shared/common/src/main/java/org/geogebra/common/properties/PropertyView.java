@@ -180,7 +180,6 @@ public abstract class PropertyView {
 	public abstract static class PropertyBackedView<T extends Property> extends PropertyView
 			implements PropertyValueObserver<Object>,
 					EuclidianView3DInterface.Listener,
-					GeoElementDependentProperty.RedefinitionObserver,
 					ProbabilityCalculatorView.Listener,
 					ValueFilter.Observer,
 					ChartSegmentSelection.Listener,
@@ -190,9 +189,9 @@ public abstract class PropertyView {
 					EuclidianViewInterfaceCommon.DimensionListener {
 		protected final @NonNull T property;
 		private boolean previousAvailability;
-		private @Nullable List<GeoElement> dependentGeoElements;
-		private @Nullable List<ChartSegmentSelectionDependentProperty>
-				chartSelectionDependentProperties;
+		private List<GeoElement> dependentGeoElements = List.of();
+		private List<ChartSegmentSelectionDependentProperty> chartSelectionDependentProperties =
+				List.of();
 
 		protected PropertyBackedView(@NonNull T property) {
 			this.property = property;
@@ -222,14 +221,8 @@ public abstract class PropertyView {
 						.map(p -> (GeoElementDependentProperty) p)
 						.map(GeoElementDependentProperty::getGeoElement)
 						.collect(Collectors.toList());
-				properties.stream()
-						.filter(p -> p instanceof GeoElementDependentProperty)
-						.map(p -> (GeoElementDependentProperty) p)
-						.forEach(p -> p.addRedefinitionObserver(this));
-				if (dependentGeoElements != null) {
-					dependentGeoElements.forEach(
-							element -> element.getApp().getEventDispatcher().addEventListener(this));
-				}
+				dependentGeoElements.forEach(
+						element -> element.getApp().getEventDispatcher().addEventListener(this));
 			}
 			if (property instanceof ValuedProperty<?> valuedProperty) {
 				valuedProperty.addValueObserver(this);
@@ -258,32 +251,18 @@ public abstract class PropertyView {
 			if (property instanceof EuclidianViewDimensionDependentProperty dependentProperty) {
 				dependentProperty.getEuclidianView().removeDimensionListener(this);
 			}
-			if (chartSelectionDependentProperties != null) {
-				chartSelectionDependentProperties.forEach(dependentProperty ->
-						dependentProperty.getChartSegmentSelection().unregisterListener(this));
-			}
-			if (dependentGeoElements != null) {
-				dependentGeoElements.forEach(
-						element -> element.getApp().getEventDispatcher().removeEventListener(this));
-				dependentGeoElements = null;
-			}
+			chartSelectionDependentProperties.forEach(dependentProperty ->
+					dependentProperty.getChartSegmentSelection().unregisterListener(this));
+			chartSelectionDependentProperties = List.of();
+			dependentGeoElements.forEach(
+					element -> element.getApp().getEventDispatcher().removeEventListener(this));
+			dependentGeoElements = List.of();
 			if (property instanceof ValuedProperty<?> valuedProperty) {
 				valuedProperty.removeValueObserver(this);
 			}
 			if (property instanceof AbstractEnumeratedProperty<?> abstractEnumeratedProperty) {
 				abstractEnumeratedProperty.removeValueFilterObserver(this);
 			}
-		}
-
-		@Override
-		public void onGeoElementRedefined(
-				@NonNull GeoElement originalElement, @NonNull GeoElement newElement) {
-			if (dependentGeoElements == null) {
-				return;
-			}
-			dependentGeoElements.remove(originalElement);
-			dependentGeoElements.add(newElement);
-			notifyUpdateDelegates();
 		}
 
 		@Override
@@ -344,7 +323,7 @@ public abstract class PropertyView {
 
 		@Override
 		public void sendEvent(Event evt) {
-			if (dependentGeoElements != null && dependentGeoElements.contains(evt.target)) {
+			if (dependentGeoElements.contains(evt.target)) {
 				if (evt.type == EventType.UPDATE || evt.type == EventType.UPDATE_STYLE) {
 					updatePropertyViewValues();
 					notifyUpdateDelegates();
@@ -951,10 +930,12 @@ public abstract class PropertyView {
 	 * Representation of an expandable list with a title, an optional checkbox,
 	 * and a dropdown button that expands the item to show other {@code PropertyView}s.
 	 */
-	public static final class ExpandableList extends PropertyView {
+	public static final class ExpandableList extends PropertyView
+			implements ConfigurationUpdateDelegate {
 		private final PropertyCollection<?> propertyCollection;
 		private final List<PropertyView> propertyViews;
 		private final @Nullable Checkbox checkbox;
+		private boolean expanded;
 		OrdinalPosition ordinalPosition = OrdinalPosition.Alone;
 
 		/**
@@ -974,6 +955,9 @@ public abstract class PropertyView {
 			this.checkbox = propertyCollection instanceof PropertyCollectionWithLead
 					? new Checkbox(((PropertyCollectionWithLead) propertyCollection).leadProperty)
 					: null;
+			if (checkbox != null) {
+				checkbox.setConfigurationUpdateDelegate(this);
+			}
 		}
 
 		/**
@@ -988,6 +972,43 @@ public abstract class PropertyView {
 		 */
 		public @NonNull String getTitle() {
 			return propertyCollection.getName();
+		}
+
+		/** @return whether the group is expanded */
+		public boolean isExpanded() {
+			return expanded;
+		}
+
+		/**
+		 * Expands or collapses the group without changing the checkbox.
+		 * @param expanded whether the group should be expanded
+		 */
+		public void setExpanded(boolean expanded) {
+			if (this.expanded == expanded) {
+				return;
+			}
+			this.expanded = expanded;
+			if (configurationUpdateDelegate != null) {
+				configurationUpdateDelegate.configurationUpdated();
+			}
+		}
+
+		/** Handles a header tap, selecting the checkbox when opening the group. */
+		public void onExpandPressed() {
+			setExpanded(!expanded);
+			if (expanded && checkbox != null && !checkbox.isSelected()) {
+				checkbox.setSelected(true);
+			}
+		}
+
+		@Override
+		public void configurationUpdated() {
+			if (checkbox != null && !checkbox.isSelected()) {
+				expanded = false;
+			}
+			if (configurationUpdateDelegate != null) {
+				configurationUpdateDelegate.configurationUpdated();
+			}
 		}
 
 		/**
@@ -1521,6 +1542,12 @@ public abstract class PropertyView {
 		 */
 		public List<SingleSelectionIconRow> getIconRowList() {
 			return iconRowList;
+		}
+
+		@Override
+		public void detach() {
+			super.detach();
+			iconRowList.forEach(PropertyView::detach);
 		}
 	}
 

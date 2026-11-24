@@ -18,9 +18,14 @@ package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.ObjectSettingsSession;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
@@ -30,7 +35,8 @@ class FillCategoryPropertyTest extends BaseAppTestSetup {
 	void testFillCategoryRemembersPreviousFillType() throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement("Circle((0,0),10)");
-		FillCategoryProperty property = new FillCategoryProperty(getLocalization(), element);
+		FillCategoryProperty property =
+				new FillCategoryProperty(getLocalization(), element, new ElementSettingsData());
 
 		assertEquals(FillType.STANDARD, element.getFillType());
 
@@ -46,7 +52,8 @@ class FillCategoryPropertyTest extends BaseAppTestSetup {
 	void testCategoryMatchesFillType() throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement("Circle((0,0),10)");
-		FillCategoryProperty property = new FillCategoryProperty(getLocalization(), element);
+		FillCategoryProperty property =
+				new FillCategoryProperty(getLocalization(), element, new ElementSettingsData());
 
 		assertEquals(FillCategory.PATTERN, property.getValue());
 
@@ -64,11 +71,40 @@ class FillCategoryPropertyTest extends BaseAppTestSetup {
 	void testListRoundTrip() throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement list = evaluateGeoElement("{Circle((0,0),1), Circle((1,1),2)}");
-		FillCategoryProperty property = new FillCategoryProperty(getLocalization(), list);
+		FillCategoryProperty property =
+				new FillCategoryProperty(getLocalization(), list, new ElementSettingsData());
 
 		list.setFillType(FillType.DOTTED);
 		property.setValue(FillCategory.SYMBOL);
 		assertEquals(FillType.SYMBOLS, list.getFillType());
 		assertEquals(FillCategory.SYMBOL, property.getValue());
+	}
+
+	@Test
+	void reconstructedPropertiesRestoreEachSelectedElementsPattern()
+			throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoElement first = evaluateGeoElement("Circle((0, 0), 1)");
+		GeoElement second = evaluateGeoElement("Circle((2, 0), 1)");
+		first.setFillType(FillType.DOTTED);
+		second.setFillType(FillType.BRICK);
+		ObjectSettingsSession.Context context = new ObjectSettingsSession.Context();
+		FillingPropertyCollection filling = new FillingPropertyCollection(
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				getApp().getImageManager(),
+				List.of(first, second),
+				context);
+		((NamedEnumeratedProperty<?>) filling.getProperties()[1]).setIndex(1);
+		FillingPropertyCollection reconstructed = new FillingPropertyCollection(
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				getApp().getImageManager(),
+				List.of(first, second),
+				context);
+		((NamedEnumeratedProperty<?>) reconstructed.getProperties()[1]).setIndex(0);
+
+		assertEquals(FillType.DOTTED, first.getFillType());
+		assertEquals(FillType.BRICK, second.getFillType());
 	}
 }

@@ -29,8 +29,8 @@ class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
 	@Test
 	void testPointScriptEvents() {
 		setupApp(SuiteSubApp.GRAPHING);
-		ScriptEventSelectionProperty property =
-				new ScriptEventSelectionProperty(getLocalization(), evaluateGeoElement("A = (1, 2)"), true);
+		ScriptEventSelectionProperty property = new ScriptEventSelectionProperty(
+				getLocalization(), evaluateGeoElement("A = (1, 2)"), true, new ElementSettingsData());
 		assertArrayEquals(
 				new String[] {"OnClick", "OnUpdate", "OnDragEnd", "GlobalJavaScript"},
 				property.getValueNames());
@@ -40,15 +40,15 @@ class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
 	void testPointScriptEventsWithJavascriptDisabled() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptEventSelectionProperty property = new ScriptEventSelectionProperty(
-				getLocalization(), evaluateGeoElement("A = (1, 2)"), false);
+				getLocalization(), evaluateGeoElement("A = (1, 2)"), false, new ElementSettingsData());
 		assertArrayEquals(new String[] {"OnClick", "OnUpdate", "OnDragEnd"}, property.getValueNames());
 	}
 
 	@Test
 	void testInputBoxScriptEvents() {
 		setupApp(SuiteSubApp.GRAPHING);
-		ScriptEventSelectionProperty property =
-				new ScriptEventSelectionProperty(getLocalization(), evaluateGeoElement("InputBox()"), true);
+		ScriptEventSelectionProperty property = new ScriptEventSelectionProperty(
+				getLocalization(), evaluateGeoElement("InputBox()"), true, new ElementSettingsData());
 		assertArrayEquals(
 				new String[] {"OnClick", "OnUpdate", "OnChange", "GlobalJavaScript"},
 				property.getValueNames());
@@ -57,16 +57,16 @@ class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
 	@Test
 	void testCheckboxScriptEvents() {
 		setupApp(SuiteSubApp.GRAPHING);
-		ScriptEventSelectionProperty property =
-				new ScriptEventSelectionProperty(getLocalization(), evaluateGeoElement("b = true"), true);
+		ScriptEventSelectionProperty property = new ScriptEventSelectionProperty(
+				getLocalization(), evaluateGeoElement("b = true"), true, new ElementSettingsData());
 		assertArrayEquals(new String[] {"OnUpdate", "GlobalJavaScript"}, property.getValueNames());
 	}
 
 	@Test
 	void testChangingSelection() {
 		setupApp(SuiteSubApp.GRAPHING);
-		ScriptEventSelectionProperty property =
-				new ScriptEventSelectionProperty(getLocalization(), evaluateGeoElement("A = (1, 2)"), true);
+		ScriptEventSelectionProperty property = new ScriptEventSelectionProperty(
+				getLocalization(), evaluateGeoElement("A = (1, 2)"), true, new ElementSettingsData());
 		assertEquals(ScriptEvent.OnClick, property.getValue());
 
 		property.setIndex(1);
@@ -84,7 +84,7 @@ class ScriptEventSelectionPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement list = evaluateGeoElement("{(1,2),(3,4)}");
 		ScriptEventSelectionProperty property =
-				new ScriptEventSelectionProperty(getLocalization(), list, true);
+				new ScriptEventSelectionProperty(getLocalization(), list, true, new ElementSettingsData());
 		property.setValue(ScriptEvent.GlobalJavascript);
 		assertEquals(ScriptEvent.GlobalJavascript, property.getValue());
 	}

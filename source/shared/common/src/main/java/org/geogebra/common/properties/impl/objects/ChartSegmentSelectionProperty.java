@@ -33,7 +33,8 @@ import org.jspecify.annotations.NonNull;
  * {@code Property} responsible for selecting a bar or a slice for a bar chart or pie chart
  * respectively (to be used for independent settings).
  */
-public class ChartSegmentSelectionProperty extends AbstractNamedEnumeratedProperty<Integer> {
+public class ChartSegmentSelectionProperty extends AbstractNamedEnumeratedProperty<Integer>
+		implements GeoElementDependentProperty {
 	private final GeoElement geoElement;
 	private final ChartSegmentSelection chartSegmentSelection;
 
@@ -80,6 +81,12 @@ public class ChartSegmentSelectionProperty extends AbstractNamedEnumeratedProper
 
 	@Override
 	public Integer getValue() {
+		chartSegmentSelection.resetInvalidIndex(((ChartStyleGeo) geoElement).getIntervals());
 		return chartSegmentSelection.getIndex();
+	}
+
+	@Override
+	public @NonNull GeoElement getGeoElement() {
+		return geoElement;
 	}
 }

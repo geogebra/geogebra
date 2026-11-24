@@ -31,6 +31,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.BarChartDataPropertyFactory.BarChartInputType;
@@ -136,7 +137,10 @@ final class BarChartDataPropertyTests extends BaseAppTestSetup {
 	void supportsSequenceBasedHeights(String command) throws NotApplicablePropertyException {
 		GeoElement barChart = evaluateGeoElement(command);
 		ChartDataPropertyCollection collection = new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(), getLocalization(), List.of(barChart));
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				List.of(barChart),
+				new ObjectSettingsSession.Context());
 
 		NamedEnumeratedProperty<BarChartInputType> inputTypeProperty =
 				createPropertyFactory(barChart).createInputTypeProperty(barChart);
@@ -522,7 +526,10 @@ final class BarChartDataPropertyTests extends BaseAppTestSetup {
 		GeoElement first = evaluateGeoElement("BarChart({1, 2, 3}, {2, 3, 4})");
 		GeoElement second = evaluateGeoElement("BarChart({1, 2, 3}, {4, 3, 2})");
 		ChartDataPropertyCollection collection = new ChartDataPropertyCollection(
-				new GeoElementPropertiesFactory(), getLocalization(), List.of(first, second));
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				List.of(first, second),
+				new ObjectSettingsSession.Context());
 		NamedEnumeratedProperty<BarChartInputType> inputTypeProperty =
 				(NamedEnumeratedProperty<BarChartInputType>) collection.getProperties()[0];
 
@@ -533,8 +540,32 @@ final class BarChartDataPropertyTests extends BaseAppTestSetup {
 		assertEquals("BarChart({1, 2, 3}, {4, 3, 2}, 1)", definition(second.getLabelSimple()));
 	}
 
+	@ParameterizedTest
+	@CsvSource(
+			delimiterString = "->",
+			value = {
+				"'BarChart({1, 2, 3}, {2, 3, 4}, 1)' -> FREQUENCIES",
+				"'BarChart(-2, 8, {1, 2, 3})' -> HEIGHTS"
+			})
+	void reconstructedPropertiesRestoreOriginalMode(String command, BarChartInputType inputType)
+			throws NotApplicablePropertyException {
+		GeoElement barChart = evaluateGeoElement("b = " + command);
+		ObjectSettingsSession.Context context = new ObjectSettingsSession.Context();
+		BarChartDataPropertyFactory factory =
+				new BarChartDataPropertyFactory(getLocalization(), List.of(barChart), context);
+		factory.createInputTypeProperty(barChart).setValue(RAW_DATA);
+		GeoElement replacement = lookup("b");
+		context.replace(barChart, replacement);
+		BarChartDataPropertyFactory reconstructed =
+				new BarChartDataPropertyFactory(getLocalization(), List.of(replacement), context);
+		reconstructed.createInputTypeProperty(replacement).setValue(inputType);
+
+		assertEquals(command, definition("b"));
+	}
+
 	private BarChartDataPropertyFactory createPropertyFactory(GeoElement... elements) {
-		return new BarChartDataPropertyFactory(getLocalization(), List.of(elements));
+		return new BarChartDataPropertyFactory(
+				getLocalization(), List.of(elements), new ObjectSettingsSession.Context());
 	}
 
 	private String definition(String label) {

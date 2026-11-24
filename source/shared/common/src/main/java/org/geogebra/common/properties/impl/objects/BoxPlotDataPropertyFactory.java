@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.ObjectSettingsSession;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
@@ -51,13 +52,15 @@ final class BoxPlotDataPropertyFactory
 	}
 
 	BoxPlotDataPropertyFactory(
-			@NonNull Localization localization, @NonNull List<GeoElement> elements) {
+			@NonNull Localization localization,
+			@NonNull List<GeoElement> elements,
+			ObjectSettingsSession.@NonNull Context context) {
 		super(localization);
 		for (GeoElement element : elements) {
 			if (element instanceof GeoNumeric boxPlot
 					&& boxPlot.getParentAlgorithm() instanceof AlgoBoxPlot algorithm
 					&& hasSupportedInput(algorithm)) {
-				controllers.put(element, new Controller<>(boxPlot, new BoxPlotData()));
+				controllers.put(element, new Controller<>(boxPlot, context.forElement(element).boxPlot));
 			}
 		}
 	}
@@ -168,11 +171,6 @@ final class BoxPlotDataPropertyFactory
 		@Override
 		public @NonNull GeoElement getGeoElement() {
 			return controller.getGeoElement();
-		}
-
-		@Override
-		public void addRedefinitionObserver(@NonNull RedefinitionObserver observer) {
-			controller.addRedefinitionObserver(observer);
 		}
 	}
 
