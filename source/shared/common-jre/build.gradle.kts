@@ -18,6 +18,7 @@ dependencies {
     implementation(project(":editor-base"))
 
     testImplementation(project(":ggbjdk"))
+    testImplementation(project(":keyboard-base"))
     testImplementation(libs.hamcrest)
     testImplementation(libs.mockito.core)
 

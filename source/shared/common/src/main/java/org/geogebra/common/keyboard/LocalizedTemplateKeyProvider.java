@@ -16,8 +16,12 @@
 
 package org.geogebra.common.keyboard;
 
+import org.geogebra.common.contextmenu.MathTemplateContextMenuItem;
 import org.geogebra.common.main.App;
+import org.geogebra.editor.share.catalog.Tag;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
 import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
+import org.jspecify.annotations.NonNull;
 
 public class LocalizedTemplateKeyProvider implements TemplateKeyProvider {
 
@@ -43,5 +47,19 @@ public class LocalizedTemplateKeyProvider implements TemplateKeyProvider {
 	public String getMatrixFunction() {
 		int dimension = app.getActiveEuclidianView().getDimension();
 		return "$matrix:" + dimension + ":" + dimension;
+	}
+
+	/**
+	 * @param item math template menu item
+	 * @return input that makes the formula editor insert the template; to be passed to
+	 * {@link KeyboardInputAdapter#onKeyboardInput}, like the input of a virtual keyboard key
+	 */
+	public @NonNull String getEditorInput(@NonNull MathTemplateContextMenuItem item) {
+		return switch (item) {
+			case Vector -> getVectorFunction();
+			case Matrix -> getMatrixFunction();
+			case Integral -> "Integral";
+			case PiecewiseFunction -> Tag.PIECEWISE.getKey();
+		};
 	}
 }

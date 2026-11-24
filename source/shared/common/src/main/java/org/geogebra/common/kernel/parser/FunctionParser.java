@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.arithmetic.PiecewiseEditorTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -169,6 +170,9 @@ public class FunctionParser {
 		ExpressionNode point = checkPointFunctions(funcName, myList, topLevelExpression);
 		if (point != null) {
 			return point;
+		}
+		if (PiecewiseEditorTemplate.isPiecewise(funcName)) {
+			return PiecewiseEditorTemplate.parse(kernel, myList);
 		}
 		boolean forceCommand = cimage.charAt(cimage.length() - 1) == '[';
 		// f(t)=t(t+1)

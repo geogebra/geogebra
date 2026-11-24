@@ -24,6 +24,7 @@ import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.contextmenu.InputContextMenuItem;
 import org.geogebra.common.contextmenu.MathTemplateContextMenuItem;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.keyboard.LocalizedTemplateKeyProvider;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
@@ -112,13 +113,9 @@ public final class ContextMenuAVPlus implements SetLabels {
 	}
 
 	private void execute(MathTemplateContextMenuItem subMenuItem) {
-		String input = "";
-		switch (subMenuItem) {
-			case Matrix -> input = app.getTemplateKeyProvider().getMatrixFunction();
-			case Vector -> input = app.getTemplateKeyProvider().getVectorFunction();
-			case Integral -> input = loc.getFunction("Integral");
-		}
-		KeyboardInputAdapter.onKeyboardInput(item.getMathField().getInternal(), input);
+		KeyboardInputAdapter.onKeyboardInput(
+				item.getMathField().getInternal(),
+				new LocalizedTemplateKeyProvider(app).getEditorInput(subMenuItem));
 		item.setFocus(true);
 	}
 

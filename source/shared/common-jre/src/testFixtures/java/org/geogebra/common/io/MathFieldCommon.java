@@ -35,6 +35,7 @@ public class MathFieldCommon implements MathField {
 
 	private final TemplateCatalog catalog;
 	private final MathFieldInternal internal;
+	private TeXIcon icon;
 
 	/**
 	 * @param adapter syntax adapter
@@ -48,7 +49,14 @@ public class MathFieldCommon implements MathField {
 
 	@Override
 	public void setTeXIcon(TeXIcon icon) {
-		// stub
+		this.icon = icon;
+	}
+
+	/**
+	 * @return the formula as last rendered
+	 */
+	public TeXIcon getTeXIcon() {
+		return icon;
 	}
 
 	@Override

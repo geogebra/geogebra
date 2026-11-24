@@ -30,14 +30,19 @@ import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.DataTest;
 import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.event.dom.client.BlurEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
+
+import elemental2.dom.FocusEvent;
+import jsinterop.base.Js;
 
 public class LaTeXTreeItem extends RadioTreeItem {
 
 	private MathFieldW mf;
 	private MatrixResizePopup resizePopup;
+	private PiecewiseButtons piecewiseButtons;
 
 	public LaTeXTreeItem(Kernel kernel, AlgebraViewW av) {
 		super(kernel, av);
@@ -103,6 +108,7 @@ public class LaTeXTreeItem extends RadioTreeItem {
 				getLatexController(),
 				app.getEditorFeatures());
 		mf.getInternal().getInputController().setCommandSyntaxLookup(new CommandSyntaxLookupImpl(app));
+		mf.getInternal().setLocalization(loc);
 		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
@@ -111,19 +117,31 @@ public class LaTeXTreeItem extends RadioTreeItem {
 		styleContentIfMatrix(mf.getInternal());
 		resizePopup = new MatrixResizePopup(matrixResizeController, mf, app, this::onKeyTyped);
 		matrixResizeController.addListener(resizePopup);
+		piecewiseButtons = new PiecewiseButtons(mf, latexItem, loc, () -> onEditorBlur(null));
 		mf.setFontSize(getFontSize());
 		mf.getInternal().registerMathFieldInternalListener(syntaxController);
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setOnBlur((blurEvent) -> {
-			toastController.hide();
-			resizePopup.hide();
-			controller.onBlur(blurEvent);
+			// editing goes on while a button of a piecewise function has the focus
+			if (blurEvent == null
+					|| !piecewiseButtons.isButton(
+							Js.<FocusEvent>uncheckedCast(blurEvent.getNativeEvent()).relatedTarget)) {
+				onEditorBlur(blurEvent);
+			}
 		});
 		mf.setOnFocus(focusEvent -> {
 			setFocusedStyle(true, false);
 			mf.getInternal().getMatrixResizeController().addListener(resizePopup);
+			piecewiseButtons.attach();
 			updateAriaLabel();
 		});
+	}
+
+	private void onEditorBlur(BlurEvent blurEvent) {
+		toastController.hide();
+		resizePopup.hide();
+		piecewiseButtons.detach();
+		controller.onBlur(blurEvent);
 	}
 
 	private void styleContentIfMatrix(MathFieldInternal mathFieldInternal) {
@@ -194,6 +212,9 @@ public class LaTeXTreeItem extends RadioTreeItem {
 		}
 		if (resizePopup != null) {
 			resizePopup.hide();
+		}
+		if (piecewiseButtons != null) {
+			piecewiseButtons.detach();
 		}
 	}
 

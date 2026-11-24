@@ -17,6 +17,7 @@
 package org.geogebra.editor.share.serializer;
 
 import org.geogebra.editor.share.catalog.Tag;
+import org.geogebra.editor.share.editor.EditorLocalization;
 import org.geogebra.editor.share.editor.SyntaxAdapter;
 import org.geogebra.editor.share.tree.ArrayNode;
 import org.geogebra.editor.share.tree.CharPlaceholderNode;
@@ -27,7 +28,9 @@ import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.IntegralHelper;
+import org.geogebra.editor.share.util.PiecewiseHelper;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Serializes internal format into TeX format.
@@ -46,9 +49,25 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String cursor = "\\jlmcursor{0}";
 	private static final String cursorBig = "\\jlmcursor{0.9}";
 
+	// Piecewise function layout in em; shared with TeXBuilder, which has to lay out the cases
+	// in exactly the same way for pointer positions to map to the right cursor position.
+	// 21 pixels at the default font size, centered on the math axis; with the gap that arrays
+	// leave between rows, cases are 28 pixels apart
+	static final double PIECEWISE_ROW_HEIGHT = 1.3125;
+	static final double PIECEWISE_ROW_DEPTH = 0.40625;
+	// buttons are 24 pixels high and, without label, as wide
+	static final double PIECEWISE_BUTTON_SIZE = 1.5;
+	static final double PIECEWISE_EXPRESSION_INDENT = 0.25;
+	static final double PIECEWISE_SEPARATOR_INDENT = 0.25;
+	static final double PIECEWISE_CONDITION_INDENT = -0.625;
+	static final double PIECEWISE_REMOVE_BUTTON_INDENT = -0.75;
+	// labels are 14 pixels high at the default font size
+	private static final double PIECEWISE_LABEL_SCALE = 14 / 16.0;
+
 	private boolean showPlaceholder = true;
 	private boolean lineBreakEnabled = false;
 	private boolean useSimplePlaceholders = false;
+	private @Nullable EditorLocalization localization;
 
 	private SyntaxAdapter syntaxAdapter;
 
@@ -298,6 +317,9 @@ public class TeXSerializer extends SerializerAdapter {
 			case INTEGRAL, N_INTEGRAL, INTEGRAL_SYMBOLIC:
 				serializeIntegral(function, stringBuilder);
 				break;
+			case PIECEWISE:
+				serializePiecewise(function, stringBuilder);
+				break;
 			case LIM_EQ:
 				stringBuilder.append("\\lim_{");
 				serialize(function.getChild(0), stringBuilder);
@@ -445,6 +467,78 @@ public class TeXSerializer extends SerializerAdapter {
 			return;
 		}
 		serialize(field, stringBuilder);
+	}
+
+	/**
+	 * Cases beneath a brace, with expressions and conditions in aligned columns. Of the space
+	 * that TeXBuilder leaves for buttons only the column to the right of the cases matters
+	 * here; the space below does not move anything else.
+	 */
+	private void serializePiecewise(FunctionNode piecewise, StringBuilder stringBuilder) {
+		stringBuilder.append("\\left\\{\\begin{array}{lllr}");
+		int caseCount = PiecewiseHelper.getCaseCount(piecewise);
+		for (int i = 0; i < caseCount; i++) {
+			stringBuilder
+					.append("\\rule[-")
+					.append(PIECEWISE_ROW_DEPTH)
+					.append("em]{0em}{")
+					.append(PIECEWISE_ROW_HEIGHT)
+					.append("em}");
+			appendHorizontalSpace(PIECEWISE_EXPRESSION_INDENT, stringBuilder);
+			serializeIntegralField(PiecewiseHelper.getExpression(piecewise, i), stringBuilder);
+			stringBuilder.append('&');
+			appendHorizontalSpace(PIECEWISE_SEPARATOR_INDENT, stringBuilder);
+			stringBuilder.append(":&");
+			appendHorizontalSpace(PIECEWISE_CONDITION_INDENT, stringBuilder);
+			serializePiecewiseCondition(PiecewiseHelper.getCondition(piecewise, i), stringBuilder);
+			stringBuilder.append('&');
+			appendHorizontalSpace(PIECEWISE_REMOVE_BUTTON_INDENT + PIECEWISE_BUTTON_SIZE, stringBuilder);
+			if (i + 1 < caseCount) {
+				stringBuilder.append("\\\\");
+			}
+		}
+		stringBuilder.append("\\end{array}\\right.");
+	}
+
+	private void serializePiecewiseCondition(SequenceNode condition, StringBuilder stringBuilder) {
+		if (!PiecewiseHelper.isOtherwise(condition)) {
+			serializeIntegralField(condition, stringBuilder);
+			return;
+		}
+		// The cursor takes the place of the "otherwise" label, but the zone keeps its width.
+		if (condition == mCurrentField && currentSelStart == null) {
+			stringBuilder.append(cursorBig);
+		}
+		stringBuilder
+				.append("\\phantom{")
+				.append(getPiecewiseLabelTeX(getPiecewiseOtherwiseLabel(localization), true))
+				.append('}');
+	}
+
+	/**
+	 * @param localization localization of labels, if available
+	 * @return placeholder for the empty condition of the final case of a piecewise function
+	 */
+	static String getPiecewiseOtherwiseLabel(@Nullable EditorLocalization localization) {
+		return localization == null
+				? "otherwise"
+				: localization.getMenuDefault("otherwise", "otherwise");
+	}
+
+	/**
+	 * @param label text
+	 * @param italic whether to use italics
+	 * @return TeX for a label shown as part of a piecewise function
+	 */
+	static String getPiecewiseLabelTeX(String label, boolean italic) {
+		return "\\scalebox{" + PIECEWISE_LABEL_SCALE + "}{"
+				+ (italic ? "\\textit{" : "\\text{")
+				+ TeXEscaper.escapeStringTextMode(label)
+				+ "}}";
+	}
+
+	private void appendHorizontalSpace(double em, StringBuilder stringBuilder) {
+		stringBuilder.append("\\hspace{").append(em).append("em}");
 	}
 
 	/**
@@ -611,5 +705,12 @@ public class TeXSerializer extends SerializerAdapter {
 
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
 		this.syntaxAdapter = syntaxAdapter;
+	}
+
+	/**
+	 * @param localization localization of the labels that are part of a formula
+	 */
+	public void setLocalization(@Nullable EditorLocalization localization) {
+		this.localization = localization;
 	}
 }

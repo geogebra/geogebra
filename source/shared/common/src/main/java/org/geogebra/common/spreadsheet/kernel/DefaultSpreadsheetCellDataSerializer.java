@@ -32,8 +32,9 @@ import org.jspecify.annotations.NonNull;
  */
 public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCellDataSerializer {
 
-	private static final StringTemplate NO_POINT_EDITOR_TEMPLATE =
-			StringTemplate.editorTemplate.deriveWithoutPointTemplate();
+	// cell editors have no buttons for the cases of piecewise functions
+	private static final StringTemplate CELL_EDITOR_TEMPLATE =
+			StringTemplate.editorTemplate.deriveWithoutPointTemplate().deriveWithoutPiecewiseTemplate();
 
 	/**
 	 * @param data Spreadsheet cell content.
@@ -52,7 +53,7 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 		if (Algos.isUsedFor(Commands.ParseToNumber, geo) && parentAlgorithm != null) {
 			return "=" + parentAlgorithm.getInput(0).toValueString(StringTemplate.defaultTemplate);
 		}
-		String redefineString = geo.getRedefineString(true, false, NO_POINT_EDITOR_TEMPLATE);
+		String redefineString = geo.getRedefineString(true, false, CELL_EDITOR_TEMPLATE);
 		return geo.isGeoText() && parentAlgorithm == null ? redefineString : "=" + redefineString;
 	}
 }

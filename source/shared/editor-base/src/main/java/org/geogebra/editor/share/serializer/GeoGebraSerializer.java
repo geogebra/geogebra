@@ -29,6 +29,7 @@ import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.IntegralHelper;
+import org.geogebra.editor.share.util.PiecewiseHelper;
 import org.geogebra.editor.share.util.Unicode;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -233,6 +234,9 @@ public class GeoGebraSerializer extends SerializerAdapter {
 				}
 				stringBuilder.append(')');
 				break;
+			case PIECEWISE:
+				serializePiecewise(functionNode, stringBuilder);
+				break;
 			case VECTOR:
 			case POINT:
 			case POINT_AT:
@@ -255,6 +259,42 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			default:
 				generalFunction(functionNode, stringBuilder);
 		}
+	}
+
+	/**
+	 * In editor syntax (the default) a piecewise function lists the expression and the condition
+	 * of each case in turn, which can be parsed back by the editor without loss even while zones
+	 * are still empty. Without templates it is written in plain GeoGebra syntax instead.
+	 * In both forms the empty condition of the final case is left out.
+	 */
+	private void serializePiecewise(FunctionNode piecewise, StringBuilder stringBuilder) {
+		maybeInsertTimes(piecewise, stringBuilder);
+		int caseCount = PiecewiseHelper.getCaseCount(piecewise);
+		boolean hasLastCondition =
+				PiecewiseHelper.getCondition(piecewise, caseCount - 1).size() > 0;
+		if (!useTemplates && caseCount == 1 && !hasLastCondition) {
+			stringBuilder.append('(');
+			serialize(PiecewiseHelper.getExpression(piecewise, 0), stringBuilder);
+			stringBuilder.append(')');
+			return;
+		}
+		stringBuilder.append(useTemplates ? Tag.PIECEWISE.getKey() : "If").append('(');
+		for (int i = 0; i < caseCount; i++) {
+			SequenceNode expression = PiecewiseHelper.getExpression(piecewise, i);
+			SequenceNode condition = PiecewiseHelper.getCondition(piecewise, i);
+			if (i == caseCount - 1 && !hasLastCondition) {
+				serialize(expression, stringBuilder);
+			} else {
+				// the editor syntax starts with the expression, the If command with the condition
+				serialize(useTemplates ? expression : condition, stringBuilder);
+				stringBuilder.append(',');
+				serialize(useTemplates ? condition : expression, stringBuilder);
+			}
+			if (i < caseCount - 1) {
+				stringBuilder.append(',');
+			}
+		}
+		stringBuilder.append(')');
 	}
 
 	private void appendSingleArg(

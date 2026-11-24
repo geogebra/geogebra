@@ -23,6 +23,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.renderer.share.SelectionBox;
 
+import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.PointerEvent;
 import jsinterop.base.Js;
@@ -55,6 +56,10 @@ public class ClickAdapterW implements DoubleClickHandler {
 		target.setPointerCapture(event.pointerId);
 		event.preventDefault();
 		SelectionBox.setTouchSelection("touch".equals(event.pointerType));
+		if (!canHover(event)) {
+			// a mouse that was used before must not leave its hover state behind
+			handler.onHoverEnd();
+		}
 		handler.onPointerDown(toFormulaPx(event.offsetX), field.toFormulaY(event.offsetY));
 		this.pointerIsDown = true;
 	}
@@ -72,12 +77,38 @@ public class ClickAdapterW implements DoubleClickHandler {
 		}
 		this.pointerIsDown = false;
 		handler.onPointerUp(toFormulaPx(event.offsetX), field.toFormulaY(event.offsetY));
+		onHover(event);
 	}
 
 	private void onPointerMove(PointerEvent event) {
 		if (this.pointerIsDown) {
 			handler.onPointerMove(toFormulaPx(event.offsetX), field.toFormulaY(event.offsetY));
+		} else {
+			// hovering changes nothing in the formula, so it works even while the field
+			// leaves pointer input to its owner
+			onHover(event);
 		}
+	}
+
+	private void onHover(PointerEvent event) {
+		if (canHover(event)) {
+			handler.onHover(toFormulaPx(event.offsetX), field.toFormulaY(event.offsetY));
+		}
+	}
+
+	private void onPointerLeave(PointerEvent event) {
+		Element related = Js.uncheckedCast(event.relatedTarget);
+		// elements laid over the formula belong to it: the pointer has not really left
+		if (related == null || related.closest("." + MathFieldW.OVERLAY_STYLE_NAME) == null) {
+			handler.onHoverEnd();
+		}
+	}
+
+	/*
+	 * Touch input does not hover: its pointer only exists while pressed.
+	 */
+	private static boolean canHover(PointerEvent event) {
+		return !"touch".equals(event.pointerType);
 	}
 
 	/**
@@ -102,6 +133,7 @@ public class ClickAdapterW implements DoubleClickHandler {
 		});
 		element.addEventListener("pointerup", (event) -> onPointerUp(Js.uncheckedCast(event)));
 		element.addEventListener("pointermove", (event) -> onPointerMove(Js.uncheckedCast(event)));
+		element.addEventListener("pointerleave", (event) -> onPointerLeave(Js.uncheckedCast(event)));
 
 		html.addDomHandler(this, DoubleClickEvent.getType());
 	}

@@ -18,6 +18,7 @@ package org.geogebra.editor.share.controller;
 
 import java.util.ArrayList;
 
+import org.geogebra.editor.share.editor.EditorLocalization;
 import org.geogebra.editor.share.editor.MathField;
 import org.geogebra.editor.share.editor.SyntaxAdapter;
 import org.geogebra.editor.share.serializer.TeXBuilder;
@@ -26,6 +27,7 @@ import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.SequenceNode;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.renderer.share.BoxPosition;
@@ -53,17 +55,24 @@ public class MathFieldController {
 	private final GraphicsStub graphics;
 	private final TeXBuilder texBuilder;
 	private final MatrixResizeController matrixResizeController;
+	private final PiecewiseController piecewiseController;
 
 	/**
 	 * @param mathField
 	 *            editor
+	 * @param matrixResizeController controller for resizing matrices
+	 * @param piecewiseController controller for the cases of piecewise functions
 	 */
-	public MathFieldController(MathField mathField, MatrixResizeController matrixResizeController) {
+	public MathFieldController(
+			MathField mathField,
+			MatrixResizeController matrixResizeController,
+			PiecewiseController piecewiseController) {
 		this.mathField = mathField;
 		texSerializer = new TeXSerializer();
 		texBuilder = new TeXBuilder();
 		graphics = new GraphicsStub();
 		this.matrixResizeController = matrixResizeController;
+		this.piecewiseController = piecewiseController;
 	}
 
 	/**
@@ -208,6 +217,8 @@ public class MathFieldController {
 			matrixResizeController.updateState(texBuilder, renderer, currentField);
 
 			mathField.setTeXIcon(renderer);
+			// after the editor has the new formula, so that listeners can place their buttons in it
+			piecewiseController.updateLayout(texBuilder, renderer, currentField);
 			mathField.fireInputChangedEvent();
 		} catch (Throwable t) {
 			FactoryProvider.getInstance().debug(t.getCause() != null ? t.getCause() : t);
@@ -293,5 +304,13 @@ public class MathFieldController {
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
 		texSerializer.setSyntaxAdapter(syntaxAdapter);
 		texBuilder.setSyntaxAdapter(syntaxAdapter);
+	}
+
+	/**
+	 * @param localization localization of the labels that are part of a formula
+	 */
+	public void setLocalization(@Nullable EditorLocalization localization) {
+		texSerializer.setLocalization(localization);
+		texBuilder.setLocalization(localization);
 	}
 }

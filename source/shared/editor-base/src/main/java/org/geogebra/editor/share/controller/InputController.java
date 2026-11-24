@@ -42,6 +42,7 @@ import org.geogebra.editor.share.util.CommandParser;
 import org.geogebra.editor.share.util.IntegralHelper;
 import org.geogebra.editor.share.util.IntegralHelper.IntegralForm;
 import org.geogebra.editor.share.util.JavaKeyCodes;
+import org.geogebra.editor.share.util.PiecewiseHelper;
 import org.geogebra.editor.share.util.Unicode;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -385,6 +386,16 @@ public class InputController {
 						|| integralForm == IntegralForm.INTEGRAND_LIMITS_CURVE
 				? null
 				: integralForm;
+	}
+
+	/**
+	 * Insert a piecewise function template with empty cases and move the cursor to the
+	 * expression of its first case. Selected content becomes that expression.
+	 * @param editorState editor state
+	 */
+	public void newPiecewise(EditorState editorState) {
+		insertFunction(
+				editorState, PiecewiseHelper.create(catalog, PiecewiseHelper.DEFAULT_CASE_COUNT), 0);
 	}
 
 	private void insertFunction(EditorState editorState, FunctionNode function, int targetIndex) {
@@ -786,7 +797,11 @@ public class InputController {
 		} else if (currentField.getParent() != null) {
 			InternalNode parent = currentField.getParent();
 
+			// a piecewise function has no closing bracket that typing one could move across
+			boolean hasClosingBracket = !PiecewiseHelper.isPiecewise(parent);
+
 			if (currentOffset == currentField.size()
+					&& hasClosingBracket
 					&& parent instanceof FunctionNode node
 					&& ch == node.getClosingBracket()
 					&& parent.size() == currentField.getParentIndex() + 1) {
@@ -796,7 +811,8 @@ public class InputController {
 
 				// if ')' typed at the end of last field of braces ... move
 				// after closing character
-			} else if (parent instanceof FunctionNode node
+			} else if (hasClosingBracket
+					&& parent instanceof FunctionNode node
 					&& ch == node.getClosingBracket()
 					&& parent.size() == currentField.getParentIndex() + 1) {
 				ArrayList<Node> removed = cut(currentField, currentOffset);
@@ -946,7 +962,7 @@ public class InputController {
 	 * @param editorState current state
 	 */
 	public void bkspCharacter(EditorState editorState) {
-		if (handleIntegralRemove(editorState, true)) {
+		if (handleIntegralRemove(editorState, true) || handlePiecewiseRemove(editorState, true)) {
 			return;
 		}
 		int currentOffset = editorState.getCurrentOffsetOrSelection();
@@ -958,6 +974,10 @@ public class InputController {
 					CursorController.prevCharacter(editorState);
 				}
 			} else if (prev instanceof FunctionNode node) {
+				if (PiecewiseHelper.isPiecewise(node)) {
+					removeOrEnterPiecewise(editorState, node, true);
+					return;
+				}
 				if (IntegralHelper.isIntegral(node) && deleteIntegralIfEmpty(editorState, node)) {
 					return;
 				}
@@ -1142,13 +1162,17 @@ public class InputController {
 	 * @param editorState current state
 	 */
 	public void delCharacter(EditorState editorState) {
-		if (handleIntegralRemove(editorState, false)) {
+		if (handleIntegralRemove(editorState, false) || handlePiecewiseRemove(editorState, false)) {
 			return;
 		}
 		int currentOffset = editorState.getCurrentOffset();
 		SequenceNode currentField = editorState.getCurrentNode();
 		if (currentOffset < currentField.size()) {
 			Node next = currentField.getChild(currentOffset);
+			if (PiecewiseHelper.isPiecewise(next)) {
+				removeOrEnterPiecewise(editorState, (FunctionNode) next, false);
+				return;
+			}
 			if (next instanceof ArrayNode array && deleteTemplateIfEmpty(editorState, array)) {
 				return;
 			}
@@ -1272,6 +1296,74 @@ public class InputController {
 			editorState.setCurrentNode(parent);
 			editorState.setCurrentOffset(integral.getParentIndex() + (after ? 1 : 0));
 		}
+	}
+
+	/**
+	 * Deletion keys inside of a piecewise function: characters are deleted as usual. Where
+	 * a zone has nothing left to delete in the direction of the key, the key only moves the
+	 * cursor like the matching arrow key, so that no case is ever removed by accident. Once
+	 * all zones are empty, the whole structure is removed instead.
+	 * @param editorState current state
+	 * @param backspace whether "backspace" or "delete" was used
+	 * @return whether the key was handled
+	 */
+	private boolean handlePiecewiseRemove(EditorState editorState, boolean backspace) {
+		SequenceNode zone = editorState.getCurrentNode();
+		FunctionNode piecewise = PiecewiseHelper.getPiecewise(zone);
+		if (piecewise == null) {
+			return false;
+		}
+		if (deletePiecewiseIfEmpty(editorState, piecewise)) {
+			return true;
+		}
+		boolean hasCharacterToDelete = backspace
+				? editorState.getCurrentOffsetOrSelection() > 0
+				: editorState.getCurrentOffset() < zone.size();
+		if (hasCharacterToDelete) {
+			return false;
+		}
+		moveLikeArrowKey(editorState, backspace);
+		return true;
+	}
+
+	/**
+	 * Deletion keys next to a piecewise function: only an unused structure is removed;
+	 * otherwise the key steps into it like the matching arrow key and keeps all cases.
+	 * @param editorState current state, with the cursor right before or after the structure
+	 * @param piecewise piecewise function
+	 * @param backspace whether "backspace" or "delete" was used
+	 */
+	private void removeOrEnterPiecewise(
+			EditorState editorState, FunctionNode piecewise, boolean backspace) {
+		if (!deletePiecewiseIfEmpty(editorState, piecewise)) {
+			moveLikeArrowKey(editorState, backspace);
+		}
+	}
+
+	private void moveLikeArrowKey(EditorState editorState, boolean left) {
+		if (left) {
+			CursorController.prevCharacter(editorState);
+		} else {
+			CursorController.nextCharacter(editorState);
+		}
+	}
+
+	/**
+	 * Remove a piecewise function without any content, leaving the cursor in its place.
+	 * @param editorState current state
+	 * @param piecewise piecewise function
+	 * @return whether the structure was removed
+	 */
+	private boolean deletePiecewiseIfEmpty(EditorState editorState, FunctionNode piecewise) {
+		if (!PiecewiseHelper.isEmpty(piecewise)
+				|| !(piecewise.getParent() instanceof SequenceNode parent)) {
+			return false;
+		}
+		int offset = piecewise.getParentIndex();
+		parent.deleteChild(offset);
+		editorState.setCurrentNode(parent);
+		editorState.setCurrentOffset(offset);
+		return true;
 	}
 
 	private static void delCharacters(EditorState editorState, int length0) {

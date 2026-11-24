@@ -18,10 +18,11 @@ package org.geogebra.common.main;
 
 import java.util.Locale;
 
+import org.geogebra.editor.share.editor.EditorLocalization;
 import org.geogebra.editor.share.util.Unicode;
 import org.jspecify.annotations.NonNull;
 
-public abstract class LocalizationI {
+public abstract class LocalizationI implements EditorLocalization {
 
 	/**
 	 * eg Function.sin
@@ -61,6 +62,7 @@ public abstract class LocalizationI {
 	 * @param default0 return this if lookup failed
 	 * @return translation of key
 	 */
+	@Override
 	public abstract String getMenuDefault(String key, String default0);
 
 	/**

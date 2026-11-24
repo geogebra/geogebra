@@ -122,6 +122,17 @@ public class KeyboardInputAdapter {
 			}
 		});
 
+		adapters.add(new StringInput(Tag.PIECEWISE.getKey()) {
+			@Override
+			public void commit(MathFieldInternal mfi, String input) {
+				if (plainTextMode(mfi)) {
+					return;
+				}
+				mfi.getInputController().newPiecewise(mfi.getEditorState());
+				mfi.notifyAndUpdate("(");
+			}
+		});
+
 		adapters.add(new StringInput("log_{10}") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {

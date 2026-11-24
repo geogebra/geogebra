@@ -61,7 +61,8 @@ class InputContextMenuTests extends BaseUnitTest {
 				List.of(
 						MathTemplateContextMenuItem.Vector,
 						MathTemplateContextMenuItem.Matrix,
-						MathTemplateContextMenuItem.Integral),
+						MathTemplateContextMenuItem.Integral,
+						MathTemplateContextMenuItem.PiecewiseFunction),
 				ContextMenuFactory.makeMathTemplatesContextMenu(Set.of()));
 	}
 }

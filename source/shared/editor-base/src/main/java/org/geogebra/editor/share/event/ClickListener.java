@@ -43,6 +43,23 @@ public interface ClickListener {
 	void onPointerMove(int x, int y);
 
 	/**
+	 * Handle a pointer that moves over the editor without being pressed. Only to be called for
+	 * pointers that can hover (mouse, pen), not for touch input.
+	 * @param x x-coordinate in DIP
+	 * @param y y-coordinate in DIP
+	 */
+	default void onHover(int x, int y) {
+		// only needed for editors with hover effects
+	}
+
+	/**
+	 * Handle a hovering pointer that left the editor.
+	 */
+	default void onHoverEnd() {
+		// only needed for editors with hover effects
+	}
+
+	/**
 	 * Handle long-press event.
 	 * @param x x-coordinate in DIP
 	 * @param y y-coordinate in DIP

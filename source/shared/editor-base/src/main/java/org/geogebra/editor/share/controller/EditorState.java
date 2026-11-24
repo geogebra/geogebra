@@ -34,6 +34,8 @@ import org.geogebra.editor.share.tree.FunctionNode;
 import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.SequenceNode;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -56,6 +58,8 @@ public class EditorState {
 	private Node currentSelEnd;
 	private int selectionAnchor = -1;
 	private SequenceNode selectionParent;
+
+	private @Nullable PiecewiseExit piecewiseExit;
 
 	/**
 	 * @param catalog {@link TemplateCatalog}
@@ -111,6 +115,31 @@ public class EditorState {
 		if (currentOffset > 0) {
 			currentOffset--;
 		}
+	}
+
+	/**
+	 * Remember which case of a piecewise function horizontal navigation left, so that
+	 * reversing the move can re-enter that case.
+	 * @param piecewise piecewise function
+	 * @param caseIndex index of the case
+	 * @param rightwards whether the cursor left the piecewise function to the right
+	 */
+	void setPiecewiseExit(@NonNull FunctionNode piecewise, int caseIndex, boolean rightwards) {
+		piecewiseExit = new PiecewiseExit(piecewise, caseIndex, rightwards);
+	}
+
+	/**
+	 * Get the case that horizontal navigation last left, and forget it.
+	 * @param piecewise piecewise function that the cursor enters
+	 * @param fromRight whether the cursor enters it from the right
+	 * @return index of the case, -1 unless entering reverses the last exit
+	 */
+	int takePiecewiseExitCase(@NonNull FunctionNode piecewise, boolean fromRight) {
+		PiecewiseExit exit = piecewiseExit;
+		piecewiseExit = null;
+		return exit != null && exit.piecewise == piecewise && exit.rightwards == fromRight
+				? exit.caseIndex
+				: -1;
 	}
 
 	/**
@@ -761,4 +790,6 @@ public class EditorState {
 		currentNode = sequenceNode;
 		extendSelection();
 	}
+
+	private record PiecewiseExit(FunctionNode piecewise, int caseIndex, boolean rightwards) {}
 }

@@ -609,6 +609,56 @@
 		}
 	}
 
+	.piecewiseButtons {
+		position: relative;
+		width: 0;
+		height: 0;
+		// the editor clips all its other elements
+		overflow: visible !important;
+	}
+
+	.piecewiseButton {
+		position: absolute;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
+		height: 24px;
+		margin: 0;
+		padding: 4px;
+		border: 0;
+		border-radius: 12px;
+		background: transparent;
+		cursor: pointer;
+
+		&.removeCase {
+			width: 24px;
+
+			&:hover {
+				background: neutral(300);
+			}
+
+			&.disabled {
+				background: transparent;
+				opacity: 0.36;
+				cursor: default;
+			}
+		}
+
+		&.addCase {
+			gap: 4px;
+			padding-right: 8px;
+			color: purple(700);
+			font-size: 14px;
+			line-height: 16px;
+			white-space: nowrap;
+
+			&:hover {
+				background: purple(100);
+			}
+		}
+	}
+
 	.resizeButton {
 		padding: 8px;
 		box-sizing: border-box;

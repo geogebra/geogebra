@@ -60,6 +60,9 @@ public enum Tag {
 
 	INTEGRAL_SYMBOLIC("IntegralSymbolic"),
 
+	/** Piecewise function: alternating expression and condition fields, one pair per case. */
+	PIECEWISE("$piecewise"),
+
 	LIM_EQ("$limeq"),
 
 	PROD_EQ("$prodeq"),

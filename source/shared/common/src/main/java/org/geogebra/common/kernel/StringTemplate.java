@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.settings.GeneralSettings;
 import org.geogebra.common.plugin.Operation;
@@ -104,6 +105,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean supportsFractions = true;
 	private char pointCoordBar = '|';
 	private boolean usePointTemplate = true;
+	private boolean usePiecewiseTemplate = false;
 	private boolean displayStyle;
 	private boolean displayEngineeringNotation = false;
 
@@ -358,6 +360,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		initForEditing(editorTemplate);
 		editorTemplate.forEditorParser = true;
 		editorTemplate.pointCoordBar = ',';
+		editorTemplate.usePiecewiseTemplate = true;
 		initForEditing(inputBoxTemplate);
 		inputBoxTemplate.forEditorParser = true;
 		inputBoxTemplate.omitSpaceInCoefficientProducts = true;
@@ -912,6 +915,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.allowShortLhs = allowShortLhs;
 		result.displayEngineeringNotation = displayEngineeringNotation;
 		result.usePointTemplate = usePointTemplate;
+		result.usePiecewiseTemplate = usePiecewiseTemplate;
 		return result;
 	}
 
@@ -3918,11 +3922,32 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * @return whether conditional functions are printed in the editor syntax for
+	 * piecewise functions
+	 */
+	public boolean usePiecewiseTemplate() {
+		// feature flag applied in getter rather than initializer
+		// because of static references (tests)
+		return usePiecewiseTemplate
+				&& forEditorParser
+				&& PreviewFeature.isAvailable(PreviewFeature.MATH_TEMPLATES);
+	}
+
+	/**
 	 * @return copy of this with point template turned off
 	 */
 	public StringTemplate deriveWithoutPointTemplate() {
 		StringTemplate copy = copy();
 		copy.usePointTemplate = false;
+		return copy;
+	}
+
+	/**
+	 * @return copy of this with piecewise template turned off
+	 */
+	public StringTemplate deriveWithoutPiecewiseTemplate() {
+		StringTemplate copy = copy();
+		copy.usePiecewiseTemplate = false;
 		return copy;
 	}
 

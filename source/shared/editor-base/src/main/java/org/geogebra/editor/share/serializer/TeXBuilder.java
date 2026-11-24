@@ -21,7 +21,9 @@ import static com.himamis.retex.renderer.share.platform.FactoryProvider.debugS;
 import java.util.HashMap;
 import java.util.function.Function;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.editor.share.catalog.Tag;
+import org.geogebra.editor.share.editor.EditorLocalization;
 import org.geogebra.editor.share.editor.SyntaxAdapter;
 import org.geogebra.editor.share.tree.ArrayNode;
 import org.geogebra.editor.share.tree.CharPlaceholderNode;
@@ -32,10 +34,15 @@ import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.IntegralHelper;
+import org.geogebra.editor.share.util.PiecewiseControl;
+import org.geogebra.editor.share.util.PiecewiseHelper;
 import org.geogebra.editor.share.util.Unicode;
+import org.jspecify.annotations.Nullable;
 
 import com.himamis.retex.renderer.share.AccentedAtom;
+import com.himamis.retex.renderer.share.ArrayAtom;
 import com.himamis.retex.renderer.share.ArrayOfAtoms;
+import com.himamis.retex.renderer.share.ArrayOptions;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.ColorAtom;
@@ -51,13 +58,17 @@ import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.ResizeAtom;
 import com.himamis.retex.renderer.share.RomanAtom;
 import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.RuleAtom;
 import com.himamis.retex.renderer.share.SMatrixAtom;
 import com.himamis.retex.renderer.share.ScaleAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
+import com.himamis.retex.renderer.share.SilentVRowAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.Symbols;
 import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.TeXLength;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.TextStyle;
 import com.himamis.retex.renderer.share.TextStyleAtom;
@@ -65,6 +76,7 @@ import com.himamis.retex.renderer.share.TypedAtom;
 import com.himamis.retex.renderer.share.UnderOverArrowAtom;
 import com.himamis.retex.renderer.share.UnderscoreAtom;
 import com.himamis.retex.renderer.share.Unit;
+import com.himamis.retex.renderer.share.VRowAtom;
 import com.himamis.retex.renderer.share.commands.CommandOpName;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -87,12 +99,22 @@ public class TeXBuilder {
 	// when followed by a placeholder for (,).
 	private static final double CHAR_PLACEHOLDER_Y_SCALE = 1.5;
 
+	// Neutral 500
+	private static final int PIECEWISE_OTHERWISE_COLOR = 0xB4B3BA;
+	// distances in em: gap above the "add case" button, and what it needs besides its label
+	// (icon, padding, and some reserve because platforms use their own fonts)
+	private static final double PIECEWISE_ADD_BUTTON_GAP = 0.25;
+	private static final double PIECEWISE_ADD_BUTTON_ICON_WIDTH = 2.25;
+
 	private SequenceNode currentNode;
 	private int currentOffset;
 	private HashMap<Atom, Node> atomToNode;
 	private final TeXParser parser;
 	private final TeXSerializer teXSerializer;
 	private boolean useSimplePlaceholders = false;
+	private HashMap<Atom, PiecewiseControl> atomToPiecewiseControl;
+	private boolean piecewiseControlsEnabled = true;
+	private @Nullable EditorLocalization localization;
 
 	private static final HashMap<Character, String> replacements = new HashMap<>();
 
@@ -490,6 +512,8 @@ public class TeXBuilder {
 						Symbols.INT.duplicate(), build(argument.getChild(0)), build(argument.getChild(1)));
 			case INTEGRAL, N_INTEGRAL, INTEGRAL_SYMBOLIC:
 				return buildIntegral(argument);
+			case PIECEWISE:
+				return buildPiecewise(argument);
 			case SUM_EQ:
 				Atom sum = newCharAtom('\u2211');
 				sum.type_limits = TeXConstants.SCRIPT_NORMAL;
@@ -577,6 +601,152 @@ public class TeXBuilder {
 		return build(field);
 	}
 
+	/**
+	 * Cases beneath a brace, with expressions and conditions in aligned columns. The buttons
+	 * that add and remove cases are not drawn here: each platform shows its own buttons on top
+	 * of the formula. Space is left for them, a column to the right of the cases and, while
+	 * the cursor is inside, a row below, which does not move the baseline.
+	 */
+	private Atom buildPiecewise(FunctionNode piecewise) {
+		// buttons and placeholders are only part of a formula that is being edited
+		boolean withControls = piecewiseControlsEnabled && teXSerializer.isPlaceholderEnabled();
+
+		ArrayOfAtoms cells = new ArrayOfAtoms();
+		for (int i = 0; i < PiecewiseHelper.getCaseCount(piecewise); i++) {
+			PiecewiseControl caseControl = new PiecewiseControl(piecewise, PiecewiseControl.Type.CASE, i);
+			Atom rowStrut = new RuleAtom(
+					new TeXLength(Unit.EM, 0),
+					new TeXLength(Unit.EM, TeXSerializer.PIECEWISE_ROW_HEIGHT),
+					new TeXLength(Unit.EM, -TeXSerializer.PIECEWISE_ROW_DEPTH));
+			cells.add(buildPiecewiseCell(
+					caseControl,
+					rowStrut,
+					horizontalSpace(TeXSerializer.PIECEWISE_EXPRESSION_INDENT),
+					buildPiecewiseZone(PiecewiseHelper.getExpression(piecewise, i))));
+			cells.add(EnvArray.ColSep.get());
+			cells.add(buildPiecewiseCell(
+					caseControl,
+					horizontalSpace(TeXSerializer.PIECEWISE_SEPARATOR_INDENT),
+					parser.getAtomFromUnicode(':', true)));
+			cells.add(EnvArray.ColSep.get());
+			cells.add(buildPiecewiseCell(
+					caseControl,
+					horizontalSpace(TeXSerializer.PIECEWISE_CONDITION_INDENT),
+					buildPiecewiseZone(PiecewiseHelper.getCondition(piecewise, i))));
+			if (withControls) {
+				Atom removeButtonSlot = buildPiecewiseSlot(
+						new PiecewiseControl(piecewise, PiecewiseControl.Type.REMOVE_CASE, i),
+						TeXSerializer.PIECEWISE_ROW_HEIGHT,
+						horizontalSpace(TeXSerializer.PIECEWISE_BUTTON_SIZE));
+				cells.add(EnvArray.ColSep.get());
+				cells.add(buildPiecewiseCell(
+						caseControl,
+						horizontalSpace(TeXSerializer.PIECEWISE_REMOVE_BUTTON_INDENT),
+						removeButtonSlot));
+			}
+			cells.add(EnvArray.RowSep.get());
+		}
+		cells.checkDimensions();
+		ArrayOptions columns = new ArrayOptions()
+				.addAlignment(TeXConstants.Align.LEFT)
+				.addAlignment(TeXConstants.Align.LEFT)
+				.addAlignment(TeXConstants.Align.LEFT);
+		if (withControls) {
+			columns.addAlignment(TeXConstants.Align.RIGHT);
+		}
+		columns.close();
+		Atom cases =
+				new FencedAtom(new RowAtom(new ArrayAtom(cells, columns, true)), Symbols.LBRACE, null);
+		atomToNode.put(cases, piecewise);
+		SequenceNode focusedZone = PiecewiseHelper.getEnclosingZone(currentNode);
+		boolean focused = focusedZone != null && focusedZone.getParent() == piecewise;
+		if (!focused || !withControls) {
+			return cases;
+		}
+		// the label only makes sure that the formula is about as wide as the button
+		Atom addButtonSlot = buildPiecewiseSlot(
+				new PiecewiseControl(piecewise, PiecewiseControl.Type.ADD_CASE, -1),
+				TeXSerializer.PIECEWISE_BUTTON_SIZE,
+				horizontalSpace(PIECEWISE_ADD_BUTTON_ICON_WIDTH),
+				new PhantomAtom(buildPiecewiseLabel(getAddCaseLabel())));
+		VRowAtom withAddButton =
+				new VRowAtom(cases, new SpaceAtom(Unit.EM, 0, PIECEWISE_ADD_BUTTON_GAP, 0), addButtonSlot);
+		withAddButton.setVtop(true);
+		return withAddButton;
+	}
+
+	private Atom buildPiecewiseCell(PiecewiseControl caseControl, Atom... content) {
+		Atom cell = wrap(content);
+		atomToPiecewiseControl.put(cell, caseControl);
+		return cell;
+	}
+
+	/**
+	 * Empty space where a platform places the button for the control. The buttons in the rows
+	 * of the cases are a little higher than their space and reach into the gap between rows.
+	 * @param control control that the button is for
+	 * @param height height of the space in em; it is centered like the rows of the cases
+	 * @param content what determines the width of the space
+	 */
+	private Atom buildPiecewiseSlot(PiecewiseControl control, double height, Atom... content) {
+		double depth =
+				TeXSerializer.PIECEWISE_ROW_DEPTH + (height - TeXSerializer.PIECEWISE_ROW_HEIGHT) / 2;
+		Atom strut = new RuleAtom(
+				new TeXLength(Unit.EM, 0), new TeXLength(Unit.EM, height), new TeXLength(Unit.EM, -depth));
+		Atom slot = wrap(strut, wrap(content));
+		atomToPiecewiseControl.put(slot, control);
+		// nothing to read out for a screen reader
+		return new SilentVRowAtom(slot);
+	}
+
+	private Atom buildPiecewiseZone(SequenceNode zone) {
+		if (zone.size() > 0) {
+			return build(zone);
+		}
+		boolean otherwise = PiecewiseHelper.isOtherwise(zone) && teXSerializer.isPlaceholderEnabled();
+		if (zone != currentNode) {
+			return otherwise ? buildOtherwiseLabel() : build(zone);
+		}
+		if (!otherwise) {
+			return buildIntegralField(zone);
+		}
+		// The cursor takes the place of the label, but the zone keeps its width.
+		Atom cursor =
+				new ScaleAtom(new PhantomAtom(new CharAtom('g')), 0.001, DEFAULT_PLACEHOLDER_Y_SCALE);
+		atomToNode.put(cursor, SELECTION);
+		return wrap(cursor, new PhantomAtom(buildOtherwiseLabel()));
+	}
+
+	private Atom buildOtherwiseLabel() {
+		Atom label = buildPiecewiseLabel(TeXSerializer.getPiecewiseLabelTeX(
+				TeXSerializer.getPiecewiseOtherwiseLabel(localization), true));
+		return new ColorAtom(label, null, color(PIECEWISE_OTHERWISE_COLOR));
+	}
+
+	/**
+	 * Typeset a label the way output formulas typeset text, e.g. "otherwise" in the cases of
+	 * a piecewise function.
+	 */
+	private Atom buildPiecewiseLabel(String labelTeX) {
+		return new TeXFormula(labelTeX).root;
+	}
+
+	private String getAddCaseLabel() {
+		String label = localization == null
+				? PiecewiseControl.ADD_CASE_DEFAULT
+				: localization.getMenuDefault(
+						PiecewiseControl.ADD_CASE_KEY, PiecewiseControl.ADD_CASE_DEFAULT);
+		return TeXSerializer.getPiecewiseLabelTeX(label, false);
+	}
+
+	private static Atom horizontalSpace(double em) {
+		return new SpaceAtom(Unit.EM, em, 0, 0);
+	}
+
+	private static GColor color(int rgb) {
+		return FactoryProvider.getInstance().getGraphicsFactory().createColor(rgb);
+	}
+
 	private Atom wrap(Atom... atoms) {
 		// the resize atom is just a hack so that the RowAtom is not destroyed
 		// when added to another row atom
@@ -592,6 +762,7 @@ public class TeXBuilder {
 		this.currentNode = currentNode;
 		this.currentOffset = currentOffset;
 		this.atomToNode = new HashMap<>();
+		this.atomToPiecewiseControl = new HashMap<>();
 		Atom root = build(rootNode);
 		if (textMode) {
 			return new RomanAtom(new TextStyleAtom(root, TextStyle.MATHNORMAL));
@@ -606,6 +777,30 @@ public class TeXBuilder {
 	 */
 	public Node getNode(Atom atom) {
 		return atomToNode.get(atom);
+	}
+
+	/**
+	 * Access the controls of piecewise functions in the last formula that was built.
+	 * @param atom atom
+	 * @return control that the atom draws, null for other atoms
+	 */
+	public @Nullable PiecewiseControl getPiecewiseControl(Atom atom) {
+		return atomToPiecewiseControl == null ? null : atomToPiecewiseControl.get(atom);
+	}
+
+	/**
+	 * @param enabled whether to draw the buttons that add and remove cases of piecewise
+	 * functions; on by default
+	 */
+	public void setPiecewiseControlsEnabled(boolean enabled) {
+		this.piecewiseControlsEnabled = enabled;
+	}
+
+	/**
+	 * @param localization localization of the labels that are part of a formula
+	 */
+	public void setLocalization(@Nullable EditorLocalization localization) {
+		this.localization = localization;
 	}
 
 	/**

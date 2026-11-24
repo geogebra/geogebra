@@ -33,6 +33,7 @@ import org.geogebra.editor.share.tree.SequenceNode;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.renderer.share.Box;
 import com.himamis.retex.renderer.share.BoxPosition;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -40,7 +41,9 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 public final class MatrixResizeController {
 
+	@Weak
 	private final MathFieldInternal mathFieldInternal;
+
 	private final Set<StateListener> listeners = new HashSet<>();
 
 	private @NonNull State state = State.NO_MATRIX;

@@ -22,8 +22,10 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
 import org.geogebra.editor.share.util.Unicode;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,6 +36,11 @@ class DefaultSpreadsheetCellDataSerializerTest extends BaseUnitTest {
 	@BeforeEach
 	void setupSerializer() {
 		serializer = new DefaultSpreadsheetCellDataSerializer();
+	}
+
+	@AfterEach
+	void resetPreviewFeatures() {
+		PreviewFeature.setPreviewFeaturesEnabled(false);
 	}
 
 	@Test
@@ -67,5 +74,13 @@ class DefaultSpreadsheetCellDataSerializerTest extends BaseUnitTest {
 		GeoNumeric number = add("1" + Unicode.INVISIBLE_PLUS + "2/3");
 		String result = serializer.getStringForEditor(number);
 		assertEquals("=1" + Unicode.INVISIBLE_PLUS + "(2)/(3)", result);
+	}
+
+	@Test
+	void testConditionalFunctionShouldKeepPlainSyntax() {
+		PreviewFeature.setPreviewFeaturesEnabled(true);
+		GeoElement function = add("f(x)=If(x<1,x,2)");
+		String result = serializer.getStringForEditor(function);
+		assertEquals("=If(x<1, x, 2)", result);
 	}
 }

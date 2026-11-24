@@ -32,6 +32,7 @@ import org.geogebra.editor.share.editor.FractionBracketRemover;
 import org.geogebra.editor.share.tree.*;
 import org.geogebra.editor.share.util.IntegralHelper;
 import org.geogebra.editor.share.util.IntegralHelper.IntegralForm;
+import org.geogebra.editor.share.util.PiecewiseHelper;
 import org.geogebra.editor.share.util.Unicode;
 
 public class Parser {
@@ -291,6 +292,7 @@ PARSER_END(Parser)
 	| < INTEGRAL : "Integral(" >
 	| < N_INTEGRAL : "NIntegral(" >
 	| < INTEGRAL_SYMBOLIC : "IntegralSymbolic(" >
+	| < PIECEWISE : "$piecewise(" >
 	| < ABS : "abs(" >
 	| < DEF_INT : "$defint" >
 	| < PROD_EQ : "$prodeq" >
@@ -343,6 +345,8 @@ void atomicWrapper(InternalNode node) : {}
 	log(node)
 	|
 	integral(node)
+	|
+	piecewise(node)
 	|
 	defintSumProduct(node)
 	|
@@ -627,6 +631,34 @@ void integral(InternalNode node) :
 		}
 	)* <PARENTHESES_CLOSE> {
 		node.addChild(buildIntegralOrCommand(tag, arguments));
+	}
+}
+
+/**
+* Piecewise function in editor syntax: the expression and the condition of each case in turn.
+* The condition of the final case is optional.
+* @param node parent field
+*/
+void piecewise(InternalNode node) :
+{
+	List<SequenceNode> zones;
+	SequenceNode zone;
+}
+{
+	<PIECEWISE> {
+		zones = new ArrayList<>();
+		zone = new SequenceNode();
+		internalNode(zone);
+		zones.add(zone);
+	}
+	(
+		<COMMA> {
+			zone = new SequenceNode();
+			internalNode(zone);
+			zones.add(zone);
+		}
+	)* <PARENTHESES_CLOSE> {
+		node.addChild(PiecewiseHelper.create(catalog, zones));
 	}
 }
 

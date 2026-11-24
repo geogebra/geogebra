@@ -93,6 +93,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private TemplateCatalog catalog;
 
 	private final MathFieldInternal mathFieldInternal;
+	/**
+	 * Style name of elements that are laid over the formula, such as buttons acting on a part
+	 * of it. A pointer that moves from the formula onto one of them keeps hovering the field.
+	 */
+	public static final String OVERLAY_STYLE_NAME = "mathFieldOverlay";
+
 	private final Canvas canvas;
 	private CanvasRenderingContext2D ctx;
 	private final Panel parent;
@@ -779,6 +785,22 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	/**
+	 * @param formulaX x-coordinate in the formula
+	 * @return the x-coordinate in CSS pixels relative to the left of the canvas
+	 */
+	public double toCanvasX(double formulaX) {
+		return formulaX * scale;
+	}
+
+	/**
+	 * @param formulaY y-coordinate in the formula
+	 * @return the y-coordinate in CSS pixels relative to the top of the canvas
+	 */
+	public double toCanvasY(double formulaY) {
+		return (formulaY + (lastIcon == null ? 0 : getContentTop())) * scale;
+	}
+
+	/**
 	 * Converts a canvas y-coordinate to the coordinate used for hit testing.
 	 * @param eventY y-coordinate in CSS pixels
 	 * @return y-coordinate with scaling and the centering offset removed
@@ -1325,7 +1347,22 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void scrollParentHorizontally(Widget parentPanel) {
 		Scheduler.get()
 				.scheduleDeferred(() -> MathFieldScroller.scrollHorizontallyToCursor(
-						parentPanel, rightMargin, (int) (lastIcon.getCursorX() * scale)));
+						parentPanel, rightMargin + getWidthOfControlsAfterCursor(parentPanel), (int)
+								(lastIcon.getCursorX() * scale)));
+	}
+
+	/**
+	 * In a piecewise function the button that removes the case with the cursor follows at the
+	 * end of its row. Treating the distance to it as margin keeps it in view with the cursor,
+	 * as long as the panel is wide enough for both.
+	 */
+	private int getWidthOfControlsAfterCursor(Widget parentPanel) {
+		double controlsRight =
+				mathFieldInternal.getPiecewiseController().getFocusedCaseRightEdge() * scale;
+		double width = controlsRight - lastIcon.getCursorX() * scale;
+		int available =
+				parentPanel.getOffsetWidth() - rightMargin - 3 * MathFieldInternal.PADDING_LEFT_SCROLL;
+		return (int) Math.ceil(Math.max(0, Math.min(width, available)));
 	}
 
 	/**

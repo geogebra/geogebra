@@ -26,7 +26,8 @@ import org.jspecify.annotations.NonNull;
 public enum MathTemplateContextMenuItem implements ContextMenuItem {
 	Vector("Vector"),
 	Matrix("Matrix"),
-	Integral("Integral");
+	Integral("Integral"),
+	PiecewiseFunction("PiecewiseFunction");
 
 	private final String translationKey;
 

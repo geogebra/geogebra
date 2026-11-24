@@ -33,6 +33,7 @@ import org.geogebra.editor.share.controller.InputController;
 import org.geogebra.editor.share.controller.KeyListenerImpl;
 import org.geogebra.editor.share.controller.MathFieldController;
 import org.geogebra.editor.share.controller.MatrixResizeController;
+import org.geogebra.editor.share.controller.PiecewiseController;
 import org.geogebra.editor.share.event.ClickListener;
 import org.geogebra.editor.share.event.FocusListener;
 import org.geogebra.editor.share.event.KeyEvent;
@@ -104,6 +105,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	private final FormulaConverter formulaConverter;
 	private final MatrixResizeController matrixResizeController;
+	private final PiecewiseController piecewiseController;
 
 	/**
 	 * @param mathField
@@ -116,7 +118,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		formula = new Formula(mathField.getCatalog());
 
 		matrixResizeController = new MatrixResizeController(this);
-		mathFieldController = new MathFieldController(mathField, matrixResizeController);
+		piecewiseController = new PiecewiseController(this);
+		mathFieldController =
+				new MathFieldController(mathField, matrixResizeController, piecewiseController);
 		inputController.setMathField(mathField);
 		mathFieldInternalListeners = new HashSet<>();
 		formulaConverter = new FormulaConverter();
@@ -125,6 +129,13 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	public MatrixResizeController getMatrixResizeController() {
 		return matrixResizeController;
+	}
+
+	/**
+	 * @return controller for the cases of piecewise functions
+	 */
+	public PiecewiseController getPiecewiseController() {
+		return piecewiseController;
 	}
 
 	/**
@@ -149,6 +160,14 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
 		mathFieldController.setSyntaxAdapter(syntaxAdapter);
 		inputController.setSyntaxAdapter(syntaxAdapter);
+	}
+
+	/**
+	 * @param localization localization of the labels that are part of a formula, such as
+	 * "otherwise" in piecewise functions; without it they are shown in English
+	 */
+	public void setLocalization(@Nullable EditorLocalization localization) {
+		mathFieldController.setLocalization(localization);
 	}
 
 	private EditorFeatures getEditorFeatures() {
@@ -536,6 +555,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		SequenceNode closestComponent = null;
 		int closestOffset = -1;
 		do {
+			if (!piecewiseController.isCursorTarget(x, y, editorState.getCurrentNode())) {
+				continue;
+			}
 			mathFieldController.updateCursorPosition(
 					formula, editorState.getCurrentNode(), editorState.getCurrentOffset());
 			double currentDist = Math.abs(x - CursorBox.startX) + Math.abs(y - CursorBox.startY);
@@ -584,6 +606,16 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		editorState.extendSelection(cursor);
 
 		mathFieldController.update(formula, editorState, false);
+	}
+
+	@Override
+	public void onHover(int x, int y) {
+		piecewiseController.onHover(x, y);
+	}
+
+	@Override
+	public void onHoverEnd() {
+		piecewiseController.onHoverEnd();
 	}
 
 	/**
@@ -776,15 +808,13 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	 */
 	public String copy() {
 		if (editorState.getSelectionStart() != null) {
-			GeoGebraSerializer serializer = getSerializer();
-			serializer.setUseTemplates(false);
 			InternalNode parent = editorState.getSelectionStart().getParent();
 			if (parent == null) {
 				// all the formula is selected
-				return serializer
-						.serialize(editorState.getRootNode(), new StringBuilder())
-						.toString();
+				return getPlainText();
 			}
+			GeoGebraSerializer serializer = getSerializer();
+			serializer.setUseTemplates(false);
 
 			int start = parent.indexOf(editorState.getSelectionStart());
 			int end = parent.indexOf(editorState.getSelectionEnd());
@@ -1017,6 +1047,16 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	 */
 	public String getText() {
 		return getSerializer().serialize(getFormula());
+	}
+
+	/**
+	 * @return the contained formula in plain GeoGebra syntax, without editor templates, so that
+	 * it can be pasted anywhere
+	 */
+	public String getPlainText() {
+		GeoGebraSerializer serializer = getSerializer();
+		serializer.setUseTemplates(false);
+		return serializer.serialize(getFormula());
 	}
 
 	public void setUnhandledKeyListener(UnhandledKeyListener unhandledKeyListener) {

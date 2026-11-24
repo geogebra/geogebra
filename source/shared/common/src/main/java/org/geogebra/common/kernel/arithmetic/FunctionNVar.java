@@ -580,13 +580,27 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return expression.toString(tpl);
+		String piecewise = toPiecewiseTemplate(tpl, false);
+		return piecewise != null ? piecewise : expression.toString(tpl);
 	}
 
 	@Override
 	public final String toValueString(StringTemplate tpl) {
+		String piecewise = toPiecewiseTemplate(tpl, true);
+		return piecewise != null ? piecewise : expression.toValueString(tpl);
+	}
 
-		return expression.toValueString(tpl);
+	/**
+	 * Conditional functions of one variable are edited as piecewise functions, with the cases
+	 * listed beneath a brace.
+	 * @return definition in the editor syntax for piecewise functions, null if the function
+	 * is not piecewise or the template does not target the editor
+	 */
+	private String toPiecewiseTemplate(StringTemplate tpl, boolean valueForm) {
+		if (!tpl.usePiecewiseTemplate() || fVars.length != 1 || expression.isSecret()) {
+			return null;
+		}
+		return PiecewiseEditorTemplate.serialize(expression, tpl, valueForm);
 	}
 
 	@Override

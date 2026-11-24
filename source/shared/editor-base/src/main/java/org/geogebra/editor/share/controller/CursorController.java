@@ -33,6 +33,7 @@ import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.IntegralHelper;
+import org.geogebra.editor.share.util.PiecewiseHelper;
 
 /**
  * Cursor movement in the expression tree.
@@ -168,8 +169,16 @@ public class CursorController {
 				moveToFirstIntegralField(editorState, (FunctionNode) node, traversal);
 				return;
 			}
-			int current = node.first();
-			node = (InternalNode) node.getChild(current);
+			if (PiecewiseHelper.isPiecewise(node)) {
+				FunctionNode piecewise = (FunctionNode) node;
+				int entryCase = traversal == Traversal.NAVIGABLE_FIELDS
+						? getPiecewiseEntryCase(editorState, piecewise, false, 0)
+						: 0;
+				node = PiecewiseHelper.getExpression(piecewise, entryCase);
+			} else {
+				int current = node.first();
+				node = (InternalNode) node.getChild(current);
+			}
 		}
 		editorState.setCurrentNode((SequenceNode) node);
 		editorState.setCurrentOffset(0);
@@ -192,8 +201,15 @@ public class CursorController {
 		InternalNode node = node0;
 		// surface to last symbol
 		while (!(node instanceof SequenceNode)) {
-			int current = node.last();
-			node = (InternalNode) node.getChild(current);
+			if (PiecewiseHelper.isPiecewise(node)) {
+				FunctionNode piecewise = (FunctionNode) node;
+				int lastCase = PiecewiseHelper.getCaseCount(piecewise) - 1;
+				node = PiecewiseHelper.getCondition(
+						piecewise, getPiecewiseEntryCase(editorState, piecewise, true, lastCase));
+			} else {
+				int current = node.last();
+				node = (InternalNode) node.getChild(current);
+			}
 		}
 		editorState.setCurrentNode((SequenceNode) node);
 		if (isLastFieldPlaceholder(editorState.getCurrentNode())) {
@@ -235,6 +251,8 @@ public class CursorController {
 			// try to find next sibling
 		} else if (IntegralHelper.isIntegral(parent)) {
 			return nextIntegralField(editorState, (FunctionNode) parent, current, traversal);
+		} else if (PiecewiseHelper.isPiecewise(parent)) {
+			return nextPiecewiseField(editorState, (FunctionNode) parent, (SequenceNode) node, traversal);
 		} else if (parent.hasNext(current)) {
 			current = parent.getNext(current);
 			InternalNode node1 = (InternalNode) parent.getChild(current);
@@ -267,6 +285,8 @@ public class CursorController {
 			// try to find previous sibling
 		} else if (IntegralHelper.isIntegral(parentNode)) {
 			return previousIntegralField(editorState, (FunctionNode) parentNode, current);
+		} else if (PiecewiseHelper.isPiecewise(parentNode)) {
+			return previousPiecewiseField(editorState, (FunctionNode) parentNode, (SequenceNode) node);
 		} else if (parentNode.hasPrevious(current)) {
 			current = parentNode.getPrevious(current);
 			InternalNode node1 = (InternalNode) parentNode.getChild(current);
@@ -299,7 +319,8 @@ public class CursorController {
 
 	/** Up field. */
 	private static boolean upField(EditorState editorState, InternalNode node) {
-		if (moveVerticallyInIntegral(editorState, node, true)) {
+		if (moveVerticallyInIntegral(editorState, node, true)
+				|| moveVerticallyInPiecewise(editorState, node, true)) {
 			return true;
 		}
 		if (isIntegralField(node)) {
@@ -333,7 +354,8 @@ public class CursorController {
 
 	/** Down field. */
 	private static boolean downField(EditorState editorState, InternalNode node) {
-		if (moveVerticallyInIntegral(editorState, node, false)) {
+		if (moveVerticallyInIntegral(editorState, node, false)
+				|| moveVerticallyInPiecewise(editorState, node, false)) {
 			return true;
 		}
 		if (isIntegralField(node)) {
@@ -466,6 +488,102 @@ public class CursorController {
 					editorState, function, up ? UPPER_LIMIT : LOWER_LIMIT, false, true);
 		}
 		return false;
+	}
+
+	/**
+	 * Horizontal navigation enters a piecewise function in the case that it last left, so that
+	 * reversing an exit returns to where the cursor came from.
+	 * @param editorState current state
+	 * @param piecewise piecewise function
+	 * @param fromRight whether the cursor enters the structure from the right
+	 * @param defaultCase case to enter unless this reverses the last exit
+	 * @return index of the case to enter
+	 */
+	private static int getPiecewiseEntryCase(
+			EditorState editorState, FunctionNode piecewise, boolean fromRight, int defaultCase) {
+		int entryCase = editorState.takePiecewiseExitCase(piecewise, fromRight);
+		return entryCase >= 0 && entryCase < PiecewiseHelper.getCaseCount(piecewise)
+				? entryCase
+				: defaultCase;
+	}
+
+	/**
+	 * Moves right from the end of a zone: from an expression to its condition, and from any
+	 * condition out of the structure. Only when collecting all selectable positions, the
+	 * conditions lead to the following case instead.
+	 */
+	private static boolean nextPiecewiseField(
+			EditorState editorState, FunctionNode piecewise, SequenceNode zone, Traversal traversal) {
+		int caseIndex = PiecewiseHelper.getCase(zone);
+		if (!PiecewiseHelper.isCondition(zone)) {
+			editorState.setCurrentNode(PiecewiseHelper.getCondition(piecewise, caseIndex));
+			editorState.setCurrentOffset(0);
+			return true;
+		}
+		if (traversal == Traversal.SELECTABLE_FIELDS) {
+			if (caseIndex + 1 < PiecewiseHelper.getCaseCount(piecewise)) {
+				editorState.setCurrentNode(PiecewiseHelper.getExpression(piecewise, caseIndex + 1));
+				editorState.setCurrentOffset(0);
+				return true;
+			}
+		} else {
+			editorState.setPiecewiseExit(piecewise, caseIndex, true);
+		}
+		return nextField(editorState, piecewise, traversal);
+	}
+
+	/**
+	 * Moves left from the start of a zone: from a condition to its expression, and from any
+	 * expression out of the structure.
+	 */
+	private static boolean previousPiecewiseField(
+			EditorState editorState, FunctionNode piecewise, SequenceNode zone) {
+		int caseIndex = PiecewiseHelper.getCase(zone);
+		if (PiecewiseHelper.isCondition(zone)) {
+			SequenceNode expression = PiecewiseHelper.getExpression(piecewise, caseIndex);
+			editorState.setCurrentNode(expression);
+			editorState.setCurrentOffset(expression.size());
+			return true;
+		}
+		editorState.setPiecewiseExit(piecewise, caseIndex, false);
+		return prevField(editorState, piecewise);
+	}
+
+	/**
+	 * Moves to the same zone of the adjacent case, keeping the cursor offset where possible.
+	 */
+	private static boolean moveVerticallyInPiecewise(
+			EditorState editorState, InternalNode node, boolean up) {
+		FunctionNode piecewise = PiecewiseHelper.getPiecewise(node);
+		if (piecewise == null) {
+			return false;
+		}
+		SequenceNode zone = (SequenceNode) node;
+		int targetCase = PiecewiseHelper.getCase(zone) + (up ? -1 : 1);
+		if (targetCase < 0 || targetCase >= PiecewiseHelper.getCaseCount(piecewise)) {
+			return false;
+		}
+		SequenceNode targetZone =
+				PiecewiseHelper.getZone(piecewise, targetCase, PiecewiseHelper.isCondition(zone));
+		editorState.resetSelection();
+		editorState.setCurrentOffset(Math.min(getOffsetInZone(editorState, zone), targetZone.size()));
+		editorState.setCurrentNode(targetZone);
+		return true;
+	}
+
+	/**
+	 * @return cursor offset in the zone; if the cursor is deeper inside, the position of the
+	 * element of the zone that contains it
+	 */
+	private static int getOffsetInZone(EditorState editorState, SequenceNode zone) {
+		InternalNode current = editorState.getCurrentNode();
+		if (current == zone) {
+			return editorState.getCurrentOffset();
+		}
+		while (current.getParent() != null && current.getParent() != zone) {
+			current = current.getParent();
+		}
+		return current.getParentIndex();
 	}
 
 	private static boolean checkMoveArray(Node node, EditorState editorState, int rowChange) {

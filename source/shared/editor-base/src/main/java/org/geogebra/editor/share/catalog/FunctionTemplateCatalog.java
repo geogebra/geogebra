@@ -70,6 +70,7 @@ class FunctionTemplateCatalog {
 						Parameter.BASIC,
 						Parameter.BASIC,
 						Parameter.BASIC),
+				new FunctionTemplate(Tag.PIECEWISE, "", Parameter.BASIC, Parameter.BASIC),
 				new FunctionTemplate(Tag.LIM_EQ, "\\lim", new Parameter[] {Parameter.BASIC}, 1),
 				new FunctionTemplate(
 						Tag.PROD_EQ,
