@@ -16,28 +16,27 @@
 
 package org.geogebra.common.euclidian.plot.implicit;
 
+import java.util.Arrays;
+
 import org.geogebra.common.kernel.arithmetic.Inequality;
-import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.plugin.Operation;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Lightweight change detector for implicit curves used by the Bernstein plotter.
  * <p>
- * The signature combines the implicit border coefficients, the inequality operation
- * when present, and numeric input values referenced by the curve definition. This
- * lets callers detect coefficient changes without keeping or comparing the full
- * polynomial state.
+ * Stores a snapshot of the implicit border coefficients and the inequality operation when
+ * present. Checks compare coefficients exactly, without hashing or allocating another snapshot.
+ * Numeric inputs are reflected through the refreshed coefficients, so input changes that leave
+ * the polynomial unchanged do not invalidate the plot.
  * </p>
  */
 public final class CurveSignature {
-	private static final long FNV_OFFSET = 0xcbf29ce484222325L;
-	private static final long FNV_PRIME = 0x100000001b3L;
-	private static final long NULL_COEFFS = 0x9e3779b97f4a7c15L;
-	private final Inequality ineq;
-	private final GeoElement[] input;
-	private long signature;
+	private final @Nullable Inequality ineq;
+	private @Nullable Operation operation;
+	private double @Nullable [][] coefficients;
 	private GeoImplicit curve;
 
 	/**
@@ -45,15 +44,10 @@ public final class CurveSignature {
 	 *
 	 * @param ineq inequality whose implicit border should be tracked
 	 */
-	CurveSignature(Inequality ineq) {
+	CurveSignature(@NonNull Inequality ineq) {
 		this.ineq = ineq;
 		this.curve = ineq.getImplicitCurveBorder();
-		input = createInput();
 		update();
-	}
-
-	private GeoElement[] createInput() {
-		return curve.getFunctionDefinition().getGeoElementVariables(SymbolicMode.NONE);
 	}
 
 	/**
@@ -61,10 +55,9 @@ public final class CurveSignature {
 	 *
 	 * @param curve implicit curve to track
 	 */
-	public CurveSignature(GeoImplicit curve) {
+	public CurveSignature(@NonNull GeoImplicit curve) {
 		this.curve = curve;
 		this.ineq = null;
-		input = createInput();
 		update();
 	}
 
@@ -72,62 +65,65 @@ public final class CurveSignature {
 	 * Stores the current curve state as the reference signature.
 	 */
 	void update() {
-		signature = compute();
+		operation = ineq == null ? null : ineq.getOperation();
+		double[][] current = getCurve().getCoeff();
+		if (current == null) {
+			coefficients = null;
+			return;
+		}
+		coefficients = new double[current.length][];
+		for (int i = 0; i < current.length; i++) {
+			coefficients[i] = current[i] == null ? null : Arrays.copyOf(current[i], current[i].length);
+		}
 	}
 
 	/**
-	 * @return whether the curve coefficients, inequality operation, or numeric inputs
+	 * @return whether the curve coefficients or inequality operation
 	 * have changed since the last {@link #update()} call
 	 */
 	boolean isOutdated() {
-		return signature != compute();
-	}
-
-	private long compute() {
-		long hash = FNV_OFFSET;
-		if (ineq != null) {
-			hash = mix(hash, ineq.getOperation().ordinal());
-			this.curve = ineq.getImplicitCurveBorder();
+		if (ineq != null && operation != ineq.getOperation()) {
+			return true;
 		}
-
-		double[][] coeffs = curve.getCoeff();
-		if (coeffs == null) {
-			return mix(hash, NULL_COEFFS);
+		double[][] current = getCurve().getCoeff();
+		if (current == null || coefficients == null) {
+			return current != coefficients;
 		}
-		hash = mix(hash, coeffs.length);
-		for (double[] row : coeffs) {
-			if (row == null) {
-				hash = mix(hash, -1);
+		if (current.length != coefficients.length) {
+			return true;
+		}
+		for (int i = 0; i < current.length; i++) {
+			double[] row = current[i];
+			double[] previous = coefficients[i];
+			if (row == null || previous == null) {
+				if (row != previous) {
+					return true;
+				}
 				continue;
 			}
-			hash = mix(hash, row.length);
-			for (double coeff : row) {
-				hash = mix(hash, Double.doubleToLongBits(coeff));
+			if (row.length != previous.length) {
+				return true;
+			}
+			for (int j = 0; j < row.length; j++) {
+				// Signed zeros are equal; unchanged NaNs must not cause repeated replots.
+				if (row[j] != previous[j] && !(Double.isNaN(row[j]) && Double.isNaN(previous[j]))) {
+					return true;
+				}
 			}
 		}
-		hash = mixInputValues(hash);
-		return hash;
+		return false;
 	}
 
-	private long mixInputValues(long hash) {
-		if (input == null) {
-			return hash;
+	private @NonNull GeoImplicit getCurve() {
+		if (ineq != null) {
+			curve = ineq.getImplicitCurveBorder();
 		}
-		long mixedHash = mix(hash, input.length);
-		for (GeoElement geo : input) {
-			if (geo instanceof GeoNumeric) {
-				mixedHash = mix(mixedHash, Double.doubleToLongBits(((GeoNumeric) geo).getValue()));
-			}
-		}
-		return mixedHash;
-	}
-
-	private static long mix(long input, long value) {
-		return (input ^ value) * FNV_PRIME;
+		return curve;
 	}
 
 	@Override
 	public String toString() {
-		return "CurveSignature{signature=" + Long.toHexString(signature) + "}";
+		return "CurveSignature{operation=" + operation + ", coefficients="
+				+ Arrays.deepToString(coefficients) + "}";
 	}
 }

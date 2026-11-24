@@ -33,6 +33,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
@@ -225,6 +226,8 @@ public class Inequality {
 				type = IneqType.INEQUALITY_IMPLICIT;
 				if (implicitCurveBorder == null) {
 					implicitCurveBorder = new GeoImplicitCurve(kernel.getConstruction(), equ);
+				} else if (!hasSameCoefficients(newBorder, implicitCurveBorder.getCoeff())) {
+					implicitCurveBorder.fromEquation(equ, null);
 				}
 				setBorderStyle(implicitCurveBorder);
 				border = implicitCurveBorder;
@@ -249,6 +252,28 @@ public class Inequality {
 		} else {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 		}
+	}
+
+	private static boolean hasSameCoefficients(
+			@NonNull Polynomial polynomial, double @Nullable [][] previous) {
+		ExpressionValue[][] coefficients = polynomial.getCoeff();
+		if (previous == null || coefficients.length != previous.length) {
+			return false;
+		}
+		for (int x = 0; x < coefficients.length; x++) {
+			// Missing terms are null cells, not null rows; the null-row check is defensive.
+			if (previous[x] == null || coefficients[x].length != previous[x].length) {
+				return false;
+			}
+			for (int y = 0; y < coefficients[x].length; y++) {
+				double value = coefficients[x][y] == null ? 0 : coefficients[x][y].evaluateDouble();
+				// An epsilon comparison could hide small changes during slider animation.
+				if (value != previous[x][y]) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	private void updateLinear(ExpressionValue[][] evs) {

@@ -16,15 +16,20 @@
 
 package org.geogebra.common.euclidian.draw;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class DrawInequalityTest extends BaseAppTestSetup {
 
@@ -47,5 +52,27 @@ class DrawInequalityTest extends BaseAppTestSetup {
 				<path d="M305.0,400.0C305.0,402.76142374915395,302.76142374915395,.* stroke-opacity="1.0"/>
 				<path d="M300.0,395.0C302.76142374915395,395.0,305.0,397.23857625084605.*"/>
 				</svg>""".stripIndent()), svgContent);
+	}
+
+	@Issue("APPS-8035")
+	@ParameterizedTest
+	@CsvSource({"a*x^4+y^4<5, 0.75, true, false", "x^4+y^4<a, 1.9, false, true"})
+	void implicitInequalityFillShouldUpdateWithParameter(
+			String expression, double x, boolean initiallyInside, boolean updatedInside) {
+		evaluate("ZoomIn(-3,-3,3,3)");
+		evaluate("a = 10");
+		GeoElement element = evaluateGeoElement("c: " + expression);
+		EuclidianView view = getApp().getActiveEuclidianView();
+		Drawable drawable = assertInstanceOf(Drawable.class, view.getDrawableFor(element));
+		drawable.draw(new SvgGraphics(800, 600));
+		assertEquals(
+				initiallyInside,
+				drawable.getShape().contains(view.toScreenCoordXd(x), view.toScreenCoordYd(0)));
+
+		evaluate("SetValue(a, 20)");
+		drawable.draw(new SvgGraphics(800, 600));
+		assertEquals(
+				updatedInside,
+				drawable.getShape().contains(view.toScreenCoordXd(x), view.toScreenCoordYd(0)));
 	}
 }

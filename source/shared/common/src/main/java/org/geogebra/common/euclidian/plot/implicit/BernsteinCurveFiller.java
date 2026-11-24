@@ -203,8 +203,7 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 		borderPanZoom.snapshot();
 		ImplicitPlotTimings.log("BernsteinCurveFiller.buildContour", stageStart);
 		stageStart = ImplicitPlotTimings.start();
-		boolean classified = classifyRegions(boundsSnapshot);
-		Log.debug("[BernsteinCurveFiller] classifyRegions success: " + classified);
+		classifyRegions(boundsSnapshot);
 		updateSignature();
 		ImplicitPlotTimings.log("BernsteinCurveFiller.classifyRegions", stageStart);
 		reset();
