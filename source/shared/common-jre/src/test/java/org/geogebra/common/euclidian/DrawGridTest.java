@@ -17,15 +17,21 @@
 package org.geogebra.common.euclidian;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGraphicsCommon;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.draw.SvgGraphics;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.junit.jupiter.api.BeforeAll;
+import org.geogebra.test.annotation.Issue;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Grid test
@@ -35,13 +41,13 @@ import org.junit.jupiter.api.Test;
  */
 class DrawGridTest {
 
-	private static AppCommon app;
+	private AppCommon app;
 
 	/**
 	 * Create test app
 	 */
-	@BeforeAll
-	static void setup() {
+	@BeforeEach
+	void setup() {
 		app = AppCommonFactory.create3D();
 	}
 
@@ -76,7 +82,44 @@ class DrawGridTest {
 		hasBlueLines(24, 24);
 	}
 
-	private static void hasBlueLines(int expectMinor, int expectMajor) {
+	@Test
+	@Issue("APPS-8185")
+	void tinyGridDistanceShouldNotDrawTooManyLines() {
+		showGrid(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID, 1E-4);
+		assertTrue(countGridLines() < 1000);
+	}
+
+	@ParameterizedTest
+	@ValueSource(
+			ints = {
+				EuclidianView.GRID_CARTESIAN,
+				EuclidianView.GRID_CARTESIAN_WITH_SUBGRID,
+				EuclidianView.GRID_ISOMETRIC,
+				EuclidianView.GRID_POLAR,
+				EuclidianView.GRID_DOTS
+			})
+	@Issue("APPS-8185")
+	void negativeGridDistanceShouldNotLoopForever(int gridType) {
+		showGrid(gridType, -1);
+		assertTrue(countGridLines() < 1000);
+	}
+
+	private void showGrid(int gridType, double distance) {
+		EuclidianView view = app.getActiveEuclidianView();
+		view.getSettings().setShowAxes(false, false);
+		view.getSettings().showGrid(true);
+		// set on the view, settings changes would repaint with the graphics of the headless app
+		view.setGridType(gridType);
+		view.setGridDistances(new double[] {distance, distance, Math.PI / 6});
+	}
+
+	private int countGridLines() {
+		LineCountingGraphics graphics = new LineCountingGraphics();
+		app.getActiveEuclidianView().paint(graphics);
+		return graphics.lineCount;
+	}
+
+	private void hasBlueLines(int expectMinor, int expectMajor) {
 		SvgGraphics svgGraphics = new SvgGraphics(800, 600);
 		app.getActiveEuclidianView().paint(svgGraphics);
 		String svg = svgGraphics.toString();
@@ -96,5 +139,35 @@ class DrawGridTest {
 		}
 		assertEquals(expectMinor, minor);
 		assertEquals(expectMajor, major);
+	}
+
+	/**
+	 * Counts lines and shapes and fails fast instead of drawing (almost) forever.
+	 */
+	private static final class LineCountingGraphics extends GGraphicsCommon {
+		private static final int MAX_LINES = 100_000;
+		private int lineCount = 0;
+
+		@Override
+		public void addStraightLineToGeneralPath(double x1, double y1, double x2, double y2) {
+			countLine();
+		}
+
+		@Override
+		public void draw(GShape shape) {
+			countLine();
+		}
+
+		@Override
+		public void fill(GShape shape) {
+			countLine();
+		}
+
+		private void countLine() {
+			lineCount++;
+			if (lineCount > MAX_LINES) {
+				throw new IllegalStateException("Too many grid lines");
+			}
+		}
 	}
 }

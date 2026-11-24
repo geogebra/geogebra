@@ -16,6 +16,7 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -24,8 +25,11 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class GridDistancePropertyTest extends BaseAppTestSetup {
 
@@ -68,5 +72,14 @@ class GridDistancePropertyTest extends BaseAppTestSetup {
 		fixedDistanceProperty.setValue(true);
 		assertTrue(gridDistX.isEnabled(), "Should be enabled when fixed");
 		assertTrue(gridDistY.isEnabled(), "Should be enabled when fixed");
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"-1", "0"})
+	@Issue("APPS-8185")
+	void shouldIgnoreNonPositiveDistance(String distance) {
+		gridDistX.setValue("2");
+		gridDistX.setValue(distance);
+		assertEquals("2", gridDistX.getValue());
 	}
 }

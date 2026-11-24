@@ -31,6 +31,14 @@ import com.google.j2objc.annotations.Weak;
  *
  */
 public class DrawGrid {
+	/**
+	 * Smallest distance between grid lines (in pixels) that is drawn. Closer lines would merge,
+	 * and a tiny or negative distance would make the drawing loops (almost) endless.
+	 */
+	private static final double MIN_GRID_STEP_PIXELS = 1;
+	/** Number of parts per major grid cell when the subgrid is shown. */
+	private static final int SUBGRID_PARTS = 5;
+
 	@Weak
 	private EuclidianView view;
 
@@ -56,18 +64,35 @@ public class DrawGrid {
 	 */
 	protected void drawCartesianGrid(
 			GGraphics2D g2, double xCrossPix, double yCrossPix, boolean subGrid) {
-		if (view.getXaxisLog()) {
-			drawVerticalGridLog(g2, xCrossPix, yCrossPix);
-		} else {
-			drawVerticalGridLinear(g2, xCrossPix, yCrossPix, subGrid);
+		double tickStepX = view.getXscale() * view.gridDistances[0];
+		if (isDrawableGridStep(tickStepX)) {
+			if (view.getXaxisLog()) {
+				drawVerticalGridLog(g2, xCrossPix, yCrossPix);
+			} else {
+				boolean drawSubGrid = subGrid && isDrawableGridStep(tickStepX / SUBGRID_PARTS);
+				drawVerticalGridLinear(g2, xCrossPix, yCrossPix, drawSubGrid);
+			}
 		}
 
 		// horizontal grid lines
-		if (view.getYaxisLog()) {
-			drawHorizontalGridLog(g2, xCrossPix, yCrossPix);
-		} else {
-			drawHorizontalGridLinear(g2, xCrossPix, yCrossPix, subGrid);
+		double tickStepY = view.getYscale() * view.gridDistances[1];
+		if (isDrawableGridStep(tickStepY)) {
+			if (view.getYaxisLog()) {
+				drawHorizontalGridLog(g2, xCrossPix, yCrossPix);
+			} else {
+				boolean drawSubGrid = subGrid && isDrawableGridStep(tickStepY / SUBGRID_PARTS);
+				drawHorizontalGridLinear(g2, xCrossPix, yCrossPix, drawSubGrid);
+			}
 		}
+	}
+
+	/**
+	 * @param stepPixels distance between neighboring grid lines in pixels
+	 * @return whether grid lines with this distance should be drawn
+	 */
+	static boolean isDrawableGridStep(double stepPixels) {
+		// also false for NaN
+		return stepPixels >= MIN_GRID_STEP_PIXELS;
 	}
 
 	private void drawHorizontalGridLinear(
@@ -79,7 +104,7 @@ public class DrawGrid {
 		// number of parts per major grid cell (split by subgrids)
 		int n = 1;
 		if (subGrid) {
-			n = 5;
+			n = SUBGRID_PARTS;
 			double smallStep = tickStepY / n;
 			// start of subgrids
 			start = view.getYZero() % smallStep;
@@ -166,7 +191,7 @@ public class DrawGrid {
 		// number of parts per major grid cell (split by subgrids)
 		int n = 1;
 		if (subGrid) {
-			n = 5;
+			n = SUBGRID_PARTS;
 			double smallStep = tickStepX / n;
 			// start of subgrids
 			xAxisStart = getFirstVisibleVerticalLineX(xCrossPix, smallStep);

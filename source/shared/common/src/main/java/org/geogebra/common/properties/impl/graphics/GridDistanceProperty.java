@@ -62,7 +62,7 @@ public class GridDistanceProperty extends NumericPropertyWithSuggestions
 
 	@Override
 	protected void setNumberValue(GeoNumberValue value) {
-		if (!Double.isFinite(value.getDouble())) {
+		if (!Double.isFinite(value.getDouble()) || value.getDouble() <= 0) {
 			return;
 		}
 		double[] ticks = euclidianView.getGridDistances();

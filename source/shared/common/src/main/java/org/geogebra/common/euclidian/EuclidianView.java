@@ -3994,7 +3994,12 @@ public abstract class EuclidianView
 				drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix, true);
 				break;
 			case GRID_ISOMETRIC:
-				drawIsometricGrid(g2, xCrossPix, yCrossPix);
+				// neighboring isometric lines are d * sqrt(3) / 2 apart
+				double isometricStep =
+						Math.min(getXscale(), getYscale()) * gridDistances[0] * Math.sqrt(3) / 2;
+				if (DrawGrid.isDrawableGridStep(isometricStep)) {
+					drawIsometricGrid(g2, xCrossPix, yCrossPix);
+				}
 				break;
 			case GRID_POLAR:
 				// find minimum grid radius
@@ -4028,10 +4033,12 @@ public abstract class EuclidianView
 				// it is assumed that the x/y scaling ratio is 1:1
 				double tickStepR = getXscale() * gridDistances[0];
 				double r = min - (min % tickStepR);
-				while (r <= max) {
-					circle.setFrame(getXZero() - r, getYZero() - r, 2 * r, 2 * r);
-					g2.draw(circle);
-					r = r + tickStepR;
+				if (DrawGrid.isDrawableGridStep(tickStepR)) {
+					while (r <= max) {
+						circle.setFrame(getXZero() - r, getYZero() - r, 2 * r, 2 * r);
+						g2.draw(circle);
+						r = r + tickStepR;
+					}
 				}
 
 				// draw the radial grid lines
