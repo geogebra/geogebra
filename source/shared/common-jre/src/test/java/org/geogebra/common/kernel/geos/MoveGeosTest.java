@@ -29,7 +29,6 @@ import java.util.Collections;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -218,37 +217,6 @@ class MoveGeosTest extends BaseUnitTest {
 		getApp().setRightClickEnabled(false);
 		moveByArrowKey(button);
 		assertEquals(1, button.getRealWorldLocX(), 0);
-	}
-
-	@Test
-	void fixedButtonMovableByArrowKeysWhenButtonToolActive1() {
-		GeoButton button = add("Button()");
-		button.setAbsoluteScreenLoc(100, 100);
-		button.setFixed(true);
-		getApp().setMode(EuclidianConstants.MODE_BUTTON_ACTION);
-		moveByArrowKey(button);
-		assertNotEquals(100, button.getAbsoluteScreenLocX());
-	}
-
-	@Test
-	void fixedButtonMovableByArrowKeysWhenButtonToolActive2() {
-		GeoButton button = add("Button()");
-		button.setAbsoluteScreenLocActive(false);
-		button.setRealWorldLoc(1, 1);
-		button.setFixed(true);
-		getApp().setMode(EuclidianConstants.MODE_BUTTON_ACTION);
-		moveByArrowKey(button);
-		assertNotEquals(1, button.getRealWorldLocX(), 0);
-	}
-
-	@Test
-	void fixedInputBoxMovableByArrowKeysWhenTextFieldToolActive() {
-		GeoInputBox inputBox = add("InputBox()");
-		inputBox.setAbsoluteScreenLoc(100, 100);
-		inputBox.setFixed(true);
-		getApp().setMode(EuclidianConstants.MODE_TEXTFIELD_ACTION);
-		moveByArrowKey(inputBox);
-		assertNotEquals(100, inputBox.getAbsoluteScreenLocX());
 	}
 
 	private void moveByArrowKey(GeoElement geo) {

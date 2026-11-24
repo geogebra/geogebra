@@ -290,7 +290,7 @@ public class EuclidianPen implements GTimerListener {
 		if (penPoints.isEmpty()) {
 			if (initialPoint != null) {
 				// also add the coordinates of the initialPoint to the penPoints
-				Coords coords = initialPoint.getCoords();
+				Coords coords = initialPoint.getInhomCoords();
 				// calculate the screen coordinates
 				double locationX = view.toScreenCoordXd(coords.getX());
 				double locationY = view.toScreenCoordYd(coords.getY());
@@ -384,6 +384,10 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void finishStrokePart() {
 		timer.start();
+		if (penPoints.isEmpty()) {
+			previewPoints.clear();
+			return;
+		}
 		String oldXML = null;
 		if (lastAlgo != null && !startNewStroke) {
 			oldXML = lastAlgo.getXML();
@@ -555,13 +559,19 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	private final class PenStrokeAdapter extends GeoPolyLine {
+		// Superclass construction applies defaults through these setters; those are not user edits.
+		private boolean initialized;
+
 		private PenStrokeAdapter(App app) {
 			super(app.getKernel().getConstruction());
+			initialized = true;
 		}
 
 		@Override
 		public void setObjColor(GColor color) {
-			checkPenColorChanged(color, this);
+			if (initialized) {
+				checkPenColorChanged(color, this);
+			}
 			super.setObjColor(color);
 		}
 
@@ -571,7 +581,9 @@ public class EuclidianPen implements GTimerListener {
 
 		@Override
 		public void setLineThickness(int thickness) {
-			checkPenSizeChanged(thickness, this);
+			if (initialized) {
+				checkPenSizeChanged(thickness, this);
+			}
 			super.setLineThickness(thickness);
 		}
 
@@ -581,13 +593,17 @@ public class EuclidianPen implements GTimerListener {
 
 		@Override
 		public void setLineType(int lineType) {
-			checkLineStyleChanged(lineType, this);
+			if (initialized) {
+				checkLineStyleChanged(lineType, this);
+			}
 			super.setLineType(lineType);
 		}
 
 		@Override
 		public void setLineOpacity(int lineOpacity) {
-			checkOpacityChange(lineOpacity, this);
+			if (initialized) {
+				checkOpacityChange(lineOpacity, this);
+			}
 			super.setLineOpacity(lineOpacity);
 		}
 

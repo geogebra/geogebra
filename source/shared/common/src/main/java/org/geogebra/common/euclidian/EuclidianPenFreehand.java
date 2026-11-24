@@ -48,6 +48,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Freehand processor
@@ -110,7 +112,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		function,
 	}
 
-	private ShapeType expected;
+	private @Nullable ShapeType expected;
 
 	private final RecoSegment[] recos = new RecoSegment[MAX_POLYGON_SIDES + 1];
 	private final Inertia[] inertias = new Inertia[MAX_POLYGON_SIDES];
@@ -158,12 +160,15 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	/**
 	 * @param expectedType
-	 *            defines the expected shape
+	 *            defines the expected shape, or null for unrestricted recognition
 	 */
-	public void setExpected(ShapeType expectedType) {
+	public void setExpected(@Nullable ShapeType expectedType) {
 		this.expected = expectedType;
 
 		resetParameters();
+		if (expected == null) {
+			return;
+		}
 		switch (expected) {
 			case circleThreePoints:
 				CIRCLE_MAX_SCORE = 0.15;
@@ -184,55 +189,114 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	@Override
 	public void handleMouseReleasedForPenMode(
 			boolean right, int x, int y, boolean isPinchZooming, PointerEventType eventType) {
-		penPoints.add(new GPoint2D(x, y));
+		if (right || penPoints.isEmpty() || (isPinchZooming && !hasDistinctPoints())) {
+			resetPenState();
+			app.refreshViews();
+			return;
+		}
+		GPoint2D release = new GPoint2D(x, y);
+		if (penPoints.get(penPoints.size() - 1).distance(release) > 0) {
+			penPoints.add(release);
+			updateBounds(release);
+		}
+		if (!hasDistinctPoints()) {
+			resetPenState();
+			app.refreshViews();
+			return;
+		}
 
-		GeoElement shape = checkExpectedShape(eventType);
-
-		penPoints.clear();
-		previewPoints.clear();
-
-		app.refreshViews(); // clear trace
-
-		minX = Integer.MAX_VALUE;
-		maxX = Integer.MIN_VALUE;
+		GeoElement shape = null;
+		try {
+			shape = checkExpectedShape(eventType);
+		} finally {
+			if (shape == null) {
+				resetInitialPoint();
+			} else {
+				// A recognized shape may depend on the anchor; it is no longer provisional.
+				initialPoint = null;
+			}
+			deleteInitialPoint = false;
+			penPoints.clear();
+			previewPoints.clear();
+			resetBounds();
+			app.refreshViews(); // clear trace
+		}
 		if (shape != null) {
 			app.storeUndoInfo();
 		}
 	}
 
+	private boolean hasDistinctPoints() {
+		if (penPoints.size() < 2) {
+			return false;
+		}
+		GPoint2D first = penPoints.get(0);
+		for (int i = 1; i < penPoints.size(); i++) {
+			if (first.distance(penPoints.get(i)) > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/** Clears sampled input, recognition bounds and queued polygon edges. */
+	@Override
+	public void resetPenState() {
+		super.resetPenState();
+		deleteInitialPoint = false;
+		resetBounds();
+		recognizerQueueLength = 0;
+	}
+
+	private void resetBounds() {
+		minX = Integer.MAX_VALUE;
+		maxX = Integer.MIN_VALUE;
+	}
+
 	@Override
 	protected void addPointPenMode(GPoint2D newPoint) {
+		int previousSize = penPoints.size();
+		super.addPointPenMode(newPoint);
+		for (int i = previousSize; i < penPoints.size(); i++) {
+			updateBounds(penPoints.get(i));
+		}
+	}
+
+	private void updateBounds(@NonNull GPoint2D newPoint) {
 		if (minX > newPoint.getX()) {
 			minX = newPoint.getX();
 		}
 		if (maxX < newPoint.getX()) {
 			maxX = newPoint.getX();
 		}
-		super.addPointPenMode(newPoint);
 	}
 
 	private GeoElement createFunction() {
 		int n = (int) (maxX - minX + 1);
 
-		if (n < 0) {
+		if (n < 2) {
 			return null;
 		}
 
 		// now check if it can be a function (increasing or decreasing x)
-		double monotonicTest = 0;
+		int increasing = 0;
+		int decreasing = 0;
 
 		for (int i = 0; i < penPoints.size() - 1; i++) {
 			GPoint2D p1 = penPoints.get(i);
 			GPoint2D p2 = penPoints.get(i + 1);
-			if (p2.x >= p1.x) {
-				monotonicTest++;
+			if (p2.x > p1.x) {
+				increasing++;
+			} else if (p2.x < p1.x) {
+				decreasing++;
 			}
 		}
 
-		monotonicTest = monotonicTest / (penPoints.size() - 1);
+		// Repeated x coordinates are pauses, not a change in drawing direction.
+		double monotonicTest = (double) increasing / (increasing + decreasing);
 
 		// allow 10% error
-		boolean monotonic = monotonicTest > 0.9 || monotonicTest < 0.1;
+		boolean monotonic = monotonicTest >= 0.9 || monotonicTest <= 0.1;
 
 		if (!monotonic) {
 			penPoints.clear();
@@ -661,7 +725,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				t1.radius = t2.radius;
 				t1.x1 = t2.x1;
 				t1.x2 = t2.x2;
-				t1.y1 = t2.y2;
+				t1.y1 = t2.y1;
 				t1.y2 = t2.y2;
 				t1.reversed = t2.reversed;
 				te1++;
@@ -779,8 +843,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			y_first = view.toRealWorldCoordY(points[2 * i + 1]) + offsetInitialPointY;
 
 			if (i == 0 && this.initialPoint != null && this.initialPoint.isIndependent()) {
-				offsetInitialPointX = this.initialPoint.x - x_first;
-				offsetInitialPointY = this.initialPoint.y - y_first;
+				offsetInitialPointX = this.initialPoint.getInhomX() - x_first;
+				offsetInitialPointY = this.initialPoint.getInhomY() - y_first;
 				pts[0] = this.initialPoint;
 			} else {
 				// null -> created labeled point
@@ -834,6 +898,21 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	}
 
 	private void getSegmentGeometry(Inertia s, RecoSegment r) {
+		if (r.endpt == r.startpt + 1) {
+			GPoint2D first = penPoints.get(r.startpt);
+			GPoint2D last = penPoints.get(r.endpt);
+			r.x1 = first.x;
+			r.y1 = first.y;
+			r.x2 = last.x;
+			r.y2 = last.y;
+			r.xcenter = (first.x + last.x) / 2;
+			r.ycenter = (first.y + last.y) / 2;
+			double dx = last.x - first.x;
+			double dy = last.y - first.y;
+			r.angle = Math.atan2(2 * dx * dy, dx * dx - dy * dy) / 2;
+			r.radius = first.distance(last) / 2;
+			return;
+		}
 		r.xcenter = centerX(s);
 		r.ycenter = centerY(s);
 		double a1 = i_xx(s);
@@ -1014,7 +1093,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				det2 = 1;
 			}
 
-			if (det1 < det2 && det1 < LINE_MAX_DET) {
+			// Equal costs still allow growth; exact straight edges often tie at zero.
+			if (det1 <= det2 && det1 < LINE_MAX_DET) {
 				i1--;
 				s.copyValuesFrom(s1);
 			} else if (det2 < det1 && det2 < LINE_MAX_DET) {

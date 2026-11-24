@@ -82,6 +82,8 @@ import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Common App class used for testing.
@@ -531,8 +533,8 @@ public class AppCommon extends App {
 	}
 
 	@Override
-	public void runScripts(GeoElement geo1, String string) {
-		// TODO
+	public void runScripts(@NonNull GeoElement geo1, @Nullable String string) {
+		invokeLater(() -> geo1.runClickScripts(string));
 	}
 
 	@Override

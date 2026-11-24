@@ -103,7 +103,6 @@ import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
@@ -2583,13 +2582,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final boolean functionInspector(Hits hits, boolean selPreview) {
-		if (hits.isEmpty()) {
+		if (hits.isEmpty() || getDialogManager() == null) {
 			return false;
 		}
 		if (selFunctions() == 0) {
 			this.addSelectedFunction(hits, 1, false, selPreview);
 		}
-		if (selFunctions() == 1) {
+		if (!selPreview && selFunctions() == 1) {
 			GeoFunction[] functions = getSelectedFunctions();
 			// set mode first to prevent concurrency issue
 			app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
@@ -3082,7 +3081,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		addSelectedGeo(hits, 1, false, selPreview);
-		if (selGeos() == 1) {
+		if (!selPreview && selGeos() == 1) {
 			GeoElement[] geos = getSelectedGeos();
 			app.geoElementSelected(geos[0], addToSelection);
 		}
@@ -4460,7 +4459,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private boolean showCheckbox(boolean selPreview) {
-		if (selPreview) {
+		if (selPreview || mouseLoc == null || getDialogManager() == null) {
 			return false;
 		}
 
@@ -4955,7 +4954,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final boolean button(boolean textfield, boolean selPreview) {
-		if (!selPreview && (mouseLoc != null)) {
+		if (!selPreview && mouseLoc != null && getDialogManager() != null) {
 			getDialogManager().showButtonCreationDialog(mouseLoc.x, mouseLoc.y, textfield);
 		}
 		return false;
@@ -6096,6 +6095,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			case EuclidianConstants.MODE_BUTTON_ACTION:
 			case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+			case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
 				// make sure script not triggered
 				break;
 			case EuclidianConstants.MODE_ZOOM_IN:
@@ -7348,7 +7348,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected boolean isMoveCheckboxExpected() {
 		return tempRightClick()
 				|| !movedGeoBoolean.isLockedPosition()
-				|| app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX;
+				|| app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX
+				|| temporaryMode && oldMode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX;
 	}
 
 	protected boolean isMoveButtonExpected(GeoElementND geo) {
@@ -7357,7 +7358,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		return tempRightClick()
 				|| !geo.isLocked()
-				|| app.getMode() == EuclidianConstants.MODE_BUTTON_ACTION;
+				|| app.getMode() == EuclidianConstants.MODE_BUTTON_ACTION
+				|| temporaryMode && oldMode == EuclidianConstants.MODE_BUTTON_ACTION;
 	}
 
 	private boolean isMoveTextFieldExpected(GeoElementND geo) {
@@ -7366,7 +7368,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		return tempRightClick()
 				|| !geo.isLocked()
-				|| app.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION;
+				|| app.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION
+				|| temporaryMode && oldMode == EuclidianConstants.MODE_TEXTFIELD_ACTION;
 	}
 
 	protected void setStartPointLocation(double x, double y) {
@@ -7465,9 +7468,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *         threshold
 	 */
 	public boolean isDraggingBeyondThreshold(int threshold) {
-		return mouseLoc != null
-				&& (Math.abs(mouseLoc.x - selectionStartPoint.x) > threshold
-						|| Math.abs(mouseLoc.y - selectionStartPoint.y) > threshold);
+		return mouseLoc != null && isDraggingBeyondThreshold(threshold, mouseLoc.x, mouseLoc.y);
+	}
+
+	private boolean isDraggingBeyondThreshold(int threshold, int x, int y) {
+		return Math.abs(x - selectionStartPoint.x) > threshold
+				|| Math.abs(y - selectionStartPoint.y) > threshold;
 	}
 
 	/**
@@ -8101,7 +8107,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// warning: ensure that view.setLabelHitNeedsRefresh() is called e.g. at
 		// EuclidianController.wrapMousePressed() start
 		GeoElement geo = view.getLabelHitCheckRefresh(mouseLoc, e.getType());
-		if (geo != null) {
+		// A creation tool may have excluded the label's owner from the drag targets.
+		if (geo != null && (!drag || !temporaryMode || view.getHits().contains(geo))) {
 			moveMode = MoveMode.LABEL;
 			movedLabelGeoElement = geo;
 			oldLoc.setLocation(geo.labelOffsetX, geo.labelOffsetY);
@@ -8132,6 +8139,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// find and set movedGeoElement
 		setViewHits(e.getType());
+		if (drag && temporaryMode) {
+			filterFurnitureHitsForDrag(oldMode);
+		}
 		Hits viewHits = view.getHits();
 
 		Hits moveableList;
@@ -8458,7 +8468,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public void wrapMouseDraggedND(AbstractEvent event, boolean startCapture) {
 		// kill view moving when animation button pressed
-		if (shouldCancelDrag(event) || this.animationButtonPressed) {
+		if (shouldCancelDrag(event)
+				|| this.animationButtonPressed
+				|| event.isRightClick() && !app.isRightClickEnabled()) {
 			return;
 		}
 		scriptsHaveRun = false;
@@ -8484,6 +8496,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		clearJustCreatedGeos();
+
+		boolean furnitureCreationMode = mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX
+				|| mode == EuclidianConstants.MODE_SLIDER
+				|| mode == EuclidianConstants.MODE_BUTTON_ACTION
+				|| mode == EuclidianConstants.MODE_TEXTFIELD_ACTION;
+		if (furnitureCreationMode && !draggingOccurred) {
+			if (!isDraggingBeyondThreshold(DRAG_THRESHOLD, event.getX(), event.getY())) {
+				return;
+			}
+			draggingBeyondThreshold = true;
+		}
 
 		if (!draggingBeyondThreshold && isDraggingBeyondThreshold()) {
 			draggingBeyondThreshold = true;
@@ -8512,10 +8535,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							|| (mode == EuclidianConstants.MODE_POINT)
 							|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)
 							|| (mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
-							|| (mode == EuclidianConstants.MODE_SLIDER)
-							|| (mode == EuclidianConstants.MODE_BUTTON_ACTION)
-							|| (mode == EuclidianConstants.MODE_TEXTFIELD_ACTION)
-							|| (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX)
+							|| furnitureCreationMode
 							|| (mode == EuclidianConstants.MODE_TEXT))
 					&& mode != EuclidianConstants.MODE_SELECT_MOW) {
 				setViewHits(event.getType());
@@ -8537,7 +8557,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// types
 				if (mode == EuclidianConstants.MODE_SLIDER) {
 					if (view.getHits().size() != 1) {
-						filterHits(v -> v instanceof GeoNumeric && ((GeoNumeric) v).isSlider());
+						filterFurnitureHitsForDrag(mode);
 					}
 
 					if (!view.getHits().isEmpty() && !(view.getHits().get(0) instanceof GeoNumeric)) {
@@ -8546,7 +8566,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				} else if ((mode == EuclidianConstants.MODE_BUTTON_ACTION)
 						|| (mode == EuclidianConstants.MODE_TEXTFIELD_ACTION)) {
 					if (view.getHits().size() != 1) {
-						filterHits(v -> v instanceof GeoButton);
+						filterFurnitureHitsForDrag(mode);
 					}
 
 					if (!view.getHits().isEmpty() && !(view.getHits().get(0) instanceof GeoButton)) {
@@ -8554,10 +8574,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					}
 				} else if (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX) {
 					if (view.getHits().size() != 1) {
-						filterHits(v -> v instanceof GeoBoolean);
+						filterFurnitureHitsForDrag(mode);
 					}
 
-					if (!(!view.getHits().isEmpty() && view.getHits().get(0) instanceof GeoBoolean)) {
+					if (!view.getHits().isEmpty() && !(view.getHits().get(0) instanceof GeoBoolean)) {
 						return;
 					}
 				} else if (mode == EuclidianConstants.MODE_TEXT) {
@@ -8576,15 +8596,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 					// make sure that dragging doesn't deselect the geos
 					dontClearSelection = true;
-
-					return;
 				}
 			}
 
-			if (!app.isRightClickEnabled()) {
-				return;
-				// Michael Borcherds 2007-10-07
-			}
 			if (mode == EuclidianConstants.MODE_MOVE_ROTATE) {
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(rotationCenter, false, true);
@@ -9429,10 +9443,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected void runScriptsIfNeeded(GeoElement geo1) {
-		// GGB-1196
-		// no script run if Properties View is open.
-
-		if (app.showView(App.VIEW_PROPERTIES)) {
+		// GGB-1196: no script run if Properties View is open, or while positioning buttons.
+		if (app.showView(App.VIEW_PROPERTIES)
+				|| mode == EuclidianConstants.MODE_BUTTON_ACTION
+				|| temporaryMode && oldMode == EuclidianConstants.MODE_BUTTON_ACTION) {
 			return;
 		}
 
@@ -9562,12 +9576,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 
 				// remove non-Points
-				for (int i = 0; i < hits.size(); i++) {
-					GeoElement geo = hits.get(i);
-					if (!TestGeo.GEOPOINT.test(geo)) {
-						hits.remove(i);
-					}
-				}
+				hits.removeIf(geo -> !TestGeo.GEOPOINT.test(geo));
 
 				// Fit line is available from more than 1 point
 				if (hits.size() < 2) {
@@ -10300,6 +10309,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		transformCoords();
 		Hits hits = null;
 
+		if (draggingOccurred && isDraggingBeyondThreshold()) {
+			draggingBeyondThreshold = true;
+		}
+
 		if (specialRelease(x, y, event, control, type)) {
 			draggingOccurred = false;
 			return;
@@ -10843,20 +10856,29 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		useLineEndPoint = true;
 	}
 
+	private void initFreehandPen(int freehandMode) {
+		if (pen == null || !pen.isFreehand()) {
+			pen = new EuclidianPenFreehand(app, view);
+		}
+		((EuclidianPenFreehand) pen)
+				.setExpected(
+						freehandMode == EuclidianConstants.MODE_FREEHAND_FUNCTION ? ShapeType.function : null);
+	}
+
 	protected Previewable switchPreviewableForInitNewMode(int mode1) {
 		Previewable previewDrawable = null;
 		// init preview drawables
 		switch (mode1) {
 			case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			case EuclidianConstants.MODE_FREEHAND_FUNCTION:
-				if (pen == null || !pen.isFreehand()) {
-					pen = new EuclidianPenFreehand(app, view);
-				}
+				initFreehandPen(mode1);
 				break;
 			case EuclidianConstants.MODE_PEN:
 			case EuclidianConstants.MODE_HIGHLIGHTER:
 				if (pen == null || pen.isFreehand()) {
 					pen = new EuclidianPen(app, view, measurementController);
+				} else {
+					pen.updateMode();
 				}
 				break;
 
@@ -11819,8 +11841,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				((EuclidianPenFreehand) pen).setExpected(ShapeType.vectorPolygon);
 				break;
 			case EuclidianConstants.MODE_FREEHAND_FUNCTION:
-				this.pen = new EuclidianPenFreehand(app, view);
-				((EuclidianPenFreehand) pen).setExpected(ShapeType.function);
+				initFreehandPen(EuclidianConstants.MODE_FREEHAND_FUNCTION);
+				return;
 			default:
 				return;
 		}
@@ -12186,12 +12208,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view
 	}
 
-	private void filterHits(Inspecting filter) {
-		for (int i = 1; i < getView().getHits().size(); i++) {
-			if (!filter.check(getView().getHits().get(i))) {
-				return;
-			}
-			getView().getHits().remove(i);
+	private void filterFurnitureHitsForDrag(int toolMode) {
+		switch (toolMode) {
+			case EuclidianConstants.MODE_SLIDER:
+				view.getHits()
+						.removeIf(geo -> !(geo instanceof GeoNumeric) || !((GeoNumeric) geo).isSlider());
+				break;
+			case EuclidianConstants.MODE_BUTTON_ACTION:
+			case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+				view.getHits().removeIf(geo -> !(geo instanceof GeoButton));
+				break;
+			case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
+				view.getHits().removeIf(geo -> !(geo instanceof GeoBoolean));
+				break;
+			default:
+				break;
 		}
 	}
 

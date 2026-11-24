@@ -185,8 +185,12 @@ public class Relation {
 		rel.setInfo("<html>");
 
 		// Computing symbolic data:
-		String[] ndgResult = getNDGConditions(relAlgo);
-		app.setDefaultCursor();
+		String[] ndgResult;
+		try {
+			ndgResult = getNDGConditions(relAlgo);
+		} finally {
+			app.setDefaultCursor();
+		}
 		// This style is defined in the CSS. It is harmless in
 		// desktop but
 		// helpful to show nice list look in web:

@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.test.TestEvent;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -132,6 +133,20 @@ class FitLineToolTest extends BaseToolTest {
 		List<GeoElement> lines = applyFitLineTool(() -> dragRW(0.5, -0.5, 3.5, -5.5));
 
 		assertFitLine(lines, "f: y = -2x + 1");
+	}
+
+	@Test
+	@Issue("APPS-7920")
+	void selectionRectangleShouldIgnoreConsecutiveNonPoints() {
+		add("s=Segment((1,-1),(2,-1))");
+		add("t=Segment((1,-3),(2,-3))");
+		add("A=(1,-4)");
+		add("B=(2,-5)");
+		add("C=(3,-6)");
+
+		List<GeoElement> lines = applyFitLineTool(() -> dragRW(0.5, -0.5, 3.5, -6.5));
+
+		assertFitLine(lines, "f: y = -x - 3");
 	}
 
 	@Test

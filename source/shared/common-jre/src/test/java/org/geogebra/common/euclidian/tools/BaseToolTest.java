@@ -28,10 +28,13 @@ import java.util.function.Predicate;
 
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.test.TestEvent;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 
 public class BaseToolTest extends BaseEuclidianControllerTest {
@@ -68,6 +71,19 @@ public class BaseToolTest extends BaseEuclidianControllerTest {
 	}
 
 	/**
+	 * Drag between the given screen coordinates.
+	 *
+	 * @param startX screen x-coordinate where the drag starts
+	 * @param startY screen y-coordinate where the drag starts
+	 * @param endX screen x-coordinate where the drag ends
+	 * @param endY screen y-coordinate where the drag ends
+	 */
+	protected void drag(int startX, int startY, int endX, int endY) {
+		dragStart(startX, startY);
+		dragEnd(endX, endY);
+	}
+
+	/**
 	 * Drag between the given real-world coordinates in the active Euclidian view.
 	 *
 	 * @param startXRW real-world x-coordinate where the drag starts
@@ -77,8 +93,11 @@ public class BaseToolTest extends BaseEuclidianControllerTest {
 	 */
 	protected void dragRW(double startXRW, double startYRW, double endXRW, double endYRW) {
 		EuclidianView view = getApp().getActiveEuclidianView();
-		dragStart(view.toScreenCoordX(startXRW), view.toScreenCoordY(startYRW));
-		dragEnd(view.toScreenCoordX(endXRW), view.toScreenCoordY(endYRW));
+		drag(
+				view.toScreenCoordX(startXRW),
+				view.toScreenCoordY(startYRW),
+				view.toScreenCoordX(endXRW),
+				view.toScreenCoordY(endYRW));
 	}
 
 	/**
@@ -165,7 +184,67 @@ public class BaseToolTest extends BaseEuclidianControllerTest {
 				.toList();
 	}
 
+	/**
+	 * Snapshot finite stroke samples and segment types, excluding serialization separators.
+	 * @param stroke stroke to inspect
+	 * @return geometry suitable for comparison across undo and XML round-trips
+	 */
+	protected @NonNull List<String> strokeGeometry(@NonNull GeoLocusStroke stroke) {
+		return stroke.getPoints().stream()
+				.filter(MyPoint::isDefined)
+				.map(point -> point.x + ":" + point.y + ":" + point.getSegmentType())
+				.toList();
+	}
+
 	void assertTextContainsValue(GeoText text, GeoElement value) {
 		assertTrue(text.getTextString().contains(value.toValueString(StringTemplate.defaultTemplate)));
+	}
+	/**
+	 * Draw samples with the last position delivered only by the release event.
+	 * @param samples screen coordinates, in input order
+	 */
+	protected void drawSamples(int[] @NonNull [] samples) {
+		dragStart(samples[0][0], samples[0][1]);
+		for (int i = 1; i < samples.length - 1; i++) {
+			drag(samples[i][0], samples[i][1]);
+		}
+		int[] last = samples[samples.length - 1];
+		pointerRelease(last[0], last[1]);
+	}
+
+	/**
+	 * Draw polygonal edges with input spaced approximately five screen pixels apart.
+	 * @param vertices screen coordinates of successive edge endpoints
+	 */
+	protected void drawEdges(int[] @NonNull [] vertices) {
+		dragStart(vertices[0][0], vertices[0][1]);
+		for (int i = 1; i < vertices.length; i++) {
+			int[] a = vertices[i - 1];
+			int[] b = vertices[i];
+			int steps = Math.max(1, (int) (Math.hypot(b[0] - a[0], b[1] - a[1]) / 5));
+			for (int j = 1; j <= steps; j++) {
+				drag(a[0] + (b[0] - a[0]) * j / steps, a[1] + (b[1] - a[1]) * j / steps);
+			}
+		}
+		int[] last = vertices[vertices.length - 1];
+		pointerRelease(last[0], last[1]);
+	}
+
+	/**
+	 * Draw an ellipse in screen coordinates.
+	 * @param cx center x-coordinate
+	 * @param cy center y-coordinate
+	 * @param rx horizontal radius
+	 * @param ry vertical radius
+	 * @param reverse whether to draw in the opposite direction
+	 */
+	protected void drawEllipse(int cx, int cy, int rx, int ry, boolean reverse) {
+		dragStart(cx + rx, cy);
+		for (int i = 1; i <= 80; i++) {
+			double angle = (reverse ? -1 : 1) * 2 * Math.PI * i / 80;
+			drag(
+					cx + (int) Math.round(rx * Math.cos(angle)), cy + (int) Math.round(ry * Math.sin(angle)));
+		}
+		pointerRelease(cx + rx, cy);
 	}
 }

@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestEvent;
 import org.geogebra.test.annotation.Issue;
@@ -98,11 +97,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		resetMouseLocation();
 		click(50, 50);
 		checkContent();
-	}
-
-	@Test
-	void relationTool() {
-		setMode(EuclidianConstants.MODE_RELATION); // TODO 14
 	}
 
 	@Test
@@ -236,11 +230,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void selectionListenerTool() {
-		setMode(EuclidianConstants.MODE_SELECTION_LISTENER); // TODO 43
-	}
-
-	@Test
 	void regularPolygonTool() {
 		setMode(EuclidianConstants.MODE_REGULAR_POLYGON);
 		prepareInput("4");
@@ -264,11 +253,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void showCheckBoxTool() {
-		setMode(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX); // TODO 52
-	}
-
-	@Test
 	void mirrorAtCircleTool() {
 		t("c:x^2+y^2=8");
 		t("A=(1, -1)");
@@ -280,57 +264,13 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	void buttonActionTool() {
-		setMode(EuclidianConstants.MODE_BUTTON_ACTION); // TODO 60
-	}
-
-	@Test
-	void textFieldActionTool() {
-		setMode(EuclidianConstants.MODE_TEXTFIELD_ACTION); // TODO 61
-	}
-
-	@Test
-	void penTool() {
-		setMode(EuclidianConstants.MODE_PEN);
-		dragStart(0, 0);
-		dragEnd(50, 50);
-		checkContent("stroke1");
-		assertEquals(GeoGebraColorConstants.NEUTRAL_900, lookup("stroke1").getObjectColor());
-	}
-
-	@Test
-	void penToolNotes() {
-		getApp().setNotesConfig();
-		getApp().getSettings().resetSettings(getApp());
-		setMode(EuclidianConstants.MODE_PEN);
-		dragStart(0, 0);
-		dragEnd(50, 50);
-		assertEquals(GeoGebraColorConstants.NEUTRAL_900, lookup("stroke1").getObjectColor());
-	}
-
-	@Test
 	void rigidPolygonTool() {
 		setMode(EuclidianConstants.MODE_RIGID_POLYGON); // TODO 64
 	}
 
 	@Test
-	void probabilityCalculatorTool() {
-		setMode(EuclidianConstants.MODE_PROBABILITY_CALCULATOR); // TODO 66
-	}
-
-	@Test
-	void functionInspectorTool() {
-		setMode(EuclidianConstants.MODE_FUNCTION_INSPECTOR); // TODO 68
-	}
-
-	@Test
 	void vectorPolygonTool() {
 		setMode(EuclidianConstants.MODE_VECTOR_POLYGON); // TODO 70
-	}
-
-	@Test
-	void freehandShapeTool() {
-		setMode(EuclidianConstants.MODE_FREEHAND_SHAPE); // TODO 73
 	}
 
 	@Test
@@ -404,11 +344,6 @@ class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	void ellipseTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_ELLIPSE); // TODO 109
-	}
-
-	@Test
-	void highlighterTool() {
-		setMode(EuclidianConstants.MODE_HIGHLIGHTER); // TODO 111
 	}
 
 	@Test

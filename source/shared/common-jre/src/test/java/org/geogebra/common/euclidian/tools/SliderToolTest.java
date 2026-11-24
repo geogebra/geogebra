@@ -22,9 +22,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.jre.headless.DialogManagerNoGui;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.test.TestEvent;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 
@@ -54,6 +59,35 @@ class SliderToolTest extends BaseToolTest {
 			ec.wrapMouseMoved(new TestEvent(100, 100));
 
 			assertEquals(1, dialogs.constructed().size());
+			Mockito.verify(dialogs.constructed().get(0), Mockito.never())
+					.showSliderCreationDialog(Mockito.anyInt(), Mockito.anyInt());
+		}
+	}
+
+	@ParameterizedTest
+	@ValueSource(ints = {1, 2})
+	@Issue("APPS-7920")
+	void sliderDragShouldIgnoreOverlappingPoint(int dragEvents) {
+		GeoNumeric slider = add("s=Slider(0,10)");
+		slider.setAbsoluteScreenLocActive(true);
+		slider.setAbsoluteScreenLoc(100, 100);
+		slider.setSliderHorizontal(true);
+		slider.updateRepaint();
+		GeoPoint point = add("A=(3.4,-2)");
+		try (MockedConstruction<DialogManagerNoGui> dialogs =
+				Mockito.mockConstruction(DialogManagerNoGui.class)) {
+			getApp().initDialogManager(false);
+
+			dragStart(170, 100);
+			for (int i = 0; i < dragEvents; i++) {
+				drag(270, 150);
+			}
+			pointerRelease(270, 150);
+
+			assertEquals(200, slider.getAbsoluteScreenLocX());
+			assertEquals(150, slider.getAbsoluteScreenLocY());
+			assertEquals(3.4, point.getInhomX(), 1E-8);
+			assertEquals(-2, point.getInhomY(), 1E-8);
 			Mockito.verify(dialogs.constructed().get(0), Mockito.never())
 					.showSliderCreationDialog(Mockito.anyInt(), Mockito.anyInt());
 		}
