@@ -322,8 +322,6 @@ public abstract class EuclidianView
 	protected double[] axesNumberingDistances;
 	protected GeoNumeric[] axesDistanceObjects;
 	ArrayList<Integer> axesLabelsPositionsX = new ArrayList<>();
-	double yLabelMaxWidthPos = 0;
-	double yLabelMaxWidthNeg = 0;
 	double xLabelHeights = 0;
 
 	// axis control vars
@@ -497,7 +495,7 @@ public abstract class EuclidianView
 	protected EuclidianStyleBar styleBar;
 
 	private DrawGrid drawGrid;
-	private DrawAxis da;
+	private DrawAxis drawAxis;
 
 	// keep same center after layout resize
 	private boolean keepCenter = false;
@@ -3903,9 +3901,10 @@ public abstract class EuclidianView
 			// edge axes are not drawn at the exact edge, instead they
 			// are inset enough to draw the labels
 			// labelOffset = amount of space needed to draw labels
-			GPoint labelOffset = getMaximumLabelSize(g);
+			axesNumberingDistances[1] = DoubleUtil.checkDecimalFraction(axesNumberingDistances[1]);
+			GPoint labelOffset = getDrawAxis().getMaximumLabelSize();
 
-			// force the the axisCross position to be near the edge
+			// force the axisCross position to be near the edge
 			if (drawBorderAxes[0]) {
 				axisCross[0] = getYmin() + ((labelOffset.y + 10) / getYscale());
 			}
@@ -3917,8 +3916,6 @@ public abstract class EuclidianView
 		// reset axes label positions
 		axesLabelsPositionsX.clear();
 
-		yLabelMaxWidthPos = 0;
-		yLabelMaxWidthNeg = 0;
 		xLabelHeights = estimateNumberHeight(getFontAxes());
 
 		if (showGrid) {
@@ -3929,15 +3926,19 @@ public abstract class EuclidianView
 		// this will fill axesLabelsBounds with the rectangles where the axes
 		// labels are
 		if (showAxes[0] || showAxes[1]) {
-			if (da == null) {
-				da = new DrawAxis(this);
-			}
-			da.drawAxes(g);
+			getDrawAxis().drawAxes(g);
 		}
 
 		if (showResetIcon()) {
 			drawResetIcon(g);
 		}
+	}
+
+	private DrawAxis getDrawAxis() {
+		if (drawAxis == null) {
+			drawAxis = new DrawAxis(this);
+		}
+		return drawAxis;
 	}
 
 	/**
@@ -4460,60 +4461,6 @@ public abstract class EuclidianView
 	 */
 	public boolean wantsUpdatePreviewForTouchStartPhone(int mode) {
 		return getPreviewDrawable() == null && mode != EuclidianConstants.MODE_COPY_VISUAL_STYLE;
-	}
-
-	/**
-	 * Finds maximum pixel width and height needed to draw current x and y axis
-	 * labels. return[0] = max width, return[1] = max height
-	 *
-	 * @param g2
-	 *            graphics
-	 * @return point (width,height)
-	 */
-	public GPoint getMaximumLabelSize(GGraphics2D g2) {
-		GPoint max = new GPoint(0, 0);
-
-		g2.setFont(getFontAxes());
-
-		final int yAxisHeight = positiveAxes[1] ? (int) getYZero() : getHeight();
-		int maxY = positiveAxes[1] ? (int) getYZero() : getHeight() - SCREEN_BORDER;
-
-		double rw = getYmax() - (getYmax() % axesNumberingDistances[1]);
-		double pix = getYZero() - (rw * getYscale());
-		double axesStep = getYscale() * axesNumberingDistances[1]; // pixelstep
-
-		axesNumberingDistances[1] = DoubleUtil.checkDecimalFraction(axesNumberingDistances[1]);
-
-		int count = 0;
-		double rwBase = DoubleUtil.checkDecimalFraction(rw);
-
-		// for (; pix <= yAxisHeight; rw -= axesNumberingDistances[1], pix +=
-		// axesStep) {
-		for (; pix <= yAxisHeight; count++, pix += axesStep) {
-
-			// 285, 285.1, 285.2 -> rounding problems
-			rw = rwBase - DoubleUtil.checkDecimalFraction(axesNumberingDistances[1] * count);
-
-			if (pix <= maxY) {
-				if (showAxesNumbers[1]) {
-					String strNum = kernel.formatPiE(rw, axesNumberFormat[1], StringTemplate.defaultTemplate);
-					StringBuilder sb = new StringBuilder();
-					sb.setLength(0);
-					sb.append(strNum);
-					if ((axesUnitLabels[1] != null) && !piAxisUnit[1]) {
-						sb.append(axesUnitLabels[1]);
-					}
-					double width = estimateTextWidth(sb.toString(), getFontAxes());
-					if (max.x < width) {
-						max.x = (int) width;
-					}
-					if (max.y == 0) {
-						max.y = (int) estimateNumberHeight(getFontAxes());
-					}
-				}
-			}
-		}
-		return max;
 	}
 
 	/**
@@ -5622,15 +5569,6 @@ public abstract class EuclidianView
 
 	static double estimateNumberHeight(GFont fontAxes2) {
 		return StringUtil.getPrototype().estimateHeight("", fontAxes2);
-	}
-
-	double estimateNumberWidth(double d, GFont fontAxes2) {
-		String s = kernel.formatPiE(d, axesNumberFormat[0], StringTemplate.defaultTemplate);
-		return StringUtil.getPrototype().estimateLength(s, fontAxes2);
-	}
-
-	static double estimateTextWidth(String s, GFont fontAxes2) {
-		return StringUtil.getPrototype().estimateLength(s, fontAxes2);
 	}
 
 	@Override

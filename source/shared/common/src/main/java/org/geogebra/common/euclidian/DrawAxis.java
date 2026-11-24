@@ -16,6 +16,8 @@
 
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.euclidian.EuclidianView.estimateNumberHeight;
+
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.AwtFactory;
@@ -25,6 +27,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.kernel.Kernel;
@@ -56,6 +59,8 @@ public class DrawAxis {
 	private boolean firstCallX = true;
 	private boolean firstCallY = true;
 	private String zeroStr = "0";
+	private double yLabelMaxWidthPos = 0;
+	private double yLabelMaxWidthNeg = 0;
 
 	/**
 	 * @param euclidianView
@@ -70,7 +75,8 @@ public class DrawAxis {
 	 *            graphics
 	 */
 	protected void drawAxes(GGraphics2D g2) {
-
+		yLabelMaxWidthPos = 0;
+		yLabelMaxWidthNeg = 0;
 		// xCrossPix: yAxis crosses the xAxis at this x pixel
 		final double xCrossPix = view.getXAxisCrossingPixel();
 
@@ -241,6 +247,58 @@ public class DrawAxis {
 				drawZero(g2, xCrossPix, yCrossPix, fontsize);
 			}
 		}
+	}
+
+	/**
+	 * Finds maximum pixel width and height needed to draw current x and y axis
+	 * labels. return[0] = max width, return[1] = max height
+	 *
+	 * @return point (width,height)
+	 */
+	public GPoint getMaximumLabelSize() {
+		GPoint max = new GPoint(0, 0);
+
+		final int yAxisHeight = view.positiveAxes[1]
+				? (int) Math.min(view.getHeight(), view.getYAxisCrossingPixel())
+				: view.getHeight();
+		int maxY = view.positiveAxes[1]
+				? (int) view.getYAxisCrossingPixel()
+				: view.getHeight() - EuclidianView.SCREEN_BORDER;
+
+		double rw = view.getYmax() - (view.getYmax() % view.axesNumberingDistances[1]);
+		double pix = view.getYZero() - (rw * view.getYscale());
+		double axesStep = view.getYscale() * view.axesNumberingDistances[1]; // pixelstep
+		int count = 0;
+		double rwBase = DoubleUtil.checkDecimalFraction(rw);
+
+		// for (; pix <= yAxisHeight; rw -= axesNumberingDistances[1], pix +=
+		// axesStep) {
+		for (; pix <= yAxisHeight; count++, pix += axesStep) {
+
+			// 285, 285.1, 285.2 -> rounding problems
+			rw = rwBase - DoubleUtil.checkDecimalFraction(view.axesNumberingDistances[1] * count);
+
+			if (pix <= maxY) {
+				if (view.showAxesNumbers[1]) {
+					String strNum =
+							view.kernel.formatPiE(rw, view.axesNumberFormat[1], StringTemplate.defaultTemplate);
+					StringBuilder sb = new StringBuilder();
+					sb.setLength(0);
+					sb.append(strNum);
+					if ((view.axesUnitLabels[1] != null) && !view.piAxisUnit[1]) {
+						sb.append(view.axesUnitLabels[1]);
+					}
+					double width = estimateTextWidth(sb.toString(), view.getFontAxes());
+					if (max.x < width) {
+						max.x = (int) width;
+					}
+					if (max.y == 0) {
+						max.y = (int) estimateNumberHeight(view.getFontAxes());
+					}
+				}
+			}
+		}
+		return max;
 	}
 
 	private void drawAxisLabelY(GGraphics2D g2, int x, GFontRenderContext frc) {
@@ -444,7 +502,7 @@ public class DrawAxis {
 
 		double tickStep = axesStep / 2;
 
-		double maxHeight = EuclidianView.estimateNumberHeight(view.getFontAxes());
+		double maxHeight = estimateNumberHeight(view.getFontAxes());
 		int unitsPerLabelY = (int) MyMath.nextPrettyNumber(maxHeight / axesStep, 1);
 
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
@@ -519,10 +577,10 @@ public class DrawAxis {
 
 					// measure width, so grid line can avoid it
 					// use same (max) for all labels
-					if (sb.charAt(0) == minusSign && width > view.yLabelMaxWidthNeg) {
-						view.yLabelMaxWidthNeg = width;
-					} else if (sb.charAt(0) != minusSign && width > view.yLabelMaxWidthPos) {
-						view.yLabelMaxWidthPos = width;
+					if (sb.charAt(0) == minusSign && width > yLabelMaxWidthNeg) {
+						yLabelMaxWidthNeg = width;
+					} else if (sb.charAt(0) != minusSign && width > yLabelMaxWidthPos) {
+						yLabelMaxWidthPos = width;
 					}
 				}
 				if (drawMajorTicks[1]
@@ -590,8 +648,7 @@ public class DrawAxis {
 	 *         the x position of number, otherwise returns null
 	 */
 	Integer getXPositionAtEdge(double xCrossPix, double xoffset, double width) {
-		double leftLimit =
-				(view.yLabelMaxWidthNeg > 0 ? view.yLabelMaxWidthNeg : view.yLabelMaxWidthPos) + 10;
+		double leftLimit = (yLabelMaxWidthNeg > 0 ? yLabelMaxWidthNeg : yLabelMaxWidthPos) + 10;
 		if (xCrossPix < leftLimit) {
 			return (int) (leftLimit + xoffset - width);
 		} else if (xCrossPix > view.getWidth()) {
@@ -624,7 +681,7 @@ public class DrawAxis {
 			if (view.positiveAxes[1] && !view.positiveAxes[0]
 					|| view.positiveAxes[0] && view.positiveAxes[1] && !view.showAxesNumbers[1]
 					|| !view.showAxes[1]) {
-				x = (int) (xCrossPix - (EuclidianView.estimateTextWidth(zeroStr, view.getFontAxes()) / 2));
+				x = (int) (xCrossPix - (estimateTextWidth(zeroStr, view.getFontAxes()) / 2));
 			} else {
 				x = (int) (xCrossPix + xoffset - width); // left
 			}
@@ -749,7 +806,7 @@ public class DrawAxis {
 
 		double tickStep = axisStep / 2;
 
-		double maxHeight = EuclidianView.estimateNumberHeight(view.getFontAxes());
+		double maxHeight = estimateNumberHeight(view.getFontAxes());
 		int unitsPerLabelY = (int) MyMath.nextPrettyNumber(maxHeight / axisStep, 1);
 
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
@@ -814,10 +871,10 @@ public class DrawAxis {
 						drawString(g2, sb.toString(), x, y);
 						// measure width, so grid line can avoid it
 						// use same (max) for all labels
-						if (sb.charAt(0) == minusSign && width > view.yLabelMaxWidthNeg) {
-							view.yLabelMaxWidthNeg = width;
-						} else if (sb.charAt(0) != minusSign && width > view.yLabelMaxWidthPos) {
-							view.yLabelMaxWidthPos = width;
+						if (sb.charAt(0) == minusSign && width > yLabelMaxWidthNeg) {
+							yLabelMaxWidthNeg = width;
+						} else if (sb.charAt(0) != minusSign && width > yLabelMaxWidthPos) {
+							yLabelMaxWidthPos = width;
 						}
 					}
 				}
@@ -897,8 +954,8 @@ public class DrawAxis {
 		final int maxX = view.getWidth() - EuclidianView.SCREEN_BORDER;
 		final double tickStep = axesStep / 2;
 		double labelLengthMax = Math.max(
-				view.estimateNumberWidth(rw, view.getFontAxes()),
-				view.estimateNumberWidth(
+				estimateNumberWidth(rw, view.getFontAxes()),
+				estimateNumberWidth(
 						MyMath.nextMultiple(view.getXmax(), view.axesNumberingDistances[0]),
 						view.getFontAxes()));
 		int unitsPerLabelX = (int) MyMath.nextPrettyNumber(labelLengthMax / axesStep, 1);
@@ -942,12 +999,12 @@ public class DrawAxis {
 						if (zero && view.showAxes[1] && !view.positiveAxes[1]) {
 							x = (int) (pix + 6);
 						} else {
-							double textWidth = EuclidianView.estimateTextWidth(sb.toString(), view.getFontAxes());
+							double textWidth = estimateTextWidth(sb.toString(), view.getFontAxes());
 							x = (int) (pix + 1 - (textWidth / 2));
 						}
 
 						if (labelno == -unitsPerLabelX) {
-							double textWidth = EuclidianView.estimateTextWidth(sb.toString(), view.getFontAxes());
+							double textWidth = estimateTextWidth(sb.toString(), view.getFontAxes());
 							beforeZeroX = (int) (pix + 1 + (textWidth / 2));
 						}
 
@@ -1055,7 +1112,7 @@ public class DrawAxis {
 					if (zero && view.showAxes[1] && !view.positiveAxes[1]) {
 						x = (int) (pix + 6);
 					} else {
-						double textWidth = EuclidianView.estimateTextWidth(sb.toString(), view.getFontAxes());
+						double textWidth = estimateTextWidth(sb.toString(), view.getFontAxes());
 						x = (int) (pix + 1 - (textWidth / 2));
 					}
 
@@ -1211,5 +1268,14 @@ public class DrawAxis {
 	private boolean isCurrencyUnit(int axis) {
 		return StringUtil.isCurrency(view.axesUnitLabels[axis])
 				|| ",".equals(view.axesUnitLabels[axis]);
+	}
+
+	double estimateNumberWidth(double d, GFont fontAxes2) {
+		String s = view.kernel.formatPiE(d, view.axesNumberFormat[0], StringTemplate.defaultTemplate);
+		return StringUtil.getPrototype().estimateLength(s, fontAxes2);
+	}
+
+	static double estimateTextWidth(String s, GFont fontAxes2) {
+		return StringUtil.getPrototype().estimateLength(s, fontAxes2);
 	}
 }

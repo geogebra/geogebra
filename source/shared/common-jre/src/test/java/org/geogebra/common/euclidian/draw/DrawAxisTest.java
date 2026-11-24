@@ -24,8 +24,10 @@ import org.geogebra.common.euclidian.DrawAxis;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.spreadsheet.StringCapturingGraphics;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.SnapshotChecker;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestReporter;
@@ -88,6 +90,21 @@ class DrawAxisTest extends BaseUnitTest {
 		view.getSettings().setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_FULL);
 		view.setCoordSystem(655, 359, 50, 50);
 		snapshotChecker.assertMatch("drawAxis3.svg", getSnapshot());
+	}
+
+	@Test
+	@Issue("APPS-8113")
+	void highZoomPositiveAxesTest() {
+		getApp().setRounding("3d");
+		add("ZoomIn(12344.991,54320.991,12345.009,54321.009)");
+		view.getSettings().setShowAxes(true, true);
+		view.getSettings().setDrawBorderAxes(1, true);
+		view.getSettings().setPositiveAxis(1, true);
+		view.getSettings().setAxesNumberingDistance(add("0.005"), 0);
+		view.getSettings().setAxesNumberingDistance(add("0.005"), 1);
+		StringCapturingGraphics g2 = new StringCapturingGraphics();
+		view.paint(g2);
+		assertEquals("54321.005,54321,54320.995,12344.995,12345,12345.005", g2.toString());
 	}
 
 	private String getSnapshot() {
