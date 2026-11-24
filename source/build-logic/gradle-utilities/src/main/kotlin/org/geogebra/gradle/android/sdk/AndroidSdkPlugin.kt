@@ -122,7 +122,7 @@ abstract class AndroidSdkPlugin : Plugin<Project> {
 
     private fun writeLocalProperties(android: AndroidSdkExtension) {
         val file = android.localProperties.get().asFile
-        val normalizedPath = android.home.get().asFile.absolutePath.replace('\\', '/')
+        val normalizedPath = android.home.get().asFile.absolutePath.replace('\\', '/').replace(":", "\\:")
         file.writeText("sdk.dir=${normalizedPath}")
     }
 

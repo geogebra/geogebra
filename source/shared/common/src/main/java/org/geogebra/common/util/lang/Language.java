@@ -34,7 +34,6 @@ import org.jspecify.annotations.Nullable;
  * <a href="http://en.wikipedia.org/wiki/List_of_official_languages">list of languages</a>
  * <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1</a>
  */
-@SuppressWarnings("javadoc")
 public enum Language {
 
 	// need to be in Alphabetical order so they appear in the menu in the right
@@ -844,8 +843,14 @@ public enum Language {
 			Script.LATIN,
 			""),
 
-	// Tetun(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, '$', false,
-	// "tet", "Tetun", Script.LATIN, ""),
+	Tetun(
+			EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			'$',
+			false,
+			"tet",
+			"Tetun",
+			Script.LATIN,
+			""),
 
 	// Telugu("\u0C24", false, "te","te",
 	// "Telugu / \u0C24\u0C46\u0C32\u0C41\u0C17\u0C41", Country.India),
