@@ -62,7 +62,16 @@ public class AsyncManager implements AsyncManagerI {
 	@Override
 	public void scheduleCallback(Runnable callback) {
 		callbacks.add(callback);
-		onResourceLoaded();
+		onResourceLoaded(null);
+	}
+
+	/**
+	 * @param callback callback to run -- may throw if a chunk is not loaded yet
+	 * @param onFail handler to run if {@code callback} throws
+	 */
+	public void scheduleCallback(Runnable callback, Runnable onFail) {
+		callbacks.add(callback);
+		onResourceLoaded(onFail);
 	}
 
 	/**
@@ -222,7 +231,7 @@ public class AsyncManager implements AsyncManagerI {
 	 * callbacks, until all of them have succeeded, or one requires
 	 * additional modules
 	 */
-	public void onResourceLoaded() {
+	public void onResourceLoaded(Runnable onFail) {
 		while (callbacks.size() > 0) {
 			try {
 				callbackRunning = true;
@@ -231,6 +240,9 @@ public class AsyncManager implements AsyncManagerI {
 					callbacks.remove(0);
 				}
 			} catch (CommandNotLoadedError e) {
+				if (onFail != null) {
+					onFail.run();
+				}
 				break;
 			} finally {
 				callbackRunning = false;

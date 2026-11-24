@@ -24,6 +24,7 @@ import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.SimplePanel;
+import org.jspecify.annotations.NonNull;
 
 import elemental2.core.JsString;
 import elemental2.dom.DomGlobal;
@@ -39,7 +40,7 @@ import jsinterop.base.Js;
  */
 public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	private Timer timer;
-	private Element anchor;
+	private final @NonNull Runnable returnFocus;
 	private HTMLElement scrollElement;
 
 	/**
@@ -48,10 +49,22 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 * @param idSuffix
 	 *            ID suffix identifying the view
 	 * @param anchor
-	 *            object to focus afterwards
+	 *            object to focus after reading
 	 */
 	public ReaderWidget(String idSuffix, Element anchor) {
-		this.anchor = anchor;
+		this(idSuffix, () -> FocusUtil.focusNoScroll(anchor));
+	}
+
+	/**
+	 * Constructor.
+	 *
+	 * @param idSuffix
+	 *            ID suffix identifying the view
+	 * @param returnFocus
+	 *            action that returns focus to visible element after reading
+	 */
+	public ReaderWidget(String idSuffix, @NonNull Runnable returnFocus) {
+		this.returnFocus = returnFocus;
 		getElement().setId("screenReader" + idSuffix);
 		getElement().addClassName("screenReaderStyle");
 		// can't be tabbed, but can get the focus programmatically
@@ -135,7 +148,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		updateScrollElement();
 		double scrollTop = scrollElement.scrollTop;
 		read(text);
-		FocusUtil.focusNoScroll(anchor);
+		returnFocus.run();
 		scrollElement.scrollTop = scrollTop;
 	}
 

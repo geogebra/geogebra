@@ -97,7 +97,10 @@ public final class EvaluateInput {
 
 		// undo point stored in callback
 		AsyncManager asyncManager = ((AppW) app).getAsyncManager();
-		asyncManager.scheduleCallback(() -> processAlgebraInput(input, err, info, cbEval));
+		item.getAV().setBatchAdditions(true);
+		asyncManager.scheduleCallback(
+				() -> processAlgebraInput(input, err, info, cbEval),
+				() -> item.getAV().setBatchAdditions(false));
 		if (!keepFocus) {
 			item.setFocus(false);
 		}
@@ -124,6 +127,7 @@ public final class EvaluateInput {
 			if (geos == null) {
 				item.removeOutput();
 				ctrl.setFocus(true);
+				item.getAV().setBatchAdditions(false);
 				return;
 			}
 
@@ -144,6 +148,7 @@ public final class EvaluateInput {
 			}
 			InputHelper.updateProperties(geos, app.getActiveEuclidianView(), oldStep);
 			selectionCallback.callback(geos);
+			item.getAV().setBatchAdditions(false);
 			app.storeUndoInfo();
 			app.setScrollToShow(false);
 

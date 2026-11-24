@@ -527,7 +527,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Notify async manager that commands were loaded.
 	 */
 	public void commandsLoaded() {
-		getAsyncManager().onResourceLoaded();
+		getAsyncManager().onResourceLoaded(null);
 	}
 
 	@Override

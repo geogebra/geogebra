@@ -65,6 +65,7 @@ import org.geogebra.web.html5.gui.HasThumbnailURL;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
@@ -188,8 +189,9 @@ public final class AlgebraViewW extends Tree
 	private final ItemFactory itemFactory;
 	private final List<GeoElement> addOnRepaint = new ArrayList<>();
 	private boolean scrollOnRepaint;
-	private ReaderWidget readerWidget;
+	private final ReaderWidget readerWidget;
 	private boolean allowScreenReaderForInput;
+	private boolean batchAdditions;
 
 	/**
 	 * Creates new AV
@@ -214,6 +216,8 @@ public final class AlgebraViewW extends Tree
 		}
 		app.getSelectionManager().addSelectionListener((geo, addToSelection) -> updateSelection());
 		app.getGgbApi().setEditor(new AlgebraMathEditorAPI(this));
+		readerWidget = new ReaderWidget("A", () -> FocusUtil.focusNoScroll(getElement()));
+		EuclidianViewW.attachReaderWidget(readerWidget, app);
 	}
 
 	private void initGUI(AlgebraControllerW algCtrl) {
@@ -241,11 +245,9 @@ public final class AlgebraViewW extends Tree
 		addKeyPressHandler(keyDispatcher);
 		Node focusable = getElement().getChild(0);
 		if (focusable instanceof Element focusableElement) {
-			Dom.addEventListener(
-					focusableElement,
-					BrowserEvents.KEYPRESS,
-					evt -> keyDispatcher.onKeyPressNative(Js.uncheckedCast(evt)));
+			handleKeyPress(focusableElement, keyDispatcher);
 		}
+		handleKeyPress(getElement(), keyDispatcher);
 		if (!app.getAppletParameters().preventFocus()) {
 			setFocus(true);
 		}
@@ -253,6 +255,23 @@ public final class AlgebraViewW extends Tree
 		// Initialize settings and register listener
 		getSettings().addListener(this);
 		settingsChanged(getSettings());
+	}
+
+	private void handleKeyPress(Element focusableElement, GlobalKeyDispatcherW keyDispatcher) {
+		Dom.addEventListener(focusableElement, BrowserEvents.KEYPRESS, evt -> {
+			if (!CopyPasteW.incorrectTarget(evt.target)) {
+				keyDispatcher.onKeyPressNative(Js.uncheckedCast(evt));
+			}
+		});
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		if (focus) {
+			focusAfterRead();
+		} else {
+			getElement().blur();
+		}
 	}
 
 	@Override
@@ -300,7 +319,19 @@ public final class AlgebraViewW extends Tree
 					&& !CancelEventTimer.cancelMouseEvent()) {
 				app.hideKeyboard();
 			}
-			super.onBrowserEvent(event);
+			propagateEvent(event, eventType);
+		}
+	}
+
+	private void propagateEvent(Event event, String eventType) {
+		if (eventType.startsWith("key")) {
+			KeyboardEvent keyEvent = Js.uncheckedCast(event);
+			if (keyEvent.code.startsWith("Arrow")) {
+				keyEvent.stopPropagation();
+				keyEvent.preventDefault();
+			}
+		} else {
+			super.onBrowserEvent(Js.uncheckedCast(event));
 		}
 	}
 
@@ -1263,7 +1294,7 @@ public final class AlgebraViewW extends Tree
 			// don't add auxiliary objects if the tree is categorized by type
 			scrollOnRepaint |= scroll;
 			addOnRepaint.add(geo);
-			if (isExpanded()) {
+			if (isExpanded() && !batchAdditions) {
 				resolvePendingAdditions();
 			} else {
 				repaintView();
@@ -1914,10 +1945,6 @@ public final class AlgebraViewW extends Tree
 				&& CopyPasteW.incorrectTarget(activeElement)) {
 			return null;
 		}
-		if (readerWidget == null) {
-			readerWidget = new ReaderWidget("A", getElement());
-			EuclidianViewW.attachReaderWidget(readerWidget, app);
-		}
 		return readerWidget;
 	}
 
@@ -2342,5 +2369,18 @@ public final class AlgebraViewW extends Tree
 				new AlgebraCanvasExporter(this, context, (int) (THUMBNAIL_SIZE / THUMBNAIL_SCALE));
 		ax.paintToCanvas(0, 0);
 		return canvas.toDataURL();
+	}
+
+	void setBatchAdditions(boolean batchAdditions) {
+		this.batchAdditions = batchAdditions;
+		if (!this.batchAdditions) {
+			doRepaint();
+		}
+	}
+
+	private void focusAfterRead() {
+		if (readerWidget == null || readerWidget.getElement() != Dom.getActiveElement()) {
+			FocusUtil.focusNoScroll(getElement());
+		}
 	}
 }
