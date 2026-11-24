@@ -2164,11 +2164,14 @@ public class AlgoDispatcher {
 			AlgoIntersectFunctionLineNewton algo =
 					new AlgoIntersectFunctionLineNewton(cons, labels == null ? null : labels[0], f, line, A);
 			GeoPoint g = algo.getRootPoint();
-			GeoPoint[] ret = {g};
-			return ret;
+			return new GeoPoint[] {g};
 		}
-
-		if (!f.hasPolynomialNumerator(false)) {
+		// make sure Intersect(f,xAxis) and Intersect(f,y=0) use the polynomial algo,
+		// consistent with Root(f)
+		boolean rootFinding = (line.isAxis() || !line.isLabelSet() && line.isIndependent())
+				&& line.getZ() == 0.0
+				&& line.getX() == 0.0;
+		if (!f.hasPolynomialNumerator(rootFinding)) {
 
 			// dummy point
 			GeoPoint A = initPoint;
@@ -2179,15 +2182,13 @@ public class AlgoDispatcher {
 			String label = labels == null ? null : labels[0];
 			AlgoIntersectFunctionLineNewton algo =
 					new AlgoIntersectFunctionLineNewton(cons, label, f, line, A);
-			GeoPoint[] ret = {algo.getIntersectionPoint()};
-			return ret;
+			return new GeoPoint[] {algo.getIntersectionPoint()};
 		}
 
 		AlgoIntersectPolynomialLine algo = getIntersectionAlgorithm(f, line);
 		algo.setPrintedInXML(true);
 		algo.setLabels(labels);
-		GeoPoint[] points = algo.getIntersectionPoints();
-		return points;
+		return algo.getIntersectionPoints();
 	}
 
 	/**
@@ -2268,7 +2269,7 @@ public class AlgoDispatcher {
 	 *            polygon
 	 * @param initPoint
 	 *            initial point
-	 * @return intersctions
+	 * @return intersections
 	 */
 	public final GeoElement[] intersectNPFunctionPolygon(
 			String[] labels, GeoFunctionable f, GeoPolygon pl, GeoPoint initPoint) {

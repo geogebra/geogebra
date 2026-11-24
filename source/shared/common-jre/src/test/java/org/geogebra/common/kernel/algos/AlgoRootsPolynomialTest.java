@@ -17,12 +17,17 @@
 package org.geogebra.common.kernel.algos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Test for {@link AlgoRootsPolynomial}.
@@ -58,5 +63,14 @@ class AlgoRootsPolynomialTest extends BaseAppTestSetup {
 		GeoElementND[] pt = evaluate("Intersect(x+y=2.5, 1/x)");
 		assertEquals("(0.5, 2)", pt[0].toValueString(StringTemplate.defaultTemplate));
 		assertEquals("(2, 0.5)", pt[1].toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"xAxis", "y=0"})
+	@Issue("APPS-8187")
+	void trigDenominatorIntersectionWithAxis(String axis) {
+		GeoPoint pt = evaluateGeoElement("Intersect(" + axis + ",y = (1 - x) / sin(x))");
+		assertInstanceOf(AlgoRootsPolynomial.class, pt.getParentAlgorithm());
+		assertEquals("(1, 0)", pt.toValueString(StringTemplate.defaultTemplate));
 	}
 }

@@ -17,6 +17,7 @@
 package org.geogebra.common.kernel.algos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -41,5 +42,17 @@ class AlgoIntersectFunctionLineNewtonTest extends BaseAppTestSetup {
 		getApp().setRounding("13");
 		GeoPoint pt = evaluateGeoElement("Intersect(sin(x deg),y=1)");
 		assertEquals("(90, 1)", pt.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-8187")
+	void trigDenominatorIntersection() {
+		GeoPoint pt = evaluateGeoElement("Intersect(y = 6,y = 5.79 / sin(140° − x°))");
+		assertInstanceOf(AlgoIntersectFunctionLineNewton.class, pt.getParentAlgorithm());
+		assertEquals("(34.8, 6)", pt.toValueString(StringTemplate.defaultTemplate));
+
+		GeoPoint pt2 = evaluateGeoElement("Intersect(y = 6,y = (5.79 + 0.00001x) / sin(140° − x°))");
+		assertInstanceOf(AlgoIntersectFunctionLineNewton.class, pt2.getParentAlgorithm());
+		assertEquals("(34.81, 6)", pt2.toValueString(StringTemplate.defaultTemplate));
 	}
 }

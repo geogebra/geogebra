@@ -36,7 +36,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Function of one variable x that returns either a number or a boolean. This
@@ -57,10 +57,10 @@ public class Function extends FunctionNVar
 	private ExpressionNode factorParentExp;
 
 	// factors of polynomial function
-	private ArrayList<LinkedList<PolyFunction>> symbolicPolyFactorList = new ArrayList<>(2);
+	private final ArrayList<LinkedList<PolyFunction>> symbolicPolyFactorList = new ArrayList<>(2);
 	private ArrayList<PolyFunction> numericPolyFactorList;
-	private ArrayList<Boolean> symbolicPolyFactorListDefined = new ArrayList<>(2);
-	private ExpressionNode zeroExpr = new ExpressionNode(kernel, new MyDouble(kernel, 0));
+	private final ArrayList<Boolean> symbolicPolyFactorListDefined = new ArrayList<>(2);
+	private final ExpressionNode zeroExpr = new ExpressionNode(kernel, new MyDouble(kernel, 0));
 
 	private GeoFunction geoDeriv;
 
@@ -487,7 +487,7 @@ public class Function extends FunctionNVar
 		if (factorParentExp != expression || expression.any(getVariableDegreeCheck())) {
 			// new expression
 			factorParentExp = expression;
-			if (symbolicPolyFactorList.size() < 1) {
+			if (symbolicPolyFactorList.isEmpty()) {
 				for (int i = 0; i < 2; i++) {
 					symbolicPolyFactorList.add(null);
 					symbolicPolyFactorListDefined.add(false);
@@ -510,7 +510,7 @@ public class Function extends FunctionNVar
 
 		if (symbolicPolyFactorListDefined.size() > rootIdx
 				&& symbolicPolyFactorListDefined.get(rootIdx)
-				&& symbolicPolyFactorList.get(rootIdx).size() > 0) {
+				&& !symbolicPolyFactorList.get(rootIdx).isEmpty()) {
 			return symbolicPolyFactorList.get(rootIdx);
 		}
 		return null;
@@ -542,23 +542,10 @@ public class Function extends FunctionNVar
 
 		boolean success = addPolynomialFactors(
 				expression, numericPolyFactorList, false, rootFindingSimplification, avoidCAS);
-		if (success && numericPolyFactorList.size() > 0) {
+		if (success && !numericPolyFactorList.isEmpty()) {
 			return numericPolyFactorList;
 		}
 		return null;
-	}
-
-	private @NonNull List<PolyFunction> getNumericFactorsOfNumerator(
-			boolean rootFindingSimplification, boolean avoidCAS) {
-		List<PolyFunction> result = new ArrayList<>();
-		ExpressionValue[] fraction = new ExpressionValue[2];
-		Fractions.getFraction(fraction, expression, true);
-		if (fraction[0].isConstant()) {
-			return List.of(new PolyFunction(0));
-		}
-		boolean success =
-				addPolynomialFactors(fraction[0], result, false, rootFindingSimplification, avoidCAS);
-		return success ? result : List.of();
 	}
 
 	/**
@@ -1201,11 +1188,7 @@ public class Function extends FunctionNVar
 	 */
 	@Override
 	public UnivariateFunction derivative() {
-		Function deriv = getDerivativeNoFractions(1, true);
-		if (deriv == null) {
-			return null;
-		}
-		return deriv;
+		return getDerivativeNoFractions(1, true);
 	}
 
 	/**
@@ -1225,12 +1208,30 @@ public class Function extends FunctionNVar
 	}
 
 	/**
+	 * Checks whether this(x)=f(x) has a polynomial numerator, where f is
+	 * either 0 (in case {@code forRootFinding=true}) or a polynomial.
 	 * @param forRootFinding whether we can apply simplifications for root finding
 	 * @return whether this has polynomial numerator (including polynomial(x)/1)
 	 */
 	public boolean hasPolynomialNumerator(boolean forRootFinding) {
-		return isConstantFunction()
-				|| !getNumericFactorsOfNumerator(forRootFinding, false).isEmpty();
+		if (isConstantFunction()) {
+			return true;
+		}
+		List<PolyFunction> result = new ArrayList<>();
+		ExpressionValue[] fraction = new ExpressionValue[2];
+		Fractions.getFraction(fraction, expression, true);
+		if (fraction[0].isConstant()) {
+			return forRootFinding || isPolynomialDenominator(fraction[1], result);
+		}
+		boolean polynomialNumerator =
+				addPolynomialFactors(fraction[0], result, false, forRootFinding, false);
+		return polynomialNumerator && (forRootFinding || isPolynomialDenominator(fraction[1], result));
+	}
+
+	private boolean isPolynomialDenominator(
+			@Nullable ExpressionValue expressionValue, List<PolyFunction> factors) {
+		return expressionValue == null
+				|| addPolynomialFactors(expressionValue, factors, false, false, false);
 	}
 
 	/**
