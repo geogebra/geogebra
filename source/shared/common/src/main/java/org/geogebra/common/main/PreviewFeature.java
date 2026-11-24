@@ -45,7 +45,9 @@ public enum PreviewFeature {
 	 */
 	STICKY_NOTES,
 	/** APPS-8121 */
-	MATH_TEMPLATES;
+	MATH_TEMPLATES,
+	/** APPS-8112 two fingers navigate the Graphics View while a tool is active */
+	TWO_FINGER_NAVIGATION_WITH_TOOLS;
 
 	/**
 	 * Global flag to activate preview features.

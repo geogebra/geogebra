@@ -1496,6 +1496,10 @@ public abstract class EuclidianView
 	 * notify controller that coordinate system has changed from setCoordSystem()
 	 */
 	protected void onCoordSystemChangedFromSetCoordSystem() {
+		if (getEuclidianController().usesTouchGestureArbiter()) {
+			// the preview keeps screen coordinates, build it again from its inputs
+			updatePreviewableForProcessMode();
+		}
 		getEuclidianController().onCoordSystemChanged();
 	}
 

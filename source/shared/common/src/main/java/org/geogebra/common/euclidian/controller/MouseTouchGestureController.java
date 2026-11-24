@@ -37,11 +37,22 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
+import org.jspecify.annotations.Nullable;
 
 import com.google.j2objc.annotations.Weak;
 
 /**
- * Handles mouse and touch events in EV
+ * Per-view helper between the touch input of a platform and {@link EuclidianController}.
+ * Desktop does not use this class. Platform subclasses translate native events and add
+ * platform-specific handling (on Web: mouse wheel, long touch and drag throttling).
+ * <ul>
+ * <li>Web: two-finger gestures ({@link #twoTouchStart}, {@link #twoTouchMove},
+ * {@link #touchNavigationStart}), that is zooming one axis, resizing a circle, moving a line,
+ * or panning and zooming the view. Android and iOS call the {@code *Phone} methods of
+ * {@link EuclidianController} for this.</li>
+ * <li>Android and iOS: gives the {@link TouchGestureArbiter} that decides whether finger
+ * contacts act on the tool or navigate the view ({@link #beginPhoneTouch}).</li>
+ * </ul>
  */
 public class MouseTouchGestureController {
 
@@ -105,6 +116,8 @@ public class MouseTouchGestureController {
 
 	private boolean firstTouchIsAttachedToStartPoint;
 
+	private @Nullable TouchGestureArbiter phoneTouchArbiter;
+
 	/**
 	 * @param app
 	 *            application
@@ -114,6 +127,23 @@ public class MouseTouchGestureController {
 	public MouseTouchGestureController(App app, EuclidianController ec) {
 		this.app = app;
 		this.ec = ec;
+	}
+
+	/**
+	 * Called by the Android and iOS apps when the first contact of a touch lands.
+	 * @return the arbiter that decides what the contacts of this touch do, or null if the view
+	 * keeps the touch handling of the platform (3D, or the preview feature is off)
+	 */
+	public @Nullable TouchGestureArbiter beginPhoneTouch() {
+		if (!ec.usesTouchGestureArbiter()) {
+			return null;
+		}
+		if (phoneTouchArbiter == null) {
+			phoneTouchArbiter = new TouchGestureArbiter(new PhoneTouchGestureTarget(ec));
+		}
+		// forget contacts of a touch that never ended
+		phoneTouchArbiter.cancel();
+		return phoneTouchArbiter;
 	}
 
 	/**
@@ -289,6 +319,9 @@ public class MouseTouchGestureController {
 					oldCenterY = centerY;
 				}
 		}
+		if (scaleConic != null || multitouchMode == MultitouchMode.moveLine) {
+			ec.setTouchNavigationChangedObjects(true);
+		}
 	}
 
 	/**
@@ -302,6 +335,29 @@ public class MouseTouchGestureController {
 	 *            second touch y
 	 */
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
+		twoTouchStart(x1, y1, x2, y2, true);
+	}
+
+	/**
+	 * Start navigating the view with two fingers that the tool got no input from.
+	 * With a construction tool active the fingers never edit objects and the tool keeps its
+	 * selected inputs.
+	 * @param x1
+	 *            first touch x
+	 * @param y1
+	 *            first touch y
+	 * @param x2
+	 *            second touch x
+	 * @param y2
+	 *            second touch y
+	 */
+	public void touchNavigationStart(double x1, double y1, double x2, double y2) {
+		app.maySetCoordSystem();
+		ec.setTouchNavigationChangedObjects(false);
+		twoTouchStart(x1, y1, x2, y2, ec.keepsTwoTouchBehavior());
+	}
+
+	private void twoTouchStart(double x1, double y1, double x2, double y2, boolean objectEditing) {
 		this.scaleConic = null;
 
 		ec.getView().setHits(new GPoint((int) x1, (int) y1), PointerEventType.TOUCH);
@@ -325,7 +381,8 @@ public class MouseTouchGestureController {
 			this.multitouchMode = MultitouchMode.zoomX;
 			ec.setOldDistance(x1 - x2);
 			this.scale = ec.getView().getXscale();
-		} else if (hits1.size() > 0
+		} else if (objectEditing
+				&& hits1.size() > 0
 				&& hits2.size() > 0
 				&& hits1.get(0) == hits2.get(0)
 				&& hits1.get(0) instanceof GeoConic
@@ -370,7 +427,8 @@ public class MouseTouchGestureController {
 					this.originalPointY[i] = geoElementND.getCoords().getY();
 				}
 			}
-		} else if (hits1.size() > 0
+		} else if (objectEditing
+				&& hits1.size() > 0
 				&& hits2.size() > 0
 				&& hits1.get(0) == hits2.get(0)
 				&& hits1.get(0) instanceof GeoLine
@@ -400,7 +458,9 @@ public class MouseTouchGestureController {
 			}
 			ec.twoTouchStartCommon(x1, y1, x2, y2);
 		} else {
-			ec.clearSelections();
+			if (objectEditing) {
+				ec.clearSelections();
+			}
 			this.multitouchMode = MultitouchMode.view;
 			ec.twoTouchStartCommon(x1, y1, x2, y2);
 		}

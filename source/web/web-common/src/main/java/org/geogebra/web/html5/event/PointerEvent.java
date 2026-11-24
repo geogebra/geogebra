@@ -158,6 +158,7 @@ public class PointerEvent extends AbstractEvent {
 			wrap.point = new GPoint(x, y);
 			wrap.type = type;
 			wrap.evID = h.getEvID();
+			wrap.resetTime();
 			pool.removeLast();
 			return wrap;
 		}

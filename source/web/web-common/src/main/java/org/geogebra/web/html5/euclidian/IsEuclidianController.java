@@ -38,6 +38,47 @@ public interface IsEuclidianController extends LongTouchHandler {
 	void twoTouchStart(double x1, double y1, double x2, double y2);
 
 	/**
+	 * @return whether finger touches on the view go through
+	 * {@link org.geogebra.common.euclidian.controller.TouchGestureArbiter}
+	 */
+	default boolean usesTouchGestureArbiter() {
+		return false;
+	}
+
+	/**
+	 * @return time in milliseconds for which the first finger of a touch is held back
+	 */
+	default int getTouchStartDelay() {
+		return 0;
+	}
+
+	/**
+	 * @return whether the active tool keeps the two-finger behavior it had before
+	 * {@link org.geogebra.common.euclidian.controller.TouchGestureArbiter}
+	 */
+	default boolean keepsTwoTouchBehavior() {
+		return true;
+	}
+
+	/**
+	 * Start navigating the view with two fingers that the tool got no input from.
+	 * @param x1 first pointer's x-coordinate
+	 * @param y1 first pointer's y-coordinate
+	 * @param x2 second pointer's x-coordinate
+	 * @param y2 second pointer's y-coordinate
+	 */
+	default void touchNavigationStart(double x1, double y1, double x2, double y2) {
+		twoTouchStart(x1, y1, x2, y2);
+	}
+
+	/**
+	 * End a navigation started with {@link #touchNavigationStart}.
+	 */
+	default void touchNavigationEnd() {
+		// nothing to do by default
+	}
+
+	/**
 	 * Change the default pointer event type.
 	 * @param pointerEventType pointer event type
 	 * @param pointerDown whether this was triggered by pointer down event

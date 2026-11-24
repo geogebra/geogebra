@@ -205,6 +205,11 @@ public class EuclidianControllerW extends EuclidianController
 	}
 
 	@Override
+	public void touchNavigationStart(double x1, double y1, double x2, double y2) {
+		mtg.touchNavigationStart(x1, y1, x2, y2);
+	}
+
+	@Override
 	protected void startCapture(AbstractEvent event) {
 		// removed
 	}

@@ -4257,6 +4257,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
+	public boolean usesTouchGestureArbiter() {
+		// touch gestures of the 3D view are not changed
+		return false;
+	}
+
+	@Override
 	protected void setMoveModeIfAxis(Object hit) {
 		MoveMode newMode = null;
 		if (hit == kernel.getXAxis()) {

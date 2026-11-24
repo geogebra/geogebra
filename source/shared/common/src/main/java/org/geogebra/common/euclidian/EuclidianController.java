@@ -49,6 +49,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemInfo.ScaledAxis;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
+import org.geogebra.common.euclidian.controller.TouchGestureArbiter;
 import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawBoolean;
 import org.geogebra.common.euclidian.draw.DrawConic;
@@ -180,6 +181,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
@@ -398,6 +400,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private ModeShape shapeMode;
 	private final GPoint2D startPoint = new GPoint2D();
 	private long lastPointerRelease;
+	private boolean touchNavigationChangedObjects;
 	private boolean animationButtonPressed = false;
 	private boolean textfieldHasFocus = false;
 	private DrawButtonWidget pressedButton;
@@ -435,6 +438,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private GeoElement lastSelectionToolGeoToRemove;
 	protected ArrayList<GeoElement> previewPointHits = new ArrayList<>();
 	private long draggingDelay = EuclidianConstants.DRAGGING_DELAY;
+	private int touchStartDelay = TouchGestureArbiter.DEFAULT_START_DELAY;
 
 	private boolean popupJustClosed = false;
 	private ModeMacro modeMacro;
@@ -8339,8 +8343,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		moveMode = MoveMode.NONE;
 	}
 
-	protected boolean shouldCancelDrag() {
-		if (System.currentTimeMillis() < draggingDelay + lastMousePressedTime) {
+	protected boolean shouldCancelDrag(AbstractEvent event) {
+		if (event.getTime() < draggingDelay + lastMousePressedTime) {
 			// we wait at least DRAGGING_DELAY (100ms) before starting drag
 			// used for interactive boards
 			return !EuclidianView.isPenMode(mode);
@@ -8392,7 +8396,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.repaintView();
 		}
 
-		if (!shouldCancelDrag()) {
+		if (!shouldCancelDrag(event)) {
 			if (shouldSetToFreehandMode()) {
 				oldMode = mode;
 				setModeToFreehand();
@@ -8454,7 +8458,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public void wrapMouseDraggedND(AbstractEvent event, boolean startCapture) {
 		// kill view moving when animation button pressed
-		if (shouldCancelDrag() || this.animationButtonPressed) {
+		if (shouldCancelDrag(event) || this.animationButtonPressed) {
 			return;
 		}
 		scriptsHaveRun = false;
@@ -9149,7 +9153,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.hideSymbolicEditor();
 		storeUndo.clear();
 
-		if (lastPointerRelease + EuclidianConstants.DOUBLE_CLICK_DELAY > System.currentTimeMillis()
+		if (lastPointerRelease + EuclidianConstants.DOUBLE_CLICK_DELAY > event.getTime()
 				&& lastMouseUpLoc != null
 				&& MyMath.length(event.getX() - lastMouseUpLoc.x, event.getY() - lastMouseUpLoc.y) <= 3) {
 			this.doubleClickStarted = true;
@@ -9179,7 +9183,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		lastMousePressedTime = System.currentTimeMillis();
+		lastMousePressedTime = event.getTime();
 
 		app.storeUndoInfoIfSetCoordSystemOccurred();
 		app.maySetCoordSystem();
@@ -10224,7 +10228,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			handleDoubleClick(control, type);
 		}
 		this.doubleClickStarted = false;
-		this.lastPointerRelease = System.currentTimeMillis();
+		this.lastPointerRelease = event.getTime();
 
 		int x = event.getX();
 		int y = event.getY();
@@ -11319,7 +11323,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param y2
 	 *            second touch y-coord
 	 */
-	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
 	public final void twoTouchStartPhone(double x1, double y1, double x2, double y2) {
 		scaleConic = null;
 
@@ -11329,6 +11332,29 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
+		twoTouchStartPhone(x1, y1, x2, y2, true);
+	}
+
+	/**
+	 * Start navigating the view with two fingers that the tool got no input from.
+	 * With a construction tool active the fingers never edit objects and the tool keeps its
+	 * selected inputs.
+	 * @param x1 first touch x-coord
+	 * @param y1 first touch y-coord
+	 * @param x2 second touch x-coord
+	 * @param y2 second touch y-coord
+	 */
+	public final void touchNavigationStartPhone(double x1, double y1, double x2, double y2) {
+		scaleConic = null;
+		movePosition = null;
+		touchNavigationChangedObjects = false;
+		app.maySetCoordSystem();
+		twoTouchStartPhone(x1, y1, x2, y2, keepsTwoTouchBehavior());
+	}
+
+	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
+	private void twoTouchStartPhone(
+			double x1, double y1, double x2, double y2, boolean objectEditing) {
 		view.setHits(new GPoint((int) x1, (int) y1), PointerEventType.TOUCH);
 		// needs to be copied, because the reference is changed in the next step
 		Hits hits1 = new Hits();
@@ -11355,7 +11381,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			multitouchMode = ScaleMode.zoomX;
 			setOldDistance(x1 - x2);
 			scale = this.view.getXscale();
-		} else if (hits1.size() > 0
+		} else if (objectEditing
+				&& hits1.size() > 0
 				&& hits2.size() > 0
 				&& hits1.get(0) == hits2.get(0)
 				&& hits1.get(0) instanceof GeoConic
@@ -11398,7 +11425,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				originalPointY[i] = geoElementND.getCoords().getY();
 			}
 		} else {
-			if (shouldClearSelectionForMove()) {
+			if (objectEditing && shouldClearSelectionForMove()) {
 				clearSelections();
 			}
 			multitouchMode = ScaleMode.view;
@@ -11461,9 +11488,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// (e.g. a line)
 
 			// move the view
-			view.rememberOrigins();
-			view.translateCoordSystemInPixels(x2 - movePosition.getX(), y2 - movePosition.getY(), 0);
-			movePosition = new GPoint(x2, y2);
+			panViewUnderPreview(x2, y2);
 
 			// update the preview
 			mouseLoc = new GPoint(x1, y1);
@@ -11486,14 +11511,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		switch (multitouchMode) {
 			case zoomY:
-				if (scale == 0) {
+				if (scale == 0 || !isTouchNavigationAllowed()) {
 					return;
 				}
 				double newRatioY = scale * (y1 - y2) / this.getOldDistance();
 				view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale(), newRatioY);
 				break;
 			case zoomX:
-				if (scale == 0) {
+				if (scale == 0 || !isTouchNavigationAllowed()) {
 					return;
 				}
 				double newRatioX = scale * (x1 - x2) / getOldDistance();
@@ -11541,10 +11566,31 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				kernel.notifyRepaint();
 				break;
 			default:
+				if (!isTouchNavigationAllowed()) {
+					return;
+				}
 				// pinch
 				double distance = MyMath.length(x1 - x2, y1 - y2);
 				onPinchPhone((x1 + x2) / 2, (y1 + y2) / 2, distance / twoTouchStartDistance);
 		}
+		if (scaleConic != null) {
+			touchNavigationChangedObjects = true;
+		}
+	}
+
+	private void panViewUnderPreview(int x2, int y2) {
+		if (isTouchNavigationAllowed()) {
+			view.rememberOrigins();
+			view.translateCoordSystemInPixels(x2 - movePosition.getX(), y2 - movePosition.getY(), 0);
+		}
+		movePosition = new GPoint(x2, y2);
+	}
+
+	/**
+	 * @return whether touch gestures of the mobile apps may pan and zoom the view
+	 */
+	private boolean isTouchNavigationAllowed() {
+		return !usesTouchGestureArbiter() || app.isShiftDragZoomEnabled();
 	}
 
 	/**
@@ -12325,6 +12371,62 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	public void setDraggingDelay(long i) {
 		this.draggingDelay = i;
+	}
+
+	/**
+	 * @return time in milliseconds for which the first finger of a touch is held back before it
+	 * acts on the tool, so that a second finger can turn the touch into view navigation
+	 */
+	public int getTouchStartDelay() {
+		return touchStartDelay;
+	}
+
+	/**
+	 * @param touchStartDelay time in milliseconds for which the first finger of a touch is held
+	 * back; with 0 every finger acts on the tool at once, so a second finger can no longer turn
+	 * a touch into navigation
+	 */
+	public void setTouchStartDelay(int touchStartDelay) {
+		this.touchStartDelay = touchStartDelay;
+	}
+
+	/**
+	 * @return whether finger touches on this view go through {@link TouchGestureArbiter}
+	 */
+	public boolean usesTouchGestureArbiter() {
+		return PreviewFeature.isAvailable(PreviewFeature.TWO_FINGER_NAVIGATION_WITH_TOOLS)
+				&& !app.isWhiteboardActive();
+	}
+
+	/**
+	 * @return whether the active tool keeps the two-finger behavior it had before
+	 * {@link TouchGestureArbiter}: two fingers on the same object edit it, and a second finger
+	 * may join the first one at any time. True for tools that move objects or the view.
+	 */
+	public boolean keepsTwoTouchBehavior() {
+		return EuclidianConstants.isMoveOrSelectionMode(mode)
+				|| mode == EuclidianConstants.MODE_TRANSLATE_VIEW
+				|| mode == EuclidianConstants.MODE_ZOOM_IN
+				|| mode == EuclidianConstants.MODE_ZOOM_OUT;
+	}
+
+	/**
+	 * @param changed whether the fingers of the current navigation changed objects
+	 */
+	public void setTouchNavigationChangedObjects(boolean changed) {
+		touchNavigationChangedObjects = changed;
+	}
+
+	/**
+	 * End a navigation started without input to the tool: store the change for undo.
+	 */
+	public void touchNavigationEnd() {
+		if (touchNavigationChangedObjects) {
+			touchNavigationChangedObjects = false;
+			storeUndoInfo();
+		}
+		app.storeUndoInfoIfSetCoordSystemOccurred();
+		resetPinchZoomOccurred();
 	}
 
 	@Override

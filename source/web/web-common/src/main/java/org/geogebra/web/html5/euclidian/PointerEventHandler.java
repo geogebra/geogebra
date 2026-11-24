@@ -16,11 +16,15 @@
 
 package org.geogebra.web.html5.euclidian;
 
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.controller.TouchGestureArbiter;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.event.HasOffsets;
@@ -54,6 +58,9 @@ public class PointerEventHandler {
 	private @Nullable PointerState third;
 	private double lastOutId;
 	private @Nullable GPoint2D lastOutCoords;
+	/* Finger touches that are not tracked as first, second or third pointer. */
+	private final Set<Integer> gestureTouches = new HashSet<>();
+	private @Nullable TouchGestureArbiter touchArbiter;
 
 	/**
 	 * Mutable representation of pointer events
@@ -100,6 +107,124 @@ public class PointerEventHandler {
 		this.tc = tc;
 		this.off = off;
 		this.converter = new PointerState(0, "");
+	}
+
+	/**
+	 * Passes the decisions of the touch gesture arbiter on to the controller.
+	 */
+	private final class TouchGestureTarget implements TouchGestureArbiter.Target {
+
+		@Override
+		public int getStartDelay() {
+			return tc.getTouchStartDelay();
+		}
+
+		@Override
+		public void touchStart(@NonNull AbstractEvent event) {
+			singleDown((PointerEvent) event);
+		}
+
+		@Override
+		public void touchMove(@NonNull AbstractEvent event) {
+			tc.onPointerEventMove((PointerEvent) event);
+		}
+
+		@Override
+		public void touchEnd(@NonNull AbstractEvent event) {
+			singleUp((PointerEvent) event);
+		}
+
+		@Override
+		public void navigationStart(double x1, double y1, double x2, double y2) {
+			tc.getLongTouchManager().cancelTimer();
+			tc.touchNavigationStart(x1, y1, x2, y2);
+		}
+
+		@Override
+		public void navigationMove(double x1, double y1, double x2, double y2) {
+			tc.twoTouchMove(x1, y1, x2, y2);
+		}
+
+		@Override
+		public void navigationEnd() {
+			tc.touchNavigationEnd();
+		}
+
+		@Override
+		public boolean lateTwoTouchStart(double x1, double y1, double x2, double y2) {
+			if (!tc.keepsTwoTouchBehavior()) {
+				return false;
+			}
+			tc.getLongTouchManager().cancelTimer();
+			tc.twoTouchStart(x1, y1, x2, y2);
+			return true;
+		}
+
+		@Override
+		public void lateTwoTouchMove(double x1, double y1, double x2, double y2) {
+			tc.twoTouchMove(x1, y1, x2, y2);
+		}
+
+		@Override
+		public void lateTwoTouchEnd(@NonNull AbstractEvent lifted, @NonNull AbstractEvent remaining) {
+			singleUp((PointerEvent) lifted);
+		}
+	}
+
+	private static boolean isTouch(elemental2.dom.PointerEvent event) {
+		return "touch".equals(event.pointerType);
+	}
+
+	private boolean isGestureTouch(elemental2.dom.PointerEvent event) {
+		return gestureTouches.contains(event.pointerId);
+	}
+
+	private void onTouchDown(elemental2.dom.PointerEvent e, Element element) {
+		if (e.isPrimary && !gestureTouches.isEmpty()) {
+			// the first finger of a new touch: earlier fingers were lifted without an event
+			gestureTouches.clear();
+			cancelTouchGesture();
+		}
+		lastOutCoords = null;
+		setCapture(element);
+		// APPS-5639 In mobile Safari copy only works from pointerup: collect now & run later
+		CopyPasteW.startCollectingCopyCalls();
+		e.preventDefault();
+		gestureTouches.add(e.pointerId);
+		if (first != null || second != null) {
+			// a mouse or pen is down: fingers and the palm are ignored
+			return;
+		}
+		setPointerType(e, true);
+		if (touchArbiter == null) {
+			touchArbiter = new TouchGestureArbiter(new TouchGestureTarget());
+		}
+		touchArbiter.pointerDown(e.pointerId, convertEvent(e), false);
+	}
+
+	private void onTouchUp(elemental2.dom.PointerEvent event) {
+		gestureTouches.remove(event.pointerId);
+		if (touchArbiter != null) {
+			touchArbiter.pointerUp(event.pointerId, convertEvent(event));
+		}
+		if (gestureTouches.isEmpty() && second == null && first == null) {
+			setCapture(null);
+		}
+		setPointerType(event, false);
+		CopyPasteW.stopCollectingCopyCalls();
+	}
+
+	private void onTouchCancel(elemental2.dom.PointerEvent event) {
+		gestureTouches.remove(event.pointerId);
+		if (touchArbiter != null) {
+			touchArbiter.cancel();
+		}
+	}
+
+	private void cancelTouchGesture() {
+		if (touchArbiter != null && !touchArbiter.isIdle()) {
+			touchArbiter.cancel();
+		}
 	}
 
 	private void twoPointersDown(PointerState pointer1, PointerState pointer2) {
@@ -153,6 +278,12 @@ public class PointerEventHandler {
 	 * Reset the pointers
 	 */
 	public void reset() {
+		resetPointers();
+		gestureTouches.clear();
+		cancelTouchGesture();
+	}
+
+	private void resetPointers() {
 		first = null;
 		second = null;
 		third = null;
@@ -162,7 +293,11 @@ public class PointerEventHandler {
 		if (isPenStrokeInterrupted(e)) {
 			onPointerDown(e, element);
 		}
-		if (first != null && second != null) {
+		if (isGestureTouch(e)) {
+			if (touchArbiter != null) {
+				touchArbiter.pointerMove(e.pointerId, convertEvent(e));
+			}
+		} else if (first != null && second != null) {
 			if (second.id == e.pointerId) {
 				second.x = e.offsetX / off.getZoomLevel();
 				second.y = e.offsetY / off.getZoomLevel();
@@ -200,8 +335,14 @@ public class PointerEventHandler {
 	}
 
 	private void onPointerDown(elemental2.dom.PointerEvent e, Element element) {
+		if (isTouch(e) && (tc.usesTouchGestureArbiter() || !gestureTouches.isEmpty())) {
+			onTouchDown(e, element);
+			return;
+		}
+		// a mouse or pen takes over from fingers
+		cancelTouchGesture();
 		if (first != null && second != null && third != null) {
-			reset();
+			resetPointers();
 			return;
 		}
 		lastOutCoords = null;
@@ -249,6 +390,10 @@ public class PointerEventHandler {
 			return;
 		}
 		event.stopPropagation();
+		if (isGestureTouch(event)) {
+			onTouchUp(event);
+			return;
+		}
 		resetPointer(event);
 		if (second == null && first == null) {
 			setCapture(null);
@@ -266,6 +411,10 @@ public class PointerEventHandler {
 	}
 
 	private void onPointerOut(elemental2.dom.PointerEvent event) {
+		if (isGestureTouch(event) || (isTouch(event) && tc.usesTouchGestureArbiter())) {
+			// fingers keep sending events to the view until they are lifted
+			return;
+		}
 		lastOutId = event.pointerId;
 		converter.setCoords(event);
 		lastOutCoords = new GPoint2D(converter.x, converter.y);
@@ -281,7 +430,7 @@ public class PointerEventHandler {
 		} else if (match(third, event)) {
 			third = null;
 		} else {
-			reset();
+			resetPointers();
 		}
 	}
 
@@ -302,7 +451,12 @@ public class PointerEventHandler {
 				element, "pointerout", evt -> onPointerOut(Js.uncheckedCast(evt)));
 
 		globalHandlers.addEventListener(element, "pointercancel", evt -> {
-			onPointerOut(Js.uncheckedCast(evt));
+			elemental2.dom.PointerEvent event = Js.uncheckedCast(evt);
+			if (isGestureTouch(event)) {
+				onTouchCancel(event);
+				return;
+			}
+			onPointerOut(event);
 			tc.onPointerCancel();
 		});
 

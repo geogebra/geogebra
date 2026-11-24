@@ -22,6 +22,23 @@ import org.geogebra.common.awt.annotations.HasNativeSubclass;
 @HasNativeSubclass
 public abstract class AbstractEvent {
 
+	private long time = System.currentTimeMillis();
+
+	/**
+	 * @return time in milliseconds when this event happened. An event that is processed later,
+	 * such as a touch that was held back, keeps the time of the original input.
+	 */
+	public long getTime() {
+		return time;
+	}
+
+	/**
+	 * Set the time of this event to now; to be called when the object is reused for a new event.
+	 */
+	protected void resetTime() {
+		time = System.currentTimeMillis();
+	}
+
 	/**
 	 * @return pixel coordinates of this event
 	 */

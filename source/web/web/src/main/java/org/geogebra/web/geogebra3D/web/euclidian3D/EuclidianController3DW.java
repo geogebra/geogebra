@@ -193,7 +193,7 @@ public class EuclidianController3DW extends EuclidianController3D implements IsE
 	@Override
 	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 
-		if (!shouldCancelDrag()) {
+		if (!shouldCancelDrag(event)) {
 
 			if (event instanceof PointerEvent) {
 				DOM.setCapture(((PointerEvent) event).getRelativeElement());

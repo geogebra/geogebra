@@ -42,6 +42,7 @@ public final class MouseEventD extends AbstractEvent implements MouseEventND {
 		if (!pool.isEmpty()) {
 			MouseEventD wrap = pool.getLast();
 			wrap.event = e;
+			wrap.resetTime();
 			pool.removeLast();
 			return wrap;
 		}
