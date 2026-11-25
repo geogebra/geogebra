@@ -133,7 +133,8 @@ final class BoxPlotDataPropertyFactory
 		public @NonNull String getCommand() {
 			String command = "BoxPlot(" + offset + ", " + scale + ", " + data;
 			if (inputType == FREQUENCIES) {
-				String frequenciesArgument = frequencies != null ? frequencies : "{}";
+				String frequenciesArgument =
+						frequencies == null || frequencies.isBlank() ? "{}" : frequencies;
 				String outliersParameter = outliersArgument != null ? outliersArgument : "false";
 				command += ", " + frequenciesArgument + ", " + outliersParameter;
 			} else if (outliersArgument != null) {
@@ -234,7 +235,7 @@ final class BoxPlotDataPropertyFactory
 		@Override
 		public @NonNull String getValue() {
 			String frequencies = controller.readData(data -> data.frequencies);
-			return frequencies != null ? frequencies : "{}";
+			return frequencies == null || "{}".equals(frequencies) ? "" : frequencies;
 		}
 
 		@Override

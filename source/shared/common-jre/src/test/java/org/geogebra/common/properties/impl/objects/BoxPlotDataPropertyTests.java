@@ -41,6 +41,7 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.BoxPlotDataPropertyFactory.BoxPlotInputType;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -616,6 +617,32 @@ final class BoxPlotDataPropertyTests extends BaseAppTestSetup {
 		reconstructed.createInputTypeProperty(replacement).setValue(FREQUENCIES);
 
 		assertEquals("BoxPlot(1, 2, {1, 2, 3}, {2, 3, 4}, false)", definition("b"));
+	}
+
+	@Test
+	@Issue("APPS-8110")
+	void switchingToFrequenciesShowsEmptyFrequenciesField() throws NotApplicablePropertyException {
+		GeoElement boxPlot = evaluateGeoElement("BoxPlot(1, 2, {1, 2, 3})");
+		BoxPlotDataPropertyFactory factory = createPropertyFactory(boxPlot);
+		StringProperty frequenciesProperty = factory.createFrequenciesProperty(boxPlot);
+
+		factory.createInputTypeProperty(boxPlot).setValue(FREQUENCIES);
+
+		assertTrue(frequenciesProperty.isAvailable());
+		assertEquals("", frequenciesProperty.getValue());
+	}
+
+	@Test
+	@Issue("APPS-8110")
+	void clearingFrequenciesKeepsEmptyListInCommand() throws NotApplicablePropertyException {
+		GeoElement boxPlot = evaluateGeoElement("BoxPlot(1, 2, {1, 2, 3}, {2, 3, 4}, false)");
+		StringProperty frequenciesProperty =
+				createPropertyFactory(boxPlot).createFrequenciesProperty(boxPlot);
+
+		frequenciesProperty.setValue("");
+
+		assertEquals("BoxPlot(1, 2, {1, 2, 3}, {}, false)", definition(boxPlot.getLabelSimple()));
+		assertEquals("", frequenciesProperty.getValue());
 	}
 
 	private BoxPlotDataPropertyFactory createPropertyFactory(GeoElement... elements) {
