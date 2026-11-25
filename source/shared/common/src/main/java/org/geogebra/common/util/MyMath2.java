@@ -216,7 +216,21 @@ public class MyMath2 {
 	 * @return digamma of x
 	 */
 	public static double psi(double x) {
+		if (x < 0) {
+			// reflection formula, Gamma.digamma recurses |x| times for negative x
+			double t = x - Math.rint(x);
+			return t == 0 ? Double.NaN : Gamma.digamma(1 - x) - Math.PI / Math.tan(Math.PI * t);
+		}
 		return Gamma.digamma(x);
+	}
+
+	private static double trigamma(double x) {
+		if (x < 0) {
+			double t = x - Math.rint(x);
+			double sin = Math.sin(Math.PI * t);
+			return t == 0 ? Double.NaN : Math.PI * Math.PI / (sin * sin) - Gamma.trigamma(1 - x);
+		}
+		return Gamma.trigamma(x);
 	}
 
 	/**
@@ -238,9 +252,9 @@ public class MyMath2 {
 		int o = (int) order.getDouble();
 		switch (o) {
 			case 0:
-				return Gamma.digamma(x);
+				return psi(x);
 			case 1:
-				return Gamma.trigamma(x);
+				return trigamma(x);
 			// case 2:
 			// return PolyGamma.tetragamma(x);
 			// case 3:
