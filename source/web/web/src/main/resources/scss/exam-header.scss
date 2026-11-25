@@ -1,0 +1,77 @@
+@use 'z-index';
+@use 'colorMap' as *;
+
+.GeoGebraFrame {
+	.examHeader {
+		height: 64px;
+		width: 100%;
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 24px;
+		padding: 0 18px;
+		box-sizing: border-box;
+		background-color: neutral(0);
+		border-bottom: 1px solid neutral(300);
+		z-index: z-index.$z-top-bar;
+		container-type: inline-size;
+
+		.menuBtn {
+			flex-shrink: 0;
+			img {
+				opacity: 0.54;
+			}
+		}
+
+		.examName {
+			min-width: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			font-size: 24px;
+			color: neutral(900);
+		}
+
+		.sessionControls {
+			display: flex;
+			align-items: center;
+			gap: 24px;
+			margin-left: auto;
+			flex-shrink: 0;
+		}
+
+		.examTimerPanel {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.timerImg {
+			width: 20px;
+			height: 20px;
+			opacity: 0.54;
+		}
+
+		.elapsedTime {
+			min-width: 80px;
+			font-size: 20px;
+			font-weight: 500;
+			line-height: 24px;
+			color: neutral(900);
+		}
+
+		.examHash {
+			font-size: 14px;
+			line-height: 24px;
+			letter-spacing: 0.35px;
+			color: neutral(700);
+		}
+	}
+
+	// not enough space: hash is the first element to be removed
+	@container (max-width: 600px) {
+		.examHeader .examHash {
+			display: none;
+		}
+	}
+}

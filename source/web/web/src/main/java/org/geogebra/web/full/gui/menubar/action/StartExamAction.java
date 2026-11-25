@@ -56,6 +56,7 @@ public final class StartExamAction extends DefaultMenuAction<AppWFull> {
 	}
 
 	private void showDialog(AppWFull app, boolean startExamDirectly) {
+		app.getAppletFrame().updateExamHeader();
 		if (app.getLAF().isOfflineExamSupported()
 				|| SafeExamBrowser.get() != null
 				|| startExamDirectly) {

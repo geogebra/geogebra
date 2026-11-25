@@ -208,6 +208,15 @@ public class AppletParameters {
 	}
 
 	/**
+	 * Decides whether to show header in exam for applets.
+	 * Only used if {@code examMode} is {@code true}, or the app runs in a secure browser.
+	 * @return whether exam header should be shown
+	 */
+	public boolean getParamShowExamHeader() {
+		return getBoolDataParam("showExamHeader", false);
+	}
+
+	/**
 	 * @return whether enable3D is set
 	 */
 	public boolean hasDataParamEnable3D() {

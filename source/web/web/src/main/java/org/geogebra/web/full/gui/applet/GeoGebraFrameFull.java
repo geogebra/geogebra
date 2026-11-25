@@ -33,6 +33,7 @@ import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.applet.panel.PanelTransitioner;
+import org.geogebra.web.full.gui.exam.ExamHeader;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
@@ -106,6 +107,8 @@ public final class GeoGebraFrameFull extends GeoGebraFrameW
 	private PageListPanel pageListPanel;
 	private final PanelTransitioner panelTransitioner;
 	private HeaderResizer headerResizer;
+	private @Nullable ExamHeader examHeader;
+	private boolean examHeaderListenerAdded;
 
 	/**
 	 * @param factory
@@ -994,6 +997,54 @@ public final class GeoGebraFrameFull extends GeoGebraFrameW
 				getWidget(i).removeFromParent();
 			}
 		}
+	}
+
+	/**
+	 * Show or hide the exam header if exam browser is detected and the showExamHeader parameter is set.
+	 * The {@code examMode} applet parameter can be used to emulate exam browser.
+	 */
+	public void updateExamHeader() {
+		if (!examHeaderListenerAdded) {
+			examHeaderListenerAdded = true;
+			getApp().getExamEventBus().add(state -> updateExamHeader());
+		}
+		boolean show = app.getAppletParameters().getParamShowExamHeader();
+		if (show && examHeader != null) {
+			examHeader.setLabels();
+			return;
+		}
+		if (!show && examHeader == null) {
+			return;
+		}
+		if (show) {
+			examHeader = new ExamHeader(getApp());
+			insert(examHeader, 0);
+			examHeader.start();
+		} else {
+			examHeader.stop();
+			examHeader.removeFromParent();
+			examHeader = null;
+		}
+		ToolbarPanel toolbarPanel = getGuiManager().getUnbundledToolbar();
+		if (toolbarPanel != null) {
+			toolbarPanel.updateMenuPosition();
+		}
+		app.updateSplitPanelHeight();
+		app.updateViewSizes();
+	}
+
+	/**
+	 * @return exam header, null if not shown
+	 */
+	public @Nullable ExamHeader getExamHeader() {
+		return examHeader;
+	}
+
+	/**
+	 * @return height of exam header (0 if not shown)
+	 */
+	public int getExamHeaderHeight() {
+		return examHeader == null ? 0 : ExamHeader.HEIGHT;
 	}
 
 	/**

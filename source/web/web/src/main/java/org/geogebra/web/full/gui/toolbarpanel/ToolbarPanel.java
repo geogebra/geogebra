@@ -882,6 +882,15 @@ public final class ToolbarPanel extends FlowPanel
 	}
 
 	/**
+	 * Move the menu button to global header, exam header or applet frame as needed.
+	 */
+	public void updateMenuPosition() {
+		if (navRail != null) {
+			navRail.updateMenuPosition();
+		}
+	}
+
+	/**
 	 * @return the frame with casting.
 	 */
 	GeoGebraFrameFull getFrame() {

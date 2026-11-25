@@ -2205,6 +2205,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isWhiteboardActive()) {
 			height += frame.getNotesTopBarHeight();
 		}
+		height += frame.getExamHeaderHeight();
 		return height;
 	}
 
@@ -2446,6 +2447,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					GlobalHeader.INSTANCE.addExamTimer(this);
 				}
 			}
+			frame.updateExamHeader();
 		}
 	}
 

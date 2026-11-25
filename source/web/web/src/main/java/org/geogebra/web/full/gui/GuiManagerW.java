@@ -81,6 +81,7 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
+import org.geogebra.web.full.gui.exam.ExamHeader;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
@@ -1279,6 +1280,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Set
 		}
 
 		GlobalHeader.INSTANCE.setLabels();
+		ExamHeader examHeader = frame.getExamHeader();
+		if (examHeader != null) {
+			examHeader.setLabels();
+		}
 	}
 
 	private NotesLayout getNotesLayout() {

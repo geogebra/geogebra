@@ -27,6 +27,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.exam.ExamHeader;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.main.AppWFull;
@@ -122,7 +123,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 			createSpreadsheetButton();
 			center.add(btnSpreadsheet);
 		}
-		if (btnMenu != null && !isHeaderExternal()) {
+		if (btnMenu != null && !isHeaderExternal() && !isMenuInExamHeader()) {
 			center.addStyleName("withMenu");
 		}
 		contents.add(center);
@@ -328,22 +329,36 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		markMenuAsExpanded(false);
 	}
 
-	private void updateMenuPosition() {
+	/**
+	 * Move the menu button to global header, exam header or applet frame.
+	 */
+	void updateMenuPosition() {
 		if (btnMenu == null) {
 			return;
 		}
+		ExamHeader examHeader = toolbarPanel.getFrame().getExamHeader();
 		boolean external = isHeaderExternal();
-		btnMenu.setExternal(external);
-		if (external) {
+		if (examHeader != null) {
+			examHeader.setMenuButton(btnMenu);
+		} else if (external) {
+			btnMenu.setExternal(true);
 			btnMenu.addToGlobalHeader();
 			addShareButton();
 		} else {
+			btnMenu.setExternal(false);
 			toolbarPanel.getFrame().add(btnMenu);
+		}
+		if (center != null) {
+			Dom.toggleClass(center, "withMenu", !external && examHeader == null);
 		}
 	}
 
 	private boolean isHeaderExternal() {
 		return needsHeader() && GlobalHeader.isInDOM();
+	}
+
+	private boolean isMenuInExamHeader() {
+		return toolbarPanel.getFrame().getExamHeader() != null;
 	}
 
 	protected boolean needsHeader() {
