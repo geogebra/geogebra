@@ -76,17 +76,17 @@ public class DrawInequality extends Drawable {
 		this.view = view;
 		geo = (GeoElement) function;
 		this.function = function;
-		operation = function.getIneqs().getOperation();
 		this.bordersToDraw = new HashSet<>();
-		if (function.getIneqs().getLeft() != null) {
-			left = new DrawInequality(function.getIneqs().getLeft(), view, geo, this);
-		}
-		if (function.getIneqs().getRight() != null) {
-			right = new DrawInequality(function.getIneqs().getRight(), view, geo, this);
-		}
-
-		if (function.getIneqs().getIneq() != null) {
-			ineq = function.getIneqs().getIneq();
+		IneqTree ineqs = function.getIneqs();
+		if (ineqs != null) {
+			operation = ineqs.getOperation();
+			if (ineqs.getLeft() != null) {
+				left = new DrawInequality(ineqs.getLeft(), view, geo, this);
+			}
+			if (ineqs.getRight() != null) {
+				right = new DrawInequality(ineqs.getRight(), view, geo, this);
+			}
+			ineq = ineqs.getIneq();
 		}
 		update();
 	}

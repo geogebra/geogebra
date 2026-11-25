@@ -16,6 +16,7 @@
 
 package org.geogebra.common.euclidian.draw;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,6 +25,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,5 +76,12 @@ class DrawInequalityTest extends BaseAppTestSetup {
 		assertEquals(
 				updatedInside,
 				drawable.getShape().contains(view.toScreenCoordXd(x), view.toScreenCoordYd(0)));
+	}
+
+	@Issue("APPS-8200")
+	@Test
+	void undefinedMultivariableFunctionShouldNotCrash() {
+		GeoFunctionNVar function = new GeoFunctionNVar(getKernel().getConstruction());
+		assertDoesNotThrow(() -> new DrawInequality(getApp().getActiveEuclidianView(), function));
 	}
 }
