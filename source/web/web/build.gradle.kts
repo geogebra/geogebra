@@ -329,7 +329,7 @@ fun createHtml(inlineCss: Boolean) {
     }
 
     copy {
-        from(file("../common/src/main/resources/giac"))
+        from(file("../../shared/common/src/main/resources/giac"))
         into(warDirRel)
     }
 
