@@ -290,7 +290,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.startTag("significantfigures").attr("val", printFigures).endTag();
 		}
 
-		if (isSymbolicMode()) {
+		if (symbolicMode) {
 			sb.startTag("symbolic").attr("val", true).endTag();
 			sb.startTag("contentSerif").attr("val", serifContent).endTag();
 		}
@@ -493,7 +493,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	@Override
 	public boolean isSymbolicMode() {
-		return symbolicMode;
+		// Linear Notation edits input boxes as plain text, e.g. for braille displays
+		return symbolicMode && !getApp().isLinearNotation();
 	}
 
 	@Override

@@ -23,10 +23,13 @@ import static org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorV
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.geogebra.common.properties.PropertyView;
-import org.geogebra.editor.web.MathFieldW;
+import org.geogebra.web.html5.gui.accessibility.HasFocus;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -40,9 +43,9 @@ public final class ProbabilityResultRow extends FlowPanel {
 	private final PropertyView.ProbabilityResultRow resultRowProperty;
 	private final List<Label> labels = new ArrayList<>();
 	private final List<Widget> fields = new ArrayList<>();
-	private final List<MathFieldW> mathFields = new ArrayList<>();
+	private final List<Consumer<String>> fieldSetters = new ArrayList<>();
 	private final List<Widget> widgets;
-	private MathFieldW activeMathField;
+	private Widget activeField;
 
 	/**
 	 * Result row in probability view.
@@ -66,7 +69,7 @@ public final class ProbabilityResultRow extends FlowPanel {
 		widgets.removeAll(fields);
 		fields.clear();
 		labels.clear();
-		mathFields.clear();
+		fieldSetters.clear();
 		for (PropertyView.ProbabilityResultRow.Item item : resultRowProperty.getItems()) {
 			if (item instanceof PropertyView.ProbabilityResultRow.Item.Text text) {
 				Label label = new Label(text.text());
@@ -79,35 +82,71 @@ public final class ProbabilityResultRow extends FlowPanel {
 				labels.add(label);
 			} else if (item instanceof PropertyView.ProbabilityResultRow.Item.InputField inputField) {
 				FlowPanel holder = new FlowPanel();
-				MathTextFieldW mathTextFieldW = new MathTextFieldW(appW);
-				fields.add(mathTextFieldW.asWidget());
-				mathFields.add(mathTextFieldW.getMathField());
-				mathTextFieldW.setText(inputField.getValue());
-				mathTextFieldW.setLabel(appW.getLocalization().getMenu(inputField.getAriaLabel()));
-				mathTextFieldW.updateAriaValue();
-				mathTextFieldW.setPxWidth(80);
-				mathTextFieldW.getMathField().setOnFocus(event -> {
-					activeMathField = mathTextFieldW.getMathField();
-					holder.addStyleName("focusState");
-				});
-				mathTextFieldW.addInputHandler(() -> {
-					inputField.setValue(mathTextFieldW.getText());
-					mathTextFieldW.updateAriaValue();
-				});
-				mathTextFieldW.addBlurHandler(event -> {
-					inputField.setValue(mathTextFieldW.getText());
-					activeMathField = null;
-					holder.removeStyleName("focusState");
-				});
-
+				Widget field = appW.isLinearNotation()
+						? createTextField(inputField, holder)
+						: createMathField(inputField, holder);
+				fields.add(field);
 				holder.setStyleName("holder");
 				TestHarness.setAttr(holder, inputField.getAriaLabel());
-				holder.add(mathTextFieldW);
+				holder.add(field);
 				add(holder);
 			}
 		}
 		updateAccessibleName();
 		widgets.addAll(fields);
+	}
+
+	private Widget createMathField(
+			PropertyView.ProbabilityResultRow.Item.InputField inputField, FlowPanel holder) {
+		MathTextFieldW mathTextFieldW = new MathTextFieldW(appW);
+		Widget widget = mathTextFieldW.asWidget();
+		mathTextFieldW.setText(inputField.getValue());
+		mathTextFieldW.setLabel(appW.getLocalization().getMenu(inputField.getAriaLabel()));
+		mathTextFieldW.updateAriaValue();
+		mathTextFieldW.setPxWidth(80);
+		mathTextFieldW.getMathField().setOnFocus(event -> {
+			activeField = widget;
+			holder.addStyleName("focusState");
+		});
+		mathTextFieldW.addInputHandler(() -> {
+			inputField.setValue(mathTextFieldW.getText());
+			mathTextFieldW.updateAriaValue();
+		});
+		mathTextFieldW.addBlurHandler(event -> {
+			inputField.setValue(mathTextFieldW.getText());
+			activeField = null;
+			holder.removeStyleName("focusState");
+		});
+		fieldSetters.add(value -> {
+			mathTextFieldW.getMathField().parse(value);
+			mathTextFieldW.updateAriaValue();
+		});
+		return widget;
+	}
+
+	private Widget createTextField(
+			PropertyView.ProbabilityResultRow.Item.InputField inputField, FlowPanel holder) {
+		AutoCompleteTextFieldW textField = new FocusableTextField(appW);
+		textField.setAutoComplete(false);
+		textField.setText(inputField.getValue());
+		AriaHelper.setLabel(
+				textField.getTextField(), appW.getLocalization().getMenu(inputField.getAriaLabel()));
+		textField.setWidth(80);
+		textField.addFocusHandler(event -> {
+			activeField = textField;
+			holder.addStyleName("focusState");
+		});
+		Dom.addEventListener(
+				textField.getTextBox().getElement(),
+				"input",
+				event -> inputField.setValue(textField.getText()));
+		textField.addBlurHandler(event -> {
+			inputField.setValue(textField.getText());
+			activeField = null;
+			holder.removeStyleName("focusState");
+		});
+		fieldSetters.add(textField::setText);
+		return textField;
 	}
 
 	/**
@@ -127,7 +166,7 @@ public final class ProbabilityResultRow extends FlowPanel {
 	}
 
 	private void updateContent() {
-		if (activeMathField == null) {
+		if (activeField == null) {
 			clear();
 			buildGUI();
 		} else {
@@ -139,14 +178,25 @@ public final class ProbabilityResultRow extends FlowPanel {
 					labels.get(labelIndex++).setText(text.text());
 				}
 				if (item instanceof PropertyView.ProbabilityResultRow.Item.InputField input
-						&& inputIndex < mathFields.size()) {
-					MathFieldW currentField = mathFields.get(inputIndex++);
-					if (currentField != activeMathField) {
-						currentField.parse(input.getValue());
-						currentField.setAriaValue(currentField.getDescription());
+						&& inputIndex < fields.size()) {
+					int index = inputIndex++;
+					if (fields.get(index) != activeField) {
+						fieldSetters.get(index).accept(input.getValue());
 					}
 				}
 			}
+		}
+	}
+
+	private static final class FocusableTextField extends AutoCompleteTextFieldW implements HasFocus {
+
+		FocusableTextField(AppW app) {
+			super(app);
+		}
+
+		@Override
+		public void focus() {
+			setFocus(true);
 		}
 	}
 }

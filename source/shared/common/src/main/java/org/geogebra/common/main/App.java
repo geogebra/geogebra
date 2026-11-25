@@ -1842,6 +1842,13 @@ public abstract class App
 		return getSettings().getAlgebra().getStyle();
 	}
 
+	/**
+	 * @return Whether Linear Notation is the currently set algebra style.
+	 */
+	public final boolean isLinearNotation() {
+		return getAlgebraStyle() == AlgebraStyle.LINEAR_NOTATION;
+	}
+
 	public final String getUniqueId() {
 		return uniqueId;
 	}

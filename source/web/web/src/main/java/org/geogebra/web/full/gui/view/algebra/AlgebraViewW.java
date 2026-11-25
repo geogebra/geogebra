@@ -44,7 +44,6 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.AlgebraSettings;
-import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.ownership.SuiteScope;
@@ -1581,7 +1580,7 @@ public final class AlgebraViewW extends Tree
 	}
 
 	private boolean isLinearNotation() {
-		return getApp().getAlgebraStyle() == AlgebraStyle.LINEAR_NOTATION;
+		return getApp().isLinearNotation();
 	}
 
 	@Override

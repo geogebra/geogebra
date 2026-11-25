@@ -75,4 +75,11 @@ public interface SpreadsheetCellEditor {
 	 * offers a default implementation.
 	 */
 	@NonNull SpreadsheetCellDataSerializer getCellDataSerializer();
+
+	/**
+	 * @return Whether cell content is edited as flat text, e.g. for braille displays.
+	 */
+	default boolean isLinearInput() {
+		return false;
+	}
 }

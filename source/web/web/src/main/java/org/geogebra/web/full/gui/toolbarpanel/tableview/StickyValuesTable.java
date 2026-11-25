@@ -88,7 +88,6 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	private int columnsChange = 0;
 	private int removedColumnByUser = -1;
 	private final boolean shadedColumns;
-	DefineFunctionsDialogTV defFuncDialog;
 	private final TableValuesKeyboardNavigationController controller;
 	private Element focusedNonEditableCell;
 	GPoint lastEdit = null;
@@ -389,12 +388,12 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 
 	@Override
 	public void openDefineFunctions() {
-		if (defFuncDialog == null) {
-			DialogData data = new DialogData("DefineFunctions", "Cancel", "OK");
-			defFuncDialog = new DefineFunctionsDialogTV(app, data, () -> controller.select(0, 0));
-		}
-		defFuncDialog.setLabels();
-		defFuncDialog.show();
+		// built on each open, so that it follows the Linear Notation setting
+		DialogData data = new DialogData("DefineFunctions", "Cancel", "OK");
+		DefineFunctionsDialogTV dialog =
+				new DefineFunctionsDialogTV(app, data, () -> controller.select(0, 0));
+		dialog.setLabels();
+		dialog.show();
 	}
 
 	private boolean isColumnEditable(int column) {

@@ -403,16 +403,18 @@ public class ComponentInputField extends FlowPanel
 	// BUILD UI
 
 	private void buildGui(AppW app, boolean hasKeyboardBtn, boolean isMathTextField) {
+		// Linear Notation uses native text fields, which braille displays can render
+		boolean mathInput = isMathTextField && !app.isLinearNotation();
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		contentPanel.addStyleName("validation");
-		contentPanel.addStyleName(isMathTextField ? "mathInput" : "textInput");
+		contentPanel.addStyleName(mathInput ? "mathInput" : "textInput");
 		TestHarness.setAttr(contentPanel, labelTextKey);
 
 		FlowPanel optionHolder = new FlowPanel();
 		optionHolder.addStyleName("optionLabelHolder");
 		// input text field
-		if (isMathTextField) {
+		if (mathInput) {
 			createInputMathField(app);
 		} else {
 			createInputTextField(app, hasKeyboardBtn);

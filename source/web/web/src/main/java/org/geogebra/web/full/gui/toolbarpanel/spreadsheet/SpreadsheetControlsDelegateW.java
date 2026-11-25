@@ -107,6 +107,7 @@ public final class SpreadsheetControlsDelegateW
 					.getStyle()
 					.setTextAlign(textAlignment == CellFormat.ALIGN_LEFT ? TextAlign.LEFT : TextAlign.RIGHT);
 			mathField.setVisible(true);
+			mathField.getMathField().setMirrorText(isLinearInput());
 			mathField.editorClicked();
 			mathField.scrollCursorVisibleHorizontally();
 			Scheduler.get().scheduleDeferred(mathField::requestFocus);
@@ -152,6 +153,11 @@ public final class SpreadsheetControlsDelegateW
 		@Override
 		public @NonNull SpreadsheetCellDataSerializer getCellDataSerializer() {
 			return new DefaultSpreadsheetCellDataSerializer();
+		}
+
+		@Override
+		public boolean isLinearInput() {
+			return app.isLinearNotation();
 		}
 	}
 

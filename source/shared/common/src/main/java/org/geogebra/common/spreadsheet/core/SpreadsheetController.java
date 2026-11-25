@@ -1952,7 +1952,7 @@ public final class SpreadsheetController<T> {
 		}
 		MathFieldInternal mathField = editor.cellEditor.getMathField();
 		String text = mathField.getText();
-		boolean isPlainTextMode = !text.startsWith("=");
+		boolean isPlainTextMode = editor.cellEditor.isLinearInput() || !text.startsWith("=");
 		boolean oldPlainTextMode = mathField.getInputController().getPlainTextMode();
 		if (oldPlainTextMode != isPlainTextMode) {
 			mathField.getInputController().setPlainTextMode(isPlainTextMode);
@@ -1982,10 +1982,13 @@ public final class SpreadsheetController<T> {
 			this.column = column;
 			MathFieldInternal mathField = cellEditor.getMathField();
 			previousCellContent = tabularData.contentAt(row, column);
-			if (editExistingContent) {
-				mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(previousCellContent));
+			String content = editExistingContent
+					? cellEditor.getCellDataSerializer().getStringForEditor(previousCellContent)
+					: "";
+			if (cellEditor.isLinearInput()) {
+				mathField.setPlainText(content);
 			} else {
-				mathField.parse("");
+				mathField.parse(content);
 			}
 
 			// If the cell editor is reused without first hiding it,

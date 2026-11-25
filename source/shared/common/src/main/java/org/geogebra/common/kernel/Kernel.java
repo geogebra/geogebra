@@ -106,7 +106,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
-import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.Event;
@@ -1591,8 +1590,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * {@link StringTemplate#algebraTemplate} or {@link StringTemplate#linearNotation}.
 	 */
 	public StringTemplate getAlgebraTemplate() {
-		AlgebraSettings algebra = getApplication().getSettings().getAlgebra();
-		return algebra.getStyle() == AlgebraStyle.LINEAR_NOTATION
+		return getApplication().isLinearNotation()
 				? StringTemplate.linearNotation
 				: StringTemplate.algebraTemplate;
 	}

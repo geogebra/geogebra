@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.AccessibilityGroup;
+import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.PropertyViewFactory;
 import org.geogebra.web.full.gui.properties.ui.PropertiesPanelAdapter;
@@ -31,6 +33,9 @@ public final class DistributionPanel extends FlowPanel {
 	private final ProbabilityCalculatorViewW view;
 	private final AppW appW;
 	private final List<PropertyView> props = new ArrayList<>();
+	private final SettingListener<AlgebraSettings> algebraStyleListener =
+			settings -> onAlgebraStyleChanged();
+	private boolean linearNotation;
 
 	/**
 	 * Builds distribution panel for probability calculator.
@@ -43,15 +48,21 @@ public final class DistributionPanel extends FlowPanel {
 		addStyleName("distributionPanel");
 		buildGUI();
 		addAttachHandler(evt -> {
+			AlgebraSettings algebraSettings = appW.getSettings().getAlgebra();
 			if (!evt.isAttached()) {
+				algebraSettings.removeListener(algebraStyleListener);
 				detachProperties();
-			} else if (props.isEmpty()) {
-				rebuild();
+			} else {
+				algebraSettings.addListener(algebraStyleListener);
+				if (props.isEmpty()) {
+					rebuild();
+				}
 			}
 		});
 	}
 
 	private void buildGUI() {
+		linearNotation = appW.isLinearNotation();
 		PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(appW.getLocalization(), appW);
 		if (appW.isUnbundled()) {
 			List<PropertyView> propertyViewList = PropertyViewFactory.propertyViewOfDistributionSettings(
@@ -106,5 +117,15 @@ public final class DistributionPanel extends FlowPanel {
 	public void rebuild() {
 		clear();
 		buildGUI();
+	}
+
+	/**
+	 * Rebuilds the fields when Linear Notation is toggled.
+	 */
+	private void onAlgebraStyleChanged() {
+		if (linearNotation != appW.isLinearNotation()) {
+			detachProperties();
+			rebuild();
+		}
 	}
 }

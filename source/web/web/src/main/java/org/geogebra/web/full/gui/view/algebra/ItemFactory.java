@@ -19,7 +19,6 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.settings.AlgebraStyle;
 
 /**
  * Helper methods for creating new AV items
@@ -50,7 +49,7 @@ public final class ItemFactory {
 	 * @return Whether the element should be depicted as a linear notation item.
 	 */
 	public static boolean matchLinearNotation(GeoElement geo) {
-		return geo.getApp().getAlgebraStyle() == AlgebraStyle.LINEAR_NOTATION;
+		return geo.getApp().isLinearNotation();
 	}
 
 	/**

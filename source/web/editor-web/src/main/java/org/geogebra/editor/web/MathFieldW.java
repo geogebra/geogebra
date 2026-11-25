@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.editor.share.controller.CursorController;
+import org.geogebra.editor.share.controller.EditorState;
 import org.geogebra.editor.share.controller.ExpressionReader;
 import org.geogebra.editor.share.editor.EditorFeatures;
 import org.geogebra.editor.share.editor.MathField;
@@ -36,7 +37,10 @@ import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.event.KeyListener;
 import org.geogebra.editor.share.event.MathFieldListener;
 import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
+import org.geogebra.editor.share.tree.CharacterNode;
 import org.geogebra.editor.share.tree.Formula;
+import org.geogebra.editor.share.tree.Node;
+import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.editor.share.util.KeyCodes;
 import org.geogebra.gwtutil.JsObject;
@@ -139,6 +143,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private ClickAdapterW adapter;
 	private boolean powerHappened;
 	private HandlerRegistration blurRegistration;
+	private boolean mirrorText;
+	private String lastMirroredText = "";
 
 	/**
 	 * @param converter
@@ -328,6 +334,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	@Override
 	public void setTeXIcon(TeXIcon icon) {
 		this.lastIcon = icon;
+		syncHiddenTextArea();
 
 		GPoint2D size = computeSize();
 		if (ctx == null || size == null) {
@@ -500,7 +507,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	/** Read position in current */
 	public void readPosition() {
-		if (expressionReader != null) {
+		// with mirroring, screen readers follow the native caret
+		if (expressionReader != null && !mirrorText) {
 			setAriaLabel(this.mathFieldInternal.getEditorStateDescription(expressionReader));
 		}
 	}
@@ -540,7 +548,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private boolean checkPowerKeyInput(Element element) {
 		HTMLTextAreaElement textArea = Js.uncheckedCast(element);
-		if (textArea.value.matches(".*\\^")) {
+		// trailing ^ in mirrored text is content, not dead key
+		if (!textArea.value.equals(lastMirroredText) && textArea.value.matches(".*\\^")) {
 			textArea.value = "";
 			return true;
 		}
@@ -1121,6 +1130,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		copyFrom.value = value;
 		copyFrom.select();
 		DocumentUtil.copySelection();
+		syncHiddenTextArea();
 	}
 
 	@Override
@@ -1424,6 +1434,59 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void setAriaValue(String description) {
 		Js.<HTMLTextAreaElement>uncheckedCast(getHiddenTextArea()).value = description;
+	}
+
+	/**
+	 * Mirrors flat content and caret into the hidden textarea, for braille displays.
+	 * @param mirror whether to mirror
+	 */
+	public void setMirrorText(boolean mirror) {
+		mirrorText = mirror;
+		lastMirroredText = "";
+		if (mirror) {
+			// drop a stale label from readPosition()
+			Element target = getElementForAriaLabel();
+			if (target != null) {
+				target.removeAttribute("aria-label");
+			}
+			syncHiddenTextArea();
+		} else {
+			clearState();
+		}
+	}
+
+	private void syncHiddenTextArea() {
+		if (!mirrorText || inputTextArea == null) {
+			return;
+		}
+		EditorState state = mathFieldInternal.getEditorState();
+		SequenceNode root = state.getRootNode();
+		HTMLTextAreaElement area = Js.uncheckedCast(inputTextArea.getElement());
+		int[] offsets = new int[root.size() + 1];
+		StringBuilder text = new StringBuilder();
+		for (int i = 0; i < root.size(); i++) {
+			if (!(root.getChild(i) instanceof CharacterNode character)) {
+				// structured content, e.g. from the on-screen keyboard
+				lastMirroredText = "";
+				area.value = "";
+				return;
+			}
+			offsets[i] = text.length();
+			text.append(character.getUnicodeString());
+		}
+		offsets[root.size()] = text.length();
+		lastMirroredText = text.toString();
+		if (!lastMirroredText.equals(area.value)) {
+			area.value = lastMirroredText;
+		}
+		Node start = state.getSelectionStart();
+		Node end = state.getSelectionEnd();
+		if (start != null && end != null && start.getParent() == root && end.getParent() == root) {
+			area.setSelectionRange(offsets[start.getParentIndex()], offsets[end.getParentIndex() + 1]);
+		} else if (state.getCurrentNode() == root) {
+			int caret = offsets[Math.min(state.getCurrentOffset(), root.size())];
+			area.setSelectionRange(caret, caret);
+		}
 	}
 
 	private static int getCharCode(Event nativeEvent) {

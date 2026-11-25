@@ -49,7 +49,7 @@ class InputBoxRenderer {
 		}
 		if (linkedGeo.isGeoText()) {
 			String str = ((GeoText) linkedGeo).getTextStringSafe().replace("\n", GeoText.NEW_LINE);
-			if (inputBox.symbolicMode) {
+			if (inputBox.isSymbolicMode()) {
 				return "\\text{" + TeXEscaper.escapeStringTextMode(str) + "}";
 			}
 			return str;
@@ -113,7 +113,7 @@ class InputBoxRenderer {
 	}
 
 	private String getTextForNumeric(GeoNumeric numeric) {
-		if (inputBox.symbolicMode) {
+		if (inputBox.isSymbolicMode()) {
 			return numeric.getRedefineString(true, true, stringTemplateForLaTeX);
 		}
 
