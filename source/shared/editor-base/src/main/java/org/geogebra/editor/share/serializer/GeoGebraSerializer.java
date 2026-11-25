@@ -85,20 +85,21 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	}
 
 	private boolean isCommaNeeded(CharacterNode token) {
+		Node child = token;
 		InternalNode parent = token.getParent();
-		int index = token.getParentIndex();
 		while (parent != null) {
 			if (parent instanceof ArrayNode node) {
 				char openKey = node.getOpenDelimiter().getCharacter();
 				return openKey == '(' || openKey == '{';
 			}
 			if (parent instanceof FunctionNode node) {
-				return (node.getName() == Tag.APPLY || node.getName() == Tag.APPLY_SQUARE) && index == 1;
+				return (node.getName() == Tag.APPLY || node.getName() == Tag.APPLY_SQUARE)
+						&& child.getParentIndex() == 1;
 			}
 			if (parent instanceof SequenceNode node && node.isKeepCommas()) {
 				return true;
 			}
-			index = parent.getParentIndex();
+			child = parent;
 			parent = parent.getParent();
 		}
 		return false;
@@ -112,10 +113,12 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	 * instead of the unicode symbol for the minutes or seconds.
 	 */
 	private boolean shouldAppendDerivative(CharacterNode characterNode) {
+		if (!"\u2032\u2033".contains(characterNode.getUnicodeString())) {
+			return false;
+		}
 		InternalNode parent = characterNode.getParent();
 		int indexOfPreviousCharacter = parent.indexOf(characterNode) - 1;
-		if (!"\u2032\u2033".contains(characterNode.getUnicodeString())
-				|| indexOfPreviousCharacter < 0
+		if (indexOfPreviousCharacter < 0
 				|| !(parent.getChild(indexOfPreviousCharacter) instanceof CharacterNode)) {
 			return false;
 		}
