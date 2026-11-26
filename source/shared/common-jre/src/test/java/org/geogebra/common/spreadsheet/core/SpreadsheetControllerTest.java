@@ -25,6 +25,7 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.IN
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -56,7 +57,10 @@ import org.geogebra.common.util.shape.Size;
 import org.geogebra.editor.share.controller.EditorState;
 import org.geogebra.editor.share.editor.MathFieldInternal;
 import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
+import org.geogebra.editor.share.tree.FunctionNode;
 import org.geogebra.editor.share.tree.PlaceholderNode;
+import org.geogebra.editor.share.tree.SequenceNode;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.geogebra.test.annotation.Issue;
@@ -663,6 +667,21 @@ class SpreadsheetControllerTest
 				.getInputController()
 				.handleChar(cellEditor.getMathField().getEditorState(), ' ');
 		assertEquals("=A*", cellEditor.getMathField().getText());
+	}
+
+	@Test
+	@Issue("APPS-8198")
+	void testTypingReplacesSyntaxPlaceholderInPlainTextMode() {
+		simulateCellMouseClick(0, 0, 2);
+		MathFieldInternal mathField = cellEditor.getMathField();
+		KeyboardInputAdapter.onKeyboardInput(mathField, "abs( x )");
+		assertTrue(mathField.getInputController().getPlainTextMode());
+		simulateKeyPressInCellEditor(JavaKeyCodes.VK_1);
+		FunctionNode abs = assertInstanceOf(
+				FunctionNode.class, mathField.getFormula().getRootNode().getChild(0));
+		SequenceNode argument = abs.getChild(1);
+		assertEquals(1, argument.size());
+		assertEquals("abs(1)", mathField.getText());
 	}
 
 	@Test

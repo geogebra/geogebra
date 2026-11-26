@@ -1668,6 +1668,7 @@ public class InputController {
 	}
 
 	private void handleTextModeInsert(EditorState editorState, char ch) {
+		removeSyntaxPlaceholderAtCursor(editorState);
 		deleteSelection(editorState);
 
 		char toInsert = ch;
