@@ -23,7 +23,6 @@ import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,7 +60,6 @@ import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -261,7 +259,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private boolean stylebarAllowed = true;
 	private boolean undoRedoPanelAllowed = true;
 	private TimerSystemW timers;
-	HashMap<String, String> revTranslateCommandTable = new HashMap<>();
 	private Runnable closeBrowserCallback;
 	private Runnable insertImageCallback;
 	private final ArrayList<RequiresResize> euclidianHandlers = new ArrayList<>();
@@ -665,44 +662,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public LocalizationW getLocalization() {
 		return loc;
-	}
-
-	/**
-	 * Translates localized command name into internal TODO check whether this
-	 * differs from translateCommand somehow and either document it or remove
-	 * this method
-	 *
-	 * @param localizedCommandName
-	 *            localized command name
-	 * @return internal command name
-	 */
-	@Override
-	public final String getInternalCommand(String localizedCommandName) {
-		initTranslatedCommands();
-		String s;
-		String cmdLower = StringUtil.toLowerCaseUS(localizedCommandName);
-		Commands[] values = Commands.values();
-		if (revTranslateCommandTable.isEmpty()) { // we should clear this cache
-			// on language change!
-			for (Commands c : values) { // and fill it now if needed
-				s = Commands.englishToInternal(c).name();
-
-				// make sure that when si[] is typed in script, it's changed to
-				// Si[] etc
-				String lowerCaseCmd = StringUtil.toLowerCaseUS(getLocalization().getCommand(s));
-				revTranslateCommandTable.put(lowerCaseCmd, s);
-			}
-			// add renamed commands
-			Commands.addRenamed(revTranslateCommandTable, getLocalization());
-		}
-		return revTranslateCommandTable.get(cmdLower);
-		// return null;
-	}
-
-	@Override
-	protected void fillCommandDict() {
-		super.fillCommandDict();
-		revTranslateCommandTable.clear();
 	}
 
 	/**

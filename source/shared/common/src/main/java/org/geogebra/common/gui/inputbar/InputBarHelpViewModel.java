@@ -250,8 +250,11 @@ public final class InputBarHelpViewModel implements ExamListener {
 		// math functions are not added to the case-insensitive command dictionary, because
 		// the function gamma would replace the command Gamma there
 		allCommands.addAll(mathFunctionSyntaxes.keySet());
-		allCommands.sort(
-				Comparator.comparing(StringUtil::removeAccents).thenComparing(Comparator.naturalOrder()));
+		// removeAccents is slow, so it is computed once per command instead of per comparison
+		Map<String, String> sortKeys = new HashMap<>();
+		allCommands.sort(Comparator.comparing(
+						(String command) -> sortKeys.computeIfAbsent(command, StringUtil::removeAccents))
+				.thenComparing(Comparator.naturalOrder()));
 
 		for (CommandCategory category : CommandCategory.values()) {
 			if (category == CommandCategory.ALL_COMMANDS) {
@@ -318,11 +321,12 @@ public final class InputBarHelpViewModel implements ExamListener {
 					.map(command -> new MatchedString(command, 0, 0))
 					.collect(Collectors.toList());
 		}
+		// commands without syntaxes are already excluded from the categories, so only the names
+		// are matched here; looking up the syntaxes of every match would be slow
 		Set<String> namesInCategory = new HashSet<>(commandsInCategory);
 		Set<String> addedNames = new HashSet<>();
 		return app.getAutocompleteProvider()
-				.getCompletions(query)
-				.map(AutocompleteProvider.Completion::getMatch)
+				.getMatches(query)
 				.filter(match -> namesInCategory.contains(match.content()))
 				// the suggestion popup lists functions like log once per syntax
 				.filter(match -> addedNames.add(match.content()))

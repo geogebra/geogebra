@@ -127,7 +127,7 @@ class LocalizationTest {
 	void localizedFunctionsShouldBeInternalInXML() {
 		AppCommon app = AppCommonFactory.create();
 		app.setLocale(Locale.GERMANY);
-		assertEquals("Midpoint(10,20)", GgbScript.localizedScript2Script(app, "Mittelpunkt(10,20)"));
+		assertEquals("Circle(10,20)", GgbScript.localizedScript2Script(app, "Kreis(10,20)"));
 		assertEquals("nroot(10,20)", GgbScript.localizedScript2Script(app, "NteWurzel(10,20)"));
 		assertEquals("nroot[10,20]", GgbScript.localizedScript2Script(app, "NteWurzel[10,20]"));
 	}

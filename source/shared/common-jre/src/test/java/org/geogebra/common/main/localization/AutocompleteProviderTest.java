@@ -50,6 +50,8 @@ import org.geogebra.common.util.MatchedString;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 class AutocompleteProviderTest extends BaseUnitTest {
@@ -194,6 +196,17 @@ class AutocompleteProviderTest extends BaseUnitTest {
 
 		swapConfig(new AppConfigUnrestrictedGraphing());
 		assertEquals(6, provider.getCompletions("Solve").count());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"s", "se", "log", "Sin", "sin(", "xyz"})
+	void matchesAreTheMatchesOfTheCompletions(String curWord) {
+		List<MatchedString> completionMatches = provider
+				.getCompletions(curWord)
+				.map(AutocompleteProvider.Completion::getMatch)
+				.collect(Collectors.toList());
+		List<MatchedString> matches = provider.getMatches(curWord).collect(Collectors.toList());
+		assertEquals(completionMatches, matches);
 	}
 
 	private List<AutocompleteProvider.Completion> getCompletions(String sin) {

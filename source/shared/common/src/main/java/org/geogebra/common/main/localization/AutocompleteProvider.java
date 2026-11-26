@@ -208,7 +208,7 @@ public class AutocompleteProvider {
 	 * @return stream of suggestions
 	 */
 	public Stream<Completion> getCompletions(String curWord) {
-		String prefix = curWord.indexOf('(') > 0 ? curWord.split("\\(")[0] : curWord;
+		String prefix = getPrefix(curWord);
 		List<String> functionResults = app.getParserFunctions().getCompletions(prefix, operationFilter);
 		Stream<Completion> completions = functionResults.stream()
 				.map(function -> new Completion(
@@ -230,6 +230,28 @@ public class AutocompleteProvider {
 		}
 
 		return completions.filter(completion -> !completion.syntaxes.isEmpty());
+	}
+
+	/**
+	 * Like {@link #getCompletions(String)}, but returns only the matched function and command
+	 * names, in the same order, without looking up their syntaxes. Unlike
+	 * {@link #getCompletions(String)}, commands without syntaxes are not skipped.
+	 * @param curWord word to be completed
+	 * @return stream of matched names
+	 */
+	public @NonNull Stream<MatchedString> getMatches(@NonNull String curWord) {
+		String prefix = getPrefix(curWord);
+		Stream<MatchedString> matches =
+				app.getParserFunctions().getCompletions(prefix, operationFilter).stream()
+						.map(function -> getMatch(function, prefix));
+		List<MatchedString> commandResults =
+				getCommandDictionary().getCompletions(prefix.toLowerCase(Locale.ROOT));
+		return commandResults == null ? matches : Stream.concat(matches, commandResults.stream());
+	}
+
+	private static String getPrefix(String curWord) {
+		int bracketIndex = curWord.indexOf('(');
+		return bracketIndex > 0 ? curWord.substring(0, bracketIndex) : curWord;
 	}
 
 	private MatchedString getMatch(String function, String curWord) {

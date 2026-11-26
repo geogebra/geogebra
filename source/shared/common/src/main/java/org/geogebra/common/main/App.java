@@ -445,6 +445,8 @@ public abstract class App
 	private LowerCaseDictionary commandDict;
 	private LowerCaseDictionary englishCommandDict;
 	private LowerCaseDictionary commandDictCAS;
+	/** cache of {@link #getInternalCommand(String)}, cleared when the command names change */
+	private @Nullable Map<String, String> internalCommandsByLocalizedName;
 	// array of dictionaries corresponding to the sub command tables
 	private LowerCaseDictionary[] subCommandDict;
 	private final Object commandDictLock = new Object();
@@ -815,6 +817,7 @@ public abstract class App
 		if (!getLocalization().isCommandChanged() && commandDict != null) {
 			return;
 		}
+		internalCommandsByLocalizedName = null;
 		// translation table for all command names in command.properties
 		getLocalization().initTranslateCommand();
 		// command dictionary for all public command names available in
@@ -1092,9 +1095,10 @@ public abstract class App
 	}
 
 	/**
-	 * Translates localized command name into internal TODO check whether this
-	 * differs from translateCommand somehow and either document it or remove
-	 * this method
+	 * Translates a localized command name into the internal name of the command that the parser
+	 * runs for it (see {@link #getReverseCommand(String)}). Unlike the parser, this also
+	 * translates the names of commands that this app does not allow or show, and returns null
+	 * for names that are not localized command names (e.g. English names in other languages).
 	 *
 	 * @param localizedCommandName
 	 *            localized command name
@@ -1102,22 +1106,41 @@ public abstract class App
 	 */
 	public String getInternalCommand(String localizedCommandName) {
 		initTranslatedCommands();
-		String s;
-		String localizedCommandNameLower = StringUtil.toLowerCaseUS(localizedCommandName);
-		String renamed = Commands.getRenamed(localizedCommandNameLower, getLocalization());
-		if (renamed != null) {
-			return renamed;
+		Map<String, String> table = internalCommandsByLocalizedName;
+		if (table == null || getLocalization().isCommandChanged()) {
+			table = createInternalCommandsByLocalizedName();
+			internalCommandsByLocalizedName = table;
 		}
-		Commands[] values = Commands.values();
-		for (Commands c : values) {
-			s = Commands.englishToInternal(c).name();
-			// make sure that when si[] is typed in script, it's changed to Si[] etc
-			if (StringUtil.toLowerCaseUS(getLocalization().getCommand(s))
-					.equals(localizedCommandNameLower)) {
-				return s;
-			}
+		// case is ignored, so that e.g. si[] typed in a script is changed to Si[]
+		String key = StringUtil.toLowerCaseUS(localizedCommandName);
+		String internal = table.get(key);
+		if (internal == null) {
+			return null;
 		}
-		return null;
+		// a name can translate several commands; the parser's choice depends on the commands
+		// this app shows (e.g. the CAS commands), so it is looked up and not cached here
+		HashMap<String, String> parserTable = getLocalization().getTranslateCommandTable();
+		String parsed = parserTable == null ? null : parserTable.get(key);
+		if (parsed == null || parsed.equals(internal)) {
+			return internal;
+		}
+		// the parser table can contain English names of renamed commands, e.g. Mean for mean
+		return Commands.englishToInternal(Commands.valueOf(parsed)).name();
+	}
+
+	/**
+	 * @return internal command names by lower case localized command names; renamed commands
+	 * take precedence, otherwise the last command in {@link Commands} order wins, like in the
+	 * command translation table used by the parser
+	 */
+	private @NonNull Map<String, String> createInternalCommandsByLocalizedName() {
+		HashMap<String, String> table = new HashMap<>();
+		for (Commands command : Commands.values()) {
+			String internal = Commands.englishToInternal(command).name();
+			table.put(StringUtil.toLowerCaseUS(getLocalization().getCommand(internal)), internal);
+		}
+		Commands.addRenamed(table, getLocalization());
+		return table;
 	}
 
 	/**
