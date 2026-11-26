@@ -14,6 +14,19 @@
  * See https://www.geogebra.org/license for full licensing details
  */
 
+/*
+ * Keep this grammar free of syntactic lookahead: the generated Parser.java must not call any
+ * jj_2_* method. Syntactic lookahead makes JavaCC generate a static LookaheadSuccess exception
+ * (jj_ls) that it throws on every successful lookahead:
+ * - on iOS (j2objc) each throw is a native exception and very slow on long inputs (APPS-8179),
+ * - on Web the static exception keeps its stack trace, which leaks the App; it would need
+ *   a getLookaheadSuccess() accessor cleared in Web.loadAppletAsync(), as for the common Parser.
+ * Besides explicit LOOKAHEAD(k) with k > 1 or LOOKAHEAD(production), JavaCC also generates
+ * syntactic lookahead for LOOKAHEAD(1, {condition}), and for plain choices and loops whose
+ * alternatives can start with a nested semantic lookahead. Only use purely semantic lookahead
+ * (LOOKAHEAD({condition})), and only where no enclosing choice has to look through it
+ * (see internalNode).
+ */
 options {
    STATIC = false;
    JAVA_TEMPLATE_TYPE = "modern";
@@ -49,14 +62,6 @@ public class Parser {
 		this.catalog = catalog;
 		this.editorState = new EditorState(catalog);
 		this.inputController = new InputController(catalog);
-	}
-
-	/**
-	 * Needed to prevent memory leaks in Web
-	 * @return the static exception instance
-	 */
-	public static Throwable getLookaheadSuccess() {
-	   return jj_ls;
 	}
 
 	private static Node convertSuperscriptToNormal(TemplateCatalog catalog, char sup) {
@@ -107,6 +112,13 @@ public class Parser {
 		}
 
 		return count;
+	}
+
+	/**
+	 * @return whether the next token is a vertical bar that opens an absolute value
+	 */
+	private boolean isAbsoluteValueStart() {
+		return getToken(1).kind == VERTICAL_BAR && shouldStartAbsoluteValue();
 	}
 
 	private boolean shouldStartAbsoluteValue() {
@@ -318,7 +330,24 @@ PARSER_END(Parser)
 	| <CHAR : ~[]>
 }
 
+/**
+* Parses a sequence of elements. Absolute values are handled in a separate loop with a purely
+* semantic lookahead: a semantic lookahead nested in atomicWrapper would make JavaCC generate a
+* syntactic lookahead for every element, which signals success by throwing an exception.
+* That is expensive on iOS (j2objc) for long inputs (APPS-8179).
+* @param node parent field
+*/
 void internalNode(InternalNode node) : {}
+{
+	internalNodeElements(node)
+	(
+		LOOKAHEAD({isAbsoluteValueStart()})
+		absVerticalBar(node)
+		internalNodeElements(node)
+	)*
+}
+
+void internalNodeElements(InternalNode node) : {}
 {
 	(
 		atomicWrapper(node)
@@ -354,9 +383,6 @@ void atomicWrapper(InternalNode node) : {}
 	|
 	singleArgFunction(node)
 	|
-	LOOKAHEAD(<VERTICAL_BAR>, {shouldStartAbsoluteValue()})
-	absVerticalBar(node)
-	|
 	arrayParentheses(node)
 	|
 	arrayFloorCeil(node)
@@ -367,7 +393,21 @@ void atomicWrapper(InternalNode node) : {}
 
 }
 
+/**
+* Like internalNode, but also accepts commas.
+* @param node parent field
+*/
 void mathContainerWithCommas(InternalNode node) : {}
+{
+	mathContainerWithCommasElements(node)
+	(
+		LOOKAHEAD({isAbsoluteValueStart()})
+		absVerticalBar(node)
+		mathContainerWithCommasElements(node)
+	)*
+}
+
+void mathContainerWithCommasElements(InternalNode node) : {}
 {
 	(
 		atomicWrapper(node)
@@ -395,6 +435,9 @@ void mathAtomOrPower(InternalNode node) : {
 	}
 	(
 		atomicWrapper(node)
+	|
+		LOOKAHEAD({isAbsoluteValueStart()})
+		absVerticalBar(node)
 	|
 		(
 		  (mathAtomCharacter(node))+
@@ -731,7 +774,7 @@ void arrayCurly(InternalNode node) :
 		arrayNode.addChild(mathSequence);
 		mathSequence = new SequenceNode();
 	}
-	(LOOKAHEAD(2147483647)  <COMMA> internalNode(mathSequence)
+	(<COMMA> internalNode(mathSequence)
 		{
 			arrayNode.addChild(mathSequence);
 			mathSequence = new SequenceNode();

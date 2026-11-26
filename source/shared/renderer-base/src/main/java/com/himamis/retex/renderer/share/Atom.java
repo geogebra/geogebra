@@ -76,6 +76,33 @@ public abstract class Atom {
 
 	public Atom() {}
 
+	/**
+	 * Atoms are compared by identity.
+	 * @param obj other object
+	 * @return whether obj is this atom
+	 */
+	@Override
+	public final boolean equals(Object obj) {
+		return this == obj;
+	}
+
+	/**
+	 * Identity hash code with its bits spread (MurmurHash3 finalizer). On iOS (j2objc), identity
+	 * hash codes are memory addresses whose lowest bits are always zero, so atoms used as hash map
+	 * keys would otherwise share few buckets.
+	 * @return hash code
+	 */
+	@Override
+	public final int hashCode() {
+		int hash = super.hashCode();
+		hash ^= hash >>> 16;
+		hash *= 0x85ebca6b;
+		hash ^= hash >>> 13;
+		hash *= 0xc2b2ae35;
+		hash ^= hash >>> 16;
+		return hash;
+	}
+
 	public void setType(final int type) {
 		this.type = type;
 	}

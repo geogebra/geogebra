@@ -28,11 +28,13 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.editor.EditorFeatures;
 import org.geogebra.editor.share.editor.MathFieldInternal;
 import org.geogebra.editor.share.io.latex.ParseException;
 import org.geogebra.editor.share.io.latex.Parser;
 import org.geogebra.editor.share.serializer.GeoGebraSerializer;
 import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.share.tree.ArrayNode;
 import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
@@ -141,6 +143,47 @@ class EditorParserTest {
 		assertParsesAs("||x-3| - 4|", "abs(abs(x-3) - 4)");
 		assertParsesAs("|1-|2-|3|||", "abs(1-abs(2-abs(3)))");
 		assertParsesAs("|||1| - 2| - 3|", "abs(abs(abs(1) - 2) - 3)");
+	}
+
+	@Test
+	@Issue("APPS-8179")
+	void absoluteValuesInNestedContainersTest() {
+		assertParsesAs("{|x|,|y|}", "{abs(x),abs(y)}");
+		assertParsesAs("{1,|2|,3}", "{1,abs(2),3}");
+		assertParsesAs("(|x|,|y|)", "(abs(x),abs(y))");
+		assertParsesAs("|x|,|y|", "abs(x),abs(y)");
+		assertParsesAs("f(|x|)", "f(abs(x))");
+		assertParsesAs("[|x|]", "[abs(x)]");
+		assertParsesAs("|(|x|)|", "abs((abs(x)))");
+	}
+
+	@Test
+	@Issue("APPS-8179")
+	void absoluteValuesInExponentsAndFractionsTest() {
+		assertParsesAs("2^|x|", "2^(abs(x))");
+		assertParsesAs("|x|^2", "abs(x)^(2)");
+		assertParsesAs("e^|x|+1", "e^(abs(x))+1");
+		assertParsesAs("|x|/|y|", "((abs(x))/(abs(y)))");
+	}
+
+	@Test
+	@Issue("APPS-8179")
+	void longListTest() {
+		StringBuilder input = new StringBuilder("{");
+		int size = 300000;
+		for (int i = 1; i <= size; i++) {
+			if (i > 1) {
+				input.append(',');
+			}
+			input.append(i);
+		}
+		input.append('}');
+		Formula formula = parseForEditor(input.toString());
+		ArrayNode list = (ArrayNode) formula.getRootNode().getChild(0);
+		assertEquals(size, list.size());
+		String lastElement =
+				GeoGebraSerializer.serialize(list.getChild(size - 1), (EditorFeatures) null);
+		assertEquals("300000", lastElement);
 	}
 
 	@ParameterizedTest

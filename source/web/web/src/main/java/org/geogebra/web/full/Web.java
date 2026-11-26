@@ -69,7 +69,6 @@ public abstract class Web implements EntryPoint {
 	 */
 	public void loadAppletAsync() {
 		removeBackingObject(Parser.getLookaheadSuccess());
-		removeBackingObject(org.geogebra.editor.share.io.latex.Parser.getLookaheadSuccess());
 		GeoGebraFrameFull.main(
 				GeoGebraElement.getGeoGebraMobileTags(), getAppletFactory(), getLAF(), null);
 	}
