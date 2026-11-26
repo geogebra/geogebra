@@ -857,6 +857,13 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 	}
 
 	/**
+	 * @return whether {@link #remove()} was already called on this algorithm
+	 */
+	public boolean isRemoved() {
+		return removed;
+	}
+
+	/**
 	 * Tells this algorithm to react on the deletion of one of its outputs.
 	 * @param out output to be removed
 	 */

@@ -108,6 +108,12 @@ public class GeoSymbolic extends GeoElement
 	private boolean wrapInNumeric = false;
 
 	private @Nullable GeoElement twinGeo;
+	/**
+	 * Parent algorithm of {@link #twinGeo} when the twin was created. The twin references it
+	 * only weakly on iOS, so keep it here to detect when it gets removed (e.g. together with an
+	 * arbitrary constant the twin depends on) instead of drawing a twin without an algorithm.
+	 */
+	private @Nullable AlgoElement twinParentAlgorithm;
 
 	private @Nullable ExpressionValue numericValue;
 	private int numericPrintFigures;
@@ -206,6 +212,7 @@ public class GeoSymbolic extends GeoElement
 			twinGeo.remove();
 			twinGeo = null;
 		}
+		twinParentAlgorithm = null;
 		isTwinUpToDate = true;
 		isEuclidianShowable = false;
 	}
@@ -815,7 +822,7 @@ public class GeoSymbolic extends GeoElement
 	public @Nullable GeoElementND getTwinGeo() {
 		// Twin creation depends on the symbolic definition and cached CAS output staying aligned.
 		ensureInvariant("getTwinGeo");
-		if (isTwinUpToDate) {
+		if (isTwinUpToDate && (twinParentAlgorithm == null || !twinParentAlgorithm.isRemoved())) {
 			return twinGeo;
 		}
 		GeoElementND newTwin = ensureNotInConstruction(createTwinGeo());
@@ -835,6 +842,7 @@ public class GeoSymbolic extends GeoElement
 			twinGeo = newTwin.toGeoElement();
 			setVisualStyle(twinGeo);
 		}
+		twinParentAlgorithm = twinGeo != null ? twinGeo.getParentAlgorithm() : null;
 		isTwinUpToDate = true;
 
 		return twinGeo;

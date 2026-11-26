@@ -58,6 +58,7 @@ import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -2795,5 +2796,19 @@ class GeoSymbolicTest extends BaseSymbolicTest {
 		assertNotNull(curve);
 		assertThat(
 				curve.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate), containsString("?"));
+	}
+
+	@Test
+	@Issue("APPS-8200")
+	void integralTwinShouldBeRecreatedWhenConstantIsRemoved() {
+		add("a(t)=5.694t-40.142");
+		add("v(t)=Integral(a(t))");
+		GeoSymbolic integral = add("Integral(v(t),0,10)");
+		GeoElementND oldTwin = integral.getTwinGeo();
+		AlgoElement oldAlgo = oldTwin.getParentAlgorithm();
+		// the twin of the integral depends on c_1, so this removes the twin's algorithm
+		lookup("c_1").remove();
+		assertTrue(oldAlgo.isRemoved());
+		assertNull(integral.getTwinGeo());
 	}
 }

@@ -231,7 +231,7 @@ public class DrawBarGraph extends Drawable {
 	@Override
 	public void update() {
 
-		isVisible = geo.isEuclidianVisible();
+		isVisible = geo.isEuclidianVisible() && geo.getDrawAlgorithm() != null;
 		if (!isVisible) {
 			return;
 		}

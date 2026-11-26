@@ -92,8 +92,10 @@ public class DrawIntegral extends DrawFunctionArea {
 
 	@Override
 	public final void update() {
-		isVisible = geo.isEuclidianVisible();
+		isVisible = geo.isEuclidianVisible() && geo.getDrawAlgorithm() != null;
 		if (!isVisible) {
+			// the draw algorithm is gone if it was removed (on iOS the parent algorithm
+			// reference is weak, so it becomes null once the removed algorithm is freed)
 			return;
 		}
 		labelVisible = getTopLevelGeo().isLabelVisible();
