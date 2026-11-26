@@ -29,6 +29,8 @@ import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.Reflection;
 import org.geogebra.common.util.debug.Log;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class can wrap a view, and post the notifications
@@ -165,7 +167,8 @@ public class BatchedUpdateWrapper implements CheckBeforeUpdateView, GTimerListen
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
+	public void updatePreviewFromInputBar(
+			GeoElement @NonNull [] geos, @Nullable GeoElement original) {
 		addEvent("updatePreviewFromInputBar", new Object[] {geos});
 	}
 

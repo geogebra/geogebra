@@ -778,11 +778,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		}
 
 		@Override
-		public void updatePreviewFromInputBar(GeoElement[] geos) {
-			// TODO
-		}
-
-		@Override
 		public void remove(GeoElement geo) {
 			RowData row = geoMap.get(geo);
 			// lookup row for GeoElement

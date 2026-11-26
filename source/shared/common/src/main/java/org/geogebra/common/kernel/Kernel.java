@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -5288,12 +5289,18 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Notify views about preview geos.
 	 * @param geos preview geos, may be {@code null} or empty if there is no preview
 	 */
-	public final void notifyUpdatePreviewFromInputBar(@Nullable GeoElement[] geos) {
+	public final void notifyUpdatePreviewFromInputBar(
+			@Nullable GeoElementND[] geos, @Nullable GeoElement original) {
 		// event dispatcher should not collect calls to stay compatible with 4.0
 		if (notifyViewsActive) {
-			GeoElement[] normalized = geos == null ? new GeoElement[0] : geos;
+			GeoElement[] normalized = geos == null
+					? new GeoElement[0]
+					: Arrays.stream(geos)
+							.filter(Objects::nonNull)
+							.map(GeoElementND::toGeoElement)
+							.toArray(GeoElement[]::new);
 			for (View view : views) {
-				view.updatePreviewFromInputBar(normalized);
+				view.updatePreviewFromInputBar(normalized, original);
 			}
 		}
 	}

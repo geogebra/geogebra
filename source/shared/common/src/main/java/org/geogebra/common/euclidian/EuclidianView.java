@@ -19,6 +19,7 @@ package org.geogebra.common.euclidian;
 import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_500;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -467,6 +468,7 @@ public abstract class EuclidianView
 	// circles
 	private final GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
 	private GeoElement[] previewFromInputBarGeos;
+	private final List<GeoElement> elementsReplacedByPreview = new ArrayList<>();
 	private final ArrayList<GeoElement> geosWaiting = new ArrayList<>();
 	private boolean labelHitNeedsRefresh = true;
 	private GeoElement labelHitLastGeo = null;
@@ -2142,7 +2144,8 @@ public abstract class EuclidianView
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
+	public void updatePreviewFromInputBar(
+			GeoElement @NonNull [] geos, @Nullable GeoElement original) {
 		if (previewFromInputBarGeos != null) {
 			for (GeoElement geo : previewFromInputBarGeos) {
 				if (!geo.isLabelSet()) {
@@ -2150,8 +2153,30 @@ public abstract class EuclidianView
 				}
 			}
 		}
+		if (original == null) {
+			restorePreviewOriginals();
+		} else if (!elementsReplacedByPreview.contains(original)) {
+			restorePreviewOriginals();
+			AlgoElement parentAlgorithm = original.getParentAlgorithm();
+			if (parentAlgorithm != null) {
+				elementsReplacedByPreview.addAll(Arrays.asList(parentAlgorithm.getOutput()));
+			} else {
+				elementsReplacedByPreview.add(original);
+			}
+			for (GeoElement replacedElement : elementsReplacedByPreview) {
+				remove(replacedElement);
+			}
+		}
+
 		previewFromInputBarGeos = geos;
 		updatePreviewFromInputBar();
+	}
+
+	private void restorePreviewOriginals() {
+		for (GeoElement storedOriginal : elementsReplacedByPreview) {
+			add(storedOriginal);
+		}
+		elementsReplacedByPreview.clear();
 	}
 
 	protected void updatePreviewFromInputBar() {
@@ -2189,8 +2214,8 @@ public abstract class EuclidianView
 	}
 
 	private boolean updatePreviewDrawable(GeoElement geo) {
-		if (drawableMap.containsKey(geo)) {
-			DrawableND drawable = drawableMap.get(geo);
+		DrawableND drawable = drawableMap.get(geo);
+		if (drawable != null) {
 			drawable.setNeedsUpdate(true);
 			return true;
 		}

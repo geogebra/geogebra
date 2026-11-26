@@ -18,6 +18,7 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public interface AlgebraViewUIDelegate {
 
@@ -29,5 +30,5 @@ public interface AlgebraViewUIDelegate {
 	/**
 	 * See {@link org.geogebra.common.kernel.View#updatePreviewFromInputBar}
 	 */
-	void updatePreviewFromInputBar(GeoElement @NonNull [] geos);
+	void updatePreviewFromInputBar(GeoElement @NonNull [] geos, @Nullable GeoElement original);
 }

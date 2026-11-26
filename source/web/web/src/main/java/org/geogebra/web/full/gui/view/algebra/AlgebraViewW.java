@@ -1787,7 +1787,8 @@ public final class AlgebraViewW extends Tree
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement @NonNull [] geos) {
+	public void updatePreviewFromInputBar(
+			GeoElement @NonNull [] geos, @Nullable GeoElement original) {
 		RadioTreeItem activeTreeItem = getActiveTreeItem();
 		if (activeTreeItem != null) {
 			if (geos.length > 0) {

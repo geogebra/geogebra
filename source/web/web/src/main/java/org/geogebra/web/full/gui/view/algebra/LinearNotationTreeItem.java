@@ -190,7 +190,7 @@ public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDo
 		setFocus(false);
 
 		showStyleBarIfNeeded();
-		kernel.notifyUpdatePreviewFromInputBar(null);
+		kernel.notifyUpdatePreviewFromInputBar(null, null);
 		getAV().cancelEditItem();
 		app.getActiveEuclidianView().requestFocus();
 	}
@@ -290,7 +290,8 @@ public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDo
 	protected void updatePreview() {
 		kernel
 				.getInputPreviewHelper()
-				.updatePreviewFromInputBar(textField.getText(), AlgebraInputW.getWarningHandler(this, app));
+				.updatePreviewFromInputBar(
+						textField.getText(), geo, AlgebraInputW.getWarningHandler(this, app));
 	}
 
 	@Override

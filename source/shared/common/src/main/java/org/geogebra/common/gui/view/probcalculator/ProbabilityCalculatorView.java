@@ -1437,11 +1437,6 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// view does not handle external geos
-	}
-
-	@Override
 	public void remove(GeoElement geo) {
 		// view does not handle external geos
 	}

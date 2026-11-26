@@ -19,6 +19,7 @@ package org.geogebra.common.kernel;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -28,7 +29,6 @@ import org.geogebra.common.kernel.geos.GeoElementSetup;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.StringUtil;
@@ -61,6 +61,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 	private final Set<GeoElementSetup> geoElementSetups = new HashSet<>();
 	private GeoElementND @Nullable [] redefineGeos;
+	private GeoElement original;
 
 	/**
 	 * @param kernel
@@ -157,7 +158,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			if (validation != null) {
 				validation.resetError();
 			}
-			this.kernel.notifyUpdatePreviewFromInputBar(null);
+			this.kernel.notifyUpdatePreviewFromInputBar(null, null);
 			return;
 		}
 		if (!inputValid) {
@@ -165,7 +166,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				// timeout -- assume OK as we don't know if it's wrong
 				validation.showError(null);
 			}
-			this.kernel.notifyUpdatePreviewFromInputBar(null);
+			this.kernel.notifyUpdatePreviewFromInputBar(null, null);
 			return;
 		}
 		EvalInfo info = new EvalInfo(false, true)
@@ -185,7 +186,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					this.kernel.getAlgebraProcessor().getValidExpressionNoExceptionHandling(input);
 
 			if (!isCASeval(ve) && kernel.getSymbolicMode() != SymbolicMode.SYMBOLIC_AV) {
-				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
+				GeoElement existingGeo = original;
+				if (existingGeo == null) {
+					existingGeo = kernel.lookupLabel(ve.getLabel());
+				}
 				if (existingGeo == null) {
 
 					GeoElementND[] inputGeos = evalValidExpression(ve, info);
@@ -193,20 +197,14 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					if (inputGeos != null) {
 						buildPreviewGeos(inputGeos, ve.getLabel());
 					}
-					this.kernel.notifyUpdatePreviewFromInputBar(previewGeos);
-				} else if (PreviewFeature.MOB_PREVIEW_WHEN_EDITING.isAvailable()
-						&& !existingGeo.hasChildren()
-						&& existingGeo.isIndependent()) {
-					previewRedefine(ve, existingGeo, info);
+					this.kernel.notifyUpdatePreviewFromInputBar(previewGeos, null);
 				} else {
-					Log.debug("existing geo: " + existingGeo);
-					kernel.notifyUpdatePreviewFromInputBar(null);
-					resetIfValid();
+					previewRedefine(ve, existingGeo, info);
 				}
 			} else {
 				Log.debug("cas cell ");
 				resetIfValid();
-				kernel.notifyUpdatePreviewFromInputBar(null);
+				kernel.notifyUpdatePreviewFromInputBar(null, null);
 			}
 
 			if (previewGeos != null) {
@@ -215,7 +213,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		} catch (Throwable ee) {
 			Log.debug("-- invalid input" + ee + ":" + input);
 			this.kernel.setSilentMode(true);
-			this.kernel.notifyUpdatePreviewFromInputBar(null);
+			this.kernel.notifyUpdatePreviewFromInputBar(null, null);
 		} finally {
 			this.kernel.setSilentMode(silentModeOld);
 			this.kernel.getConstruction().setSuppressLabelCreation(suppressLabelsOld);
@@ -259,15 +257,37 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		resetIfValid(); // reset if no syntax error, command errors triggered below
 		redefineGeos = evalValidExpression(ve, info);
 		if (redefineGeos != null && redefineGeos.length > 0) {
-			GeoElementND redefined = redefineGeos[0];
-			if (redefined.getGeoClassType() == existingGeo.getGeoClassType()) {
-				existingGeo.set(redefined);
-				geoElementSetups.forEach(setup -> setup.applyTo(existingGeo));
-				kernel.notifyUpdatePreviewFromInputBar(new GeoElement[] {existingGeo});
+			if (redefineGeos[0].getGeoClassType() == existingGeo.getGeoClassType()) {
+				int index = 0;
+				for (GeoElementND redefined : redefineGeos) {
+					redefined.toGeoElement().setAllVisualProperties(existingGeo, true);
+					copyCaption(existingGeo, redefined.toGeoElement(), index);
+					geoElementSetups.forEach(setup -> setup.applyTo(redefined));
+					index++;
+				}
+				kernel.notifyUpdatePreviewFromInputBar(redefineGeos, existingGeo);
 			}
 		} else {
-			existingGeo.setUndefined();
-			kernel.notifyUpdatePreviewFromInputBar(new GeoElement[] {existingGeo});
+			kernel.notifyUpdatePreviewFromInputBar(new GeoElement[0], existingGeo);
+		}
+	}
+
+	private void copyCaption(GeoElement existingGeo, GeoElement targetElement, int index) {
+		// If existing geo has actual caption, it's already copied to the preview.
+		// Only handle the case where existing geo has a label.
+		if (targetElement.getRawCaption().isEmpty()) {
+			AlgoElement algo = existingGeo.getParentAlgorithm();
+			GeoElement source = index == 0
+					? existingGeo
+					: algo == null || algo.getOutputLength() < index ? null : algo.getOutput(index);
+			if (source != null && source.isLabelVisible()) {
+				targetElement.setLabelVisible(true);
+				targetElement.setCaption(source.getLabelDescription());
+				targetElement.setLabelMode(
+						source.getLabelMode() == GeoElement.LABEL_VALUE
+								? GeoElement.LABEL_CAPTION_VALUE
+								: GeoElement.LABEL_CAPTION);
+			}
 		}
 	}
 
@@ -347,10 +367,24 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 *            validation callback
 	 */
 	public void updatePreviewFromInputBar(String newInput, ErrorHandler validate) {
+		updatePreviewFromInputBar(newInput, null, validate);
+	}
+
+	/**
+	 * try to create/update preview for input typed
+	 *
+	 * @param newInput
+	 *            current algebra input
+	 * @param validate
+	 *            validation callback
+	 */
+	public void updatePreviewFromInputBar(
+			String newInput, GeoElement original, ErrorHandler validate) {
 		if (this.input.equals(newInput)) {
 			Log.debug("no update needed (same input)");
 			return;
 		}
+		this.original = original;
 		setInput(newInput, validate);
 		kernel.getApplication().schedulePreview(this);
 	}
@@ -399,7 +433,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 */
 	public void removePreview() {
 		removeAlgosFromPreviousEvaluation();
-		kernel.notifyUpdatePreviewFromInputBar(null);
+		kernel.notifyUpdatePreviewFromInputBar(null, null);
 	}
 
 	/**

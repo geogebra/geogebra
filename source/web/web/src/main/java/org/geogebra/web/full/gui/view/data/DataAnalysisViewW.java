@@ -418,11 +418,6 @@ public final class DataAnalysisViewW extends FlowPanel
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// TODO
-	}
-
-	@Override
 	public void add(GeoElement geo) {
 		// do nothing
 	}

@@ -324,9 +324,4 @@ public abstract class KernelSpreadsheetStatisticsView<I extends SpreadsheetStati
 	public boolean hasFocus() {
 		return false;
 	}
-
-	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// ignore
-	}
 }

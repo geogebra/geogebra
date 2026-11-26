@@ -420,11 +420,6 @@ public final class TableValuesView implements TableValues, SettingListener {
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// ignore
-	}
-
-	@Override
 	public boolean isEmpty() {
 		return model == null || (model.getColumnCount() == 1 && model.isEvaluatableEmptyList(0));
 	}

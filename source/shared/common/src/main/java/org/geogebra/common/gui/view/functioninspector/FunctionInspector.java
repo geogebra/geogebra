@@ -213,11 +213,6 @@ public abstract class FunctionInspector
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// not needed in this view
-	}
-
-	@Override
 	public void remove(GeoElement geo) {
 		// not needed in this view
 	}

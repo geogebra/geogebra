@@ -303,9 +303,10 @@ public class AlgebraViewUIAdapter {
 		}
 
 		@Override
-		public void updatePreviewFromInputBar(GeoElement @NonNull [] geos) {
+		public void updatePreviewFromInputBar(
+				GeoElement @NonNull [] geos, @Nullable GeoElement original) {
 			if (uiDelegate != null) {
-				uiDelegate.updatePreviewFromInputBar(geos);
+				uiDelegate.updatePreviewFromInputBar(geos, original);
 			}
 		}
 

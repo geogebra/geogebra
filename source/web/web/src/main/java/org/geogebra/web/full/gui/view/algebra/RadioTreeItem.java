@@ -1784,11 +1784,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * Update after key was typed
+	 * Update after a key was typed.
 	 */
 	public void onKeyTyped() {
 		this.removeDummy();
 		inputControl.ensureInputMoreMenu();
+		// active tree item must be up-to-date so that preview does not appear in a wrong place
+		if (geo != null) {
+			av.setActiveTreeItem(this);
+		}
 		updatePreview();
 		popupSuggestions();
 		onCursorMove();
@@ -1834,7 +1838,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		app.getKernel()
 				.getInputPreviewHelper()
-				.updatePreviewFromInputBar(getPreviewText(), AlgebraInputW.getWarningHandler(this, app));
+				.updatePreviewFromInputBar(
+						getPreviewText(), geo, AlgebraInputW.getWarningHandler(this, app));
 	}
 
 	String getPreviewText() {

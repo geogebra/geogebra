@@ -315,11 +315,6 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// not used
-	}
-
-	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// ignore
 	}

@@ -157,11 +157,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		return false;
 	}
 
-	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// not needed
-	}
-
 	// Helpers
 
 	private void removeByLabel(String labelSimple) {

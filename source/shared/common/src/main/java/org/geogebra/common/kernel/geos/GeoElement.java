@@ -1648,7 +1648,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public boolean isLabelVisible() {
-		return labelVisible && isLabelSet();
+		return labelVisible
+				&& (labelMode == LABEL_CAPTION || labelMode == LABEL_CAPTION_VALUE || isLabelSet());
 	}
 
 	/**

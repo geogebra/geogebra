@@ -231,11 +231,6 @@ public class EventDispatcher implements ClientView {
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// not used
-	}
-
-	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// Ignore
 	}

@@ -468,11 +468,6 @@ public class SpreadsheetViewD
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// TODO
-	}
-
-	@Override
 	public boolean isShowing() {
 		return spreadsheetWrapper.isShowing();
 	}

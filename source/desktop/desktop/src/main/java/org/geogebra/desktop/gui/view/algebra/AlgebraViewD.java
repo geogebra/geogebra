@@ -55,6 +55,8 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.inputfield.MathTextField;
 import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.main.AppD;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * AlgebraView with tree for free and dependent objects.
@@ -237,7 +239,8 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
+	public void updatePreviewFromInputBar(
+			GeoElement @NonNull [] geos, @Nullable GeoElement original) {
 		// TODO
 	}
 

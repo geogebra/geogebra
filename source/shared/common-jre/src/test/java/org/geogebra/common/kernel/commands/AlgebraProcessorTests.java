@@ -241,6 +241,15 @@ class AlgebraProcessorTests extends BaseUnitTest {
 		assertThat(lookup("A"), hasValue("(1, 3)"));
 	}
 
+	@Test
+	void redefineWithFunctionVariable() {
+		GeoElement pt = add("a=1");
+		getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						pt, "a=1+x", new EvalInfo(true), false, null, TestErrorHandler.INSTANCE);
+		assertThat(lookup("a"), hasValue("1 + x"));
+	}
+
 	private GeoElementND[] evalCommand(String s, EvalInfo info) {
 		return processor.processAlgebraCommandNoExceptionHandling(s, false, errorHandler, info, null);
 	}

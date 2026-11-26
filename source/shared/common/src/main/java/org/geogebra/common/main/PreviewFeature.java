@@ -30,8 +30,6 @@ public enum PreviewFeature {
 	IMPLICIT_SURFACES,
 	/** APPS-5763 */
 	IMPLICIT_PLOTTER,
-	/** MOB-1537 */
-	MOB_PREVIEW_WHEN_EDITING,
 	/** SolveQuartic in CAS GGB-1635 */
 	SOLVE_QUARTIC,
 	/** TRAC-4845 */

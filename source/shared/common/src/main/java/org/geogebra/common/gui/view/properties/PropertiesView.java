@@ -372,11 +372,6 @@ public abstract class PropertiesView implements View {
 	 */
 	public abstract void updateStyleBar();
 
-	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// TODO
-	}
-
 	protected boolean isAttached() {
 		return attached;
 	}

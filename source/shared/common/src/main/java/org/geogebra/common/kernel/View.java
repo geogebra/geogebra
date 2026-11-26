@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Interface for views. A view registered to the kernel gets informed if
@@ -144,6 +145,11 @@ public interface View {
 
 	/**
 	 * @param geos preview geos; never {@code null}, empty if there is nothing to preview
+	 * @param original element being edited. It's {@code null} if preview comes from input row,
+	 *   or if editing ended.
 	 */
-	void updatePreviewFromInputBar(GeoElement @NonNull [] geos);
+	default void updatePreviewFromInputBar(
+			GeoElement @NonNull [] geos, @Nullable GeoElement original) {
+		// only euclidian view and algebra supported
+	}
 }

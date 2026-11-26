@@ -267,11 +267,6 @@ public class AccessibilityView implements View {
 		return false;
 	}
 
-	@Override
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// not needed
-	}
-
 	/**
 	 * Attach the panel with controls to DOM
 	 */

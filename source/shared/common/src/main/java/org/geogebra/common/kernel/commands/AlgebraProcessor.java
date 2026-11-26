@@ -599,7 +599,7 @@ public class AlgebraProcessor {
 	 *
 	 * @param geo
 	 *            old geo
-	 * @param newValue
+	 * @param ewValue
 	 *            new value
 	 * @param info
 	 *            true to make sure independent are redefined instead of value
@@ -627,17 +627,18 @@ public class AlgebraProcessor {
 		oldLabel = geo.getLabelSimple();
 		updateLabelIfSymbolic(newValue, info);
 		newLabel = newValue.getLabel();
+		ValidExpression normalizedNewValue = removeLhsWithSameName(oldLabel, newValue);
 		if (!app.getConfig().hasAutomaticLabels()) {
 			geo.setAlgebraLabelVisible(newLabel != null);
 		}
 
 		if (newLabel == null) {
 			newLabel = oldLabel;
-			newValue.setLabel(newLabel);
+			normalizedNewValue.setLabel(newLabel);
 		}
 
 		// make sure that points stay points and vectors stay vectors
-		updateTypePreservingFlags(newValue, geo, info.isPreventingTypeChange());
+		updateTypePreservingFlags(normalizedNewValue, geo, info.isPreventingTypeChange());
 		if (sameLabel(newLabel, oldLabel)) {
 			app.getEventDispatcher().disableListeners();
 			AsyncOperation<GeoElementND[]> changeCallback = obj -> {
@@ -657,16 +658,17 @@ public class AlgebraProcessor {
 				}
 			};
 
-			processAlgebraCommandNoExceptionHandling(newValue, false, handler, changeCallback, info);
+			processAlgebraCommandNoExceptionHandling(
+					normalizedNewValue, false, handler, changeCallback, info);
 			// make sure listeners are enabled if redefinition failed
 			app.getEventDispatcher().enableListeners();
 			cons.registerFunctionVariable(null);
 			return;
 		} else if (cons.isFreeLabel(newLabel)) {
-			newValue.setLabel(oldLabel);
+			normalizedNewValue.setLabel(oldLabel);
 			// rename to oldLabel to enable overwriting
 			GeoElementND[] result =
-					processAlgebraCommandNoExceptionHandling(newValue, false, handler, null, info);
+					processAlgebraCommandNoExceptionHandling(normalizedNewValue, false, handler, null, info);
 			if (result != null) {
 				result[0].setLabel(newLabel); // now we rename
 				app.getCompanion().recallViewCreators();
@@ -682,6 +684,18 @@ public class AlgebraProcessor {
 		}
 
 		cons.registerFunctionVariable(null);
+	}
+
+	private ValidExpression removeLhsWithSameName(String oldLabel, ValidExpression newValue) {
+		if (oldLabel != null && newValue.unwrap() instanceof Equation equation) {
+			ExpressionValue lhs = equation.getLHS().unwrap();
+			if (lhs instanceof Variable variable && oldLabel.equals(variable.getName())) {
+				ExpressionNode rhs = equation.getRHS();
+				rhs.setLabel(oldLabel);
+				return rhs;
+			}
+		}
+		return newValue;
 	}
 
 	private void updateTypePreservingFlags(

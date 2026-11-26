@@ -17,12 +17,17 @@
 package org.geogebra.common.kernel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.ErrorAccumulator;
@@ -95,12 +100,33 @@ class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 	}
 
 	@Test
+	void shouldNotChangeExistingValue() {
+		GeoElement number = add("a=2");
+		preview.updatePreviewFromInputBar("a=1", errorHandler);
+		assertEquals("2", number.toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
 	void shouldUpdateMultiValued() {
-		GeoElement point = add("A=(1,1)");
+		add("A=(1,1)");
+		GeoElementND[] previewGeos = new GeoElementND[2];
+		updateOnPreview(previewGeos);
 		preview.updatePreviewFromInputBar("A=Root(x-4)", errorHandler);
-		assertEquals("(4, 0)", point.toValueString(StringTemplate.editTemplate));
+		assertEquals("(4, 0)", previewGeos[0].toValueString(StringTemplate.editTemplate));
 		preview.updatePreviewFromInputBar("A=Root(x^2-4)", errorHandler);
-		assertEquals("(-2, 0)", point.toValueString(StringTemplate.editTemplate));
+		assertEquals("(-2, 0)", previewGeos[0].toValueString(StringTemplate.editTemplate));
+		assertEquals("A", previewGeos[0].getLabelDescription());
+		assertFalse(previewGeos[1].isLabelVisible());
+	}
+
+	@Test
+	void shouldKeepAllLabelsForMultiValued() {
+		add("A=Root(x^2-1)");
+		GeoElementND[] previewGeos = new GeoElementND[2];
+		updateOnPreview(previewGeos);
+		preview.updatePreviewFromInputBar("A_{1}=Root(x^2-4)", errorHandler);
+		assertEquals("A_{1}", previewGeos[0].getLabelDescription());
+		assertEquals("A_{2}", previewGeos[1].getLabelDescription());
 	}
 
 	@Test
@@ -147,5 +173,17 @@ class ScheduledPreviewFromInputBarTest extends BaseUnitTest {
 		preview.updatePreviewFromInputBar("", errorHandler);
 
 		assertEquals("{1, 2}", lookup("a").toValueString(StringTemplate.defaultTemplate));
+	}
+
+	private void updateOnPreview(GeoElementND[] previewGeos) {
+		View mockView = mock(View.class);
+		doAnswer(invocation -> {
+					GeoElementND[] geos = invocation.getArgument(0);
+					System.arraycopy(geos, 0, previewGeos, 0, geos.length);
+					return null;
+				})
+				.when(mockView)
+				.updatePreviewFromInputBar(any(), any());
+		getKernel().attach(mockView);
 	}
 }
