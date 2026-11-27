@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.DrawInlineTable;
@@ -60,7 +61,7 @@ public class InlineFormattingItemsTest {
 	@Before
 	public void setUp() {
 		app = AppMocker.mockNotes();
-		AppMocker.mockLocalization(key -> "ContextMenu.Font".equals(key) ? "Font" : key);
+		AppMocker.mockLocalization(Map.of("ContextMenu.Font", "Font"));
 		construction = app.getKernel().getConstruction();
 		point = new GPoint2D(0, 0);
 		controllerMockWithLink = new InlineTextControllerMock(LINK_URL);

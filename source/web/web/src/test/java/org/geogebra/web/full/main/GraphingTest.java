@@ -21,6 +21,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
+
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -65,8 +67,7 @@ public class GraphingTest {
 
 	@Test
 	public void syntaxesShouldBeFiltered() {
-		AppMocker.mockLocalization(
-				key -> "Invert.Syntax".equals(key) ? "[ <function> ]\n[ <matrix> ]" : key);
+		AppMocker.mockLocalization(Map.of("Invert.Syntax", "[ <function> ]\n[ <matrix> ]"));
 		assertEquals(1, app.getAutocompleteProvider().getSyntaxes("Invert").size());
 	}
 

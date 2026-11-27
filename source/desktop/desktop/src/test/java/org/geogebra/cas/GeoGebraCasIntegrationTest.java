@@ -184,11 +184,7 @@ class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("testvar", "1");
 
 		// Tidy up
-		try {
-			t("Delete[testvar]", "true");
-		} catch (Throwable t) {
-			propagate(t);
-		}
+		t("Delete[testvar]", "true");
 	}
 
 	/* Simplification of Terms */
@@ -671,11 +667,7 @@ class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("A^0", "{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
 
 		// Tidy up
-		try {
-			executeInCAS("Delete[A]");
-		} catch (Throwable t) {
-			propagate(t);
-		}
+		executeInCAS("Delete[A]");
 	}
 
 	@Test
@@ -773,12 +765,8 @@ class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	void perpendicularVector_1() {
-		try {
-			executeInCAS("Delete[a]");
-			executeInCAS("Delete[b]");
-		} catch (Throwable t) {
-			propagate(t);
-		}
+		executeInCAS("Delete[a]");
+		executeInCAS("Delete[b]");
 		t("PerpendicularVector[(a, b)]", "(-b, a)");
 	}
 
@@ -1815,11 +1803,6 @@ class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("First[Tangent[P, c]]", "{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2}");
 		// this is always numeric, the last few digits changed multiple times with new Giac
 		t("Numeric(Last[Tangent[P, c]],10)", "{y = 5.558213949 * x - 0.02680674287}");
-	}
-
-	/* Variable not specified */
-	private static void propagate(Throwable t) {
-		throw new RuntimeException(t);
 	}
 
 	/* Adding Vectors */

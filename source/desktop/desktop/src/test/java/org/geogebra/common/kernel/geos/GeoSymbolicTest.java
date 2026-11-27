@@ -35,6 +35,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -1905,26 +1906,24 @@ class GeoSymbolicTest extends BaseSymbolicTest {
 	void testCaching() {
 		CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
 
-		if (cas instanceof CASgiac) {
-			CASgiac casGiac = (CASgiac) cas;
-			int cacheSize = casGiac.getCasGiacCacheSize();
+		CASgiac casGiac = assertInstanceOf(CASgiac.class, cas);
+		int cacheSize = casGiac.getCasGiacCacheSize();
 
-			// test input is added to the cache
-			t("NSolve(x+x*x+1/2 = 13)", "{x = -4.070714214271, x = 3.070714214271}");
-			assertEquals(casGiac.getCasGiacCacheSize(), cacheSize + 2);
+		// test input is added to the cache
+		t("NSolve(x+x*x+1/2 = 13)", "{x = -4.070714214271, x = 3.070714214271}");
+		assertEquals(casGiac.getCasGiacCacheSize(), cacheSize + 2);
 
-			// test nothing is added to the cache, result read from cache
-			t("NSolve(x+x*x+1/2 = 13)", "{x = -4.070714214271, x = 3.070714214271}");
-			assertEquals(casGiac.getCasGiacCacheSize(), cacheSize + 2);
+		// test nothing is added to the cache, result read from cache
+		t("NSolve(x+x*x+1/2 = 13)", "{x = -4.070714214271, x = 3.070714214271}");
+		assertEquals(casGiac.getCasGiacCacheSize(), cacheSize + 2);
 
-			int cacheNewSize = casGiac.getCasGiacCacheSize();
+		int cacheNewSize = casGiac.getCasGiacCacheSize();
 
-			t("Cross((1,1,1),Cross((2,3,4),(5,7,11)))", "(1, 6, -7)");
-			assertEquals(casGiac.getCasGiacCacheSize(), cacheNewSize + 2);
+		t("Cross((1,1,1),Cross((2,3,4),(5,7,11)))", "(1, 6, -7)");
+		assertEquals(casGiac.getCasGiacCacheSize(), cacheNewSize + 2);
 
-			t("Cross((1,1,1),Cross((2,3,4),(5,7,11)))", "(1, 6, -7)");
-			assertEquals(casGiac.getCasGiacCacheSize(), cacheNewSize + 2);
-		}
+		t("Cross((1,1,1),Cross((2,3,4),(5,7,11)))", "(1, 6, -7)");
+		assertEquals(casGiac.getCasGiacCacheSize(), cacheNewSize + 2);
 	}
 
 	@Test

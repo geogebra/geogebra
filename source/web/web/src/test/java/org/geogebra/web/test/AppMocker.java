@@ -20,6 +20,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Map;
 import java.util.function.Function;
 
 import org.geogebra.common.factories.UtilFactory;
@@ -157,6 +158,15 @@ public class AppMocker {
 		AppWsimple app = new AppWSimpleMock(ae, frame, false);
 		setAppDefaults(app);
 		return app;
+	}
+
+	/**
+	 * Mock localization.
+	 * @param overrides maps key (ignoring category) to value,
+	 * keys missing in the map are translated through identity function
+	 */
+	public static void mockLocalization(Map<String, String> overrides) {
+		mockLocalization(key -> overrides.getOrDefault(key, key));
 	}
 
 	/**

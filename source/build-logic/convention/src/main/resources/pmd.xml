@@ -18,6 +18,7 @@
     <!-- We'll use the entire 'strings' ruleset -->
     <rule ref="category/java/bestpractices.xml">
         <exclude name="UseCollectionIsEmpty"/>
+        <exclude name="ControlFlowInTest"/>
         <exclude name="ConstantsInInterface"/>
         <exclude name="UseVarargs"/>
         <exclude name="GuardLogStatement"/>

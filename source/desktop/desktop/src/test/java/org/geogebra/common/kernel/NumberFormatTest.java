@@ -16,6 +16,7 @@
 
 package org.geogebra.common.kernel;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 class NumberFormatTest {
 
@@ -43,7 +45,7 @@ class NumberFormatTest {
 		String content = Files.readString(Paths.get(path));
 		JSONArray cases = new JSONArray(new JSONTokener(content));
 		AppCommon app = AppCommonFactory.create();
-		List<String> fails = new ArrayList<>();
+		List<Executable> checks = new ArrayList<>();
 		for (int idx = 0; idx < cases.length(); idx++) {
 			JSONObject testCase = cases.getJSONObject(idx);
 			AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
@@ -53,14 +55,11 @@ class NumberFormatTest {
 			for (String key : out.keySet()) {
 				app.setRounding(key);
 				String valueString = geo.toValueString(StringTemplate.defaultTemplate);
-				if (!out.get(key).equals(valueString)) {
-					fails.add(in + " rounded incorrectly at " + key
-							+ " expected " + out.get(key) + " got "
-							+ valueString);
-				}
+				checks.add(
+						() -> assertEquals(out.get(key), valueString, in + " rounded incorrectly at " + key));
 			}
 		}
-		assertEquals("", String.join("\n", fails));
+		assertAll(checks);
 	}
 
 	@Test

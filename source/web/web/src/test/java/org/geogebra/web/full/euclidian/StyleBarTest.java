@@ -18,6 +18,8 @@ package org.geogebra.web.full.euclidian;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
+
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
@@ -35,7 +37,7 @@ public class StyleBarTest {
 	@Test
 	public void updateGraphingStylebar() {
 		AppWFull app = AppMocker.mockApplet(new AppletParameters("graphing"));
-		AppMocker.mockLocalization(key -> "ContextMenu.Font".equals(key) ? "Font" : key);
+		AppMocker.mockLocalization(Map.of("ContextMenu.Font", "Font"));
 		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(app.getActiveEuclidianView(), 1);
 		checkUpdate(styleBar);
 	}

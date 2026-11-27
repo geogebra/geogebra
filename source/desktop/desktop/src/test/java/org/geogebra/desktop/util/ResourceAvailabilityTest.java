@@ -36,10 +36,7 @@ class ResourceAvailabilityTest {
 	@Test
 	void checkGuiResources() {
 		for (GuiResourcesD res : GuiResourcesD.values()) {
-			String fn = res.getFilename();
-			if (!fn.startsWith("/org")) {
-				fn = "/org/geogebra/desktop/" + fn;
-			}
+			String fn = normalizeFilename(res, "/org/geogebra/desktop/");
 			URL url = ResourceAvailabilityTest.class.getResource(fn);
 			assertNotNull(url, "" + res);
 		}
@@ -48,10 +45,7 @@ class ResourceAvailabilityTest {
 	@Test
 	void checkGuiResources3D() {
 		for (GuiResources3D res : GuiResources3D.values()) {
-			String fn = res.getFilename();
-			if (!fn.startsWith("/org")) {
-				fn = "/org/geogebra/desktop/geogebra3D" + fn;
-			}
+			String fn = normalizeFilename(res, "/org/geogebra/desktop/geogebra3D");
 			URL url = ResourceAvailabilityTest.class.getResource(fn);
 			assertNotNull(url, "" + res);
 		}
@@ -96,5 +90,13 @@ class ResourceAvailabilityTest {
 		String hiRes =
 				Arrays.stream(new File(hiResFolder).list()).sorted().collect(Collectors.joining("\n"));
 		assertEquals(lowRes, hiRes, hiResFolder);
+	}
+
+	private String normalizeFilename(ImageResourceD res, String sharedFolder) {
+		String fn = res.getFilename();
+		if (!fn.startsWith("/org")) {
+			fn = sharedFolder + fn;
+		}
+		return fn;
 	}
 }
